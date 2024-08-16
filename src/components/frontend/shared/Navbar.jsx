@@ -39,7 +39,7 @@ export default function Navbar() {
   }, [isMenuOpen]);
 
   return (
-    <div className="relative w-full h-full bg-gray-800 text-white">
+    <div className="relative w-full h-full bg-purple-900 text-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2">
           <Image src={logo} alt="Flying Alpha Logo" width={30} height={30} />
