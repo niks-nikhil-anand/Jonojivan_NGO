@@ -22,7 +22,7 @@ export default function Footer() {
                 <Image src={logo} alt="Ready eCommerce" height={50} width={50} />
               </div>
               <div>
-                <h4 className="font-bold text-lg">Ready eCommerce</h4>
+                <h4 className="font-bold text-lg">Blush Belle</h4>
                 <p className="text-sm">
                   The ultimate all-in-one solution for your eCommerce business worldwide
                 </p>
@@ -109,7 +109,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="mt-6 text-center border-t border-purple-700 pt-6 text-sm">
-        © 2024 All rights reserved by RazinSoft
+        © 2024 All rights reserved by Blush Belle
       </div>
     </div>
   );

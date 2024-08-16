@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { MdMenu, MdClose } from 'react-icons/md'; 
-import { FaHome, FaChevronRight } from 'react-icons/fa'; 
+import { MdMenu, MdClose, MdSearch } from 'react-icons/md'; 
+import { FaChevronRight, FaUser } from 'react-icons/fa'; 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -9,10 +9,10 @@ import logo from '../../../../public/annimatedIcons/grocery.png';
 
 const menuItems = [
   { name: 'Home', href: '/' },
-  { name: 'About', href: '/aboutUs' },
-  { name: 'Contact', href: '/contactUs' },
-  { name: 'Properties', href: '/projects' },
-  { name: 'News', href: '/news' },
+  { name: 'Shops', href: '/shops' },
+  { name: 'Most Popular', href: '/most-popular' },
+  { name: 'Best Deal', href: '/best-deal' },
+  { name: 'Contact Us', href: '/contactUs' },
 ];
 
 export default function Navbar() {
@@ -43,7 +43,7 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2">
           <Image src={logo} alt="Flying Alpha Logo" width={30} height={30} />
-          <Link href="/" className="font-bold text-white">EzyShop</Link>
+          <Link href="/" className="font-bold text-white">Blush Belle</Link>
         </div>
         <div className="hidden grow items-start lg:flex">
           <ul className="ml-12 inline-flex space-x-8">
@@ -56,27 +56,31 @@ export default function Navbar() {
             ))}
           </ul>
         </div>
-        <div className="hidden space-x-2 lg:block">
-          <Link href="/admin">
-            <button
-              type="button"
-              className="rounded-md px-3 py-2 text-sm font-semibold text-white bg-black border border-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-            >
-              Sign In
-            </button>
-          </Link>
-          <Link href="/becomePartner">
-            <motion.button
-              type="button"
-              className="rounded-md border border-black px-3 py-2 text-sm font-semibold text-black bg-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.3 }}
-            >
-              Become Partner
-            </motion.button>
-          </Link>
-        </div>
+        <div className="hidden lg:flex items-center space-x-4">
+  <motion.div
+    className="relative w-72"
+    initial={{ opacity: 0, y: -10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}
+    whileHover={{ scale: 1.05, boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }}
+  >
+    <input
+      type="text"
+      placeholder="Search"
+      className="w-full rounded-md bg-white py-2 px-4 text-sm text-black placeholder-gray-500 shadow-lg focus:outline-none"
+    />
+    <MdSearch className="absolute right-3 top-2.5 h-5 w-5 text-gray-500" />
+  </motion.div>
+  <Link href="/login">
+    <motion.div
+      className="inline-flex items-center space-x-2 text-white cursor-pointer hover:text-gray-300"
+      whileHover={{ scale: 1.05 }}
+    >
+      <FaUser className="h-6 w-6" />
+      <span className="text-sm font-semibold">Login/Register</span>
+    </motion.div>
+  </Link>
+</div>
         <div className="lg:hidden">
           <MdMenu onClick={(e) => { e.stopPropagation(); toggleMenu(); }} className="h-6 w-6 cursor-pointer text-white" />
         </div>
@@ -94,7 +98,7 @@ export default function Navbar() {
                 <div className="flex items-center justify-between">
                   <div className="inline-flex items-center space-x-2">
                     <Image src={logo} alt="Flying Alpha Logo" width={30} height={30} />
-                    <span className="font-bold">EzyShop</span>
+                    <span className="font-bold">Blush Belle</span>
                   </div>
                   <div className="-mr-2">
                     <button
@@ -108,6 +112,17 @@ export default function Navbar() {
                   </div>
                 </div>
                 <div className="mt-6">
+                <div className="mt-2 space-y-2">
+                  <div className="border-t border-b mb-5 border-gray-600 py-4 pl-4">
+                    <Link href="/login">
+                      <div className="inline-flex items-center space-x-2 text-white cursor-pointer mx-auto hover:text-gray-300">
+                        <FaUser className="h-6 w-6" />
+                        <span className="text-sm font-semibold">Login/Register</span>
+                      </div>
+                    </Link>
+                  </div>
+                  
+                </div>
                   <nav className="grid gap-y-4">
                     {menuItems.map((item) => (
                       <Link key={item.name} href={item.href} className="-m-3 flex items-center rounded-md p-3 text-sm font-semibold text-white hover:bg-gray-700">
@@ -121,29 +136,22 @@ export default function Navbar() {
                     ))}
                   </nav>
                 </div>
-                <div className="mt-2 space-y-2">
-                  <div className="border-t border-gray-600 pt-2">
-                    <Link href="/admin">
-                      <button
-                        type="button"
-                        className="w-full rounded-md border border-white px-3 py-2 text-sm font-semibold text-white bg-gray-800 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                      >
-                        Sign In
-                      </button>
-                    </Link>
-                  </div>
-                  <Link href="/becomePartner">
-                    <motion.button
-                      type="button"
-                      className="w-full rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black mt-2"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      transition={{ duration: 0.3 }}
+                <div className="border-t border-gray-600 pt-2 my-4 ">
+                    <motion.div
+                        className="relative"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        whileHover={{ scale: 1.05, boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }}
                     >
-                      Become Partner
-                    </motion.button>
-                  </Link>
-                </div>
+                        <input
+                        type="text"
+                        placeholder="Search"
+                        className="w-full rounded-md bg-white py-2 px-4 text-sm text-black placeholder-gray-500 shadow-lg focus:outline-none"
+                        />
+                        <MdSearch className="absolute right-3 top-2.5 h-5 w-5 text-gray-500" />
+                    </motion.div>
+                    </div>
               </div>
             </div>
           </motion.div>
