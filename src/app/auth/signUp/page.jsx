@@ -93,10 +93,10 @@ const CreateAccountForm = () => {
                 required
               />
               <div
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer mt-8"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                {showPassword ? <FaEye /> :  <FaEyeSlash />}
               </div>
             </div>
             <div className="mb-4 relative">
