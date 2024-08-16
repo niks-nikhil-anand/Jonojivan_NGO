@@ -6,6 +6,7 @@ import { MdPhone, MdEmail } from 'react-icons/md';
 import { AiFillApple, AiFillAndroid } from 'react-icons/ai';
 import Image from 'next/image'; // Assuming you're using Next.js
 import logo from '../../../../public/annimatedIcons/grocery.png';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -76,8 +77,12 @@ export default function Footer() {
         <div className="mb-6 lg:mb-0 lg:w-1/4">
           <h4 className="font-bold text-lg mb-3">Company</h4>
           <ul>
+            <Link href={"/aboutUs"}>
             <li className="mb-2 hover:underline cursor-pointer">About us</li>
+            </Link>
+            <Link href={"/contactUs"}>
             <li className="mb-2 hover:underline cursor-pointer">Contact</li>
+            </Link>
             <li className="mb-2 hover:underline cursor-pointer">Terms & Conditions</li>
             <li className="mb-2 hover:underline cursor-pointer">Privacy Policy</li>
           </ul>
