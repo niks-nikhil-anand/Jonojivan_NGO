@@ -4,6 +4,8 @@ import { MdMenu, MdClose } from 'react-icons/md';
 import { FaHome, FaChevronRight } from 'react-icons/fa'; 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import logo from '../../../../public/annimatedIcons/grocery.png';
 
 const menuItems = [
   { name: 'Home', href: '/' },
@@ -40,10 +42,8 @@ export default function Navbar() {
     <div className="relative w-full h-full bg-gray-800 text-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2">
-          <span>
-            <FaHome size={30} />
-          </span>
-          <Link href="/" className="font-bold text-white">Flying Alpha</Link>
+          <Image src={logo} alt="Flying Alpha Logo" width={30} height={30} />
+          <Link href="/" className="font-bold text-white">EzyShop</Link>
         </div>
         <div className="hidden grow items-start lg:flex">
           <ul className="ml-12 inline-flex space-x-8">
@@ -93,10 +93,8 @@ export default function Navbar() {
               <div className="px-5 pb-6 pt-5">
                 <div className="flex items-center justify-between">
                   <div className="inline-flex items-center space-x-2">
-                    <span>
-                      <FaHome size={30} />
-                    </span>
-                    <span className="font-bold">Flying Alpha</span>
+                    <Image src={logo} alt="Flying Alpha Logo" width={30} height={30} />
+                    <span className="font-bold">EzyShop</span>
                   </div>
                   <div className="-mr-2">
                     <button
