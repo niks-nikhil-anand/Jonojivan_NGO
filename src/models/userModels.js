@@ -3,22 +3,26 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
     fullName: {
         type: String,
-        required: [true, 'Name is required']
+        required: [true, 'Full name is required']
     },
     email: {
         type: String,
         required: [true, 'Email is required'],
-        match: [/.+\@.+\..+/, 'Please fill a valid email address']
+        match: [/.+\@.+\..+/, 'Please provide a valid email address'],
+        unique: true,
+        lowercase: true,
+        trim: true,
     },
     mobileNumber: {
         type: String,
         required: [true, 'Mobile number is required'],
-        match: /^\+91 \d{10}$/,
+        match: [/^\+91 \d{10}$/, 'Please provide a valid mobile number with country code'],
+        unique: true,
     },
     password: {
         type: String,
         required: [true, 'Password is required'],
-        minlength: [6, 'Password must be at least 6 characters long'] 
+        minlength: [6, 'Password must be at least 6 characters long']
     },
     isVerified: {
         type: Boolean,
@@ -51,13 +55,22 @@ const userSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Blocked', 'Pending', 'inReview' ,  'Active'],
+        enum: ['Blocked', 'Pending', 'inReview', 'Active'],
         default: 'Active'
     },
-    isToken:{
+    isToken: {
         type: String,
-    }
-} , {
+        default: ''
+    },
+    orderHistory: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order',
+    }],
+    wishlist: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+    }]
+}, {
     timestamps: true
 });
 
