@@ -1,17 +1,18 @@
-"use client"
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaEye, FaEyeSlash, FaGoogle, FaFacebook } from 'react-icons/fa';
-import axios from 'axios';
-import Image from 'next/image';
-import authSignBanner from '../../../../public/frontend/authSignIn.svg';
+"use client";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { FaEye, FaEyeSlash, FaGoogle, FaFacebook } from "react-icons/fa";
+import axios from "axios";
+import Image from "next/image";
+import authSignBanner from "../../../../public/frontend/authSignIn.svg";
+import Link from "next/link";
 
 const CreateAccountForm = () => {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -20,13 +21,23 @@ const CreateAccountForm = () => {
     setLoading(true);
 
     if (password !== confirmPassword) {
-      alert('Passwords do not match!');
+      alert("Passwords do not match!");
       setLoading(false);
       return;
     }
 
+    const formData = new FormData();
+    formData.append("fullName", fullName);
+    formData.append("email", email);
+    formData.append("username", username);
+    formData.append("password", password);
+
     try {
-      const response = await axios.post('/api/register', { fullName, email, username, password });
+      const response = await axios.post("/api/register", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log(response.data);
       // Handle success (e.g., redirect)
     } catch (error) {
@@ -38,11 +49,11 @@ const CreateAccountForm = () => {
   };
 
   return (
-    <div className=" flex items-center justify-center bg-gray-50 px-4 md:px-0">
+    <div className="flex items-center justify-center bg-gray-50 px-4 md:px-0">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white shadow-lg rounded-lg p-8 w-full  flex flex-col md:flex-row items-center"
+        className="bg-white shadow-lg rounded-lg p-8 w-full flex flex-col md:flex-row items-center"
       >
         <div className="hidden md:flex md:w-1/2 justify-center">
           <Image src={authSignBanner} alt="Sign Up Banner" className="w-full h-auto" />
@@ -86,7 +97,7 @@ const CreateAccountForm = () => {
             <div className="mb-4 relative">
               <label className="block text-gray-700 mb-2">Password</label>
               <input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
@@ -96,31 +107,39 @@ const CreateAccountForm = () => {
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer mt-8"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <FaEye /> :  <FaEyeSlash />}
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
               </div>
             </div>
             <div className="mb-4 relative">
               <label className="block text-gray-700 mb-2">Confirm Password</label>
               <input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
                 required
               />
+              <div
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer mt-8"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
+              </div>
             </div>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
               disabled={loading}
-              className={`w-full py-2 px-4 text-white rounded-lg ${loading ? 'bg-gray-500' : 'bg-purple-900 hover:bg-purple-800'}`}
+              className={`w-full py-2 px-4 text-white rounded-lg ${loading ? "bg-gray-500" : "bg-purple-900 hover:bg-purple-800"}`}
             >
-              {loading ? 'Creating Account...' : 'Create Account'}
+              {loading ? "Creating Account..." : "Create Account"}
             </motion.button>
           </form>
           <div className="flex justify-between mt-4">
-            <a href="/login" className="text-purple-900 hover:underline">Already have an account? Login</a>
+            <Link href={"/auth/signIn"} className="text-purple-900 hover:underline">
+              Already have an account? Login
+            </Link>
           </div>
           <div className="flex items-center justify-between mt-6">
             <span className="border-t border-gray-300 flex-grow"></span>

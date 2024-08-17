@@ -71,13 +71,15 @@ export default function Navbar() {
     />
     <MdSearch className="absolute right-3 top-2.5 h-5 w-5 text-gray-500" />
   </motion.div>
-  <Link href="/login">
+  <Link href={"/auth/signUp"}>
     <motion.div
       className="inline-flex items-center space-x-2 text-white cursor-pointer hover:text-gray-300"
       whileHover={{ scale: 1.05 }}
     >
-      <FaUser className="h-6 w-6" />
+       <FaUser className="h-6 w-6  " />
+     
       <span className="text-sm font-semibold">Login/Register</span>
+     
     </motion.div>
   </Link>
 </div>
@@ -114,7 +116,7 @@ export default function Navbar() {
                 <div className="mt-6">
                 <div className="mt-2 space-y-2">
                   <div className="border-t border-b mb-5 border-gray-600 py-4 pl-4">
-                    <Link href="/login">
+                    <Link href="/auth/login">
                       <div className="inline-flex items-center space-x-2 text-white cursor-pointer mx-auto hover:text-gray-300">
                         <FaUser className="h-6 w-6" />
                         <span className="text-sm font-semibold">Login/Register</span>
