@@ -9,7 +9,7 @@ import {
     Text,
   } from '@react-email/components';
   
-  function WelcomeEmail({ fullname }) {
+  function WelcomeEmail({ fullName }) {
     return (
       <Html lang="en" dir="ltr">
         <Head>
@@ -25,11 +25,11 @@ import {
             fontStyle="normal"
           />
         </Head>
-        <Preview>Welcome to Blush Belle, {fullname}!</Preview>
+        <Preview>Welcome to Blush Belle, {fullName}!</Preview>
         <Section style={{ padding: '20px', backgroundColor: '#f4f4f4' }}>
           <Row style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '8px' }}>
             <Heading as="h2" style={{ color: '#333' }}>
-              Welcome, {fullname}!
+              Welcome, {fullName}!
             </Heading>
             <Text style={{ fontSize: '16px', color: '#555' }}>
               We're thrilled to have you join Blush Belle, your go-to destination for all your shopping needs.
