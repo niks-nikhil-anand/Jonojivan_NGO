@@ -190,27 +190,7 @@ const CreateAccountForm = () => {
               Already have an account? Login
             </Link>
           </div>
-          <div className="flex items-center justify-between mt-6">
-            <span className="border-t border-gray-300 flex-grow"></span>
-            <span className="mx-4 text-gray-600">or sign up with</span>
-            <span className="border-t border-gray-300 flex-grow"></span>
-          </div>
-          <div className="flex justify-center mt-6">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center py-2 px-4 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg mr-2"
-            >
-              <FaGoogle className="mr-2" /> Google
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center py-2 px-4 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg"
-            >
-              <FaFacebook className="mr-2" /> Facebook
-            </motion.button>
-          </div>
+         
         </div>
       </motion.div>
     </div>

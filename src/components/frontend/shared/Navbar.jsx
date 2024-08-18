@@ -71,7 +71,7 @@ export default function Navbar() {
     />
     <MdSearch className="absolute right-3 top-2.5 h-5 w-5 text-gray-500" />
   </motion.div>
-  <Link href={"/auth/signUp"}>
+  <Link href={"/auth/register"}>
     <motion.div
       className="inline-flex items-center space-x-2 text-white cursor-pointer hover:text-gray-300"
       whileHover={{ scale: 1.05 }}
