@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // Import useRouter for navigation
 import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash, FaGoogle, FaFacebook } from "react-icons/fa";
 import axios from "axios";
@@ -8,13 +9,15 @@ import authSignBanner from "../../../../public/frontend/authSignIn.svg";
 import Link from "next/link";
 
 const CreateAccountForm = () => {
+  const router = useRouter(); // Initialize useRouter
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false); // State for Terms and Conditions checkbox
 
   const handleCreateAccount = async (e) => {
     e.preventDefault();
@@ -26,20 +29,37 @@ const CreateAccountForm = () => {
       return;
     }
 
+    if (!acceptedTerms) {
+      alert("You must accept the terms and conditions!");
+      setLoading(false);
+      return;
+    }
+
     const formData = new FormData();
     formData.append("fullName", fullName);
     formData.append("email", email);
-    formData.append("username", username);
+    formData.append("mobileNumber", mobileNumber);
     formData.append("password", password);
 
     try {
-      const response = await axios.post("/api/register", formData, {
+      const response = await axios.post("/api/auth/register", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response.data);
-      // Handle success (e.g., redirect)
+
+      if (response.status === 200) {
+        // Clear form fields
+        setFullName("");
+        setEmail("");
+        setMobileNumber("");
+        setPassword("");
+        setConfirmPassword("");
+        setAcceptedTerms(false);
+
+        // Redirect to the login page
+        router.push("/auth/signIn");
+      }
     } catch (error) {
       console.error(error);
       // Handle error
@@ -85,15 +105,25 @@ const CreateAccountForm = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Username</label>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
-                required
-              />
+              <label className="block text-gray-700 mb-2">Mobile Number</label>
+              <div className="flex items-center">
+                <span className="bg-gray-200 border border-r-0 rounded-l-lg px-3 py-2 text-gray-600">+91</span>
+                <input
+                  type="tel"
+                  value={mobileNumber}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                    if (value.length <= 10) {
+                      setMobileNumber(value);
+                    }
+                  }}
+                  className="w-full px-3 py-2 border border-l-0 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+                  maxLength={10} // Limit to 10 digits
+                  required
+                />
+              </div>
             </div>
+
             <div className="mb-4 relative">
               <label className="block text-gray-700 mb-2">Password</label>
               <input
@@ -126,12 +156,31 @@ const CreateAccountForm = () => {
                 {showPassword ? <FaEye /> : <FaEyeSlash />}
               </div>
             </div>
+
+            <div className="mb-4">
+              <label className="flex items-center text-gray-700">
+                <input
+                  type="checkbox"
+                  checked={acceptedTerms}
+                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                  className="mr-2"
+                  required
+                />
+                I accept the{" "}
+                <Link href="/terms" className="text-purple-900 hover:underline">
+                  Terms and Conditions
+                </Link>
+              </label>
+            </div>
+
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
               disabled={loading}
-              className={`w-full py-2 px-4 text-white rounded-lg ${loading ? "bg-gray-500" : "bg-purple-900 hover:bg-purple-800"}`}
+              className={`w-full py-2 px-4 text-white rounded-lg ${
+                loading ? "bg-gray-500" : "bg-purple-900 hover:bg-purple-800"
+              }`}
             >
               {loading ? "Creating Account..." : "Create Account"}
             </motion.button>

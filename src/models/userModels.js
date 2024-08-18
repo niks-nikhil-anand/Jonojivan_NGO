@@ -16,7 +16,6 @@ const userSchema = new mongoose.Schema({
     mobileNumber: {
         type: String,
         required: [true, 'Mobile number is required'],
-        match: [/^\+91 \d{10}$/, 'Please provide a valid mobile number with country code'],
         unique: true,
     },
     password: {
