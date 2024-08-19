@@ -85,7 +85,7 @@ const SidebarAdmin = () => {
           </Link>
 
           {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-300">Policies</h3>}
-          <Link href="/admin/dashboard/information/terms" passHref>
+          <Link href="/admin/dashboard/policy/privacyPolicy" passHref>
             <SidebarItem icon={<GrArticle />} label="Terms and Conditions" isOpen={isOpen} />
           </Link>
           <Link href="/admin/dashboard/information/privacy" passHref>
