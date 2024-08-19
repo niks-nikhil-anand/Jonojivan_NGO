@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
-const News = () => {
+const BlogSection = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -14,7 +14,7 @@ const News = () => {
     const fetchArticles = async () => {
       console.log('Fetching articles...'); // Log before fetching articles
       try {
-        const response = await axios.get('/api/admin/dashboard/blog/addBlog');
+        const response = await axios.get('/api/admin/dashboard/blog');
         console.log('Articles fetched:', response.data); // Log after fetching articles
         setArticles(response.data);
       } catch (error) {
@@ -36,9 +36,8 @@ const News = () => {
 
   return (
     <div className="flex flex-col px-4 md:px-10 mt-10 mb-10 justify-center md:ml-[90px]">
-      <h1 className="text-3xl font-bold mb-2">News</h1>
-      <h2 className="text-xl mb-4">Below is a list of properties that are currently up for sale</h2>
-      {loading ? (
+      <h1 className="text-3xl font-bold mb-2">Beauty Tips</h1>
+      <h2 className="text-xl mb-4">Explore the latest beauty trends and tips from our curated selection</h2>{loading ? (
         <div>Loading...</div> 
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -62,4 +61,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default BlogSection;
