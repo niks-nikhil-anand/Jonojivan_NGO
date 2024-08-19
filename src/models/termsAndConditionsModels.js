@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 // Define the schema for Terms and Conditions
 const termsAndConditionsSchema = new Schema({
 content: {
-    type: String,
+    type: mongoose.Schema.Types.Mixed,
     required: true,
   } 
 } , 
