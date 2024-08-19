@@ -45,7 +45,7 @@ const HeroSection = () => {
           Belen Ava Makeup & Hair Stylist
         </h1>
         <p className="text-sm sm:text-base lg:text-lg mt-4 text-gray-700">
-          Hello, I'm Belen Ava! I love helping people feel beautiful, which is the reason I’ve spent the last 10 years engulfed in doing Makeup & Hair Styling.
+          Hello, I&apos;m Belen Ava! I love helping people feel beautiful, which is the reason I&apos;ve spent the last 10 years engulfed in doing Makeup & Hair Styling.
         </p>
       </div>
 

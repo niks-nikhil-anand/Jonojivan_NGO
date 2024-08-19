@@ -32,7 +32,7 @@ import {
               Welcome, {fullName}!
             </Heading>
             <Text style={{ fontSize: '16px', color: '#555' }}>
-              We're thrilled to have you join Blush Belle, your go-to destination for all your shopping needs.
+              We&apos;re thrilled to have you join Blush Belle, your go-to destination for all your shopping needs.
             </Text>
             <Text style={{ fontSize: '16px', color: '#555' }}>
               At Blush Belle, we offer a wide variety of products, from the latest fashion trends to everyday essentials, all at competitive prices.

@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import { Footer } from '../Frontend/Shared/Footer';
+import Footer from '../frontend/shared/Footer';
 
 
 const EgoisticFooter = () => {

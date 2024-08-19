@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/frontend/shared/Navbar";
-import Footer from "@/components/frontend/shared/Footer";
+import EgoisticNavbar from "@/components/utils/EgosticNavbar";
+import EgoisticFooter from "@/components/utils/EgosticFooter";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,9 +14,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar/>
+        <EgoisticNavbar/>
         {children}
-        <Footer/>
+        <EgoisticFooter/>
         </body>
     </html>
   );

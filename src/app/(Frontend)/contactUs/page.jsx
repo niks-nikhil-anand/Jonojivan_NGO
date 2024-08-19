@@ -15,7 +15,7 @@ export default function Contact() {
             transition={{ duration: 0.5 }}
           >
             <p className="text-center text-xs font-semibold leading-normal md:text-sm">
-              We'd love to hear your thoughts
+              We&apos;d love to hear your thoughts
             </p>
           </motion.div>
           <motion.p
@@ -27,7 +27,7 @@ export default function Contact() {
             We Value Your Feedback
           </motion.p>
           <p className="mx-auto max-w-4xl text-center text-base text-gray-600 md:text-xl">
-            Your opinions and experiences matter to us. Please feel free to share your thoughts, and let's make things better together.
+            Your opinions and experiences matter to us. Please feel free to share your thoughts, and let&apos;s make things better together.
           </p>
         </div>
         <div className="mx-auto max-w-7xl py-12 md:py-24">
