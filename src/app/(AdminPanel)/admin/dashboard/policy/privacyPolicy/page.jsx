@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import 'react-quill/dist/quill.snow.css'; // Import Quill styles
+import 'react-quill/dist/quill.snow.css'; 
 import { toast } from 'react-toastify';
 
 const AddPrivacyPolicy = () => {
@@ -19,8 +19,15 @@ const AddPrivacyPolicy = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post('/api/privacyPOLICY', {
-        content: editorContent,
+      // Create a FormData object
+      const formData = new FormData();
+      formData.append('content', editorContent);
+
+      // Make the API call with FormData
+      const response = await axios.post('/api/admin/dashboard/policy/privacyPolicy', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
 
       if (response.status === 200) {

@@ -1,10 +1,16 @@
 "use client";
 import React, { useState } from 'react';
-import ReactQuill from 'react-quill';
+import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import { toast } from 'react-toastify';
+
+// Dynamically import ReactQuill
+const ReactQuill = dynamic(() => import('react-quill'), {
+  ssr: false,
+  loading: () => <p>Loading...</p>, // Optional loading state
+});
 
 const AddTermsConditions = () => {
   const [editorContent, setEditorContent] = useState('');
@@ -19,8 +25,13 @@ const AddTermsConditions = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post('/api/termsConditions', {
-        content: editorContent,
+      const formData = new FormData();
+      formData.append('content', editorContent);
+
+      const response = await axios.post('/api/admin/dashboard/policy/termsAndCondition', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
       if (response.status === 200) {
