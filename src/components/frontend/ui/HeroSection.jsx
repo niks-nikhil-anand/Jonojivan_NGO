@@ -1,11 +1,11 @@
-"use client"
-import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+"use client";
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import HeroSection01 from "../../../../public/frontend/heroSection01.jpg";
+import HeroSection02 from "../../../../public/frontend/heroSection02.jpg";
 
-const images = [
-  '/frontend/HeroSection01.jpg', 
-  '/frontend/HeroSection02.jpg'
-];
+const images = [HeroSection01, HeroSection02];
 
 const HeroSection = () => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -33,10 +33,11 @@ const HeroSection = () => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <img
+        <Image
           src={images[currentImage]}
           alt="Slider Image"
-          className="object-cover w-full h-full"
+          layout="fill"
+          objectFit="cover"
         />
       </motion.div>
 
@@ -45,7 +46,9 @@ const HeroSection = () => {
           Belen Ava Makeup & Hair Stylist
         </h1>
         <p className="text-sm sm:text-base lg:text-lg mt-4 text-gray-700">
-          Hello, I&apos;m Belen Ava! I love helping people feel beautiful, which is the reason I&apos;ve spent the last 10 years engulfed in doing Makeup & Hair Styling.
+          Hello, I&apos;m Belen Ava! I love helping people feel beautiful, which
+          is the reason I&apos;ve spent the last 10 years engulfed in doing
+          Makeup & Hair Styling.
         </p>
       </div>
 
@@ -56,7 +59,7 @@ const HeroSection = () => {
             key={index}
             onClick={() => handleDotClick(index)}
             className={`w-3 h-3 mx-2 rounded-full ${
-              currentImage === index ? 'bg-gray-800' : 'bg-gray-400'
+              currentImage === index ? "bg-gray-800" : "bg-gray-400"
             }`}
           />
         ))}
