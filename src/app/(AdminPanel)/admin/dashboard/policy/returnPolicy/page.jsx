@@ -19,15 +19,15 @@ const AddPrivacyPolicy = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post('/api/privacyPOLICY', {
+      const response = await axios.post('/api/privacyPolicy', {
         content: editorContent,
       });
 
       if (response.status === 200) {
-        toast.success('Privacy policy updated successfully!');
+        toast.success('Privacy Policy updated successfully!');
         setEditorContent(''); // Clear the editor on successful submission
       } else {
-        toast.error(`Failed to update privacy policy: ${response.data.message}`);
+        toast.error(`Failed to update Privacy Policy: ${response.data.message}`);
       }
     } catch (error) {
       toast.error(`Error: ${error.response?.data?.message || error.message}`);
@@ -73,7 +73,7 @@ const AddPrivacyPolicy = () => {
       <div className="w-full bg-gray-100 p-6 rounded-lg shadow-md h-85 overflow-y-auto">
         <h2 className="text-xl font-bold mb-4">Privacy Policy Live View</h2>
         <div
-          className="prose "
+          className="prose"
           style={{ maxHeight: 'calc(100vh - 12rem)' }} // Adjust based on your layout needs
           dangerouslySetInnerHTML={{ __html: editorContent }}
         />

@@ -6,7 +6,7 @@ import axios from 'axios';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import { toast } from 'react-toastify';
 
-const AddPrivacyPolicy = () => {
+const AddTermsConditions = () => {
   const [editorContent, setEditorContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -19,15 +19,15 @@ const AddPrivacyPolicy = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post('/api/privacyPOLICY', {
+      const response = await axios.post('/api/termsConditions', {
         content: editorContent,
       });
 
       if (response.status === 200) {
-        toast.success('Privacy policy updated successfully!');
+        toast.success('Terms & Conditions updated successfully!');
         setEditorContent(''); // Clear the editor on successful submission
       } else {
-        toast.error(`Failed to update privacy policy: ${response.data.message}`);
+        toast.error(`Failed to update Terms & Conditions: ${response.data.message}`);
       }
     } catch (error) {
       toast.error(`Error: ${error.response?.data?.message || error.message}`);
@@ -45,12 +45,12 @@ const AddPrivacyPolicy = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <h2 className="text-xl font-bold mb-4">Add Privacy Policy</h2>
+        <h2 className="text-xl font-bold mb-4">Add Terms & Conditions</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="privacy-policy" className="block text-sm font-medium text-gray-700">Privacy Policy Content</label>
+            <label htmlFor="terms-conditions" className="block text-sm font-medium text-gray-700">Terms & Conditions Content</label>
             <ReactQuill
-              id="privacy-policy"
+              id="terms-conditions"
               value={editorContent}
               onChange={handleChange}
               className="mt-1 h-80"
@@ -63,7 +63,7 @@ const AddPrivacyPolicy = () => {
               className={`w-full ${isSubmitting ? 'bg-blue-300 cursor-not-allowed' : 'bg-blue-500'} text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300`}
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Submitting...' : 'Save Privacy Policy'}
+              {isSubmitting ? 'Submitting...' : 'Save Terms & Conditions'}
             </button>
           </div>
         </form>
@@ -71,9 +71,9 @@ const AddPrivacyPolicy = () => {
 
       {/* Live View Section */}
       <div className="w-full bg-gray-100 p-6 rounded-lg shadow-md h-85 overflow-y-auto">
-        <h2 className="text-xl font-bold mb-4">Privacy Policy Live View</h2>
+        <h2 className="text-xl font-bold mb-4">Terms & Conditions Live View</h2>
         <div
-          className="prose "
+          className="prose"
           style={{ maxHeight: 'calc(100vh - 12rem)' }} // Adjust based on your layout needs
           dangerouslySetInnerHTML={{ __html: editorContent }}
         />
@@ -82,4 +82,4 @@ const AddPrivacyPolicy = () => {
   );
 };
 
-export default AddPrivacyPolicy;
+export default AddTermsConditions;
