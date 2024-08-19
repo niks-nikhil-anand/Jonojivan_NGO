@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 // Define the schema for Terms and Conditions
-const privacyPolicySchema = new Schema({
+const returnPolicySchema = new Schema({
 content: {
     type: String,
     required: true,
@@ -12,4 +12,4 @@ content: {
     timestamps: true
 });
 
-export default mongoose.models.PrivacyPolicy || mongoose.model('PrivacyPolicy' , privacyPolicySchema)
+export default mongoose.models.ReturnPolicy || mongoose.model('ReturnPolicy' , returnPolicySchema)
