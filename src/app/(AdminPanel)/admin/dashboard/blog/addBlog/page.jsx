@@ -51,7 +51,7 @@ const BlogFormComponent = () => {
     }
 
     try {
-      const response = await axios.post('/api/admin/dashboard/blog/addBlog', formDataToSend, {
+      const response = await axios.post('/api/admin/dashboard/blog', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

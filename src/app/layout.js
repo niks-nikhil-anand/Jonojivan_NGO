@@ -2,6 +2,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import EgoisticNavbar from "@/components/utils/EgosticNavbar";
 import EgoisticFooter from "@/components/utils/EgosticFooter";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const inter = Inter({ subsets: ["latin"] });
 
