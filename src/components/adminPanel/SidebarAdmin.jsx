@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import { FaHome, FaUser, FaCog, FaBuilding, FaPlus, FaShoppingCart, FaListAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
@@ -37,7 +37,7 @@ const SidebarAdmin = () => {
     <div className="flex">
       <motion.div
         animate={{ width: isOpen ? '250px' : '90px' }}
-        className="bg-gradient-to-r from-blue-600 to-purple-600 text-white h-screen p-5 transition-width duration-300 shadow-xl overflow-y-auto"
+        className="bg-gradient-to-r from-blue-600 to-purple-600 text-white h-screen p-5 transition-width duration-300 shadow-xl overflow-y-auto overflow-x-hidden"
       >
         <button
           onClick={toggleSidebar}
@@ -45,8 +45,10 @@ const SidebarAdmin = () => {
         >
           <TiThMenu />
         </button>
-        <div className={`flex flex-col space-y-4 ${isOpen ? 'overflow-auto' : 'overflow-x-scroll'}`}>
-          <h2 className={`text-lg font-semibold mb-4 ${isOpen ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>{isOpen ? 'Dashboard' : ''}</h2>
+        <div className={`flex flex-col space-y-4 ${isOpen ? 'overflow-auto' : 'overflow-auto'}`}>
+          <h2 className={`text-lg font-semibold mb-4 ${isOpen ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
+            {isOpen ? 'Dashboard' : ''}
+          </h2>
           <Link href="/admin/dashboard/property/AddProperty" passHref>
             <SidebarItem icon={<FaHome />} label="Home" isOpen={isOpen} />
           </Link>
@@ -85,13 +87,13 @@ const SidebarAdmin = () => {
           </Link>
 
           {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-300">Policies</h3>}
-          <Link href="/admin/dashboard/policy/privacyPolicy" passHref>
-            <SidebarItem icon={<GrArticle />} label="Terms and Conditions" isOpen={isOpen} />
+          <Link href="/admin/dashboard/policy/termsAndCondition" passHref>
+            <SidebarItem icon={<GrArticle />} label="Terms&Cond.." isOpen={isOpen} />
           </Link>
-          <Link href="/admin/dashboard/information/privacy" passHref>
+          <Link href="/admin/dashboard/policy/privacyPolicy" passHref>
             <SidebarItem icon={<GrArticle />} label="Privacy Policy" isOpen={isOpen} />
           </Link>
-          <Link href="/admin/dashboard/information/privacy" passHref>
+          <Link href="/admin/dashboard/policy/returnPolicy" passHref>
             <SidebarItem icon={<GrArticle />} label="Return Policy" isOpen={isOpen} />
           </Link>
           {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-300">Account</h3>}
@@ -120,7 +122,7 @@ const SidebarItem = ({ icon, label, isOpen }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.1 }}
-      className="flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 transition-colors duration-300"
+      className="flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 hover:px-5 transition-colors duration-300"
     >
       <div className="text-xl">{icon}</div>
       {isOpen && <span className="text-sm font-medium">{label}</span>}
