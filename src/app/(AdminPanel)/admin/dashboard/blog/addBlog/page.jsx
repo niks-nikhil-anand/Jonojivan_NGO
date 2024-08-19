@@ -19,6 +19,7 @@ const BlogFormComponent = () => {
     category: '',
     author: '',
   });
+  const [loading, setLoading] = useState(false);
 
   const handleNextStep = () => {
     setStep(step + 1);
@@ -44,6 +45,7 @@ const BlogFormComponent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading state
 
     const formDataToSend = new FormData();
     for (const key in formData) {
@@ -68,6 +70,8 @@ const BlogFormComponent = () => {
       setStep(1);
     } catch (error) {
       toast.error('Error adding blog');
+    } finally {
+      setLoading(false); // End loading state
     }
   };
 
@@ -90,38 +94,36 @@ const BlogFormComponent = () => {
         >
           {step === 1 && (
             <>
-            <div className='flex flex-col gap-5'>
-            <div>
-                <label className="block mb-2 text-gray-700 font-bold">Title</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleChange}
-                  placeholder="Enter the title"
-                  className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-400"
-                />
+              <div className='flex flex-col gap-5'>
+                <div>
+                  <label className="block mb-2 text-gray-700 font-bold">Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    placeholder="Enter the title"
+                    className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-400"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-3 text-gray-700 font-bold">Content</label>
+                  <ReactQuill
+                    value={formData.content}
+                    onChange={handleQuillChange}
+                    className="w-full h-80 rounded"
+                  />
+                </div>
+                <div className='mt-5'>
+                  <button
+                    type="button"
+                    onClick={handleNextStep}
+                    className="w-full p-2 mt-6 text-white bg-blue-500 rounded hover:bg-blue-600"
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
-              <div>
-                <label className="block mb-3 text-gray-700 font-bold">Content</label>
-                <ReactQuill
-                  value={formData.content}
-                  onChange={handleQuillChange}
-                  className="w-full h-80 rounded"
-                />
-              </div>
-              <div className='mt-5'>
-              <button
-                type="button"
-                onClick={handleNextStep}
-                className="w-full p-2 mt-6 text-white bg-blue-500 rounded hover:bg-blue-600"
-              >
-                Next
-              </button>
-              </div>
-            </div>
-            
-             
             </>
           )}
           {step === 2 && (
@@ -178,9 +180,10 @@ const BlogFormComponent = () => {
                 </button>
                 <button
                   type="submit"
-                  className="w-1/2 p-2 ml-2 text-white bg-green-500 rounded hover:bg-green-600"
+                  className={`w-1/2 p-2 ml-2 text-white ${loading ? 'bg-gray-500 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600'}`}
+                  disabled={loading}
                 >
-                  Submit
+                  {loading ? 'Submitting...' : 'Submit'}
                 </button>
               </div>
             </>
