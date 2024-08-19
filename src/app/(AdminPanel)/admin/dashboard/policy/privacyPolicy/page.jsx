@@ -1,10 +1,13 @@
 "use client";
 import React, { useState } from 'react';
-import ReactQuill from 'react-quill';
+import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import 'react-quill/dist/quill.snow.css'; 
 import { toast } from 'react-toastify';
+
+// Dynamically import ReactQuill
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const AddPrivacyPolicy = () => {
   const [editorContent, setEditorContent] = useState('');

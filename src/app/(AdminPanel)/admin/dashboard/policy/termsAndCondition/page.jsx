@@ -7,10 +7,8 @@ import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import { toast } from 'react-toastify';
 
 // Dynamically import ReactQuill
-const ReactQuill = dynamic(() => import('react-quill'), {
-  ssr: false,
-  loading: () => <p>Loading...</p>, // Optional loading state
-});
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+
 
 const AddTermsConditions = () => {
   const [editorContent, setEditorContent] = useState('');
