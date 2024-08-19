@@ -92,7 +92,7 @@ const BlogFormComponent = () => {
             <>
             <div className='flex flex-col gap-5'>
             <div>
-                <label className="block mb-2 text-gray-700">Title</label>
+                <label className="block mb-2 text-gray-700 font-bold">Title</label>
                 <input
                   type="text"
                   name="title"
@@ -103,7 +103,7 @@ const BlogFormComponent = () => {
                 />
               </div>
               <div>
-                <label className="block mb-10 text-gray-700">Content</label>
+                <label className="block mb-3 text-gray-700 font-bold">Content</label>
                 <ReactQuill
                   value={formData.content}
                   onChange={handleQuillChange}
@@ -127,7 +127,7 @@ const BlogFormComponent = () => {
           {step === 2 && (
             <>
               <div>
-                <label className="block mb-2 text-gray-700">Featured Image</label>
+                <label className="block mb-2 text-gray-700 font-bold">Featured Image</label>
                 <input
                   type="file"
                   name="featuredImageFile"
@@ -136,7 +136,7 @@ const BlogFormComponent = () => {
                 />
               </div>
               <div>
-                <label className="block mb-2 text-gray-700">Subtitle</label>
+                <label className="block mb-2 text-gray-700 font-bold">Subtitle</label>
                 <input
                   type="text"
                   name="subtitle"
@@ -147,7 +147,7 @@ const BlogFormComponent = () => {
                 />
               </div>
               <div>
-                <label className="block mb-2 text-gray-700">Category</label>
+                <label className="block mb-2 text-gray-700 font-bold">Category</label>
                 <input
                   type="text"
                   name="category"
@@ -158,7 +158,7 @@ const BlogFormComponent = () => {
                 />
               </div>
               <div>
-                <label className="block mb-2 text-gray-700">Author</label>
+                <label className="block mb-2 text-gray-700 font-bold">Author</label>
                 <input
                   type="text"
                   name="author"
