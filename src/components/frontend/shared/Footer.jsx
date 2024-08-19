@@ -12,7 +12,6 @@ export default function Footer() {
   return (
     <div className="bg-purple-900 text-white py-10">
       <div className="container mx-auto flex flex-col lg:flex-row justify-between items-start px-4 sm:px-6 lg:px-8">
-        {/* Logo and Contact Info */}
         <div className="mb-6 lg:mb-0 lg:w-1/4">
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -69,7 +68,7 @@ export default function Footer() {
             <li className="mb-2 hover:underline cursor-pointer">Shops</li>
             <li className="mb-2 hover:underline cursor-pointer">Most Popular</li>
             <li className="mb-2 hover:underline cursor-pointer">Best Deal</li>
-            <li className="mb-2 hover:underline cursor-pointer">Become a Seller</li>
+            <li className="mb-2 hover:underline cursor-pointer">Contact</li>
           </ul>
         </div>
 
@@ -81,14 +80,13 @@ export default function Footer() {
             <li className="mb-2 hover:underline cursor-pointer">About us</li>
             </Link>
             <Link href={"/contactUs"}>
-            <li className="mb-2 hover:underline cursor-pointer">Contact</li>
+            <li className="mb-2 hover:underline cursor-pointer">Return Policy</li>
             </Link>
             <li className="mb-2 hover:underline cursor-pointer">Terms & Conditions</li>
             <li className="mb-2 hover:underline cursor-pointer">Privacy Policy</li>
           </ul>
         </div>
 
-        {/* Download App */}
         <div className="lg:w-1/4">
           <h4 className="font-bold text-lg mb-3">Download our app</h4>
           <div className="flex space-x-3">
