@@ -6,6 +6,9 @@ const productSchema = new mongoose.Schema({
         required: [true, 'Product name is required'],
         trim: true,
     },
+    colors:{
+        type: String,
+    },
     description: {
         type: String,
         required: [true, 'Product description is required'],
@@ -31,12 +34,10 @@ const productSchema = new mongoose.Schema({
             required: [true, 'Image URL is required'],
         },
     }],
-    featuredImage: [{
-        url: {
+    featuredImage: {
             type: String,
             required: [true, 'FeaturesImage URL is required'],
-        },
-    }],
+    },
     ratings: {
         average: {
             type: Number,
@@ -60,17 +61,13 @@ const productSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    isOnSale: {
+        type: Boolean,
+        default: false,
+    },
     tags: [{
         type: String,
     }],
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now,
-    }
 }, {
     timestamps: true
 });
