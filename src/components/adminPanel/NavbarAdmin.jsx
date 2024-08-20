@@ -1,72 +1,37 @@
-"use client"
-import React, { useState } from 'react';
-import { MdLightMode, MdDarkMode } from "react-icons/md";
-import { IoIosNotifications } from "react-icons/io";
-import { CgProfile } from "react-icons/cg";
-import { FcSettings } from "react-icons/fc";
-import { motion } from "framer-motion";
+// src/components/Navbar.jsx
 
-const NavbarAdmin = ({ toggleSidebar }) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+import React from 'react';
+import { FaUserCircle, FaTachometerAlt, FaCog } from 'react-icons/fa';
+import { IoIosMenu } from 'react-icons/io';
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark');
-  };
-
+const Navbar = () => {
   return (
-    <nav className="bg-gray-800 dark:bg-gray-900 text-white p-4 flex justify-between items-center shadow-md">
-      <div className="text-xl font-bold">Admin Panel</div>
-      <div className="text-xl font-bold">Flying Alpha</div>
-      <button onClick={toggleSidebar} className="md:hidden block">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-      <div className="hidden md:flex items-center gap-6">
-        <motion.button
-          onClick={toggleDarkMode}
-          className="p-2"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          {isDarkMode ? (
-            <MdLightMode className="w-8 h-8 text-yellow-400" />
-          ) : (
-            <MdDarkMode className="w-8 h-8 text-blue-400" />
-          )}
-        </motion.button>
-        <motion.button
-          className="p-2"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <IoIosNotifications className="w-8 h-8 text-red-400" />
-        </motion.button>
-        <motion.button
-          className="p-2"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <FcSettings className="w-8 h-8" />
-        </motion.button>
-        <div className="relative group">
-          <motion.button
-            className="p-2"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <CgProfile className="w-8 h-8 text-green-400" />
-          </motion.button>
-          <div className="hidden group-hover:block absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border rounded shadow-lg z-20">
-            <a href="#" className="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Profile</a>
-            <a href="#" className="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Settings</a>
-            <a href="#" className="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Logout</a>
-          </div>
+    <nav className="bg-gray-800 text-white">
+      <div className="container mx-auto flex justify-between items-center p-4">
+        {/* Logo */}
+        <div className="text-lg font-bold">Admin Panel</div>
+
+        {/* Hamburger Menu for Mobile View */}
+        <div className="block lg:hidden">
+          <button className="text-2xl">
+            <IoIosMenu />
+          </button>
+        </div>
+
+        {/* Navigation Links */}
+        <div className="hidden lg:flex space-x-4">
+          <a href="#" className="hover:bg-gray-700 px-3 py-2 rounded">Dashboard</a>
+          <a href="#" className="hover:bg-gray-700 px-3 py-2 rounded">Settings</a>
+          <a href="#" className="hover:bg-gray-700 px-3 py-2 rounded">Profile</a>
+        </div>
+
+        {/* User Profile Icon */}
+        <div className="flex items-center">
+          <FaUserCircle className="text-2xl ml-4" />
         </div>
       </div>
     </nav>
   );
 };
 
-export default NavbarAdmin;
+export default Navbar;

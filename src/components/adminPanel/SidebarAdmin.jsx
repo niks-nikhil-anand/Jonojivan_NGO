@@ -37,7 +37,8 @@ const SidebarAdmin = () => {
     <div className="flex">
       <motion.div
         animate={{ width: isOpen ? '250px' : '90px' }}
-        className="bg-gradient-to-r from-blue-600 to-purple-600 text-white h-screen p-5 transition-width duration-300 shadow-xl overflow-y-auto overflow-x-hidden"
+        className="bg-gradient-to-r from-blue-600 to-purple-600 text-white h-screen p-5 transition-width duration-300 shadow-xl overflow-y-auto"
+        style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.3)' }}
       >
         <button
           onClick={toggleSidebar}
@@ -45,7 +46,7 @@ const SidebarAdmin = () => {
         >
           <TiThMenu />
         </button>
-        <div className={`flex flex-col space-y-4 ${isOpen ? 'overflow-auto' : 'overflow-auto'}`}>
+        <div className={`flex flex-col space-y-4`}>
           <h2 className={`text-lg font-semibold mb-4 ${isOpen ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
             {isOpen ? 'Dashboard' : ''}
           </h2>
