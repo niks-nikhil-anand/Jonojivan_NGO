@@ -36,7 +36,7 @@ export default function Footer() {
             </div>
             <div className="flex items-center space-x-3">
               <MdEmail className="h-6 w-6 text-white" />
-              <span>support@razinsoft.com</span>
+              <span>support@myblushbelle.com</span>
             </div>
           </div>
           <div className="flex mt-4 space-x-3">
@@ -79,11 +79,14 @@ export default function Footer() {
             <Link href={"/aboutUs"}>
             <li className="mb-2 hover:underline cursor-pointer">About us</li>
             </Link>
-            <Link href={"/contactUs"}>
+            <Link href={"/returnPolicy"}>
             <li className="mb-2 hover:underline cursor-pointer">Return Policy</li>
             </Link>
             <li className="mb-2 hover:underline cursor-pointer">Terms & Conditions</li>
+           <Link href={"/privacyPolicy"}>
             <li className="mb-2 hover:underline cursor-pointer">Privacy Policy</li>
+           </Link>
+
           </ul>
         </div>
 

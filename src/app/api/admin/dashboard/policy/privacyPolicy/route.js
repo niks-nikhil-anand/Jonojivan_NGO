@@ -27,17 +27,32 @@ export const POST = async (req) => {
   }
 };
 
+
+
+
+
 export const GET = async (req) => {
   try {
     console.log("Connecting to the database...");
     await connectDB();
     console.log("Connected to the database.");
 
-    const privacyPolicy = await privacyPolicyModels.findOne(); 
-    console.log("Fetched privacy policy:");
+    // Make sure the ID is in the correct format
+    const id = "66c2ee89450e15df7d725d40";
+    
+
+    // Fetch the privacy policy with the specific _id
+    const privacyPolicy = await privacyPolicyModels.findById(id);
+
+    if (!privacyPolicy) {
+      return NextResponse.json({ msg: "Privacy policy not found" }, { status: 404 });
+    }
+
+    console.log("Fetched privacy policy:", privacyPolicy);
     return NextResponse.json(privacyPolicy, { status: 200 });
   } catch (error) {
     console.error("Error fetching privacy policy:", error);
     return NextResponse.json({ msg: "Error fetching privacy policy", error: error.message }, { status: 500 });
   }
 };
+
