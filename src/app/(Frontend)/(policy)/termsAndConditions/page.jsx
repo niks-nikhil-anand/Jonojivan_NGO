@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
@@ -19,12 +19,12 @@ const Page = () => {
             } catch (error) {
                 setError(error.message);
             } finally {
-                setLoading(false); 
+                setLoading(false);
             }
         };
 
         fetchData();
-    }, []); 
+    }, []);
 
     if (loading) {
         return (
@@ -51,10 +51,10 @@ const Page = () => {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
             >
-                <div
-                    className="prose prose-sm md:prose-lg mx-auto"
-                    dangerouslySetInnerHTML={{ __html: data.content }}
-                />
+                <div className="prose prose-sm md:prose-lg mx-auto">
+                    <div dangerouslySetInnerHTML={{ __html: data?.content || '' }} />
+                    
+                </div>
             </motion.div>
         </motion.div>
     );
