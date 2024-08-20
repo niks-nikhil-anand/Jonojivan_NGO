@@ -67,7 +67,9 @@ export default function Footer() {
           <ul>
             <li className="mb-2 hover:underline cursor-pointer">Shops</li>
             <li className="mb-2 hover:underline cursor-pointer">Most Popular</li>
-            <li className="mb-2 hover:underline cursor-pointer">Best Deal</li>
+            <Link href={"/blogs"}>
+            <li className="mb-2 hover:underline cursor-pointer">Blogs</li>
+            </Link>
             <li className="mb-2 hover:underline cursor-pointer">Contact</li>
           </ul>
         </div>
