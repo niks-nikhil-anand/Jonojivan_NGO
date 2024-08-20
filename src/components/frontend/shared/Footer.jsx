@@ -82,7 +82,9 @@ export default function Footer() {
             <Link href={"/returnPolicy"}>
             <li className="mb-2 hover:underline cursor-pointer">Return Policy</li>
             </Link>
+            <Link href={"/termsAndConditions"}>
             <li className="mb-2 hover:underline cursor-pointer">Terms & Conditions</li>
+            </Link>
            <Link href={"/privacyPolicy"}>
             <li className="mb-2 hover:underline cursor-pointer">Privacy Policy</li>
            </Link>

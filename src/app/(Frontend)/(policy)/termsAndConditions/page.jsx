@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 const Page = () => {
-    const [idFromURL, setIdFromURL] = useState('');
     const [data, setData] = useState(null); // State to store API response
     const [loading, setLoading] = useState(true); // State to manage loading state
     const [error, setError] = useState(null); // State to handle errors
@@ -11,12 +10,7 @@ const Page = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const urlPath = window.location.pathname;
-                const id = urlPath.split('/')[2];
-                setIdFromURL(id);
-
-                // Fetch data from the API
-                const response = await fetch(`/api/admin/dashboard/blog/${id}`);
+                const response = await fetch(`/api/admin/dashboard/policy/termsAndCondition`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -25,12 +19,12 @@ const Page = () => {
             } catch (error) {
                 setError(error.message);
             } finally {
-                setLoading(false); // Set loading to false after the API call completes
+                setLoading(false); 
             }
         };
 
         fetchData();
-    }, []); // Empty dependency array means this effect runs once after the initial render
+    }, []); 
 
     if (loading) {
         return (
@@ -57,8 +51,6 @@ const Page = () => {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
             >
-                <h2 className="text-xl md:text-2xl font-semibold mb-4">{data.title}</h2>
-                <img src={data.featuredImage} alt={data.title} className="w-full h-auto rounded-lg mb-6"/>
                 <div
                     className="prose prose-sm md:prose-lg mx-auto"
                     dangerouslySetInnerHTML={{ __html: data.content }}

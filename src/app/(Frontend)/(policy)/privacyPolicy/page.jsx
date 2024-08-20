@@ -10,9 +10,6 @@ const Page = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                
-
-                // Fetch data from the API
                 const response = await fetch(`/api/admin/dashboard/policy/privacyPolicy`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
