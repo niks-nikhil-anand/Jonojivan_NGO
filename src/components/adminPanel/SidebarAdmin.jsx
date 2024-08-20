@@ -37,12 +37,12 @@ const SidebarAdmin = () => {
     <div className="flex">
       <motion.div
         animate={{ width: isOpen ? '250px' : '90px' }}
-        className="bg-gradient-to-r from-blue-600 to-purple-600 text-white h-screen p-5 transition-width duration-300 shadow-xl overflow-y-auto"
+        className="bg-gradient-to-r from-black to-gray-800 text-white dark:bg-gray-900 dark:text-gray-200 h-screen p-5 transition-width duration-300 shadow-xl overflow-y-auto"
         style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.3)' }}
       >
         <button
           onClick={toggleSidebar}
-          className="bg-white text-blue-600 p-2 rounded mb-4 shadow-md transition-transform transform hover:scale-110"
+          className="bg-white text-black p-2 rounded mb-4 shadow-md transition-transform transform hover:scale-110"
         >
           <TiThMenu />
         </button>
@@ -123,7 +123,7 @@ const SidebarItem = ({ icon, label, isOpen }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.1 }}
-      className="flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 hover:px-5 transition-colors duration-300"
+      className="flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 hover:px-5 dark:hover:bg-gray-700 transition-colors duration-300"
     >
       <div className="text-xl">{icon}</div>
       {isOpen && <span className="text-sm font-medium">{label}</span>}
