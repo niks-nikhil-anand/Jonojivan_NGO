@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
-import { FaUserCircle, FaTachometerAlt, FaCog } from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
 import { IoIosMenu } from 'react-icons/io';
 import { HiMoon, HiSun } from 'react-icons/hi'; // Import icons for dark mode toggle
 
@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`bg-gray-800 text-white ${darkMode ? 'bg-gray-900' : 'bg-gray-800'} transition-colors duration-300`}>
+    <nav className={`bg-gradient-to-r from-black to-gray-800 text-white dark:bg-gray-900 dark:text-gray-200 transition-colors duration-300`}>
       <div className="container mx-auto flex justify-between items-center p-4">
         {/* Logo */}
         <div className="text-lg font-bold">Admin Panel</div>
@@ -27,23 +27,20 @@ const Navbar = () => {
 
         {/* Navigation Links */}
         <div className="hidden lg:flex space-x-4">
-          <a href="#" className="hover:bg-gray-700 px-3 py-2 rounded">Dashboard</a>
-          <a href="#" className="hover:bg-gray-700 px-3 py-2 rounded">Settings</a>
-          <a href="#" className="hover:bg-gray-700 px-3 py-2 rounded">Profile</a>
+          <a href="#" className="hover:bg-gray-700 dark:hover:bg-gray-600 px-3 py-2 rounded">Dashboard</a>
+          <a href="#" className="hover:bg-gray-700 dark:hover:bg-gray-600 px-3 py-2 rounded">Settings</a>
+          <a href="#" className="hover:bg-gray-700 dark:hover:bg-gray-600 px-3 py-2 rounded">Profile</a>
         </div>
 
-        {/* Dark Mode Toggle */}
-        
-
-        {/* User Profile Icon */}
+        {/* Dark Mode Toggle and User Profile Icon */}
         <div className="flex items-center">
-        <button
-          onClick={toggleDarkMode}
-          className="text-2xl ml-4"
-          aria-label="Toggle dark mode"
-        >
-          {darkMode ? <HiSun /> : <HiMoon />}
-        </button>
+          <button
+            onClick={toggleDarkMode}
+            className="text-2xl ml-4"
+            aria-label="Toggle dark mode"
+          >
+            {darkMode ? <HiSun /> : <HiMoon />}
+          </button>
           <FaUserCircle className="text-2xl ml-4" />
         </div>
       </div>
