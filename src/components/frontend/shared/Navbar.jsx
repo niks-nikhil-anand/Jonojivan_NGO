@@ -116,7 +116,7 @@ export default function Navbar() {
                 <div className="mt-6">
                 <div className="mt-2 space-y-2">
                   <div className="border-t border-b mb-5 border-gray-600 py-4 pl-4">
-                    <Link href="/auth/login">
+                    <Link href="/auth/register">
                       <div className="inline-flex items-center space-x-2 text-white cursor-pointer mx-auto hover:text-gray-300">
                         <FaUser className="h-6 w-6" />
                         <span className="text-sm font-semibold">Login/Register</span>
