@@ -3,12 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { AiOutlineClose } from 'react-icons/ai'; // Importing the close icon
 
 const News = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const articlesPerPage = 5; // Set the number of articles per page
+  const [selectedArticle, setSelectedArticle] = useState(null); // State to hold the selected article content
+  const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
+  const articlesPerPage = 5;
   const router = useRouter();
 
   useEffect(() => {
@@ -29,12 +32,10 @@ const News = () => {
     fetchArticles();
   }, []);
 
-  // Get current articles for pagination
   const indexOfLastArticle = currentPage * articlesPerPage;
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
   const currentArticles = articles.slice(indexOfFirstArticle, indexOfLastArticle);
 
-  // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleCardClick = (id) => {
@@ -42,8 +43,35 @@ const News = () => {
     router.push(`/blog/${id}`);
   };
 
+  const handleViewClick = async (id) => {
+    try {
+      const response = await axios.get(`/api/admin/dashboard/blog/${id}`);
+      setSelectedArticle(response.data);
+      setShowPopup(true);
+    } catch (error) {
+      console.error('Error fetching full blog content:', error);
+    }
+  };
+
+  const handleDeleteClick = async (id) => {
+    try {
+      const confirmed = confirm('Are you sure you want to delete this article?');
+      if (!confirmed) return;
+
+      await axios.delete(`/api/admin/dashboard/blog/${id}`);
+      setArticles(articles.filter(article => article._id !== id));
+    } catch (error) {
+      console.error('Error deleting article:', error);
+    }
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+    setSelectedArticle(null);
+  };
+
   return (
-    <div className="flex flex-col  mb-10 mt-5 px-10">
+    <div className="flex flex-col mb-10 mt-5 px-10">
       <h1 className="text-3xl font-bold mb-2 text-center">Beauty Tips</h1>
       {loading ? (
         <motion.div
@@ -60,7 +88,7 @@ const News = () => {
             {currentArticles.map((article) => (
               <motion.div
                 key={article._id}
-                className="flex bg-white rounded-lg shadow-md cursor-pointer p-4"
+                className="flex bg-white rounded-lg shadow-md cursor-pointer p-4 relative"
                 whileHover={{ scale: 1.05 }}
                 onClick={() => handleCardClick(article._id)}
               >
@@ -69,7 +97,7 @@ const News = () => {
                   alt={article.title}
                   className="w-24 h-24 object-cover rounded-lg mr-4"
                 />
-                <div className="flex flex-col justify-between">
+                <div className="flex flex-col justify-between flex-grow">
                   <h3 className="text-xl font-semibold mb-1">{article.title}</h3>
                   <p className="text-gray-600 mb-1">{article.subtitle}</p>
                   <div className="text-sm text-gray-500">
@@ -77,6 +105,28 @@ const News = () => {
                   </div>
                   <div className="text-xs text-gray-400 mt-1">
                     Published on {new Date(article.createdAt).toLocaleDateString()}
+                  </div>
+                  <div className="flex justify-end space-x-2 absolute bottom-4 right-4">
+                    {/* View Button */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleViewClick(article._id);
+                      }}
+                      className="bg-blue-500 text-white px-3 py-1 rounded-lg shadow hover:bg-blue-600"
+                    >
+                      View
+                    </button>
+                    {/* Delete Button */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteClick(article._id);
+                      }}
+                      className="bg-red-500 text-white px-3 py-1 rounded-lg shadow hover:bg-red-600"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               </motion.div>
@@ -98,6 +148,30 @@ const News = () => {
             ))}
           </div>
         </>
+      )}
+
+      {/* Popup for Full Blog Content */}
+      {showPopup && selectedArticle && (
+        <motion.div
+          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full h-96 overflow-y-auto relative">
+            <h2 className="text-2xl font-bold mb-4">{selectedArticle.title}</h2>
+            <div
+              className="prose prose-sm md:prose-lg mx-auto"
+              dangerouslySetInnerHTML={{ __html: selectedArticle.content }}
+            />
+            <button
+              onClick={closePopup}
+              className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+            >
+              <AiOutlineClose size={24} /> {/* Close icon from React Icons */}
+            </button>
+          </div>
+        </motion.div>
       )}
     </div>
   );
