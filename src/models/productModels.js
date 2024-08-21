@@ -1,13 +1,35 @@
 import mongoose from "mongoose";
 
+const colorSchema = new mongoose.Schema({
+    colorName: {
+        type: String,
+        required: [true, 'Color name is required'],
+    },
+    stock: {
+        type: Number,
+        required: [true, 'Stock quantity is required'],
+        min: [0, 'Stock cannot be negative'],
+        default: 0,
+    }
+});
+
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Product name is required'],
         trim: true,
     },
-    colors:{
-        type: String,
+    colors: {
+        type: [colorSchema],
+        default: undefined, // Makes the colors array optional
+    },
+    stock: {
+        type: Number,
+        required: function () {
+            return !this.colors || this.colors.length === 0;
+        },
+        min: [0, 'Stock cannot be negative'],
+        default: 0,
     },
     description: {
         type: String,
@@ -22,12 +44,6 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Category is required'],
     },
-    stock: {
-        type: Number,
-        required: [true, 'Stock quantity is required'],
-        min: [0, 'Stock cannot be negative'],
-        default: 0,
-    },
     images: [{
         url: {
             type: String,
@@ -35,8 +51,8 @@ const productSchema = new mongoose.Schema({
         },
     }],
     featuredImage: {
-            type: String,
-            required: [true, 'FeaturesImage URL is required'],
+        type: String,
+        required: [true, 'Featured image URL is required'],
     },
     ratings: {
         average: {
