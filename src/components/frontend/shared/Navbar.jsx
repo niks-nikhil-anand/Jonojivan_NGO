@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { MdMenu, MdClose, MdSearch, MdShoppingCart, MdFavoriteBorder } from 'react-icons/md'; 
-import { FaChevronRight, FaUser } from 'react-icons/fa'; 
+import { FaUser } from 'react-icons/fa'; 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -47,12 +47,40 @@ export default function Navbar() {
           <MdMenu onClick={toggleMenu} className="h-6 w-6 cursor-pointer text-black" />
         </div>
         {/* Logo */}
-        <div className="inline-flex items-center space-x-2 flex-grow">
+        <div className="inline-flex items-center space-x-2 flex-shrink-0">
           <Image src={logo} alt="Blush Belle Logo" width={30} height={30} />
           <Link href="/" className="font-bold text-black">Blush Belle</Link>
         </div>
-        {/* Wishlist and Cart Icons for Desktop View */}
-        <div className="hidden lg:flex items-center space-x-4">
+        {/* Desktop Menu Items */}
+        <div className="hidden lg:flex items-center flex-grow space-x-4 ml-10">
+          {menuItems.map((item) => (
+            <Link key={item.name} href={item.href} className="text-black hover:bg-gray-200 px-4 py-2 rounded-md">
+              {item.name}
+            </Link>
+          ))}
+        </div>
+        {/* Search Bar and Authentication Buttons */}
+        <div className="hidden lg:flex items-center space-x-4 flex-shrink-0">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search"
+              className="w-64 rounded-md bg-white py-2 px-4 text-sm text-black placeholder-gray-500 shadow-lg focus:outline-none"
+            />
+            <MdSearch className="absolute right-3 top-2.5 h-5 w-5 text-gray-500" />
+          </div>
+          <Link href="/sign-in">
+            <button className="bg-black text-white py-2 px-4 rounded-md text-sm font-semibold hover:bg-gray-800">
+              Sign In
+            </button>
+          </Link>
+          <Link href="/sign-up">
+            <button className="bg-white text-black border border-black py-2 px-4 rounded-md text-sm font-semibold hover:bg-gray-800">
+              Sign Up
+            </button>
+          </Link>
+        </div>
+        <div className="hidden lg:flex items-center space-x-4 ml-4">
           <Link href="/wishlist">
             <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
               <MdFavoriteBorder className="h-6 w-6 text-black" />
@@ -67,7 +95,7 @@ export default function Navbar() {
           </Link>
         </div>
       </div>
-      
+
       {/* Mobile Menu */}
       {isMenuOpen && (
         <motion.div
@@ -142,7 +170,7 @@ export default function Navbar() {
                 </Link>
               </div>
             </div>
-            <div className="flex items-center justify-between px-5 py-3 border-t border-gray-600">
+            <div className="flex items-center justify-between px-5 py-3 border-t border-gray-600 ">
               <Link href="/wishlist">
                 <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
                   <MdFavoriteBorder className="h-6 w-6 text-black" />
