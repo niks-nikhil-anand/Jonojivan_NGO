@@ -46,7 +46,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
-              transition={{ type: 'spring', stiffness: 300 }}
+              transition={{ type: 'spring', stiffness: 20 }}
             >
               <FaLinkedin className="h-8 w-8 text-white bg-purple-800 p-2 rounded-full" />
             </motion.a>
@@ -55,7 +55,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
-              transition={{ type: 'spring', stiffness: 300 }}
+              transition={{ type: 'spring', stiffness: 20 }}
             >
               <FaYoutube className="h-8 w-8 text-white bg-purple-800 p-2 rounded-full" />
             </motion.a>
@@ -69,14 +69,14 @@ export default function Footer() {
             <motion.li
               className="mb-2 hover:underline cursor-pointer"
               whileHover={{ scale: 1.1 }}
-              transition={{ type: 'spring', stiffness: 300 }}
+              transition={{ type: 'spring', stiffness: 20 }}
             >
               Shops
             </motion.li>
             <motion.li
               className="mb-2 hover:underline cursor-pointer"
               whileHover={{ scale: 1.1 }}
-              transition={{ type: 'spring', stiffness: 300 }}
+              transition={{ type: 'spring', stiffness: 20 }}
             >
               Most Popular
             </motion.li>
@@ -84,7 +84,7 @@ export default function Footer() {
               <motion.li
                 className="mb-2 hover:underline cursor-pointer"
                 whileHover={{ scale: 1.1 }}
-                transition={{ type: 'spring', stiffness: 300 }}
+                transition={{ type: 'spring', stiffness: 20 }}
               >
                 Blogs
               </motion.li>
@@ -92,7 +92,7 @@ export default function Footer() {
             <motion.li
               className="mb-2 hover:underline cursor-pointer"
               whileHover={{ scale: 1.1 }}
-              transition={{ type: 'spring', stiffness: 300 }}
+              transition={{ type: 'spring', stiffness: 20 }}
             >
               Contact
             </motion.li>
@@ -107,7 +107,7 @@ export default function Footer() {
               <motion.li
                 className="mb-2 hover:underline cursor-pointer"
                 whileHover={{ scale: 1.1 }}
-                transition={{ type: 'spring', stiffness: 300 }}
+                transition={{ type: 'spring', stiffness: 20 }}
               >
                 About us
               </motion.li>
@@ -116,7 +116,7 @@ export default function Footer() {
               <motion.li
                 className="mb-2 hover:underline cursor-pointer"
                 whileHover={{ scale: 1.1 }}
-                transition={{ type: 'spring', stiffness: 300 }}
+                transition={{ type: 'spring', stiffness: 20 }}
               >
                 Return Policy
               </motion.li>
@@ -125,7 +125,7 @@ export default function Footer() {
               <motion.li
                 className="mb-2 hover:underline cursor-pointer"
                 whileHover={{ scale: 1.1 }}
-                transition={{ type: 'spring', stiffness: 300 }}
+                transition={{ type: 'spring', stiffness: 20 }}
               >
                 Terms & Conditions
               </motion.li>
@@ -134,7 +134,7 @@ export default function Footer() {
               <motion.li
                 className="mb-2 hover:underline cursor-pointer"
                 whileHover={{ scale: 1.1 }}
-                transition={{ type: 'spring', stiffness: 300 }}
+                transition={{ type: 'spring', stiffness: 20 }}
               >
                 Privacy Policy
               </motion.li>

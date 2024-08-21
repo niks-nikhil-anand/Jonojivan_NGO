@@ -83,7 +83,7 @@ const SidebarAdmin = () => {
           <Link href="/admin/dashboard/blog/addBlog" passHref>
             <SidebarItem icon={<FaPlus />} label="Add Blog" isOpen={isOpen} />
           </Link>
-          <Link href="/admin/dashboard/blog/listBlog" passHref>
+          <Link href="/admin/dashboard/blog/allBlog" passHref>
             <SidebarItem icon={<GrArticle />} label="Blogs" isOpen={isOpen} />
           </Link>
 
