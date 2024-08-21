@@ -98,7 +98,7 @@ const AddProductForm = () => {
     const prevStep = () => setStep(step - 1);
 
     return (
-        <div className="w-full max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-lg h-screen overflow-y-auto">
+        <div className="w-full max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-lg h-[80vh] overflow-y-auto">
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
                 {step === 1 && (
                     <motion.div
