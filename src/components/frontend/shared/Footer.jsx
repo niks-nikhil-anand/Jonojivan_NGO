@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <div className="bg-purple-900 text-white py-10">
+    <div className="bg-black text-white py-10">
       <div className="container mx-auto flex flex-col lg:flex-row justify-between items-start px-4 sm:px-6 lg:px-8">
         <div className="mb-6 lg:mb-0 lg:w-1/4">
           <motion.div
@@ -19,7 +19,7 @@ export default function Footer() {
           >
             <div className="flex items-center space-x-3">
               <div className="bg-purple-800 p-2 rounded">
-                <Image src={logo} alt="Ready eCommerce" height={50} width={50} />
+                <Image src={logo} alt="Blush Belle" height={50} width={50} />
               </div>
               <div>
                 <h4 className="font-bold text-lg">Blush Belle</h4>
@@ -65,12 +65,36 @@ export default function Footer() {
         <div className="mb-6 lg:mb-0 lg:w-1/4">
           <h4 className="font-bold text-lg mb-3">Quick Links</h4>
           <ul>
-            <li className="mb-2 hover:underline cursor-pointer">Shops</li>
-            <li className="mb-2 hover:underline cursor-pointer">Most Popular</li>
+            <motion.li
+              className="mb-2 hover:underline cursor-pointer"
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
+              Shops
+            </motion.li>
+            <motion.li
+              className="mb-2 hover:underline cursor-pointer"
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
+              Most Popular
+            </motion.li>
             <Link href={"/blogs"}>
-            <li className="mb-2 hover:underline cursor-pointer">Blogs</li>
+              <motion.li
+                className="mb-2 hover:underline cursor-pointer"
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+              >
+                Blogs
+              </motion.li>
             </Link>
-            <li className="mb-2 hover:underline cursor-pointer">Contact</li>
+            <motion.li
+              className="mb-2 hover:underline cursor-pointer"
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
+              Contact
+            </motion.li>
           </ul>
         </div>
 
@@ -79,18 +103,41 @@ export default function Footer() {
           <h4 className="font-bold text-lg mb-3">Company</h4>
           <ul>
             <Link href={"/aboutUs"}>
-            <li className="mb-2 hover:underline cursor-pointer">About us</li>
+              <motion.li
+                className="mb-2 hover:underline cursor-pointer"
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+              >
+                About us
+              </motion.li>
             </Link>
             <Link href={"/returnPolicy"}>
-            <li className="mb-2 hover:underline cursor-pointer">Return Policy</li>
+              <motion.li
+                className="mb-2 hover:underline cursor-pointer"
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+              >
+                Return Policy
+              </motion.li>
             </Link>
             <Link href={"/termsAndConditions"}>
-            <li className="mb-2 hover:underline cursor-pointer">Terms & Conditions</li>
+              <motion.li
+                className="mb-2 hover:underline cursor-pointer"
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+              >
+                Terms & Conditions
+              </motion.li>
             </Link>
-           <Link href={"/privacyPolicy"}>
-            <li className="mb-2 hover:underline cursor-pointer">Privacy Policy</li>
-           </Link>
-
+            <Link href={"/privacyPolicy"}>
+              <motion.li
+                className="mb-2 hover:underline cursor-pointer"
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+              >
+                Privacy Policy
+              </motion.li>
+            </Link>
           </ul>
         </div>
 

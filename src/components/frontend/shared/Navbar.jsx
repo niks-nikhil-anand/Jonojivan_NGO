@@ -61,23 +61,37 @@ export default function Navbar() {
         </div>
         {/* Search Bar and Authentication Buttons */}
         <div className="hidden lg:flex items-center space-x-4 flex-shrink-0">
-          <div className="relative">
+          <motion.div 
+            className="relative"
+            whileHover={{ scale: 1.05, boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }}
+            transition={{ type: 'spring', stiffness: 300 }}
+          >
             <input
               type="text"
               placeholder="Search"
               className="w-64 rounded-md bg-white py-2 px-4 text-sm text-black placeholder-gray-500 shadow-lg focus:outline-none"
             />
             <MdSearch className="absolute right-3 top-2.5 h-5 w-5 text-gray-500" />
-          </div>
+          </motion.div>
           <Link href="/sign-in">
-            <button className="bg-black text-white py-2 px-4 rounded-md text-sm font-semibold hover:bg-gray-800">
+            <motion.button
+              className="bg-black text-white py-2 px-4 rounded-md text-sm font-semibold"
+              whileHover={{ scale: 1.1, backgroundColor: '#333' }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
               Sign In
-            </button>
+            </motion.button>
           </Link>
           <Link href="/sign-up">
-            <button className="bg-white text-black border border-black py-2 px-4 rounded-md text-sm font-semibold hover:bg-gray-800">
+            <motion.button
+              className="bg-white text-black border border-black py-2 px-4 rounded-md text-sm font-semibold hover:bg-white"
+              whileHover={{ scale: 1.1, backgroundColor: '#f0f0f0' }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
               Sign Up
-            </button>
+            </motion.button>
           </Link>
         </div>
         <div className="hidden lg:flex items-center space-x-4 ml-4">
@@ -159,30 +173,26 @@ export default function Navbar() {
                   <span>Accounts</span>
                 </div>
                 <Link href="/sign-in">
-                  <button className="w-full rounded-md bg-black text-white py-2 px-4 text-sm font-semibold hover:bg-gray-800">
+                  <motion.button 
+                    className="w-full rounded-md bg-black text-white py-2 px-4 text-sm font-semibold hover:bg-gray-800"
+                    whileHover={{ scale: 1.1, backgroundColor: '#333' }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                  >
                     Sign In
-                  </button>
+                  </motion.button>
                 </Link>
                 <Link href="/sign-up">
-                  <button className="w-full rounded-md bg-white text-black border border-black py-2 px-4 text-sm font-semibold hover:bg-gray-800">
+                  <motion.button 
+                    className="w-full rounded-md bg-white text-black border border-black py-2 px-4 text-sm font-semibold hover:bg-gray-100"
+                    whileHover={{ scale: 1.1, backgroundColor: '#f0f0f0' }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                  >
                     Sign Up
-                  </button>
+                  </motion.button>
                 </Link>
               </div>
-            </div>
-            <div className="flex items-center justify-between px-5 py-3 border-t border-gray-600 ">
-              <Link href="/wishlist">
-                <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
-                  <MdFavoriteBorder className="h-6 w-6 text-black" />
-                  <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
-                </motion.div>
-              </Link>
-              <Link href="/cart">
-                <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
-                  <MdShoppingCart className="h-6 w-6 text-black" />
-                  <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
-                </motion.div>
-              </Link>
             </div>
           </div>
         </motion.div>
