@@ -40,16 +40,30 @@ export default function Navbar() {
   }, [isMenuOpen]);
 
   return (
-    <div className="relative w-full h-full bg-white text-black shadow-md">
+    <div className="relative w-full h-full bg-white text-black shadow-md py-2">
       <div className="mx-auto flex items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         {/* Menu Button for Mobile View */}
         <div className="lg:hidden flex items-center space-x-2">
-          <MdMenu onClick={toggleMenu} className="h-6 w-6 cursor-pointer text-black" />
+          <MdMenu onClick={toggleMenu} className="h-7 w-7 cursor-pointer text-black" />
         </div>
         {/* Logo */}
-        <div className="inline-flex items-center space-x-2 flex-shrink-0">
+        <div className="inline-flex items-center space-x-2 flex-shrink-0 ">
           <Image src={logo} alt="Blush Belle Logo" width={30} height={30} />
           <Link href="/" className="font-bold text-black">Blush Belle</Link>
+        </div>
+        <div className="lg:hidden flex items-center space-x-4 ml-4">
+          <Link href="/wishlist">
+            <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
+              <MdFavoriteBorder className="h-7 w-7 text-black" />
+              <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
+            </motion.div>
+          </Link>
+          <Link href="/cart">
+            <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
+              <MdShoppingCart className="h-7 w-7 text-black" />
+              <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
+            </motion.div>
+          </Link>
         </div>
         {/* Desktop Menu Items */}
         <div className="hidden lg:flex items-center flex-grow space-x-4 ml-10">
@@ -127,6 +141,7 @@ export default function Navbar() {
                   <Image src={logo} alt="Blush Belle Logo" width={30} height={30} />
                   <span className="font-bold">Blush Belle</span>
                 </div>
+                
                 <div className="-mr-2">
                   <button
                     type="button"
@@ -193,6 +208,20 @@ export default function Navbar() {
                   </motion.button>
                 </Link>
               </div>
+              <div className="flex items-center justify-between px-5 py-3 border-t border-gray-600 mt-7">
+              <Link href="/wishlist">
+                <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
+                  <MdFavoriteBorder className="h-6 w-6 text-black" />
+                  <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
+                </motion.div>
+              </Link>
+              <Link href="/cart">
+                <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
+                  <MdShoppingCart className="h-6 w-6 text-black" />
+                  <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
+                </motion.div>
+              </Link>
+            </div>
             </div>
           </div>
         </motion.div>
