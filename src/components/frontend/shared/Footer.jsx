@@ -1,9 +1,10 @@
 "use client";
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaLinkedin, FaYoutube } from 'react-icons/fa';
+import { FaLinkedin, FaYoutube, FaInstagram, FaFacebookF, FaWhatsapp } from 'react-icons/fa';
 import { MdPhone, MdEmail } from 'react-icons/md';
 import { AiFillApple, AiFillAndroid } from 'react-icons/ai';
+import { IoLogoTwitter } from 'react-icons/io';
 import Image from 'next/image'; // Assuming you're using Next.js
 import logo from '../../../../public/annimatedIcons/grocery.png';
 import Link from 'next/link';
@@ -141,26 +142,45 @@ export default function Footer() {
           </ul>
         </div>
 
+        {/* Share Our Website */}
         <div className="lg:w-1/4">
-          <h4 className="font-bold text-lg mb-3">Download our app</h4>
+          <h4 className="font-bold text-lg mb-3">Share Our Website</h4>
           <div className="flex space-x-3">
             <motion.a
-              href="https://apps.apple.com"
+              href="https://www.instagram.com"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
-              <AiFillApple className="h-12 w-12 text-white bg-purple-800 p-2 rounded-lg" />
+              <FaInstagram className="h-12 w-12 text-white bg-purple-800 p-2 rounded-full" />
             </motion.a>
             <motion.a
-              href="https://play.google.com"
+              href="https://www.facebook.com"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
-              <AiFillAndroid className="h-12 w-12 text-white bg-purple-800 p-2 rounded-lg" />
+              <FaFacebookF className="h-12 w-12 text-white bg-purple-800 p-2 rounded-full" />
+            </motion.a>
+            <motion.a
+              href="https://wa.me/"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
+              <FaWhatsapp className="h-12 w-12 text-white bg-purple-800 p-2 rounded-full" />
+            </motion.a>
+            <motion.a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
+              <IoLogoTwitter className="h-12 w-12 text-white bg-purple-800 p-2 rounded-full" />
             </motion.a>
           </div>
         </div>
