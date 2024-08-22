@@ -12,11 +12,12 @@ export const POST = async (req) => {
     const formData = await req.formData();
     console.log("Form data received.");
 
+    // Fetching and logging all fields
     const name = formData.get("name");
     const description = formData.get("description");
     const price = formData.get("price");
-    const actualPrice = formData.get("actualPrice"); // Updated to actualPrice
-    const finalPrice = formData.get("finalPrice");   // Added finalPrice
+    const actualPrice = formData.get("actualPrice");
+    const finalPrice = formData.get("finalPrice");
     const category = formData.get("category");
     const stock = formData.get("stock");
     const brand = formData.get("brand");
@@ -24,14 +25,26 @@ export const POST = async (req) => {
     const isFeatured = formData.get("isFeatured") === "true";
     const isOnSale = formData.get("isOnSale") === "true";
     const tags = JSON.parse(formData.get("tags") || '[]');
-    
-    // Parsing colors and images from FormData
     const colors = JSON.parse(formData.get("colors") || '[]');
     const images = JSON.parse(formData.get("images") || '[]');
-
     const featuredImage = formData.get("featuredImage");
-    console.log(stock)
-    console.log(images)
+
+    console.log("Received Data:");
+    console.log("Name:", name);
+    console.log("Description:", description);
+    console.log("Price:", price);
+    console.log("Actual Price:", actualPrice);
+    console.log("Final Price:", finalPrice);
+    console.log("Category:", category);
+    console.log("Stock:", stock);
+    console.log("Brand:", brand);
+    console.log("SKU:", sku);
+    console.log("Is Featured:", isFeatured);
+    console.log("Is On Sale:", isOnSale);
+    console.log("Tags:", tags);
+    console.log("Colors:", colors);
+    console.log("Images:", images);
+    console.log("Featured Image:", featuredImage);
 
     // Handle featured image upload
     let featuredImageUrl = '';
@@ -71,10 +84,10 @@ export const POST = async (req) => {
       name,
       description,
       price: parseFloat(price),
-      originalPrice: parseFloat(actualPrice), // Renamed to match actualPrice
+      originalPrice: parseFloat(actualPrice),
       finalPrice: parseFloat(finalPrice),
       category,
-      stock: parseInt(stock, 10) || 0, // Convert stock to number
+      stock: parseInt(stock, 10) || 0,
       brand,
       sku,
       isFeatured,
