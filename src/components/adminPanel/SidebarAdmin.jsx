@@ -63,20 +63,22 @@ const SidebarAdmin = () => {
             <SidebarItem icon={<FaBuilding />} label="Products" isOpen={isOpen} />
           </Link>
 
+          
+
+          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-300">Categories</h3>}
+          <Link href="/admin/dashboard/category/addCategory" passHref>
+            <SidebarItem icon={<FaPlus />} label="Add Categories" isOpen={isOpen} />
+          </Link>
+          <Link href="/admin/dashboard/category/allCategory" passHref>
+            <SidebarItem icon={<FaListAlt />} label="All Categories" isOpen={isOpen} />
+          </Link>
+
           {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-300">Orders</h3>}
           <Link href="/admin/dashboard/orders/allOrders" passHref>
             <SidebarItem icon={<FaShoppingCart />} label="All Orders" isOpen={isOpen} />
           </Link>
           <Link href="/admin/dashboard/orders/orderStatus" passHref>
             <SidebarItem icon={<FaListAlt />} label="Order Status" isOpen={isOpen} />
-          </Link>
-
-          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-300">Categories</h3>}
-          <Link href="/admin/dashboard/categories/addCategory" passHref>
-            <SidebarItem icon={<FaPlus />} label="Add Categories" isOpen={isOpen} />
-          </Link>
-          <Link href="/admin/dashboard/categories/allCategories" passHref>
-            <SidebarItem icon={<FaListAlt />} label="All Categories" isOpen={isOpen} />
           </Link>
 
           {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-300">Blog</h3>}

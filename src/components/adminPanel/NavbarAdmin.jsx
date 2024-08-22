@@ -19,7 +19,7 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center p-4">
         {/* Logo */}
         <div className="flex items-center space-x-2">
-          <Image src={logo} alt="Logo" className="w-[45px]" /> {/* Updated Image component */}
+          <Image src={logo} alt="Logo" className="w-[45px]" />
           <span className="text-lg font-bold">Admin Panel</span>
         </div>
 
