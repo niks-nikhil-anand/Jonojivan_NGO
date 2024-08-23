@@ -49,12 +49,6 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Category is required'],
     },
-    images: [{
-        url: {
-            type: String,
-            required: [true, 'Image URL is required'],
-        },
-    }],
     featuredImage: {
         type: String,
         required: [true, 'Featured image URL is required'],

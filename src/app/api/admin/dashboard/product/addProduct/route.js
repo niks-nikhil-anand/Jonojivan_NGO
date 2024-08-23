@@ -10,92 +10,98 @@ export const POST = async (req) => {
     console.log("Connected to the database.");
 
     const formData = await req.formData();
-    console.log("Form data received.");
+    console.log("Form data received:", formData);
 
-    // Fetching and logging all fields
-    const name = formData.get("name");
-    const description = formData.get("description");
-    const price = formData.get("price");
-    const actualPrice = formData.get("actualPrice");
-    const finalPrice = formData.get("finalPrice");
-    const category = formData.get("category");
-    const stock = formData.get("stock");
-    const brand = formData.get("brand");
-    const sku = formData.get("sku");
-    const isFeatured = formData.get("isFeatured") === "true";
-    const isOnSale = formData.get("isOnSale") === "true";
-    const tags = JSON.parse(formData.get("tags") || '[]');
-    const colors = JSON.parse(formData.get("colors") || '[]');
-    const images = JSON.parse(formData.get("images") || '[]');
+    // Helper function to safely get and trim values
+    const getTrimmedValue = (key) => {
+      const value = formData.get(key);
+      return value ? value.trim() : '';
+    };
+
+    const name = getTrimmedValue("name");
+    const description = getTrimmedValue("description");
+    const actualPrice = getTrimmedValue("actualPrice");
+    const originalPrice = getTrimmedValue("originalPrice");
+    const category = getTrimmedValue("category");
+    const stock = parseInt(getTrimmedValue("stock"), 10); // Stock field should be a number
+    const colors = formData.get("colors"); // Colors is a JSON string
+    const brand = getTrimmedValue("brand");
+    const sku = getTrimmedValue("sku");
+    const isFeatured = formData.get("isFeatured") === 'true';
+    const isOnSale = formData.get("isOnSale") === 'true';
+    const tags = getTrimmedValue("tags");
+
+    console.log("Extracted fields:", {
+      name,
+      description,
+      actualPrice,
+      originalPrice,
+      category,
+      stock,
+      colors,
+      brand,
+      sku,
+      isFeatured,
+      isOnSale,
+      tags
+    });
+
+    if (!name || !category) {
+      console.error("Missing required fields.");
+      return NextResponse.json({ msg: "Please provide all the required fields." }, { status: 400 });
+    }
+
+    const images = formData.getAll("images");
     const featuredImage = formData.get("featuredImage");
 
-    console.log("Received Data:");
-    console.log("Name:", name);
-    console.log("Description:", description);
-    console.log("Price:", price);
-    console.log("Actual Price:", actualPrice);
-    console.log("Final Price:", finalPrice);
-    console.log("Category:", category);
-    console.log("Stock:", stock);
-    console.log("Brand:", brand);
-    console.log("SKU:", sku);
-    console.log("Is Featured:", isFeatured);
-    console.log("Is On Sale:", isOnSale);
-    console.log("Tags:", tags);
-    console.log("Colors:", colors);
-    console.log("Images:", images);
-    console.log("Featured Image:", featuredImage);
+    console.log("Images received:", images);
+    console.log("Featured image received:", featuredImage);
 
-    // Handle featured image upload
-    let featuredImageUrl = '';
-    if (featuredImage && featuredImage instanceof File) {
+    const imageUploads = await Promise.all(
+      images.map(async (image, index) => {
+        console.log(`Uploading image ${index + 1}...`);
+        const result = await uploadImage(image, "productImages");
+        console.log(`Image ${index + 1} upload result:`, result);
+        if (!result.secure_url) {
+          console.error("Image upload failed.");
+          throw new Error("Image upload failed.");
+        }
+        return result.secure_url;
+      })
+    );
+
+    console.log("Image URLs uploaded:", imageUploads);
+
+    let featuredImageUrl = null;
+    if (featuredImage) {
       console.log("Uploading featured image...");
-      const featuredImageResult = await uploadImage(featuredImage, "productImages");
+      const featuredImageResult = await uploadImage(featuredImage, "featuredImage");
+      console.log("Featured image upload result:", featuredImageResult);
       if (!featuredImageResult.secure_url) {
         console.error("Featured image upload failed.");
         return NextResponse.json({ msg: "Featured image upload failed." }, { status: 500 });
       }
       featuredImageUrl = featuredImageResult.secure_url;
-      console.log("Featured image uploaded successfully:", featuredImageUrl);
-    } else {
-      console.log("No featured image provided or invalid file.");
     }
 
-    // Handle additional images upload
-    let additionalImagesUrls = [];
-    for (const image of images) {
-      if (image instanceof File) {
-        console.log("Uploading additional image...");
-        const imageResult = await uploadImage(image, "productImages");
-        if (imageResult.secure_url) {
-          additionalImagesUrls.push(imageResult.secure_url);
-          console.log("Additional image uploaded successfully:", imageResult.secure_url);
-        } else {
-          console.error("Image upload failed for:", image);
-          return NextResponse.json({ msg: "Image upload failed." }, { status: 500 });
-        }
-      } else {
-        console.log("Invalid image file:", image);
-      }
-    }
+    // Parsing colors as an array of objects from JSON string
+    const colorsArray = colors ? JSON.parse(colors) : [];
 
-    // Prepare product data
     const productData = {
       name,
       description,
-      price: parseFloat(price),
-      originalPrice: parseFloat(actualPrice),
-      finalPrice: parseFloat(finalPrice),
+      actualPrice,
+      originalPrice,
       category,
-      stock: parseInt(stock, 10) || 0,
+      stock,
+      colors: colorsArray,
       brand,
       sku,
       isFeatured,
       isOnSale,
-      tags,
-      colors,
-      images: additionalImagesUrls,
-      featuredImage: featuredImageUrl
+      tags: tags ? tags.split(',').map(tag => tag.trim()) : [], // Handle tags if provided
+      images: imageUploads,
+      featuredImage: featuredImageUrl,
     };
 
     console.log("Product data to be saved:", productData);
