@@ -24,7 +24,7 @@ const HeroSection = () => {
   };
 
   return (
-    <div className="relative h-screen w-full flex items-center justify-center bg-beige">
+    <div className="relative h-[60vh] w-full flex items-center justify-center bg-beige">
       <motion.div
         className="absolute inset-0"
         key={currentImage}
