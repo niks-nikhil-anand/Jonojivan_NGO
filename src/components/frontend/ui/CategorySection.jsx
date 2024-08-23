@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import Loader from '@/components/loader/loader';
+import Container from '@/components/utils/Container';
 
 const CategoriesSection = () => {
   const [categories, setCategories] = useState([]);
@@ -35,8 +36,11 @@ const CategoriesSection = () => {
   }
 
   return (
-    <div className="py-8 px-4">
-      <h2 className="text-2xl font-semibold  mb-6">Categories</h2>
+    <Container>
+
+   
+    <div className="py-8 px-4 flex flex-col">
+            <h2 className="text-2xl font-semibold  mb-6 ">Categories</h2>
       <div className="flex flex-wrap justify-center gap-8">
         {categories.map((category) => (
           <motion.div
@@ -58,6 +62,7 @@ const CategoriesSection = () => {
         ))}
       </div>
     </div>
+    </Container>
   );
 };
 
