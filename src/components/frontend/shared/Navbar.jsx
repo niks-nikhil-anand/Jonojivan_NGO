@@ -87,7 +87,7 @@ export default function Navbar() {
             />
             <MdSearch className="absolute right-3 top-2.5 h-5 w-5 text-gray-500" />
           </motion.div>
-          <Link href="/sign-in">
+          <Link href="/auth/signIn">
             <motion.button
               className="bg-black text-white py-2 px-4 rounded-md text-sm font-semibold"
               whileHover={{ scale: 1.1, backgroundColor: '#333' }}
@@ -97,7 +97,7 @@ export default function Navbar() {
               Sign In
             </motion.button>
           </Link>
-          <Link href="/sign-up">
+          <Link href="/auth/register">
             <motion.button
               className="bg-white text-black border border-black py-2 px-4 rounded-md text-sm font-semibold hover:bg-white"
               whileHover={{ scale: 1.1, backgroundColor: '#f0f0f0' }}
@@ -109,13 +109,13 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="hidden lg:flex items-center space-x-4 ml-4">
-          <Link href="/wishlist">
+          <Link href="/auth/signIn">
             <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
               <MdFavoriteBorder className="h-6 w-6 text-black" />
               <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
             </motion.div>
           </Link>
-          <Link href="/cart">
+          <Link href="/auth/signIn">
             <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
               <MdShoppingCart className="h-6 w-6 text-black" />
               <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
@@ -187,7 +187,7 @@ export default function Navbar() {
                   <FaUser className="h-6 w-6 text-black" />
                   <span>Accounts</span>
                 </div>
-                <Link href="/sign-in">
+                <Link href="/auth/signIn">
                   <motion.button 
                     className="w-full rounded-md bg-black text-white py-2 px-4 text-sm font-semibold hover:bg-gray-800"
                     whileHover={{ scale: 1.1, backgroundColor: '#333' }}
@@ -197,7 +197,7 @@ export default function Navbar() {
                     Sign In
                   </motion.button>
                 </Link>
-                <Link href="/sign-up">
+                <Link href="/auth/register">
                   <motion.button 
                     className="w-full rounded-md bg-white text-black border border-black py-2 px-4 text-sm font-semibold hover:bg-gray-100"
                     whileHover={{ scale: 1.1, backgroundColor: '#f0f0f0' }}
