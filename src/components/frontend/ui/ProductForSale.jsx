@@ -1,10 +1,12 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import Container from '@/components/utils/Container';
 
 const ProductCard = () => {
     const [product, setProduct] = useState(null);
+    const router = useRouter();
 
     useEffect(() => {
         // Fetch the product data from the API
@@ -22,14 +24,22 @@ const ProductCard = () => {
         return <div>Loading...</div>;
     }
 
-    const { title, actualPrice, originalPrice, featuredImage } = product;
+    const { _id, title, actualPrice, originalPrice, featuredImage } = product;
 
     // Calculate the percentage off
     const discountPercentage = Math.round(((originalPrice - actualPrice) / originalPrice) * 100);
 
+    // Handle redirection when the product card is clicked
+    const handleCardClick = () => {
+        router.push(`/product/${_id}`);
+    };
+
     return (
         <Container>
-            <div className="max-w-sm bg-white shadow-xl rounded-lg overflow-hidden relative transform transition-transform hover:-translate-y-2 hover:shadow-2xl">
+            <div 
+                className="max-w-sm bg-white shadow-xl rounded-lg overflow-hidden relative transform transition-transform hover:-translate-y-2 hover:shadow-2xl cursor-pointer"
+                onClick={handleCardClick}
+            >
                 <div className="absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-br-lg z-10">
                     Sale
                 </div>
