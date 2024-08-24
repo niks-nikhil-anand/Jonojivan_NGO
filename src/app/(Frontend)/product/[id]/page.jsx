@@ -3,12 +3,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { MdClose } from 'react-icons/md'; // Importing close icon from React Icons
+import { AiFillStar } from 'react-icons/ai'; // Importing star icon for ratings
 import Container from '@/components/utils/Container';
 
 const ProductDetail = () => {
     const [product, setProduct] = useState(null);
     const [idFromURL, setIdFromURL] = useState('');
     const [selectedImage, setSelectedImage] = useState(null); // State for the image to be viewed in full size
+    const [loading, setLoading] = useState(true); // State for the loader
 
     useEffect(() => {
         const urlPath = window.location.pathname;
@@ -19,28 +21,46 @@ const ProductDetail = () => {
             axios.get(`/api/admin/dashboard/product/${id}`)
                 .then(response => {
                     setProduct(response.data);
+                    setLoading(false); // Disable loader once data is fetched
                 })
                 .catch(error => {
                     console.error("There was an error fetching the product data!", error);
+                    setLoading(false); // Disable loader in case of an error
                 });
         }
     }, []);
 
-    if (!product) {
-        return <div>Loading...</div>;
+    if (loading) {
+        return (
+            <Container>
+                <div className="flex items-center justify-center h-screen">
+                    <div className="loader border-t-4 border-b-4 border-blue-500 rounded-full w-12 h-12"></div>
+                </div>
+            </Container>
+        );
     }
 
-    const { title, description, images, actualPrice, originalPrice, featuredImage } = product;
+    if (!product) {
+        return <div>Product not found.</div>;
+    }
+
+    const { name, description, images, actualPrice, originalPrice, featuredImage, ratings } = product;
+    const averageRating = ratings?.average || 4.2; // Use 4.2 as the default rating
 
     return (
         <Container>
-            <div className="flex flex-col lg:flex-row gap-6 p-4 sm:p-6 bg-white shadow-xl rounded-lg">
+            <motion.div 
+                className="flex flex-col lg:flex-row gap-6 p-4 sm:p-6 bg-white shadow-xl rounded-lg"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+            >
                 {/* Product Images */}
                 <div className="flex-1">
                     <div className="w-full h-64 sm:h-80 overflow-hidden rounded-lg shadow-lg mb-4">
                         <img 
                             src={featuredImage} 
-                            alt="Featured Product Image" 
+                            alt={name} 
                             className="w-full h-full object-cover cursor-pointer"
                             onClick={() => setSelectedImage(featuredImage)} // Set selected image to featured image
                         />
@@ -72,14 +92,28 @@ const ProductDetail = () => {
 
                 {/* Product Details */}
                 <div className="flex-1">
+                    {/* Product Rating */}
+                    <motion.div 
+                        className="flex items-center mb-2"
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <AiFillStar className="text-yellow-400 mr-1" />
+                        <span className="text-gray-700 text-lg">{averageRating}</span>
+                        <span className="text-gray-500 ml-2">({ratings?.numberOfRatings || 0} ratings)</span>
+                    </motion.div>
+
+                    {/* Product Title */}
                     <motion.h1 
                         className="text-2xl sm:text-3xl font-bold mb-4"
                         initial={{ opacity: 0, x: -50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5 }}
                     >
-                        {title}
+                        {name}
                     </motion.h1>
+                    
                     <motion.p 
                         className="text-gray-700 mb-4"
                         initial={{ opacity: 0, y: 50 }}
@@ -108,15 +142,23 @@ const ProductDetail = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
                     >
-                        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition text-sm sm:text-base">
+                        <motion.button 
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition text-sm sm:text-base"
+                        >
                             Add to Cart
-                        </button>
-                        <button className="px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition text-sm sm:text-base">
+                        </motion.button>
+                        <motion.button 
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition text-sm sm:text-base"
+                        >
                             Buy Now
-                        </button>
+                        </motion.button>
                     </motion.div>
                 </div>
-            </div>
+            </motion.div>
 
             {/* Full-Screen Image Modal */}
             {selectedImage && (
