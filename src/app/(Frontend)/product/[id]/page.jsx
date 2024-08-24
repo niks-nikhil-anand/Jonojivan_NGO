@@ -2,15 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { MdClose } from 'react-icons/md'; // Importing close icon from React Icons
-import { AiFillStar } from 'react-icons/ai'; // Importing star icon for ratings
+import { MdClose } from 'react-icons/md';
+import { AiFillStar } from 'react-icons/ai';
 import Container from '@/components/utils/Container';
 
 const ProductDetail = () => {
     const [product, setProduct] = useState(null);
     const [idFromURL, setIdFromURL] = useState('');
-    const [selectedImage, setSelectedImage] = useState(null); // State for the image to be viewed in full size
-    const [loading, setLoading] = useState(true); // State for the loader
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [progress, setProgress] = useState(0);
 
     useEffect(() => {
         const urlPath = window.location.pathname;
@@ -18,25 +19,34 @@ const ProductDetail = () => {
         setIdFromURL(id);
 
         if (id) {
+            const interval = setInterval(() => {
+                setProgress((prevProgress) => (prevProgress < 100 ? prevProgress + 1 : prevProgress));
+            }, 10); // Speed of counting
+
             axios.get(`/api/admin/dashboard/product/${id}`)
                 .then(response => {
+                    clearInterval(interval);
                     setProduct(response.data);
-                    setLoading(false); // Disable loader once data is fetched
+                    setLoading(false);
                 })
                 .catch(error => {
                     console.error("There was an error fetching the product data!", error);
-                    setLoading(false); // Disable loader in case of an error
+                    clearInterval(interval);
+                    setLoading(false);
                 });
         }
     }, []);
 
     if (loading) {
         return (
-            <Container>
-                <div className="flex items-center justify-center h-screen">
-                    <div className="loader border-t-4 border-b-4 border-blue-500 rounded-full w-12 h-12"></div>
+            <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+                <div className="relative w-12 h-12 border-t-4 border-b-4 border-blue-500 rounded-full animate-spin">
+                    {/* Static percentage inside the loader */}
+                    <div className="absolute inset-0 flex items-center justify-center text-blue-500 font-bold">
+                        {progress}%
+                    </div>
                 </div>
-            </Container>
+            </div>
         );
     }
 
@@ -45,7 +55,7 @@ const ProductDetail = () => {
     }
 
     const { name, description, images, actualPrice, originalPrice, featuredImage, ratings } = product;
-    const averageRating = ratings?.average || 4.2; // Use 4.2 as the default rating
+    const averageRating = ratings?.average || 4.2;
 
     return (
         <Container>
@@ -62,7 +72,7 @@ const ProductDetail = () => {
                             src={featuredImage} 
                             alt={name} 
                             className="w-full h-full object-cover cursor-pointer"
-                            onClick={() => setSelectedImage(featuredImage)} // Set selected image to featured image
+                            onClick={() => setSelectedImage(featuredImage)}
                         />
                     </div>
                     <div className="grid grid-cols-4 gap-2">
@@ -73,7 +83,7 @@ const ProductDetail = () => {
                                     className="w-full h-20 sm:h-24 overflow-hidden rounded-lg shadow-lg cursor-pointer"
                                     whileHover={{ scale: 1.05 }}
                                     transition={{ type: 'spring', stiffness: 100 }}
-                                    onClick={() => setSelectedImage(image)} // Set selected image to the clicked image
+                                    onClick={() => setSelectedImage(image)}
                                 >
                                     <img 
                                         src={image} 
@@ -166,13 +176,13 @@ const ProductDetail = () => {
                     className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    onClick={() => setSelectedImage(null)} // Close modal when clicking outside the image
+                    onClick={() => setSelectedImage(null)}
                 >
                     <div className="relative">
                         <img src={selectedImage} alt="Full Size Product" className="max-w-full max-h-full object-contain" />
                         <button 
                             className="absolute top-4 right-4 text-white text-3xl"
-                            onClick={() => setSelectedImage(null)} // Close modal when clicking the close button
+                            onClick={() => setSelectedImage(null)}
                         >
                             <MdClose />
                         </button>
