@@ -1,5 +1,4 @@
 import { Inter } from "next/font/google";
-import "./globals.css";
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "@/components/users/shared/NavbarUsers";
 import Footer from "@/components/users/shared/FooterUsers";

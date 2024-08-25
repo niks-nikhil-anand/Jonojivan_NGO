@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { MdMenu, MdClose, MdSearch } from 'react-icons/md'; 
-import { FaChevronRight, FaUser } from 'react-icons/fa'; 
+import { MdMenu, MdClose, MdSearch, MdFavoriteBorder, MdShoppingCart } from 'react-icons/md'; 
+import { FaChevronDown, FaUser } from 'react-icons/fa'; 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -21,12 +21,11 @@ export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
-    // Fetch user details from the API
     const fetchUserDetails = async () => {
       try {
-        const response = await fetch('/api/user/cookies');
+        const response = await fetch('/api/users/userDetails/cookies');
         const data = await response.json();
-        setUserDetails(data);
+        setUserDetails(data[0]);
       } catch (error) {
         console.error('Failed to fetch user details:', error);
       }
@@ -35,7 +34,8 @@ export default function Navbar() {
     fetchUserDetails();
   }, []);
 
-  const toggleMenu = () => {
+  const toggleMenu = (e) => {
+    e.stopPropagation();
     setIsMenuOpen(!isMenuOpen);
   };
 
@@ -44,18 +44,20 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    if (isMenuOpen) {
-      document.addEventListener('click', closeMenu);
-    } else {
-      document.removeEventListener('click', closeMenu);
-    }
+    const handleOutsideClick = (e) => {
+      if (isMenuOpen && !e.target.closest('.navbar-menu')) {
+        closeMenu();
+      }
+    };
 
+    document.addEventListener('click', handleOutsideClick);
     return () => {
-      document.removeEventListener('click', closeMenu);
+      document.removeEventListener('click', handleOutsideClick);
     };
   }, [isMenuOpen]);
 
-  const toggleDropdown = () => {
+  const toggleDropdown = (e) => {
+    e.stopPropagation();
     setIsDropdownOpen(!isDropdownOpen);
   };
 
@@ -64,17 +66,17 @@ export default function Navbar() {
   };
 
   return (
-    <div className="relative w-full h-full bg-purple-900 text-white">
+    <div className="relative w-full h-full bg-white text-black">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2">
           <Image src={logo} alt="Flying Alpha Logo" width={30} height={30} />
-          <Link href="/" className="font-bold text-white">Blush Belle</Link>
+          <Link href="/" className="font-bold text-black">Blush Belle</Link>
         </div>
         <div className="hidden grow items-start lg:flex">
           <ul className="ml-12 inline-flex space-x-8">
             {menuItems.map((item) => (
               <li key={item.name}>
-                <Link href={item.href} className="inline-flex items-center text-sm font-semibold text-white hover:text-gray-300">
+                <Link href={item.href} className="inline-flex items-center text-sm font-semibold text-black hover:text-gray-600">
                   {item.name}
                 </Link>
               </li>
@@ -92,18 +94,19 @@ export default function Navbar() {
             <input
               type="text"
               placeholder="Search"
-              className="w-full rounded-md bg-white py-2 px-4 text-sm text-black placeholder-gray-500 shadow-lg focus:outline-none"
+              className="w-full rounded-md bg-gray-200 py-2 px-4 text-sm text-black placeholder-gray-500 shadow-lg focus:outline-none"
             />
-            <MdSearch className="absolute right-3 top-2.5 h-5 w-5 text-gray-500" />
+            <MdSearch className="absolute right-3 top-2.5 h-5 w-5 text-gray-600" />
           </motion.div>
           {userDetails && (
             <div className="relative">
               <div
-                className="inline-flex items-center space-x-2 text-white cursor-pointer hover:text-gray-300"
+                className="inline-flex items-center space-x-2 text-black cursor-pointer hover:text-gray-600"
                 onClick={toggleDropdown}
               >
                 <FaUser className="h-6 w-6" />
-                <span className="text-sm font-semibold">{userDetails.name}</span>
+                <span className="text-sm font-semibold">{userDetails.fullName}</span>
+                <FaChevronDown className={`h-4 w-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
               </div>
               {isDropdownOpen && (
                 <div
@@ -111,31 +114,44 @@ export default function Navbar() {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="py-1">
-                    <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</Link>
-                    <Link href="/orders" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Orders</Link>
-                    <Link href="/wishlist" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Wishlist</Link>
-                    <Link href="/coupons" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Coupons</Link>
-                    <Link href="/notifications" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Notification</Link>
-                    <Link href="/logout" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</Link>
+                    <Link href="/profile" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">My Profile</Link>
+                    <Link href="/orders" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">Orders</Link>
+                    <Link href="/wishlist" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">Wishlist</Link>
+                    <Link href="/coupons" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">Coupons</Link>
+                    <Link href="/notifications" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">Notification</Link>
+                    <Link href="/logout" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">Logout</Link>
                   </div>
                 </div>
               )}
             </div>
           )}
+          <div className="hidden lg:flex items-center space-x-4 ml-4">
+            <Link href="/auth/signIn">
+              <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
+                <MdFavoriteBorder className="h-6 w-6 text-black" />
+                <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
+              </motion.div>
+            </Link>
+            <Link href="/auth/signIn">
+              <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
+                <MdShoppingCart className="h-6 w-6 text-black" />
+                <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
+              </motion.div>
+            </Link>
+          </div>
         </div>
         <div className="lg:hidden">
-          <MdMenu onClick={(e) => { e.stopPropagation(); toggleMenu(); }} className="h-6 w-6 cursor-pointer text-white" />
+          <MdMenu onClick={toggleMenu} className="h-6 w-6 cursor-pointer text-black" />
         </div>
         {isMenuOpen && (
           <motion.div
-            className="fixed inset-y-0 left-0 z-50 origin-left transform p-2 transition lg:hidden"
+            className="fixed inset-y-0 left-0 z-50 origin-left transform p-2 transition lg:hidden navbar-menu"
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ type: 'spring', stiffness: 300 }}
-            onClick={(e) => e.stopPropagation()}
           >
-            <div className="divide-y-2 divide-gray-600 rounded-lg bg-gray-800 text-white shadow-lg ring-1 ring-black ring-opacity-5">
+            <div className="divide-y-2 divide-gray-400 rounded-lg bg-white text-black shadow-lg ring-1 ring-black ring-opacity-5">
               <div className="px-5 pb-6 pt-5">
                 <div className="flex items-center justify-between">
                   <div className="inline-flex items-center space-x-2">
@@ -146,7 +162,7 @@ export default function Navbar() {
                     <button
                       type="button"
                       onClick={toggleMenu}
-                      className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                      className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                     >
                       <span className="sr-only">Close menu</span>
                       <MdClose className="h-6 w-6" aria-hidden="true" />
@@ -156,18 +172,13 @@ export default function Navbar() {
                 <div className="mt-6">
                   <nav className="grid gap-y-4">
                     {menuItems.map((item) => (
-                      <Link key={item.name} href={item.href} className="-m-3 flex items-center rounded-md p-3 text-sm font-semibold text-white hover:bg-gray-700">
-                        <span className="ml-3 text-base font-medium">
-                          {item.name}
-                        </span>
-                        <span>
-                          <FaChevronRight className="ml-3 h-4 w-4" />
-                        </span>
+                      <Link key={item.name} href={item.href} className="-m-3 flex items-center rounded-md p-3 text-base font-medium text-black hover:bg-gray-100">
+                        <FaChevronDown className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                        <span className="ml-3">{item.name}</span>
                       </Link>
                     ))}
                   </nav>
                 </div>
-                <div className="mt-8"></div>
               </div>
             </div>
           </motion.div>
