@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { FaRegHeart } from "react-icons/fa";
 import Container from '@/components/utils/Container';
 
 const ProductCard = () => {
@@ -38,18 +39,18 @@ const ProductCard = () => {
     if (loading) {
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
-            <div className="relative w-24 h-24 bg-gray-200 rounded-full border border-gray-300">
-                {/* Static percentage inside the loader */}
-                <div className="absolute inset-0 flex items-center justify-center text-blue-500 font-bold text-xl">
-                    {progress}%
+                <div className="relative w-24 h-24 bg-gray-200 rounded-full border border-gray-300">
+                    {/* Static percentage inside the loader */}
+                    <div className="absolute inset-0 flex items-center justify-center text-blue-500 font-bold text-xl">
+                        {progress}%
+                    </div>
                 </div>
             </div>
-        </div>
         );
     }
 
     if (!product) {
-        return <div >Product not found.</div>;
+        return <div>Product not found.</div>;
     }
 
     const { _id, name, actualPrice, originalPrice, featuredImage } = product;
@@ -62,17 +63,33 @@ const ProductCard = () => {
         router.push(`/product/${_id}`);
     };
 
+    // Handle wishlist click
+    const handleWishlistClick = () => {
+        router.push('/auth/signIn');
+    };
+
     return (
         <Container>
             <div className="mb-6">
-                <h2 className="text-2xl font-bold  mb-4 underline text-start">Product On Sale</h2>
+                <h2 className="text-2xl font-bold mb-4 underline text-start">Product On Sale</h2>
             </div>
             <div 
-                className="max-w-sm bg-white shadow-xl rounded-lg overflow-hidden relative transform transition-transform hover:-translate-y-2 hover:shadow-2xl cursor-pointer"
+                className="relative max-w-sm bg-white shadow-xl rounded-lg overflow-hidden transform transition-transform hover:-translate-y-2 hover:shadow-2xl cursor-pointer"
                 onClick={handleCardClick}
             >
                 <div className="absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-br-lg z-10">
                     Sale
+                </div>
+                <div className="absolute top-2 right-2 z-20">
+                    <button 
+                        onClick={e => {
+                            e.stopPropagation(); // Prevent card click event
+                            handleWishlistClick();
+                        }}
+                        className="text-black  hover:text-red-700 transition-colors"
+                    >
+                        <FaRegHeart size={24} />
+                    </button>
                 </div>
                 <div className="w-full h-48 overflow-hidden">
                     <img className="w-full h-full object-cover object-center transition-transform duration-300 transform hover:scale-110" 
