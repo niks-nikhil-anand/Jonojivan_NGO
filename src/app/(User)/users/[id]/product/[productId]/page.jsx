@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { MdClose } from 'react-icons/md';
 import { AiFillStar } from 'react-icons/ai';
 import Container from '@/components/utils/Container';
+import { useRouter } from 'next/router';
 
 const ProductDetail = () => {
     const [product, setProduct] = useState(null);
@@ -12,12 +13,15 @@ const ProductDetail = () => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [loading, setLoading] = useState(true);
     const [progress, setProgress] = useState(0);
+    const [isAddedToCart, setIsAddedToCart] = useState(false);
+    const [buttonText, setButtonText] = useState('Add to Cart');
+    const router = useRouter();
 
     useEffect(() => {
         const urlPath = window.location.pathname;
         const id = urlPath.substring(urlPath.lastIndexOf('/') + 1);
         setIdFromURL(id);
-        console.log(idFromURL)
+        console.log(idFromURL);
 
         if (id) {
             // Simulate loading progress
@@ -37,7 +41,21 @@ const ProductDetail = () => {
                     setLoading(false);
                 });
         }
-    }, []);
+    }, [idFromURL]);
+
+    const handleAddToCart = () => {
+        axios.post(`/api/user/AddToCart/${idFromURL}`)
+            .then(() => {
+                setIsAddedToCart(true);
+                setButtonText('Go to Cart');
+                setTimeout(() => {
+                    router.push(`/user/${idFromURL}/Cart`);
+                }, 500); // Delay for visual feedback
+            })
+            .catch(error => {
+                console.error("There was an error adding the product to the cart!", error);
+            });
+    };
 
     if (loading) {
         return (
@@ -155,11 +173,12 @@ const ProductDetail = () => {
                         transition={{ duration: 0.5 }}
                     >
                         <motion.button 
+                            onClick={handleAddToCart}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition text-sm sm:text-base"
                         >
-                            Add to Cart
+                            {buttonText}
                         </motion.button>
                         <motion.button 
                             whileHover={{ scale: 1.05 }}
