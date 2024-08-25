@@ -19,8 +19,9 @@ const ProductDetail = () => {
         setIdFromURL(id);
 
         if (id) {
+            // Simulate loading progress
             const interval = setInterval(() => {
-                setProgress((prevProgress) => (prevProgress < 100 ? prevProgress + 1 : prevProgress));
+                setProgress(prevProgress => (prevProgress < 100 ? prevProgress + 1 : prevProgress));
             }, 10); // Speed of counting
 
             axios.get(`/api/admin/dashboard/product/${id}`)
@@ -40,9 +41,9 @@ const ProductDetail = () => {
     if (loading) {
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
-                <div className="relative w-12 h-12 border-t-4 border-b-4 border-blue-500 rounded-full animate-spin">
+                <div className="relative w-24 h-24 bg-gray-200 rounded-full border border-gray-300">
                     {/* Static percentage inside the loader */}
-                    <div className="absolute inset-0 flex items-center justify-center text-blue-500 font-bold">
+                    <div className="absolute inset-0 flex items-center justify-center text-blue-500 font-bold text-xl">
                         {progress}%
                     </div>
                 </div>

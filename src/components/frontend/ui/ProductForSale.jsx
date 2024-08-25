@@ -49,7 +49,7 @@ const ProductCard = () => {
     }
 
     if (!product) {
-        return <div>Product not found.</div>;
+        return <div >Product not found.</div>;
     }
 
     const { _id, name, actualPrice, originalPrice, featuredImage } = product;
@@ -65,7 +65,7 @@ const ProductCard = () => {
     return (
         <Container>
             <div className="mb-6">
-                <h2 className="text-2xl font-bold text-center mb-4">Product In Sale</h2>
+                <h2 className="text-2xl font-bold  mb-4 underline text-start">Product On Sale</h2>
             </div>
             <div 
                 className="max-w-sm bg-white shadow-xl rounded-lg overflow-hidden relative transform transition-transform hover:-translate-y-2 hover:shadow-2xl cursor-pointer"
