@@ -34,6 +34,22 @@ export default function Navbar() {
     fetchUserDetails();
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/users/auth/logout', {
+        method: 'POST', // Adjust the method if needed
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      // Redirect to home page
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+  
+
   const toggleMenu = (e) => {
     e.stopPropagation();
     setIsMenuOpen(!isMenuOpen);
@@ -120,7 +136,7 @@ export default function Navbar() {
           {userDetails && (
             <div className="relative">
               <div
-                className="inline-flex items-center space-x-2 text-black cursor-pointer hover:text-gray-300"
+                className="inline-flex items-center space-x-2 text-black cursor-pointer "
                 onClick={toggleDropdown}
               >
                 <FaUser className="h-6 w-6" />
@@ -142,8 +158,8 @@ export default function Navbar() {
                     <Link href="/wishlist" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Wishlist</Link>
                     <Link href="/coupons" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Coupons</Link>
                     <Link href="/notifications" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Notifications</Link>
-                    <Link href="/logout" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</Link>
-                  </div>
+                    <Link href="#" onClick={handleLogout} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"> Logout</Link>
+                    </div>
                 </motion.div>
               )}
             </div>
@@ -163,7 +179,9 @@ export default function Navbar() {
             </Link>
           </div>
         </div>
-       
+        <div className="lg:hidden">
+          <MdMenu onClick={toggleMenu} className="h-6 w-6 cursor-pointer text-black" />
+        </div>
         {isMenuOpen && (
           <motion.div
             className="fixed inset-y-0 left-0 z-50 origin-left transform p-2 transition lg:hidden navbar-menu"
@@ -193,7 +211,7 @@ export default function Navbar() {
                 <div className="mt-6">
                   <nav className="grid gap-y-4">
                     {menuItems.map((item) => (
-                      <Link key={item.name} href={item.href} className="-m-3 p-3 block rounded-md hover:bg-gray-100">
+                      <Link key={item.name} href={item.href} className="-m-3 p-3 block rounded-md   ">
                         <span className="text-base font-semibold text-black">{item.name}</span>
                       </Link>
                     ))}
@@ -223,8 +241,8 @@ export default function Navbar() {
                               <Link href="/wishlist" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Wishlist</Link>
                               <Link href="/coupons" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Coupons</Link>
                               <Link href="/notifications" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Notifications</Link>
-                              <Link href="/logout" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</Link>
-                            </div>
+                              <Link href="#" onClick={handleLogout} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"> Logout</Link>
+                              </div>
                           </motion.div>
                         )}
                       </div>
