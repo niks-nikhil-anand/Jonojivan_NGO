@@ -52,13 +52,13 @@ export default function Navbar() {
           <Link href="/" className="font-bold text-black">Blush Belle</Link>
         </div>
         <div className="lg:hidden flex items-center space-x-4 ml-4">
-          <Link href="/wishlist">
+          <Link href="/auth/login">
             <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
               <MdFavoriteBorder className="h-7 w-7 text-black" />
               <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
             </motion.div>
           </Link>
-          <Link href="/cart">
+          <Link href="/auth/login">
             <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
               <MdShoppingCart className="h-7 w-7 text-black" />
               <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
