@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { MdClose } from 'react-icons/md';
 import { AiFillStar } from 'react-icons/ai';
 import Container from '@/components/utils/Container';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const ProductDetail = () => {
     const [product, setProduct] = useState(null);
@@ -44,7 +44,7 @@ const ProductDetail = () => {
     }, [idFromURL]);
 
     const handleAddToCart = () => {
-        axios.post(`/api/user/AddToCart/${idFromURL}`)
+        axios.post(`/api/users/cart/${idFromURL}`)
             .then(() => {
                 setIsAddedToCart(true);
                 setButtonText('Go to Cart');

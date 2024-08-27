@@ -4,6 +4,7 @@ import { Resend } from "resend";
 import WelcomeEmail from "@/emails/welcomeEmail";
 import userModels from "@/models/userModels";
 import connectDB from "@/lib/dbConnect";
+import cartModels from "@/models/cartModels";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -59,6 +60,16 @@ export const POST = async (req) => {
     const user = new userModels(userData);
     await user.save();
     console.log("User saved to the database:", user);
+
+    // Initialize the cart for the user
+    console.log("cart model is Initializing")
+    const cart = new cartModels({
+      userId: user._id,
+      totalPrice: 0,
+    });
+    await cart.save();
+    console.log("Cart initialized for the user:", cart);
+
 
     await resend.emails.send({
       from: 'no-reply@myblushbelle.com',

@@ -1,3 +1,5 @@
+// cartModels.js
+
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
@@ -18,13 +20,17 @@ const cartItemSchema = new Schema({
         required: true,
     },
 }, { _id: false }); 
+
 const cartSchema = new Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
     },
-    items: [cartItemSchema],
+    items: {
+        type: [cartItemSchema],
+        default: [], 
+    },
     totalPrice: {
         type: Number,
         required: true,
@@ -46,7 +52,4 @@ cartSchema.pre('save', function (next) {
     next();
 });
 
-
-export default mongoose.models.Cart || mongoose.model('Cart' , cartItemSchema)
-
-
+export default mongoose.models.Cart || mongoose.model('Cart', cartSchema);
