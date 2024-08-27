@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 
 const ProductDetail = () => {
     const [product, setProduct] = useState(null);
-    const [idFromURL, setIdFromURL] = useState('');
+    const [id, setId] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const [loading, setLoading] = useState(true);
     const [progress, setProgress] = useState(0);
@@ -20,8 +20,8 @@ const ProductDetail = () => {
     useEffect(() => {
         const urlPath = window.location.pathname;
         const id = urlPath.substring(urlPath.lastIndexOf('/') + 1);
-        setIdFromURL(id);
-        console.log(idFromURL);
+        setId(id);
+        console.log(id);
 
         if (id) {
             // Simulate loading progress
@@ -41,27 +41,40 @@ const ProductDetail = () => {
                     setLoading(false);
                 });
         }
-    }, [idFromURL]);
+    }, [id]);
 
     const handleAddToCart = () => {
-        axios.post(`/api/users/cart/${idFromURL}`)
-            .then(() => {
-                setIsAddedToCart(true);
-                setButtonText('Go to Cart');
-                setTimeout(() => {
-                    router.push(`/user/${idFromURL}/Cart`);
-                }, 500); // Delay for visual feedback
-            })
-            .catch(error => {
-                console.error("There was an error adding the product to the cart!", error);
-            });
+        if (id) {
+            setButtonText('Adding to Cart'); // Change button text when adding to cart
+
+            axios.post(`/api/users/cart/${id}`)
+                .then(() => {
+                    setIsAddedToCart(true);
+                    setButtonText('Go to Cart'); // Update button text on success
+                })
+                .catch(error => {
+                    console.error("There was an error adding the product to the cart!", error);
+                    setButtonText('Add to Cart'); // Reset button text on failure
+                });
+        }
+    };
+
+    const handleGoToCart = () => {
+        router.push(`/users/${id}/cart`);
+    };
+
+    const handleButtonClick = () => {
+        if (buttonText === 'Go to Cart') {
+            handleGoToCart();
+        } else {
+            handleAddToCart();
+        }
     };
 
     if (loading) {
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
                 <div className="relative w-24 h-24 bg-gray-200 rounded-full border border-gray-300">
-                    {/* Static percentage inside the loader */}
                     <div className="absolute inset-0 flex items-center justify-center text-blue-500 font-bold text-xl">
                         {progress}%
                     </div>
@@ -85,7 +98,6 @@ const ProductDetail = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
             >
-                {/* Product Images */}
                 <div className="flex-1">
                     <div className="w-full h-64 sm:h-80 overflow-hidden rounded-lg shadow-lg mb-4">
                         <img 
@@ -120,9 +132,7 @@ const ProductDetail = () => {
                     </div>
                 </div>
 
-                {/* Product Details */}
                 <div className="flex-1">
-                    {/* Product Rating */}
                     <motion.div 
                         className="flex items-center mb-2"
                         initial={{ opacity: 0, y: 50 }}
@@ -134,7 +144,6 @@ const ProductDetail = () => {
                         <span className="text-gray-500 ml-2">({ratings?.numberOfRatings || 0} ratings)</span>
                     </motion.div>
 
-                    {/* Product Title */}
                     <motion.h1 
                         className="text-2xl sm:text-3xl font-bold mb-4"
                         initial={{ opacity: 0, x: -50 }}
@@ -165,7 +174,6 @@ const ProductDetail = () => {
                         <span className="text-green-500 text-xl sm:text-2xl font-bold">₹{actualPrice}</span>
                     </motion.div>
 
-                    {/* Action Buttons */}
                     <motion.div 
                         className="flex flex-col sm:flex-row gap-4"
                         initial={{ opacity: 0, y: 50 }}
@@ -173,13 +181,16 @@ const ProductDetail = () => {
                         transition={{ duration: 0.5 }}
                     >
                         <motion.button 
-                            onClick={handleAddToCart}
+                            onClick={handleButtonClick}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition text-sm sm:text-base"
+                            className={`px-4 py-2 rounded-lg shadow transition text-sm sm:text-base ${
+                                isAddedToCart ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-blue-600 text-white hover:bg-blue-700'
+                            }`}
                         >
                             {buttonText}
                         </motion.button>
+                       
                         <motion.button 
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
@@ -191,7 +202,6 @@ const ProductDetail = () => {
                 </div>
             </motion.div>
 
-            {/* Full-Screen Image Modal */}
             {selectedImage && (
                 <motion.div 
                     className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
