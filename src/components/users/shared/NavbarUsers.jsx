@@ -7,14 +7,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import logo from '../../../../public/annimatedIcons/grocery.png';
 
-const menuItems = [
-  { name: 'Home', href: `/users/${userDetails._id}/cart` },
-  { name: 'Shops', href: `/users/${userDetails._id}/cart` },
-  { name: 'Most Popular', href: `/users/${userDetails._id}/cart` },
-  { name: 'Best Deal', href: '/best-deal' },
-  { name: 'Contact Us', href: '/contactUs' },
-];
-
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
@@ -37,12 +29,11 @@ export default function Navbar() {
   const handleLogout = async () => {
     try {
       await fetch('/api/users/auth/logout', {
-        method: 'POST', // Adjust the method if needed
+        method: 'POST', 
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      // Redirect to home page
       window.location.href = '/';
     } catch (error) {
       console.error('Logout failed:', error);
@@ -80,6 +71,14 @@ export default function Navbar() {
     setIsDropdownOpen(false);
   };
 
+  const menuItems = [
+    { name: 'Home', href: `/users/${userDetails?._id}/cart` },
+    { name: 'Shops', href: `/users/${userDetails?._id}/cart` },
+    { name: 'Most Popular', href: `/users/${userDetails?._id}/cart` },
+    { name: 'Best Deal', href: '/best-deal' },
+    { name: 'Contact Us', href: '/contactUs' },
+  ];
+
   return (
     <div className="relative w-full h-full bg-white text-black">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
@@ -87,7 +86,7 @@ export default function Navbar() {
           <MdMenu onClick={toggleMenu} className="h-7 w-7 cursor-pointer text-black" />
         </div>
         {/* Logo */}
-        <div className="inline-flex items-center space-x-2 flex-shrink-0 ">
+        <div className="inline-flex items-center space-x-2 flex-shrink-0">
           <Image src={logo} alt="Blush Belle Logo" width={30} height={30} />
           <Link href={`/users/${userDetails?._id}`} className="font-bold text-black">Blush Belle</Link>
         </div>
@@ -135,7 +134,7 @@ export default function Navbar() {
           {userDetails && (
             <div className="relative">
               <div
-                className="inline-flex items-center space-x-2 text-black cursor-pointer "
+                className="inline-flex items-center space-x-2 text-black cursor-pointer"
                 onClick={toggleDropdown}
               >
                 <FaUser className="h-6 w-6" />
@@ -158,7 +157,7 @@ export default function Navbar() {
                       <Link href="/wishlist" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Wishlist</Link>
                       <Link href="/coupons" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Coupons</Link>
                       <Link href="/notifications" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Notifications</Link>
-                      <Link href="#" onClick={handleLogout} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"> Logout</Link>
+                      <Link href="#" onClick={handleLogout} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</Link>
                     </div>
                   </motion.div>
                 )}
@@ -172,7 +171,7 @@ export default function Navbar() {
                 <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
               </motion.div>
             </Link>
-            <Link href={`/users/${userDetails?._id}/cart`} >
+            <Link href={`/users/${userDetails?._id}/cart`}>
               <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
                 <MdShoppingCart className="h-6 w-6 text-black" />
                 <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
@@ -180,66 +179,43 @@ export default function Navbar() {
             </Link>
           </div>
         </div>
-        <div className="lg:hidden">
-          <MdMenu onClick={toggleMenu} className="h-6 w-6 cursor-pointer text-black" />
-        </div>
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              className="fixed inset-y-0 left-0 z-50 origin-left transform p-2 transition lg:hidden navbar-menu"
-              initial={{ x: '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="flex h-full flex-col space-y-6 overflow-y-auto bg-white p-6 shadow-lg">
-                <div className="flex items-center justify-between">
-                  <Link href="/" className="inline-flex items-center space-x-2">
-                    <Image src={logo} alt="Blush Belle Logo" width={30} height={30} />
-                    <Link href={`/${userDetails?._id}`} >
-                    <span className="font-bold text-black">Blush Belle</span>
-                    </Link>
-                  </Link>
-                  <MdClose onClick={toggleMenu} className="h-6 w-6 cursor-pointer text-black" />
-                </div>
-                <ul className="mt-8 flex flex-col space-y-4">
+      </div>
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            className="fixed inset-0 top-16 left-0 z-40 bg-white shadow-lg"
+            initial={{ opacity: 0, x: -200 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -200 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="flex flex-col p-4">
+              <MdClose onClick={toggleMenu} className="h-7 w-7 text-black cursor-pointer" />
+              <div className="mt-4">
+                <ul className="space-y-4">
                   {menuItems.map((item) => (
                     <li key={item.name}>
-                      <Link href={item.href} className="inline-flex items-center text-base font-semibold text-black hover:text-gray-600" onClick={closeMenu}>
+                      <Link href={item.href} className="block text-lg font-semibold text-black hover:text-gray-600">
                         {item.name}
                       </Link>
                     </li>
                   ))}
                 </ul>
-                <div className="mt-8 flex flex-col space-y-4">
-                  {userDetails && (
-                    <>
-                      <Link href="/profile" className="text-sm font-semibold text-black hover:text-gray-600">
-                        My Profile
-                      </Link>
-                      <Link href="/orders" className="text-sm font-semibold text-black hover:text-gray-600">
-                        Orders
-                      </Link>
-                      <Link href="/wishlist" className="text-sm font-semibold text-black hover:text-gray-600">
-                        Wishlist
-                      </Link>
-                      <Link href="/coupons" className="text-sm font-semibold text-black hover:text-gray-600">
-                        Coupons
-                      </Link>
-                      <Link href="/notifications" className="text-sm font-semibold text-black hover:text-gray-600">
-                        Notifications
-                      </Link>
-                      <Link href="#" onClick={handleLogout} className="text-sm font-semibold text-black hover:text-gray-600">
-                        Logout
-                      </Link>
-                    </>
-                  )}
-                </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+              {userDetails && (
+                <div className="mt-4 space-y-2">
+                  <Link href="/profile" className="block text-sm text-black hover:text-gray-600">My Profile</Link>
+                  <Link href="/orders" className="block text-sm text-black hover:text-gray-600">Orders</Link>
+                  <Link href="/wishlist" className="block text-sm text-black hover:text-gray-600">Wishlist</Link>
+                  <Link href="/coupons" className="block text-sm text-black hover:text-gray-600">Coupons</Link>
+                  <Link href="/notifications" className="block text-sm text-black hover:text-gray-600">Notifications</Link>
+                  <Link href="#" onClick={handleLogout} className="block text-sm text-black hover:text-gray-600">Logout</Link>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
