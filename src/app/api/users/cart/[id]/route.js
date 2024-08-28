@@ -7,7 +7,12 @@ import cartModels from "@/models/cartModels";
 
 // Helper function to calculate total price
 const calculateTotalPrice = (items) => {
-  return items.reduce((total, item) => total + item.price * item.quantity, 0);
+  return items.reduce((total, item) => {
+    // Ensure that price and quantity are valid numbers before calculating
+    const itemPrice = item.price || 0;
+    const itemQuantity = item.quantity || 0;
+    return total + itemPrice * itemQuantity;
+  }, 0);
 };
 
 // Add a product to the cart
@@ -88,6 +93,7 @@ export const POST = async (request, { params }) => {
     return NextResponse.json({ msg: "Error adding product to cart", error: error.message }, { status: 500 });
   }
 };
+
 
 
 //List product to the CArt
