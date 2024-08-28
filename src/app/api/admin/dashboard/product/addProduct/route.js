@@ -23,7 +23,7 @@ export const POST = async (req) => {
     const actualPrice = getTrimmedValue("actualPrice");
     const originalPrice = getTrimmedValue("originalPrice");
     const category = getTrimmedValue("category");
-    const stock = parseInt(getTrimmedValue("stock"), 10); // Stock field should be a number
+    const stock = parseInt(getTrimmedValue("stock"), 10);
     const colors = formData.get("colors"); // Colors is a JSON string
     const brand = getTrimmedValue("brand");
     const sku = getTrimmedValue("sku");
@@ -100,7 +100,7 @@ export const POST = async (req) => {
       isFeatured,
       isOnSale,
       tags: tags ? tags.split(',').map(tag => tag.trim()) : [], // Handle tags if provided
-      images: imageUploads,
+      images: imageUploads, // Ensure images array is passed here
       featuredImage: featuredImageUrl,
     };
 

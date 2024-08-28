@@ -58,6 +58,9 @@ const ProductDetail = () => {
     const { name, description, images, actualPrice, originalPrice, featuredImage, ratings } = product;
     const averageRating = ratings?.average || 4.2;
 
+    // Include the featured image as the first item in the images array if it isn't already
+    const allImages = [featuredImage, ...(images || [])];
+
     return (
         <Container>
             <motion.div 
@@ -68,38 +71,45 @@ const ProductDetail = () => {
             >
                 {/* Product Images */}
                 <div className="flex-1">
-                    <div className="w-full h-64 sm:h-80 overflow-hidden rounded-lg shadow-lg mb-4">
-                        <img 
-                            src={featuredImage} 
-                            alt={name} 
-                            className="w-full h-full object-cover cursor-pointer"
-                            onClick={() => setSelectedImage(featuredImage)}
-                        />
-                    </div>
-                    <div className="grid grid-cols-4 gap-2">
-                        {images && images.length > 0 ? (
-                            images.map((image, index) => (
-                                <motion.div 
-                                    key={index}
-                                    className="w-full h-20 sm:h-24 overflow-hidden rounded-lg shadow-lg cursor-pointer"
-                                    whileHover={{ scale: 1.05 }}
-                                    transition={{ type: 'spring', stiffness: 100 }}
-                                    onClick={() => setSelectedImage(image)}
-                                >
-                                    <img 
-                                        src={image} 
-                                        alt={`Product Image ${index + 1}`} 
-                                        className="w-full h-full object-cover"
-                                    />
-                                </motion.div>
-                            ))
-                        ) : (
-                            <div className="col-span-4 flex items-center justify-center text-gray-500">
-                                No images available
-                            </div>
-                        )}
-                    </div>
-                </div>
+    <div className="w-full h-64 sm:h-80 overflow-hidden rounded-lg shadow-lg mb-4 relative">
+        <img 
+            src={selectedImage || featuredImage} 
+            alt={name} 
+            className="w-full h-full object-cover cursor-pointer"
+            onClick={() => {
+                if (selectedImage) {
+                    // Open fullscreen if an image is selected and not already in fullscreen
+                    setSelectedImage(selectedImage);
+                }
+            }}
+        />
+    </div>
+
+    {/* Small Images */}
+    <div className="grid grid-cols-5 gap-2">
+        {allImages.length > 0 ? (
+            allImages.map((image, index) => (
+                <motion.div 
+                    key={index}
+                    className="w-full h-16 sm:h-20 overflow-hidden rounded-lg shadow-lg cursor-pointer border border-gray-300 p-1"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: 'spring', stiffness: 100 }}
+                    onClick={() => setSelectedImage(image)} // Update selected image
+                >
+                    <img 
+                        src={image} 
+                        alt={`Product Image ${index + 1}`} 
+                        className="w-full h-full object-cover rounded"
+                    />
+                </motion.div>
+            ))
+        ) : (
+            <div className="col-span-5 flex items-center justify-center text-gray-500">
+                No images available
+            </div>
+        )}
+    </div>
+</div>
 
                 {/* Product Details */}
                 <div className="flex-1">
@@ -173,23 +183,23 @@ const ProductDetail = () => {
 
             {/* Full-Screen Image Modal */}
             {selectedImage && (
-                <motion.div 
-                    className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    onClick={() => setSelectedImage(null)}
-                >
-                    <div className="relative">
-                        <img src={selectedImage} alt="Full Size Product" className="max-w-full max-h-full object-contain" />
-                        <button 
-                            className="absolute top-4 right-4 text-white text-3xl"
-                            onClick={() => setSelectedImage(null)}
-                        >
-                            <MdClose />
-                        </button>
-                    </div>
-                </motion.div>
-            )}
+    <motion.div 
+        className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        onClick={() => setSelectedImage(null)}
+    >
+        <div className="relative bg-white p-2 rounded-lg" style={{ width: '80vw', height: '80vh' }}>
+            <img src={selectedImage} alt="Full Size Product" className="w-full h-full object-contain" />
+            <button 
+                className="absolute top-4 right-4 text-black text-3xl"
+                onClick={() => setSelectedImage(null)}
+            >
+                <MdClose />
+            </button>
+        </div>
+    </motion.div>
+)}
         </Container>
     );
 };

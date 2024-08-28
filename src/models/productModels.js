@@ -53,6 +53,10 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Featured image URL is required'],
     },
+    images: [{
+        type: String
+    }],
+    
     ratings: {
         average: {
             type: Number,

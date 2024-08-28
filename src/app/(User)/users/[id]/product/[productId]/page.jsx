@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
@@ -8,6 +8,7 @@ import Container from '@/components/utils/Container';
 import { useRouter } from 'next/navigation';
 
 const ProductDetail = () => {
+    // State to hold product data, selected product ID, selected image, loading state, and progress
     const [product, setProduct] = useState(null);
     const [id, setId] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
@@ -18,26 +19,27 @@ const ProductDetail = () => {
     const router = useRouter();
 
     useEffect(() => {
+        // Extracting product ID from URL path
         const urlPath = window.location.pathname;
         const id = urlPath.substring(urlPath.lastIndexOf('/') + 1);
         setId(id);
-        console.log(id);
 
         if (id) {
             // Simulate loading progress
             const interval = setInterval(() => {
                 setProgress(prevProgress => (prevProgress < 100 ? prevProgress + 1 : prevProgress));
-            }, 10); // Speed of counting
+            }, 10);
 
+            // Fetch product data by ID
             axios.get(`/api/admin/dashboard/product/${id}`)
                 .then(response => {
-                    clearInterval(interval);
+                    clearInterval(interval); // Clear interval on successful data fetch
                     setProduct(response.data);
                     setLoading(false);
                 })
                 .catch(error => {
                     console.error("There was an error fetching the product data!", error);
-                    clearInterval(interval);
+                    clearInterval(interval); // Clear interval on error
                     setLoading(false);
                 });
         }
@@ -45,7 +47,7 @@ const ProductDetail = () => {
 
     const handleAddToCart = () => {
         if (id) {
-            setButtonText('Adding to Cart'); // Change button text when adding to cart
+            setButtonText('Adding to Cart'); // Update button text during API call
 
             axios.post(`/api/users/cart/${id}`)
                 .then(() => {
@@ -63,6 +65,7 @@ const ProductDetail = () => {
         router.push(`/users/${id}/cart`);
     };
 
+    // Determine which button action to take
     const handleButtonClick = () => {
         if (buttonText === 'Go to Cart') {
             handleGoToCart();
@@ -71,6 +74,7 @@ const ProductDetail = () => {
         }
     };
 
+    // Loading state with progress display
     if (loading) {
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
@@ -83,6 +87,7 @@ const ProductDetail = () => {
         );
     }
 
+    // Product not found state
     if (!product) {
         return <div>Product not found.</div>;
     }
@@ -92,6 +97,7 @@ const ProductDetail = () => {
 
     return (
         <Container>
+            {/* Main product details container with animations */}
             <motion.div 
                 className="flex flex-col lg:flex-row gap-6 p-4 sm:p-6 bg-white shadow-xl rounded-lg"
                 initial={{ opacity: 0 }}
@@ -99,6 +105,7 @@ const ProductDetail = () => {
                 transition={{ duration: 0.5 }}
             >
                 <div className="flex-1">
+                    {/* Featured image display */}
                     <div className="w-full h-64 sm:h-80 overflow-hidden rounded-lg shadow-lg mb-4">
                         <img 
                             src={featuredImage} 
@@ -107,6 +114,7 @@ const ProductDetail = () => {
                             onClick={() => setSelectedImage(featuredImage)}
                         />
                     </div>
+                    {/* Thumbnail images grid */}
                     <div className="grid grid-cols-4 gap-2">
                         {images && images.length > 0 ? (
                             images.map((image, index) => (
@@ -133,6 +141,7 @@ const ProductDetail = () => {
                 </div>
 
                 <div className="flex-1">
+                    {/* Product rating display */}
                     <motion.div 
                         className="flex items-center mb-2"
                         initial={{ opacity: 0, y: 50 }}
@@ -144,6 +153,7 @@ const ProductDetail = () => {
                         <span className="text-gray-500 ml-2">({ratings?.numberOfRatings || 0} ratings)</span>
                     </motion.div>
 
+                    {/* Product name */}
                     <motion.h1 
                         className="text-2xl sm:text-3xl font-bold mb-4"
                         initial={{ opacity: 0, x: -50 }}
@@ -153,6 +163,7 @@ const ProductDetail = () => {
                         {name}
                     </motion.h1>
                     
+                    {/* Product description */}
                     <motion.p 
                         className="text-gray-700 mb-4"
                         initial={{ opacity: 0, y: 50 }}
@@ -162,6 +173,7 @@ const ProductDetail = () => {
                         {description}
                     </motion.p>
 
+                    {/* Pricing display */}
                     <motion.div 
                         className="flex items-center mb-6"
                         initial={{ opacity: 0, scale: 0.9 }}
@@ -174,6 +186,7 @@ const ProductDetail = () => {
                         <span className="text-green-500 text-xl sm:text-2xl font-bold">₹{actualPrice}</span>
                     </motion.div>
 
+                    {/* Action buttons for adding to cart and buying now */}
                     <motion.div 
                         className="flex flex-col sm:flex-row gap-4"
                         initial={{ opacity: 0, y: 50 }}
@@ -202,6 +215,7 @@ const ProductDetail = () => {
                 </div>
             </motion.div>
 
+            {/* Full-screen image preview with close button */}
             {selectedImage && (
                 <motion.div 
                     className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"

@@ -2,17 +2,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegHeart, FaTimes } from "react-icons/fa";
 import Container from '@/components/utils/Container';
+import Image from 'next/image';
 
 const ProductCard = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [progress, setProgress] = useState(0);
+    const [showFullImage, setShowFullImage] = useState(null); // For full-size image view
     const router = useRouter();
 
     useEffect(() => {
-        // Simulate loading progress
         if (loading) {
             const interval = setInterval(() => {
                 setProgress(prev => {
@@ -20,19 +21,17 @@ const ProductCard = () => {
                     clearInterval(interval);
                     return 100;
                 });
-            }, 30); // Adjust the interval for speed of progress increase
+            }, 30);
         }
-        
-        // Fetch the product data from the API
+
         axios.get('/api/admin/dashboard/product/addProduct')
             .then(response => {
-                const productData = response.data;
-                setProducts(productData);
-                setLoading(false); // Set loading to false when data is fetched
+                setProducts(response.data);
+                setLoading(false);
             })
             .catch(error => {
                 console.error("There was an error fetching the product data!", error);
-                setLoading(false); // Set loading to false even if there's an error
+                setLoading(false);
             });
     }, [loading]);
 
@@ -40,7 +39,6 @@ const ProductCard = () => {
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
                 <div className="relative w-24 h-24 bg-gray-200 rounded-full border border-gray-300">
-                    {/* Static percentage inside the loader */}
                     <div className="absolute inset-0 flex items-center justify-center text-blue-500 font-bold text-xl">
                         {progress}%
                     </div>
@@ -61,6 +59,14 @@ const ProductCard = () => {
         router.push('/auth/signIn');
     };
 
+    const handleImageClick = (image) => {
+        setShowFullImage(image);
+    };
+
+    const handleCloseFullImage = () => {
+        setShowFullImage(null);
+    };
+
     return (
         <Container>
             <div className="mb-6">
@@ -69,12 +75,10 @@ const ProductCard = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {products.map(product => {
                     const { _id, name, actualPrice, originalPrice, featuredImage } = product;
-                    
-                    // Calculate the percentage off
                     const discountPercentage = Math.round(((originalPrice - actualPrice) / originalPrice) * 100);
 
                     return (
-                        <div 
+                        <div
                             key={_id}
                             className="relative max-w-sm bg-white shadow-xl rounded-lg overflow-hidden transform transition-transform hover:-translate-y-2 hover:shadow-2xl cursor-pointer"
                             onClick={() => handleCardClick(_id)}
@@ -83,9 +87,9 @@ const ProductCard = () => {
                                 Sale
                             </div>
                             <div className="absolute top-2 right-2 z-20">
-                                <button 
+                                <button
                                     onClick={e => {
-                                        e.stopPropagation(); // Prevent card click event
+                                        e.stopPropagation();
                                         handleWishlistClick();
                                     }}
                                     className="text-black hover:text-red-700 transition-colors"
@@ -94,9 +98,14 @@ const ProductCard = () => {
                                 </button>
                             </div>
                             <div className="w-full h-48 overflow-hidden">
-                                <img className="w-full h-full object-cover object-center transition-transform duration-300 transform hover:scale-110" 
-                                    src={featuredImage} 
-                                    alt={name} 
+                                <img
+                                    className="w-full h-full object-cover object-center transition-transform duration-300 transform hover:scale-110"
+                                    src={featuredImage}
+                                    alt={name}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleImageClick(featuredImage);
+                                    }}
                                 />
                             </div>
                             <div className="p-4 bg-gradient-to-b from-gray-50 to-white">
@@ -111,6 +120,24 @@ const ProductCard = () => {
                     );
                 })}
             </div>
+
+            {showFullImage && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+                    <div className="relative">
+                        <img
+                            src={showFullImage}
+                            alt="Full size product"
+                            className="max-w-full max-h-screen"
+                        />
+                        <button
+                            onClick={handleCloseFullImage}
+                            className="absolute top-0 right-0 m-4 text-red-500 hover:text-red-700"
+                        >
+                            <FaTimes size={32} />
+                        </button>
+                    </div>
+                </div>
+            )}
         </Container>
     );
 };
