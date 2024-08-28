@@ -98,7 +98,7 @@ export default function Navbar() {
               <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
             </motion.div>
           </Link>
-          <Link href="/auth/login">
+          <Link href={`/${userDetails?._id}/cart`}>
             <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
               <MdShoppingCart className="h-7 w-7 text-black" />
               <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
@@ -166,13 +166,13 @@ export default function Navbar() {
             </div>
           )}
           <div className="hidden lg:flex items-center space-x-4 ml-4">
-            <Link href="/auth/signIn">
+            <Link href={`/${userDetails?._id}/cart`}>
               <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
                 <MdFavoriteBorder className="h-6 w-6 text-black" />
                 <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
               </motion.div>
             </Link>
-            <Link href="/auth/signIn">
+            <Link href={`/${userDetails?._id}/cart`} >
               <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
                 <MdShoppingCart className="h-6 w-6 text-black" />
                 <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
