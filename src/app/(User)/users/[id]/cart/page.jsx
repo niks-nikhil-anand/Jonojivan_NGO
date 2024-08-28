@@ -116,39 +116,42 @@ const CartPage = () => {
 
       {/* Step Content */}
       {currentStep === 1 && (
-        <motion.div
-          className="mb-6 p-4 border border-gray-300 rounded shadow sm:p-6"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-lg font-bold mb-4">Your Cart</h2>
-          {cart.map((item) => (
-            <div key={item.productId} className="flex items-center justify-between mb-4 border-b border-gray-300 pb-4">
-              {productDetails[item.productId] && (
-                <div className="flex items-center">
-                  <img
-                    src={productDetails[item.productId]?.featuredImage || '/default-image.png'}
-                    alt={productDetails[item.productId]?.name || 'Product Image'}
-                    className="w-20 h-20 object-cover mr-4 rounded"
-                  />
-                  <div>
-                    <h3 className="text-md font-semibold">{productDetails[item.productId]?.name || 'Product Name'}</h3>
-                    <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
-                  </div>
-                </div>
-              )}
-              <button
-                onClick={() => handleDeleteItem(item.productId)}
-                className="text-red-500 hover:text-red-700 transition"
-              >
-                <FaTrashAlt className="w-5 h-5" />
-              </button>
-              <div className="text-md font-semibold">₹{item.price}</div>
+  <motion.div
+    className="mb-6 p-4 border border-gray-300 rounded shadow sm:p-6"
+    initial={{ opacity: 0, y: 50 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}
+  >
+    <h2 className="text-lg font-bold mb-4">Your Cart</h2>
+    {cart.map((item) => (
+      <div key={item.productId} className="flex items-start justify-between mb-4 border-b border-gray-300 pb-4">
+        {productDetails[item.productId] && (
+          <div className="flex items-center">
+            <img
+              src={productDetails[item.productId]?.featuredImage || '/default-image.png'}
+              alt={productDetails[item.productId]?.name || 'Product Image'}
+              className="w-20 h-20 object-cover mr-4 rounded"
+            />
+            <div>
+              <h3 className="text-md font-semibold">{productDetails[item.productId]?.name || 'Product Name'}</h3>
+              <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
             </div>
-          ))}
-        </motion.div>
-      )}
+          </div>
+        )}
+        <div className="flex flex-col items-end mt-6 mx-5">
+          <div className="text-md font-semibold mb-2">₹{item.price}</div>
+          <button
+            onClick={() => handleDeleteItem(item.productId)}
+            className="text-red-500 hover:text-red-700 transition"
+          >
+            <FaTrashAlt className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+    ))}
+  </motion.div>
+)}
+
 
       {currentStep === 2 && (
         <motion.div
