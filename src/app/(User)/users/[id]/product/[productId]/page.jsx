@@ -106,7 +106,7 @@ const ProductDetail = () => {
             >
                 <div className="flex-1">
                     {/* Featured image display */}
-                    <div className="w-full h-64 sm:h-80 overflow-hidden rounded-lg shadow-lg mb-4">
+                    <div className="w-full h-64 sm:h-80 overflow-hidden rounded-lg shadow-lg mb-4 border border-gray-300 p-2">
                         <img 
                             src={featuredImage} 
                             alt={name} 
@@ -120,7 +120,7 @@ const ProductDetail = () => {
                             images.map((image, index) => (
                                 <motion.div 
                                     key={index}
-                                    className="w-full h-20 sm:h-24 overflow-hidden rounded-lg shadow-lg cursor-pointer"
+                                    className="w-full h-20 sm:h-24 overflow-hidden rounded-lg shadow-lg cursor-pointer border border-gray-300 p-1"
                                     whileHover={{ scale: 1.05 }}
                                     transition={{ type: 'spring', stiffness: 100 }}
                                     onClick={() => setSelectedImage(image)}
@@ -224,7 +224,7 @@ const ProductDetail = () => {
                     onClick={() => setSelectedImage(null)}
                 >
                     <div className="relative">
-                        <img src={selectedImage} alt="Full Size Product" className="max-w-full max-h-full object-contain" />
+                        <img src={selectedImage} alt="Full Size Product" className="max-w-full max-h-full object-contain border border-gray-300 p-4" />
                         <button 
                             className="absolute top-4 right-4 text-white text-3xl"
                             onClick={() => setSelectedImage(null)}
