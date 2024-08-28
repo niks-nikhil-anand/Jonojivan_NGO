@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { FaMoneyBillWave, FaCreditCard } from 'react-icons/fa';
+import { FaMoneyBillWave, FaCreditCard, FaTrashAlt } from 'react-icons/fa';
 
 const CartPage = () => {
   const [cart, setCart] = useState([]);
-  const [coupon, setCoupon] = useState('');
+  const [productDetails, setProductDetails] = useState({});
   const [contactName, setContactName] = useState('');
   const [contactMobile, setContactMobile] = useState('');
   const [pincode, setPincode] = useState('');
@@ -18,31 +18,57 @@ const CartPage = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [currentStep, setCurrentStep] = useState(1);
   const [paymentOption, setPaymentOption] = useState('');
+  const [loading, setLoading] = useState(true);  // Loading state
 
   useEffect(() => {
     // Fetch cart data from API
+    console.log('Fetching cart data...');
     axios.get('/api/users/cart/listCart')
       .then(response => {
-        setCart(response.data.items);
+        console.log('Cart data fetched:', response.data);
+        const items = response.data.items;
+        setCart(items);
         setTotalPrice(response.data.totalPrice);
+  
+        // Fetch product details for each cart item
+        console.log('Fetching product details...');
+        Promise.all(items.map(item => axios.get(`/api/admin/dashboard/product/${item.productId}`)))
+          .then(responses => {
+            console.log('Product details fetched:', responses);
+            const details = {};
+            responses.forEach((response, index) => {
+              const item = items[index]; // Ensure item exists
+              if (item && response.data) {
+                console.log(`Product ID: ${item.productId}`, response.data);
+                details[item.productId] = response.data;
+              } else {
+                console.warn(`Item or response data missing for index ${index}`);
+              }
+            });
+            setProductDetails(details); // Use 'details' here
+            console.log('Product details state:', details);
+            setLoading(false);  // Set loading to false once data is fetched
+          })
+          .catch(error => {
+            console.error('Error fetching product details:', error);
+            setLoading(false);  // Set loading to false if there's an error
+          });
       })
-      .catch(error => console.error('Error fetching cart:', error));
+      .catch(error => {
+        console.error('Error fetching cart:', error);
+        setLoading(false);  // Set loading to false if there's an error
+      });
   }, []);
+  
+  
+  
 
-  const handlePlaceOrder = () => {
-    if (currentStep === 3) {
-      // Logic for placing an order
-      alert('Order placed successfully!');
-    } else {
-      setCurrentStep(currentStep + 1);
-    }
-  };
-
-  const handlePreviousStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
+  // Loader Component
+  const Loader = () => (
+    <div className="flex justify-center items-center h-screen">
+      <div className="w-16 h-16 border-4 border-t-4 border-teal-600 border-solid rounded-full animate-spin"></div>
+    </div>
+  );
 
   // Step Indicator Component
   const CartSteps = ({ currentStep }) => {
@@ -71,6 +97,18 @@ const CartPage = () => {
     );
   };
 
+  if (loading) {
+    return <Loader />;
+  }
+
+  const handleDeleteItem = (productId) => {
+    // Implement item removal logic
+  };
+
+  const handleCheckout = () => {
+    // Implement checkout logic
+  };
+
   return (
     <div className="container mx-auto p-4 max-w-3xl">
       {/* Step Indicator */}
@@ -85,12 +123,27 @@ const CartPage = () => {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-lg font-bold mb-4">Your Cart</h2>
-          {cart.map((item, index) => (
-            <div key={index} className="flex justify-between mb-4">
-              <div>
-                <h3 className="text-md font-semibold">{item.name}</h3>
-                <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
-              </div>
+          {cart.map((item) => (
+            <div key={item.productId} className="flex items-center justify-between mb-4 border-b border-gray-300 pb-4">
+              {productDetails[item.productId] && (
+                <div className="flex items-center">
+                  <img
+                    src={productDetails[item.productId]?.featuredImage || '/default-image.png'}
+                    alt={productDetails[item.productId]?.name || 'Product Image'}
+                    className="w-20 h-20 object-cover mr-4 rounded"
+                  />
+                  <div>
+                    <h3 className="text-md font-semibold">{productDetails[item.productId]?.name || 'Product Name'}</h3>
+                    <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
+                  </div>
+                </div>
+              )}
+              <button
+                onClick={() => handleDeleteItem(item.productId)}
+                className="text-red-500 hover:text-red-700 transition"
+              >
+                <FaTrashAlt className="w-5 h-5" />
+              </button>
               <div className="text-md font-semibold">₹{item.price}</div>
             </div>
           ))}
@@ -185,69 +238,61 @@ const CartPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-lg font-bold mb-4">Payment Options</h2>
+          <h2 className="text-lg font-bold mb-4">Payment</h2>
           <div className="mb-4">
-            <label className="flex items-center cursor-pointer text-sm">
-              <input
-                type="radio"
-                name="payment"
-                value="COD"
-                className="mr-2"
-                checked={paymentOption === 'COD'}
-                onChange={() => setPaymentOption('COD')}
-              />
-              <FaMoneyBillWave className="text-green-500 mr-2" />
-              Cash On Delivery
-            </label>
+            <button
+              onClick={() => setPaymentOption('COD')}
+              className={`w-full p-2 border rounded ${paymentOption === 'COD' ? 'bg-teal-600 text-white' : 'bg-white text-teal-600'}`}
+            >
+              <FaMoneyBillWave className="inline mr-2" />
+              Cash on Delivery
+            </button>
           </div>
-          <div>
-            <label className="flex items-center cursor-pointer text-sm">
-              <input
-                type="radio"
-                name="payment"
-                value="RazorPay"
-                className="mr-2"
-                checked={paymentOption === 'RazorPay'}
-                onChange={() => setPaymentOption('RazorPay')}
-              />
-              <FaCreditCard className="text-blue-500 mr-2" />
-              RazorPay
-            </label>
+          <div className="mb-4">
+            <button
+              onClick={() => setPaymentOption('Card')}
+              className={`w-full p-2 border rounded ${paymentOption === 'Card' ? 'bg-teal-600 text-white' : 'bg-white text-teal-600'}`}
+            >
+              <FaCreditCard className="inline mr-2" />
+              Pay by Card
+            </button>
           </div>
         </motion.div>
       )}
 
-      {/* Price Details */}
-      <motion.div
-        className="mb-6 p-4 border border-gray-300 rounded shadow sm:p-6"
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-      >
-        <h2 className="text-lg font-bold mb-4">Order Summary</h2>
-        <div className="flex justify-between mb-2">
-          <span>Total Items:</span>
-          <span>{cart.length}</span>
-        </div>
-        <div className="flex justify-between mb-2">
-          <span>Total Price:</span>
-          <span>₹{totalPrice}</span>
-        </div>
-        <button
-          onClick={handlePlaceOrder}
-          className="w-full py-2 px-4 bg-teal-600 text-white rounded shadow hover:bg-teal-700 transition"
-        >
-          {currentStep === 3 ? 'Place Order' : 'Next'}
-        </button>
+      {/* Total Price */}
+      <div className="flex justify-between items-center mt-4 p-4 bg-gray-100 border border-gray-300 rounded">
+        <span className="font-semibold text-lg">Total Price</span>
+        <span className="text-lg font-bold">₹{totalPrice}</span>
+      </div>
+
+      {/* Step Navigation Buttons */}
+      <div className="flex justify-between mt-6">
         {currentStep > 1 && (
           <button
-            onClick={handlePreviousStep}
-            className="w-full mt-2 py-2 px-4 bg-gray-300 text-gray-800 rounded shadow hover:bg-gray-400 transition"
+            onClick={() => setCurrentStep(currentStep - 1)}
+            className="px-4 py-2 bg-gray-300 text-white rounded hover:bg-gray-400 transition"
           >
-            Previous
+            Back
           </button>
         )}
-      </motion.div>
+        {currentStep < 3 && (
+          <button
+            onClick={() => setCurrentStep(currentStep + 1)}
+            className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 transition"
+          >
+            Next
+          </button>
+        )}
+        {currentStep === 3 && (
+          <button
+            onClick={handleCheckout}
+            className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 transition"
+          >
+            Checkout
+          </button>
+        )}
+      </div>
     </div>
   );
 };
