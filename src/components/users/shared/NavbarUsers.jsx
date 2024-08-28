@@ -8,9 +8,9 @@ import Image from 'next/image';
 import logo from '../../../../public/annimatedIcons/grocery.png';
 
 const menuItems = [
-  { name: 'Home', href: '/' },
-  { name: 'Shops', href: '/shops' },
-  { name: 'Most Popular', href: '/most-popular' },
+  { name: 'Home', href: `/users/${userDetails._id}/cart` },
+  { name: 'Shops', href: `/users/${userDetails._id}/cart` },
+  { name: 'Most Popular', href: `/users/${userDetails._id}/cart` },
   { name: 'Best Deal', href: '/best-deal' },
   { name: 'Contact Us', href: '/contactUs' },
 ];
@@ -89,16 +89,16 @@ export default function Navbar() {
         {/* Logo */}
         <div className="inline-flex items-center space-x-2 flex-shrink-0 ">
           <Image src={logo} alt="Blush Belle Logo" width={30} height={30} />
-          <Link href="/" className="font-bold text-black">Blush Belle</Link>
+          <Link href={`/users/${userDetails?._id}`} className="font-bold text-black">Blush Belle</Link>
         </div>
         <div className="lg:hidden flex items-center space-x-4 ml-4">
-          <Link href="/auth/login">
+          <Link href={`/users/${userDetails?._id}/cart`}>
             <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
               <MdFavoriteBorder className="h-7 w-7 text-black" />
               <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
             </motion.div>
           </Link>
-          <Link href={`/${userDetails?._id}/cart`}>
+          <Link href={`/users/${userDetails?._id}/cart`}>
             <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
               <MdShoppingCart className="h-7 w-7 text-black" />
               <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
@@ -166,13 +166,13 @@ export default function Navbar() {
             </div>
           )}
           <div className="hidden lg:flex items-center space-x-4 ml-4">
-            <Link href={`/${userDetails?._id}/cart`}>
+            <Link href={`/users/${userDetails?._id}/cart`}>
               <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
                 <MdFavoriteBorder className="h-6 w-6 text-black" />
                 <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
               </motion.div>
             </Link>
-            <Link href={`/${userDetails?._id}/cart`} >
+            <Link href={`/users/${userDetails?._id}/cart`} >
               <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
                 <MdShoppingCart className="h-6 w-6 text-black" />
                 <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
@@ -196,7 +196,9 @@ export default function Navbar() {
                 <div className="flex items-center justify-between">
                   <Link href="/" className="inline-flex items-center space-x-2">
                     <Image src={logo} alt="Blush Belle Logo" width={30} height={30} />
+                    <Link href={`/${userDetails?._id}`} >
                     <span className="font-bold text-black">Blush Belle</span>
+                    </Link>
                   </Link>
                   <MdClose onClick={toggleMenu} className="h-6 w-6 cursor-pointer text-black" />
                 </div>
