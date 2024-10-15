@@ -77,7 +77,7 @@ const AdminLoginForm = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="p-10 md:w-1/2 w-full flex flex-col justify-center ml-6"
+          className="p-10 md:w-1/2 w-full flex flex-col justify-center md:ml-6"
         >
           <motion.h2
             initial={{ scale: 0.9 }}
