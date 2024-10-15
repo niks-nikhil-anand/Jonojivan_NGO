@@ -81,7 +81,7 @@ const CreateAccountForm = () => {
         <div className="w-full md:w-1/2 md:pl-8">
           <h2 className="text-2xl font-bold mb-2 text-center md:text-left">Create Your Account</h2>
           <p className="text-center md:text-left text-gray-600 mb-6">
-            Join Blush Belle and start your beauty journey
+            Join JonoJivan Grocery and fullfill your daily needs.
           </p>
           <form onSubmit={handleCreateAccount}>
             <div className="mb-4">
@@ -166,9 +166,9 @@ const CreateAccountForm = () => {
                   className="mr-2"
                   required
                 />
-                I accept the{" "}
+               
                 <Link href="/terms" className="text-purple-900 hover:underline">
-                  Terms and Conditions
+                I accept the terms & condition
                 </Link>
               </label>
             </div>

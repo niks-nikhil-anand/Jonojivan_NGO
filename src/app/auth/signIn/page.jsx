@@ -74,7 +74,7 @@ const LoginForm = () => {
           <Image src={authSignBanner} alt="Login Banner" className="w-full h-auto" />
         </div>
         <div className="w-full md:w-1/2 md:pl-8">
-          <h2 className="text-2xl font-bold mb-2 text-center md:text-left">Welcome to Blush Belle! 💄</h2>
+          <h2 className="text-2xl font-bold mb-2 text-center md:text-left">Welcome to JonoJivan Grocery </h2>
           <p className="text-center md:text-left text-gray-600 mb-6">
             Please sign-in to your account and start your beauty journey
           </p>
@@ -130,7 +130,7 @@ const LoginForm = () => {
           </div>
           <div className="flex items-center justify-between mt-6">
             <span className="border-t border-gray-300 flex-grow"></span>
-            <span className="mx-4 text-gray-600">Blush Belle</span>
+            <span className="mx-4 text-gray-600">JonoJivan Grocery</span>
             <span className="border-t border-gray-300 flex-grow"></span>
           </div>
         </div>
