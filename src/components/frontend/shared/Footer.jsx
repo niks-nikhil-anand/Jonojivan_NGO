@@ -33,7 +33,7 @@ export default function Footer() {
           <div className="mt-4">
             <div className="flex items-center space-x-3 mb-2">
               <MdPhone className="h-6 w-6 text-white" />
-              <span>01963953998</span>
+              <span>+91 8761873802</span>
             </div>
             <div className="flex items-center space-x-3">
               <MdEmail className="h-6 w-6 text-white" />
