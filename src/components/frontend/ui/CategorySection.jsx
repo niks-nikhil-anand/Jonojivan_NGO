@@ -36,10 +36,11 @@ const CategoriesSection = () => {
   }
 
   return (
- 
-    <div className="py-8 px-4 flex flex-col">
-    <h2 className="text-xl font-semibold mb-6 md:text-2xl">Featured Categories</h2>
-    <div className="flex flex-wrap justify-center gap-4 md:gap-2 lg:gap-8 hover:cursor-pointer">
+    <Container>
+
+    <div className=" flex flex-col">
+    <h2 className="h6 mb-4  ">Featured Categories</h2>
+    <div className="flex flex-wrap justify-start gap-4 md:gap-2 lg:gap-8 hover:cursor-pointer">
       {categories.map((category) => (
         <motion.div
           key={category._id}
@@ -62,6 +63,8 @@ const CategoriesSection = () => {
       ))}
     </div>
   </div>
+
+  </Container>
   
 
   );

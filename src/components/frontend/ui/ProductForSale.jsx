@@ -70,7 +70,7 @@ const ProductCard = () => {
     return (
         <Container>
             <div className="mb-6">
-                <h2 className="text-2xl font-bold mb-4 underline text-start">Products On Sale</h2>
+                <h2 className="h6 mb-4 text-start">Products On Sale</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {products.map(product => {
