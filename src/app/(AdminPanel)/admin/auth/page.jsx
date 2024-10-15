@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import { FaEye, FaEyeSlash, FaGoogle, FaFacebookF } from 'react-icons/fa';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'; // Import useRouter for navigation
-import loginBanner from '../../../../../public/admin/loginBanner.jpg';
+import loginBanner from '../../../../../public/admin/loginBanner.webp';
+import bannerbg from '../../../../../public/admin/banner-mask-2.png';
 import axios from 'axios';
 
 const AdminLoginForm = () => {
@@ -46,24 +47,37 @@ const AdminLoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="flex flex-col md:flex-row max-w-8xl shadow-lg rounded-lg bg-white overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="flex flex-col md:flex-row w-full  overflow-hidden justify-between h-full">
         
         {/* Banner Image - Only for Desktop and Tablet */}
-        <div className="hidden md:block md:w-1/2">
-          <Image
-            src={loginBanner}
-            alt="Admin Login Banner"
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <div className="relative md:w-1/3 md:h-auto lg:w-1/3 lg:h-auto ml-10">
+ 
+                <div
+                  className="absolute inset-0 bg-[url('/path-to-bannerbg.jpg')] bg-cover bg-center z-0"
+                >
+                   <Image
+                  src={bannerbg}
+                  alt="Admin Login Banner"
+                  className="relative w-full h-full object-contain z-10" 
+                />
+                </div>
+
+                {/* Foreground Image */}
+                <Image
+                  src={loginBanner}
+                  alt="Admin Login Banner"
+                  className="relative w-full h-full object-contain z-10" 
+                />
+              </div>
+
 
         {/* Form Section */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="p-8 md:w-1/2 w-full flex flex-col justify-center"
+          className="p-10 md:w-1/2 w-full flex flex-col justify-center ml-6"
         >
           <motion.h2
             initial={{ scale: 0.9 }}
@@ -91,7 +105,7 @@ const AdminLoginForm = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-3 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
             </div>
@@ -104,7 +118,7 @@ const AdminLoginForm = () => {
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-3 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
               <div
