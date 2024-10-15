@@ -157,7 +157,7 @@ const AdminLoginForm = () => {
         </motion.div>
 
          {/* Banner Image - Only for Desktop and Tablet */}
-         <div className="relative md:w-1/4 md:h-auto lg:w-1/3 lg:h-auto mr-10">
+         <div className="relative md:w-1/4 md:h-auto lg:w-1/3 lg:h-auto mr-5">
  
                   <div
                     className="absolute inset-0 bg-[url('/path-to-bannerbg.jpg')] bg-cover bg-center z-0"
