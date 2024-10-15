@@ -34,8 +34,9 @@ const News = () => {
 
   return (
     <div className="flex flex-col px-4 md:px-10 mt-10 mb-10 justify-center md:ml-[90px]">
-      <h1 className="text-3xl font-bold mb-2">Beauty Tips</h1>
-      <h2 className="text-xl mb-4">Explore the latest beauty trends and tips from our curated selection</h2>
+      <h1 className="text-3xl font-bold mb-2">Grocery Tips</h1>
+      <h2 className="text-xl mb-4">Explore the latest Grocery Tips & Trends from our curated selection
+      </h2>
       {loading ? (
         <motion.div
           className="flex justify-center items-center h-64"

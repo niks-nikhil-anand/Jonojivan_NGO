@@ -40,16 +40,17 @@ const CategoriesSection = () => {
 
    
     <div className="py-8 px-4 flex flex-col">
-            <h2 className="text-2xl font-semibold  mb-6 ">Categories</h2>
+            <h2 className="text-2xl font-semibold  mb-6 ">Featured Categories
+            </h2>
       <div className="flex flex-wrap justify-center gap-8">
         {categories.map((category) => (
           <motion.div
             key={category._id}
-            className="flex flex-col items-center"
+            className="flex flex-col items-center bg-gray-200 px-10 py-5 rounded-md"
             whileHover={{ scale: 1.05 }}
             transition={{ type: 'spring', stiffness: 300 }}
           >
-            <div className="w-15 h-20 rounded-full overflow-hidden shadow-lg flex justify-center">
+            <div className="w-15 h-20 rounded-full overflow-hidden shadow-lg flex justify-start ">
               <img
                 src={category.image}
                 alt={category.name}
