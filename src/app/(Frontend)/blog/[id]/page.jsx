@@ -61,6 +61,10 @@ const Page = () => {
                 <img src={data.featuredImage} alt={data.title} className="w-full h-auto rounded-lg mb-6"/>
                 <div
                     className="prose prose-sm md:prose-lg mx-auto"
+                    dangerouslySetInnerHTML={{ __html: data.subtitle }}
+                />
+                <div
+                    className="prose prose-sm md:prose-lg mx-auto"
                     dangerouslySetInnerHTML={{ __html: data.content }}
                 />
             </motion.div>

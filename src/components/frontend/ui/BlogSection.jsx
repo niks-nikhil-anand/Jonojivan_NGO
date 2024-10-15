@@ -36,8 +36,8 @@ const BlogSection = () => {
 
   return (
     <div className="flex flex-col px-4 md:px-10 mt-10 mb-10 justify-center md:ml-[90px]">
-      <h1 className="text-3xl font-bold mb-2">Beauty Tips</h1>
-      <h2 className="text-xl mb-4">Explore the latest beauty trends and tips from our curated selection</h2>{loading ? (
+      <h1 className="text-3xl font-bold mb-2">Latest blogs</h1>
+      <h2 className="text-xl mb-4">Explore the latest Grocery Tips & Trends from our curated selection</h2>{loading ? (
         <div>Loading...</div> 
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
