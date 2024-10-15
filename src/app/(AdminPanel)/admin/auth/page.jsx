@@ -50,26 +50,7 @@ const AdminLoginForm = () => {
     <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="flex flex-col md:flex-row w-full  overflow-hidden justify-between h-full">
         
-        {/* Banner Image - Only for Desktop and Tablet */}
-        <div className="relative md:w-1/3 md:h-auto lg:w-1/3 lg:h-auto ml-10">
- 
-                <div
-                  className="absolute inset-0 bg-[url('/path-to-bannerbg.jpg')] bg-cover bg-center z-0"
-                >
-                   <Image
-                  src={bannerbg}
-                  alt="Admin Login Banner"
-                  className="relative w-full h-full object-contain z-10" 
-                />
-                </div>
-
-                {/* Foreground Image */}
-                <Image
-                  src={loginBanner}
-                  alt="Admin Login Banner"
-                  className="relative w-full h-full object-contain z-10" 
-                />
-              </div>
+       
 
 
         {/* Form Section */}
@@ -174,6 +155,27 @@ const AdminLoginForm = () => {
             <a href="/forgot-password" className="text-blue-500 hover:underline">Forgot your password?</a>
           </motion.div>
         </motion.div>
+
+         {/* Banner Image - Only for Desktop and Tablet */}
+         <div className="relative md:w-1/4 md:h-auto lg:w-1/3 lg:h-auto mr-10">
+ 
+                  <div
+                    className="absolute inset-0 bg-[url('/path-to-bannerbg.jpg')] bg-cover bg-center z-0"
+                  >
+                      <Image
+                    src={bannerbg}
+                    alt="Admin Login Banner"
+                    className="relative w-full h-full object-contain z-10" 
+                  />
+                  </div>
+
+                  {/* Foreground Image */}
+                  <Image
+                    src={loginBanner}
+                    alt="Admin Login Banner"
+                    className="relative w-full h-full object-contain z-10" 
+                  />
+                  </div>
       </div>
     </div>
   );
