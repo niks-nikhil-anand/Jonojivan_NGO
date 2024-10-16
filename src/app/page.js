@@ -9,8 +9,8 @@ export default function Home() {
   return (
     <>
     <HeroSection/>
-    <CategoriesSection/>
     <ProductCard/>
+    <CategoriesSection/>
     <Marquee/>
     <ManualSlider/>
     <BlogSection/>
