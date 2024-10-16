@@ -5,7 +5,7 @@ import Image from "next/image";
 import HeroSection01 from "../../../../public/frontend/heroSection01.jpg";
 import HeroSection02 from "../../../../public/frontend/heroSection02.jpg";
 import HeroSection03 from "../../../../public/frontend/heroSection03.jpg";
-import HeroSection04 from "../../../../public/frontend/heroSection03.jpg";
+import HeroSection04 from "../../../../public/frontend/heroSection04.jpg";
 
 const images = [HeroSection01, HeroSection02, HeroSection03, HeroSection04];
 
