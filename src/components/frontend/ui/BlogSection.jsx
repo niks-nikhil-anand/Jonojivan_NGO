@@ -36,7 +36,7 @@ const BlogSection = () => {
 
   return (
     <div className="flex flex-col px-4 md:px-10 mt-10 mb-10 justify-center md:ml-[90px]">
-      <h1 className="h6 mb-2">Latest blogs</h1>
+      <h1 className="h6 mb-2">Beauty Tips</h1>
       <h2 className="base-small mb-4">Explore the latest Grocery Tips & Trends from our curated selection</h2>{loading ? (
         <div>Loading...</div> 
       ) : (

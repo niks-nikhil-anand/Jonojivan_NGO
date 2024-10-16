@@ -11,7 +11,7 @@ export default function Home() {
     <CategoriesSection/>
     <ProductCard/>
     <ManualSlider/>
-    <BlogSection/>
+   
     </>
   );
 }
