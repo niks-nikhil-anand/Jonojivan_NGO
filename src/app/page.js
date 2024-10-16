@@ -1,4 +1,3 @@
-import BlogSection from "@/components/frontend/ui/BlogSection";
 import CategoriesSection from "@/components/frontend/ui/CategorySection";
 import HeroSection from "@/components/frontend/ui/HeroSection";
 import ManualSlider from "@/components/frontend/ui/ManualSlider";
@@ -13,7 +12,6 @@ export default function Home() {
     <CategoriesSection/>
     <Marquee/>
     <ManualSlider/>
-    <BlogSection/>
     </>
   );
 }

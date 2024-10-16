@@ -11,7 +11,7 @@ const menuItems = [
   { name: 'Home', href: '/' },
   { name: 'Shops', href: '/shops' },
   { name: 'Most Popular', href: '/most-popular' },
-  { name: 'Best Deal', href: '/best-deal' },
+  { name: 'Wellness Blog', href: '/blog' },
   { name: 'Contact Us', href: '/contactUs' },
 ];
 
