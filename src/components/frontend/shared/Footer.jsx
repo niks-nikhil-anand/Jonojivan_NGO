@@ -23,9 +23,9 @@ export default function Footer() {
                 <Image src={logo} alt="Blush Belle" height={50} width={50} />
               </div>
               <div>
-                <h4 className="font-bold text-lg">JonoJivan Grocery</h4>
+                <h4 className="font-bold text-lg">Blush Belle</h4>
                 <p className="text-sm">
-                JonoJivan Grocery offers a full-service supermarket with everything consumers have come to expect from a grocer.
+                Enhancing beauty, one brush at a time. Discover our premium makeup products for a flawless look.
                 </p>
               </div>
             </div>
@@ -37,7 +37,7 @@ export default function Footer() {
             </div>
             <div className="flex items-center space-x-3">
               <MdEmail className="h-6 w-6 text-white" />
-              <span>support@jonojivangrocery.com</span>
+              <span>support@myblushbelle.com</span>
             </div>
           </div>
           <div className="flex mt-4 space-x-3">
@@ -186,7 +186,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="mt-6 text-center border-t border-purple-700 pt-6 text-sm">
-        © 2024 All rights reserved by JonoJivan Grocery.
+        © 2024 Blush Belle. All Rights Reserved.
       </div>
     </div>
   );

@@ -49,7 +49,7 @@ export default function Navbar() {
         {/* Logo */}
         <div className="inline-flex items-center space-x-2 flex-shrink-0 ">
           <Image src={logo} alt="Jono Jivan " width={30} height={30} />
-          <Link href="/" className="font-bold text-black">JonoJivan</Link>
+          <Link href="/" className="font-bold text-black">Blush Belle</Link>
         </div>
         <div className="lg:hidden flex items-center space-x-4 ml-4">
           <Link href="/auth/login">
@@ -139,7 +139,7 @@ export default function Navbar() {
               <div className="flex items-center justify-between">
                 <div className="inline-flex items-center space-x-2">
                   <Image src={logo} alt="JonoJivan Grocery" width={30} height={30} />
-                  <span className="font-bold">JonoJivan Grocery</span>
+                  <span className="font-bold">Blush Belle</span>
                 </div>
                 
                 <div className="-mr-2">
