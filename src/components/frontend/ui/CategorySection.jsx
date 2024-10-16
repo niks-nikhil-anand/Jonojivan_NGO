@@ -36,35 +36,34 @@ const CategoriesSection = () => {
   }
 
   return (
-    <Container>
-
-    <div className=" flex flex-col">
-    <h2 className="h6 mb-4  ">Featured Categories</h2>
-    <div className="flex flex-wrap justify-center gap-4 md:gap-2 lg:gap-8 hover:cursor-pointer">
-      {categories.map((category) => (
-        <motion.div
-          key={category._id}
-          className="flex flex-col items-center bg-gray-200 w-32 h-40 sm:w-36 sm:h-44 md:w-40 md:h-48 rounded-md sm:px-8 sm:py-5 md:px-10 md:py-6"
-          whileHover={{ scale: 1.05 }}
-          transition={{ type: 'spring', stiffness: 300 }}
-        >
-          <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg mt-5">
-            <img
-              src={category.image}
-              alt={category.name}
-              className="w-full h-full object-cover"
-              onError={(e) => (e.target.src = '/path/to/fallback-image.jpg')} // Fallback image in case of error
-            />
-          </div>
-          <p className="mt-2 text-center text-sm font-medium sm:text-base md:text-lg">
+    
+<div className="flex flex-col">
+  <h2 className="text-xl md:text-4xl mb-4 text-center font-bold text-red-500">Shop By Health Focus</h2>
+  <div className="flex gap-4 hover:cursor-pointer justify-center shadow-lg px-4 py-3 overflow-x-scroll snap-x snap-mandatory sm:flex-wrap">
+    {categories.map((category) => (
+      <motion.div
+        key={category._id}
+        className="relative flex-shrink-0 snap-center flex flex-col items-center w-48 h-56 sm:w-36 sm:h-44 md:w-[30rem] md:h-[30rem] rounded-md"
+      >
+        <div className="relative w-full overflow-hidden rounded-3xl">
+          <img
+            src={category.image}
+            alt={category.name}
+            className="object-fill w-full h-full transition-transform duration-300 ease-in-out transform hover:scale-105"
+            onError={(e) => (e.target.src = '/path/to/fallback-image.jpg')}
+          />
+          {/* Name over the image */}
+          <p className="absolute top-10 left-0 right-0 text-center bg-opacity-50 text-red-500 text-lg sm:text-xl md:text-2xl font-medium p-1">
             {category.name}
           </p>
-        </motion.div>
-      ))}
-    </div>
+        </div>
+      </motion.div>
+    ))}
   </div>
+</div>
 
-  </Container>
+
+
   
 
   );
