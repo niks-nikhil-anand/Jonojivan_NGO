@@ -57,10 +57,27 @@ const ProductDetail = () => {
     const averageRating = ratings?.average || 4.2;
     const allImages = [ ...(images || [])];
 
+    const ProductHighlights = ({ highlights }) => {
+        return (
+          <div className="flex justify-around mt-10 bg-white py-10 ">
+            {highlights.map((highlight, index) => (
+              <div key={index} className="flex flex-col items-center text-center w-1/3">
+                <div className="mb-4">
+                  <img src={highlight.icon} alt={highlight.title} className="w-12 h-12" />
+                </div>
+                <h3 className="text-xl text-orange-600 font-bold mb-2">{highlight.title}</h3>
+                <p className="text-gray-700">{highlight.description}</p>
+              </div>
+            ))}
+          </div>
+        );
+      };
+      
+
     return (
         <div>
         <motion.div 
-  className="flex flex-col lg:flex-row gap-6 p-4 sm:p-6 bg-[#e0d2ff] w-full h-full"
+  className="flex flex-col lg:flex-row  p-4 sm:p-6 bg-[#e0d2ff] w-full h-full"
   initial={{ opacity: 0 }}
   animate={{ opacity: 1 }}
   transition={{ duration: 0.5 }}
@@ -104,7 +121,7 @@ const ProductDetail = () => {
 
 
   {/* Product Details */}
-  <div className="w-[40rem] bg-white rounded-3xl mt-4 px-[5rem] py-[5rem]">
+  <div className="w-[40rem] bg-white rounded-3xl  px-[5rem] py-[5rem]">
     <motion.div 
       className="flex flex-col justify-start mb-2"
       initial={{ opacity: 0, y: 50 }}
@@ -185,9 +202,11 @@ const ProductDetail = () => {
     </div>
   </div>
 </motion.div>
-
-
-
+<div>
+{product.productHighlights && (
+        <ProductHighlights highlights={product.productHighlights} />
+    )}
+</div>
             {/* Additional Banner */}
             <div className='flex flex-col md:flex-row items-center p-4 md:p-8 mt-10 bg-[#e0d2ff]'>
                 <div className='flex w-full justify-between'>
@@ -200,7 +219,7 @@ const ProductDetail = () => {
                             height={300} // Set the appropriate height
                         />
                     </div>
-                    <div className='flex flex-col justify-center justify-start'>
+                    <div className='flex flex-col  justify-start'>
                     <h1 className='text-xl md:text-4xl  text-[#D07021] mb-4 w-[30rem]'>
                         {name}
                     </h1>
@@ -236,3 +255,6 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
+
+
+
