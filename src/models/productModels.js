@@ -51,7 +51,7 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Product description is required'],
     },
-    actualPrice: {
+    salePrice: {
         type: Number,
         required: [true, 'Product price is required'],
         min: [0, 'Price cannot be negative'],
@@ -92,8 +92,10 @@ const productSchema = new mongoose.Schema({
     suggestedUse: {
         type: String,
     },
-    
-    isFeatured: {
+    servingPerBottle:{
+        type: String,
+    },
+    isFanFavourites: {
         type: Boolean,
         default: false,
     },

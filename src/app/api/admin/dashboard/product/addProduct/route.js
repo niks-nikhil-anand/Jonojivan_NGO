@@ -5,12 +5,9 @@ import { NextResponse } from "next/server";
 
 export const POST = async (req) => {
   try {
-    console.log("Connecting to the database...");
     await connectDB();
-    console.log("Connected to the database.");
 
     const formData = await req.formData();
-    console.log("Form data received:", formData);
 
     // Helper function to safely get and trim values
     const getTrimmedValue = (key) => {
@@ -20,97 +17,122 @@ export const POST = async (req) => {
 
     const name = getTrimmedValue("name");
     const description = getTrimmedValue("description");
-    const actualPrice = getTrimmedValue("actualPrice");
+    const salePrice = getTrimmedValue("salePrice");
     const originalPrice = getTrimmedValue("originalPrice");
     const category = getTrimmedValue("category");
     const stock = parseInt(getTrimmedValue("stock"), 10);
-    const colors = formData.get("colors"); // Colors is a JSON string
     const brand = getTrimmedValue("brand");
-    const sku = getTrimmedValue("sku");
-    const isFeatured = formData.get("isFeatured") === 'true';
-    const isOnSale = formData.get("isOnSale") === 'true';
     const tags = getTrimmedValue("tags");
-
-    console.log("Extracted fields:", {
-      name,
-      description,
-      actualPrice,
-      originalPrice,
-      category,
-      stock,
-      colors,
-      brand,
-      sku,
-      isFeatured,
-      isOnSale,
-      tags
-    });
+    const suggestedUse = getTrimmedValue("suggestedUse");
+    const servingPerBottle = getTrimmedValue("servingPerBottle");
+    const isFanFavourites = formData.get("isFanFavourites") === 'true';
+    const isOnSale = formData.get("isOnSale") === 'true';
 
     if (!name || !category) {
-      console.error("Missing required fields.");
       return NextResponse.json({ msg: "Please provide all the required fields." }, { status: 400 });
     }
 
     const images = formData.getAll("images");
     const featuredImage = formData.get("featuredImage");
+    const descriptionImage = formData.get("descriptionImage");
 
-    console.log("Images received:", images);
-    console.log("Featured image received:", featuredImage);
-
+    // Log image uploads
+    console.log("Uploading images...");
     const imageUploads = await Promise.all(
-      images.map(async (image, index) => {
-        console.log(`Uploading image ${index + 1}...`);
+      images.map(async (image) => {
         const result = await uploadImage(image, "productImages");
-        console.log(`Image ${index + 1} upload result:`, result);
         if (!result.secure_url) {
-          console.error("Image upload failed.");
           throw new Error("Image upload failed.");
         }
         return result.secure_url;
       })
     );
 
-    console.log("Image URLs uploaded:", imageUploads);
-
+    // Upload featured image
     let featuredImageUrl = null;
     if (featuredImage) {
-      console.log("Uploading featured image...");
       const featuredImageResult = await uploadImage(featuredImage, "featuredImage");
-      console.log("Featured image upload result:", featuredImageResult);
       if (!featuredImageResult.secure_url) {
-        console.error("Featured image upload failed.");
         return NextResponse.json({ msg: "Featured image upload failed." }, { status: 500 });
       }
       featuredImageUrl = featuredImageResult.secure_url;
     }
 
-    // Parsing colors as an array of objects from JSON string
-    const colorsArray = colors ? JSON.parse(colors) : [];
+    // Upload description image
+    let descriptionImageUrl = null;
+    if (descriptionImage) {
+      const descriptionImageResult = await uploadImage(descriptionImage, "descriptionImage");
+      if (!descriptionImageResult.secure_url) {
+        return NextResponse.json({ msg: "Description image upload failed." }, { status: 500 });
+      }
+      descriptionImageUrl = descriptionImageResult.secure_url;
+    }
+
+    // Parsing and uploading ingredients
+    const ingredients = [];
+    let ingredientCount = 0;
+    while (formData.has(`ingredients[${ingredientCount}][name]`)) {
+      const ingredientName = formData.get(`ingredients[${ingredientCount}][name]`);
+      const ingredientWeight = formData.get(`ingredients[${ingredientCount}][weightInGram]`);
+      const ingredientImage = formData.get(`ingredients[${ingredientCount}][image]`);
+      
+      if (ingredientName && ingredientWeight) {
+        const ingredientImageUrl = ingredientImage ? await uploadImage(ingredientImage, 'ingredientImages') : null;
+        ingredients.push({ name: ingredientName, weightInGram: ingredientWeight, image: ingredientImageUrl });
+      }
+      ingredientCount++;
+    }
+
+    // Log ingredients to check if they are captured correctly
+    console.log("Parsed ingredients:", ingredients);
+
+    // Process product highlights
+    const productHighlights = [];
+    let highlightCount = 0;
+    while (formData.has(`productHighlights[${highlightCount}][title]`)) {
+      const highlightTitle = formData.get(`productHighlights[${highlightCount}][title]`);
+      const highlightDescription = formData.get(`productHighlights[${highlightCount}][description]`);
+      const highlightIcon = formData.get(`productHighlights[${highlightCount}][icon]`);
+
+      if (highlightTitle) {
+        const highlightIconUrl = highlightIcon ? await uploadImage(highlightIcon, 'highlightIcons') : null;
+        productHighlights.push({ title: highlightTitle, description: highlightDescription, icon: highlightIconUrl });
+      }
+      highlightCount++;
+    }
+
+    // Log product highlights to ensure they are captured correctly
+    console.log("Parsed product highlights:", productHighlights);
+
+    // Log product highlights to ensure they are captured correctly
+    console.log("Parsed product highlights:", productHighlights);
 
     const productData = {
       name,
       description,
-      actualPrice,
+      salePrice,
       originalPrice,
       category,
       stock,
-      colors: colorsArray,
       brand,
-      sku,
-      isFeatured,
+      suggestedUse,
+      servingPerBottle,
+      isFanFavourites,
       isOnSale,
-      tags: tags ? tags.split(',').map(tag => tag.trim()) : [], // Handle tags if provided
-      images: imageUploads, // Ensure images array is passed here
+      tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
+      images: imageUploads,
       featuredImage: featuredImageUrl,
+      descriptionImage: descriptionImageUrl,
+      ingredients,
+      productHighlights,
     };
 
-    console.log("Product data to be saved:", productData);
+    console.log("Final product data:", productData); // Log the final product data before saving
 
     await productModels.create(productData);
-    console.log("Product added successfully.");
     return NextResponse.json({ msg: "Product added successfully" }, { status: 200 });
   } catch (error) {
-    console.error("Error adding product:", error);
+    console.error("Error adding product:", error); // More detailed error logging
     return NextResponse.json({ msg: "Error adding product", error: error.message }, { status: 500 });
   }
 };

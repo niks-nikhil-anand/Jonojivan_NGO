@@ -11,22 +11,24 @@ const ProductForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    actualPrice: '',
+    salePrice: '',
     originalPrice: '',
     category: '',
     stock: 0,
-    colors: [],
-    brand: '',
-    sku: '',
-    isFeatured: false,
+    suggestedUse: '',
+    servingPerBottle: '',
+    isFanFavourites: false,
     isOnSale: false,
     tags: '',
   });
   const [images, setImages] = useState([]);
   const [featuredImage, setFeaturedImage] = useState(null);
+  const [descriptionImage, setDescriptionImage] = useState(null);
   const [imageInputs, setImageInputs] = useState([0]);
-  const [newColor, setNewColor] = useState('');
   const [loading, setLoading] = useState(false);
+  const [ingredients, setIngredients] = useState([{ name: "", weightInGram: "", image: null }]);
+  const [productHighlights, setProductHighlights] = useState([{ title: "", description: "", icon: null }]);
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -64,6 +66,9 @@ const ProductForm = () => {
   const handleFeaturedImageChange = (e) => {
     setFeaturedImage(e.target.files[0]);
   };
+  const handleDescriptionImageChange = (e) => {
+    setDescriptionImage(e.target.files[0]);
+  };
 
   const handleCategorySelect = (categoryId) => {
     setSelectedCategory(categoryId);
@@ -73,53 +78,136 @@ const ProductForm = () => {
     });
   };
 
-  const handleColorChange = (index, e) => {
-    const newColors = [...formData.colors];
-    newColors[index] = { ...newColors[index], [e.target.name]: e.target.value };
-    setFormData({
-      ...formData,
-      colors: newColors,
-    });
-  };
+ // Handler for changing ingredient values
+ const handleIngredientChange = (index, field, value) => {
+  const updatedIngredients = ingredients.map((ingredient, i) =>
+    i === index ? { ...ingredient, [field]: value } : ingredient
+  );
+  setIngredients(updatedIngredients);
+};
 
-  const addColor = () => {
-    setFormData({
-      ...formData,
-      colors: [...formData.colors, { color: newColor, stock: 0 }]
-    });
-    setNewColor('');
-  };
+// Handler for adding more ingredients
+const handleAddIngredient = () => {
+  setIngredients([...ingredients, { name: "", weightInGram: "", image: null }]);
+};
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+// Handler for removing ingredients
+const handleRemoveIngredient = (index) => {
+  const updatedIngredients = ingredients.filter((_, i) => i !== index);
+  setIngredients(updatedIngredients);
+};
 
-    const data = new FormData();
+// Handler for file input for ingredient image
+const handleIngredientImageChange = (index, file) => {
+  const updatedIngredients = ingredients.map((ingredient, i) =>
+    i === index ? { ...ingredient, image: file } : ingredient
+  );
+  setIngredients(updatedIngredients);
+};
+
+// Handler for changing product highlight values
+const handleProductHighlightChange = (index, field, value) => {
+  const updatedHighlights = productHighlights.map((highlight, i) =>
+    i === index ? { ...highlight, [field]: value } : highlight
+  );
+  setProductHighlights(updatedHighlights);
+};
+
+// Handler for file input for product highlight icon
+const handleHighlightIconChange = (index, file) => {
+  const updatedHighlights = productHighlights.map((highlight, i) =>
+    i === index ? { ...highlight, icon: file } : highlight
+  );
+  setProductHighlights(updatedHighlights);
+};
+
+// Handler for adding more product highlights
+const handleAddProductHighlight = () => {
+  setProductHighlights([...productHighlights, { title: "", description: "", icon: null }]);
+};
+
+// Handler for removing product highlights
+const handleRemoveProductHighlight = (index) => {
+  const updatedHighlights = productHighlights.filter((_, i) => i !== index);
+  setProductHighlights(updatedHighlights);
+};
+
   
-    // Append form data
-    Object.keys(formData).forEach((key) => {
-      if (key === 'colors') {
-        data.append(key, JSON.stringify(formData[key]));
-      } else {
-        data.append(key, formData[key]);
-      }
-    });
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
   
-    // Append images
-    images.forEach((file) => file && data.append('images', file));
-    if (featuredImage) {
-      data.append('featuredImage', featuredImage);
+  const data = new FormData();
+
+  // Log formData for debugging
+  console.log('Form Data:', formData);
+
+  // Append basic product details from formData
+  data.append('name', formData.name);
+  data.append('description', formData.description);
+  data.append('salePrice', formData.salePrice);
+  data.append('originalPrice', formData.originalPrice);
+  data.append('category', formData.category);
+  data.append('stock', formData.stock);
+  data.append('suggestedUse', formData.suggestedUse);
+  data.append('servingPerBottle', formData.servingPerBottle);
+  data.append('isFanFavourites', formData.isFanFavourites);
+  data.append('isOnSale', formData.isOnSale);
+  data.append('tags', formData.tags);
+
+  // Log images for debugging
+  console.log('Images:', images);
+
+  // Append images
+  images.forEach((file) => {
+    if (file) {
+      data.append('images', file);
     }
-  
-    try {
-      await axios.post('/api/admin/dashboard/product/addProduct', data);
-      console.log('Product created successfully');
-    } catch (error) {
-      console.error('Error creating product:', error);
-    } finally {
-      setLoading(false);
+  });
+
+  if (featuredImage) {
+    data.append('featuredImage', featuredImage);
+  }
+  if (descriptionImage) {
+    data.append('descriptionImage', descriptionImage);
+  }
+
+  // Log ingredients for debugging
+  console.log('Ingredients:', ingredients);
+
+  // Append ingredients
+  ingredients.forEach((ingredient, index) => {
+    data.append(`ingredients[${index}][name]`, ingredient.name);
+    data.append(`ingredients[${index}][weightInGram]`, ingredient.weightInGram);
+    if (ingredient.image) {
+      data.append(`ingredients[${index}][image]`, ingredient.image);
     }
-  };
+  });
+
+  // Log product highlights for debugging
+  console.log('Product Highlights:', productHighlights);
+
+  // Append product highlights
+  productHighlights.forEach((highlight, index) => {
+    data.append(`productHighlights[${index}][title]`, highlight.title);
+    data.append(`productHighlights[${index}][description]`, highlight.description);
+    if (highlight.icon) {
+      data.append(`productHighlights[${index}][icon]`, highlight.icon);
+    }
+  });
+
+  try {
+    console.log('Sending data to API:', Array.from(data.entries())); // Log FormData entries
+    await axios.post('/api/admin/dashboard/product/addProduct', data);
+    console.log('Product created successfully:', data);
+  } catch (error) {
+    console.error('Error creating product:', error);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const addMoreImages = () => {
     setImageInputs([...imageInputs, imageInputs.length]);
@@ -173,13 +261,13 @@ const ProductForm = () => {
                 </div>
 
                 <div>
-                  <label className="block text-gray-700 font-bold mb-2" htmlFor="actualPrice">Actual Price</label>
+                  <label className="block text-gray-700 font-bold mb-2" htmlFor="actualPrice">Sale Price</label>
                   <input
                     className="w-full p-2 border border-gray-300 rounded"
                     type="number"
-                    name="actualPrice"
-                    id="actualPrice"
-                    value={formData.actualPrice}
+                    name="salePrice"
+                    id="salePrice"
+                    value={formData.salePrice}
                     onChange={handleInputChange}
                     required
                   />
@@ -248,7 +336,7 @@ const ProductForm = () => {
 
           {currentStep === 2 && (
             <>
-              <h3 className="text-xl font-semibold mb-4">Step 2: Images</h3>
+              <h3 className="text-xl font-semibold mb-4">Step 2: Upload Relevant Images  </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div className="mb-4">
                   <label className="block text-gray-700 font-bold mb-2">Product Images</label>
@@ -278,6 +366,93 @@ const ProductForm = () => {
                     onChange={handleFeaturedImageChange}
                   />
                 </div>
+                <div>
+                  <label className="block text-gray-700 font-bold mb-2">Description Image</label>
+                  <input
+                    className="w-full p-2 border border-gray-300 rounded"
+                    type="file"
+                    onChange={handleDescriptionImageChange}
+                  />
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={prevStep}
+                className="w-full p-2 bg-gray-500 text-white font-bold rounded hover:bg-gray-700 mb-4"
+              >
+                Previous
+              </button>
+
+              <button
+                type="button"
+                onClick={nextStep}
+                className="w-full p-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700"
+              >
+                Next
+              </button>
+            </>
+          )}
+          {currentStep === 3 && (
+            <>
+              <h3 className="text-xl font-semibold mb-4">Step 3: Additional Information</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div className="mb-4">
+                  <label className="block text-gray-700 font-bold mb-2" htmlFor="brand">Suggested Use</label>
+                  <textarea
+                 className="w-full p-2 border border-gray-300 rounded"                    
+                 type="text"
+                  name="suggestedUse"
+                    id="suggestedUse"
+                    value={formData.suggestedUse}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block text-gray-700 font-bold mb-2" htmlFor="sku">Serving/Bottle</label>
+                  <input
+                   className="w-full p-2 border border-gray-300 rounded"  
+                    type="number"
+                    name="servingPerBottle"
+                    id="servingPerBottle"
+                    value={formData.servingPerBottle}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block text-gray-700 font-bold mb-2" htmlFor="tags">Tags (comma separated)</label>
+                  <input
+                    className="w-full p-2 border border-gray-300 rounded"
+                    type="text"
+                    name="tags"
+                    id="tags"
+                    value={formData.tags}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="flex items-center mb-4">
+                  <input
+                    type="checkbox"
+                    name="isFanFavourites"
+                    checked={formData.isFanFavourites}
+                    onChange={handleInputChange}
+                    id="isFanFavourites"
+                  />
+                  <label htmlFor="isFeatured" className="ml-2 text-gray-700">Fan Favourites</label>
+                </div>
+
+                <div className="flex items-center mb-4">
+                  <input
+                    type="checkbox"
+                    name="isFanFavourites"
+                    checked={formData.isFanFavourites}
+                    onChange={handleInputChange}
+                    id="isOnSale"
+                  />
+                  <label htmlFor="isOnSale" className="ml-2 text-gray-700">On Sale</label>
+                </div>
               </div>
 
               <button
@@ -298,114 +473,125 @@ const ProductForm = () => {
             </>
           )}
 
-          {currentStep === 3 && (
+          {currentStep === 4 && (
             <>
-              <h3 className="text-xl font-semibold mb-4">Step 3: Additional Information</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2" htmlFor="brand">Brand</label>
-                  <input
-                    className="w-full p-2 border border-gray-300 rounded"
-                    type="text"
-                    name="brand"
-                    id="brand"
-                    value={formData.brand}
-                    onChange={handleInputChange}
-                  />
-                </div>
+               <motion.h2
+        className="text-2xl font-semibold mb-4 text-gray-700"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.1 }}
+      >
+        Ingredients
+      </motion.h2>
+      {ingredients.map((ingredient, index) => (
+        <motion.div
+          key={index}
+          className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-3"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
+        >
+          <input
+            type="text"
+            placeholder="Name"
+            value={ingredient.name}
+            onChange={(e) => handleIngredientChange(index, "name", e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            placeholder="Weight (in grams)"
+            value={ingredient.weightInGram}
+            onChange={(e) => handleIngredientChange(index, "weightInGram", e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="file"
+            onChange={(e) => handleIngredientImageChange(index, e.target.files[0])}
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <motion.button
+            type="button"
+            onClick={() => handleRemoveIngredient(index)}
+            className="bg-red-500 text-white py-3 px-3 rounded-lg mt-2 hover:bg-red-600 text-xl"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Remove Ingredient
+          </motion.button>
+        </motion.div>
+      ))}
+      <motion.button
+        type="button"
+        onClick={handleAddIngredient}
+        className="bg-gray-500 text-white py-3 px-3 rounded-lg mt-2 hover:bg-gray-600 text-xl"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        Add Ingredient
+      </motion.button>
 
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2" htmlFor="sku">SKU</label>
-                  <input
-                    className="w-full p-2 border border-gray-300 rounded"
-                    type="text"
-                    name="sku"
-                    id="sku"
-                    value={formData.sku}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2" htmlFor="tags">Tags (comma separated)</label>
-                  <input
-                    className="w-full p-2 border border-gray-300 rounded"
-                    type="text"
-                    name="tags"
-                    id="tags"
-                    value={formData.tags}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2">Colors</label>
-                  <div className="mb-4">
-                    <input
-                      className="w-full p-2 border border-gray-300 rounded"
-                      type="text"
-                      value={newColor}
-                      onChange={(e) => setNewColor(e.target.value)}
-                      placeholder="Add a new color"
-                    />
-                    <button
-                      type="button"
-                      onClick={addColor}
-                      className="w-full p-2 bg-green-500 text-white font-bold rounded hover:bg-green-700 mt-2"
-                    >
-                      Add Color
-                    </button>
-                  </div>
-
-                  {formData.colors.map((color, index) => (
-                    <div key={index} className="flex items-center mb-2">
-                      <input
-                        type="text"
-                        name="color"
-                        value={color.color}
-                        onChange={(e) => handleColorChange(index, e)}
-                        className="w-1/2 p-2 border border-gray-300 rounded"
-                        placeholder="Color"
-                      />
-                      <input
-                        type="number"
-                        name="stock"
-                        value={color.stock}
-                        onChange={(e) => handleColorChange(index, e)}
-                        className="w-1/2 p-2 border border-gray-300 rounded ml-2"
-                        placeholder="Stock"
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex items-center mb-4">
-                  <input
-                    type="checkbox"
-                    name="isFeatured"
-                    checked={formData.isFeatured}
-                    onChange={handleInputChange}
-                    id="isFeatured"
-                  />
-                  <label htmlFor="isFeatured" className="ml-2 text-gray-700">Featured</label>
-                </div>
-
-                <div className="flex items-center mb-4">
-                  <input
-                    type="checkbox"
-                    name="isOnSale"
-                    checked={formData.isOnSale}
-                    onChange={handleInputChange}
-                    id="isOnSale"
-                  />
-                  <label htmlFor="isOnSale" className="ml-2 text-gray-700">On Sale</label>
-                </div>
-              </div>
+      <motion.h2
+        className="text-2xl font-semibold mb-4 text-gray-700"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.1 }}
+      >
+        Product Highlights
+      </motion.h2>
+      {productHighlights.map((highlight, index) => (
+        <motion.div
+          key={index}
+          className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-3"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
+        >
+          <input
+            type="text"
+            placeholder="Title"
+            value={highlight.title}
+            onChange={(e) => handleProductHighlightChange(index, "title", e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            placeholder="Description"
+            value={highlight.description}
+            onChange={(e) => handleProductHighlightChange(index, "description", e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="file"
+            onChange={(e) => handleHighlightIconChange(index, e.target.files[0])}
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+         
+          <motion.button
+            type="button"
+            onClick={() => handleRemoveProductHighlight(index)}
+            className=" bg-red-500 text-white py-3 px-3 rounded-lg mt-2 hover:bg-red-600 text-xl"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Remove Highlight
+          </motion.button>
+        </motion.div>
+      ))}
+      <motion.button
+        type="button"
+        onClick={handleAddProductHighlight}
+        className="bg-gray-500 text-white py-3 px-3 rounded-lg mt-2 hover:bg-gray-600 text-xl"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        Add Highlight
+      </motion.button>
 
               <button
                 type="button"
                 onClick={prevStep}
-                className="w-full p-2 bg-gray-500 text-white font-bold rounded hover:bg-gray-700 mb-4"
+                className="w-full p-2 bg-gray-500 text-white font-bold rounded hover:bg-gray-700 my-4"
               >
                 Previous
               </button>
