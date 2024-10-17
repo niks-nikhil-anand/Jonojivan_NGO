@@ -31,7 +31,7 @@ const Footer = () => {
         >
           <h3 className="text-lg font-bold text-orange-500">Resources</h3>
           <div className="w-16 h-1 bg-purple-600 mb-4"></div>
-          <ul className="space-y-2">
+          <ul className="space-y-3">
             {['Home', 'Shipping and Return Policies', '60-Day Satisfaction Guarantee', 'Privacy Policy', 'Terms of Use', 'CCPA Notice', 'Affiliate Program'].map((link) => (
               <li key={link} className="hover:underline cursor-pointer">{link}</li>
             ))}
@@ -67,6 +67,16 @@ const Footer = () => {
             </button>
           </form>
         </motion.div>
+      </div>
+      <div className="mt-10 text-center text-sm text-black">
+        <p>Copyright © 2024, <a href="#" className="text-black underline">BlushBelle Nutrition</a></p>
+        <div className="mt-4 -100 p-4  flex justify-center items-center flex-col ">
+          <div className='w-[50rem] rounded-lg border border-gray-200 px-5 py-8'>
+          <p className=' text-center'>50% OFF discount valid on Superfruit Max Gummies at BlushBelle.com. Discount not applicable on repeating subscription orders. Discount automatically applied at checkout. Offer valid until 11/15/24 at 11:59 PM MST. Offer may be modified or terminated at any time. Exclusions apply.</p>
+          <p className="mt-2  text-center">**These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure or prevent any disease.</p>
+          </div>
+         
+        </div>
       </div>
     </footer>
   );
