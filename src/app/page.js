@@ -1,6 +1,7 @@
+import Banner1 from "@/components/frontend/ui/(Banners)/Banner1";
+import Banner2 from "@/components/frontend/ui/(Banners)/Banner2";
 import CategoriesSection from "@/components/frontend/ui/CategorySection";
 import HeroSection from "@/components/frontend/ui/HeroSection";
-import ManualSlider from "@/components/frontend/ui/ManualSlider";
 import Marquee from "@/components/frontend/ui/Marquee";
 import ProductCard from "@/components/frontend/ui/ProductForSale";
 
@@ -11,7 +12,8 @@ export default function Home() {
     <ProductCard/>
     <CategoriesSection/>
     <Marquee/>
-    <ManualSlider/>
+    <Banner1/>
+    <Banner2/>
     </>
   );
 }
