@@ -1,16 +1,28 @@
 import mongoose from "mongoose";
 
-const colorSchema = new mongoose.Schema({
-    colorName: {
+const featuredIngredientsSchema = new mongoose.Schema({
+    name: {
         type: String,
         required: [true, 'Color name is required'],
     },
-    stock: {
-        type: Number,
-        required: [true, 'Stock quantity is required'],
-        min: [0, 'Stock cannot be negative'],
-        default: 0,
-    }
+    weightInGram: {
+       tupe:String
+    },
+    image: {
+        tupe:String
+     }
+});
+const productHighlightsSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: [true, 'Color name is required'],
+    },
+    description: {
+       tupe:String
+    },
+    icon: {
+        tupe:String
+     }
 });
 
 const productSchema = new mongoose.Schema({
@@ -19,8 +31,12 @@ const productSchema = new mongoose.Schema({
         required: [true, 'Product name is required'],
         trim: true,
     },
-    colors: {
-        type: [colorSchema],
+    ingredients: {
+        type: [featuredIngredientsSchema],
+        default: undefined, // Makes the colors array optional
+    },
+    productHighlights: {
+        type: [productHighlightsSchema],
         default: undefined, // Makes the colors array optional
     },
     stock: {
@@ -53,6 +69,10 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Featured image URL is required'],
     },
+    descriptionImage: {
+        type: String,
+        required: [true, 'Featured image URL is required'],
+    },
     images: [{
         type: String
     }],
@@ -69,13 +89,10 @@ const productSchema = new mongoose.Schema({
             default: 0,
         }
     },
-    brand: {
+    suggestedUse: {
         type: String,
     },
-    sku: {
-        type: String,
-        unique: true,
-    },
+    
     isFeatured: {
         type: Boolean,
         default: false,
