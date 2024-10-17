@@ -4,11 +4,13 @@ import CategoriesSection from "@/components/frontend/ui/CategorySection";
 import HeroSection from "@/components/frontend/ui/HeroSection";
 import Marquee from "@/components/frontend/ui/Marquee";
 import ProductCard from "@/components/frontend/ui/ProductForSale";
+import WhoWeAre from "@/components/frontend/ui/WhoWeAre";
 
 export default function Home() {
   return (
     <>
     <HeroSection/>
+    <WhoWeAre/>
     <ProductCard/>
     <CategoriesSection/>
     <Marquee/>
