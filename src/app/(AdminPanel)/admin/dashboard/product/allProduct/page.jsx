@@ -74,7 +74,7 @@ const Products = () => {
               {truncateName(product.name)}
             </p>
             <p className="text-center text-2xl font-bold text-green-500 mt-2">
-              ${product.actualPrice.toFixed(2)}
+              ${product.salePrice}
             </p>
           </motion.div>
         ))}

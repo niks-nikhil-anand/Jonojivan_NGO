@@ -3,25 +3,26 @@ import mongoose from "mongoose";
 const featuredIngredientsSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, 'Color name is required'],
+        required: [true, 'Ingredient name is required'],
     },
     weightInGram: {
-       tupe:String
+        type: String,  // Corrected typo here
     },
     image: {
-        tupe:String
-     }
+        type: String,  // Corrected typo here
+    }
 });
+
 const productHighlightsSchema = new mongoose.Schema({
     title: {
         type: String,
         required: [true, 'Color name is required'],
     },
     description: {
-       tupe:String
+       type:String
     },
     icon: {
-        tupe:String
+        type:String
      }
 });
 
@@ -33,11 +34,9 @@ const productSchema = new mongoose.Schema({
     },
     ingredients: {
         type: [featuredIngredientsSchema],
-        default: undefined, // Makes the colors array optional
     },
     productHighlights: {
         type: [productHighlightsSchema],
-        default: undefined, // Makes the colors array optional
     },
     stock: {
         type: Number,

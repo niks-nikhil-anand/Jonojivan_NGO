@@ -78,7 +78,7 @@ export const POST = async (req) => {
       
       if (ingredientName && ingredientWeight) {
         const ingredientImageUrl = ingredientImage ? await uploadImage(ingredientImage, 'ingredientImages') : null;
-        ingredients.push({ name: ingredientName, weightInGram: ingredientWeight, image: ingredientImageUrl });
+        ingredients.push({ name: ingredientName, weightInGram: ingredientWeight, image: ingredientImageUrl.secure_url });
       }
       ingredientCount++;
     }
@@ -96,7 +96,7 @@ export const POST = async (req) => {
 
       if (highlightTitle) {
         const highlightIconUrl = highlightIcon ? await uploadImage(highlightIcon, 'highlightIcons') : null;
-        productHighlights.push({ title: highlightTitle, description: highlightDescription, icon: highlightIconUrl });
+        productHighlights.push({ title: highlightTitle, description: highlightDescription, icon: highlightIconUrl.secure_url });
       }
       highlightCount++;
     }
