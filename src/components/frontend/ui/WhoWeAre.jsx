@@ -27,7 +27,6 @@ const WhoWeAre = () => {
             alt={banner.label}
             className="object-fill w-full h-full transition-transform duration-300 ease-in-out transform hover:scale-105"
           />
-          {/* Name over the image */}
           <p className="absolute top-10 left-0 right-0 text-center bg-opacity-50 text-red-500 text-lg sm:text-xl md:text-2xl font-medium p-1">
             {banner.label}
           </p>

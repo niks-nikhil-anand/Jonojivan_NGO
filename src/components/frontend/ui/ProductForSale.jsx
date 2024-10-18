@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { FaRegHeart, FaTimes } from "react-icons/fa";
-import Container from '@/components/utils/Container';
 import Image from 'next/image';
 
 const ProductCard = () => {
@@ -58,32 +57,24 @@ const ProductCard = () => {
     const handleWishlistClick = () => {
         router.push('/auth/signIn');
     };
-
-    const handleImageClick = (image) => {
-        setShowFullImage(image);
-    };
-
-    const handleCloseFullImage = () => {
-        setShowFullImage(null);
-    };
+ 
 
     return (
-        <Container>
-            <div className="mb-6">
-                <h2 className="h6 mb-4 text-start">Products On Sale</h2>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      
+            <div className="flex flex-col mt-5">
+                <h2 className="text-xl md:text-4xl mb-4 text-center font-bold text-red-500">Fan Favorites</h2>
+                <div className="flex gap-5 hover:cursor-pointer justify-center px-2 py-3 flex-wrap">
                 {products.map(product => {
-                    const { _id, name, actualPrice, originalPrice, featuredImage } = product;
+                    const { _id, name, actualPrice, originalPrice, featuredImage , salePrice } = product;
                     const discountPercentage = Math.round(((originalPrice - actualPrice) / originalPrice) * 100);
 
                     return (
                         <div
                             key={_id}
-                            className="relative max-w-sm bg-white shadow-xl rounded-lg overflow-hidden transform transition-transform hover:-translate-y-2 hover:shadow-2xl cursor-pointer"
+                            className="relative h-[18rem] w-[14rem] sm:h-[22rem] sm:w-[18rem] md:h-[28rem] md:w-[22rem] overflow-hidden rounded-3xl"
                             onClick={() => handleCardClick(_id)}
                         >
-                            <div className="absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-br-lg z-10">
+                            <div className="absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-4 py-2 rounded-br-lg z-10">
                                 Sale
                             </div>
                             <div className="absolute top-2 right-2 z-20">
@@ -97,48 +88,32 @@ const ProductCard = () => {
                                     <FaRegHeart size={24} />
                                 </button>
                             </div>
-                            <div className="w-full h-48 overflow-hidden">
+                            <div className="relative h-[18rem] w-[14rem] sm:h-[22rem] sm:w-[18rem] md:h-[28rem] md:w-[22rem] overflow-hidden rounded-3xl">
                                 <img
-                                    className="w-full h-full object-cover object-center transition-transform duration-300 transform hover:scale-110"
+                                    className="object-fill w-full h-full transition-transform duration-300 ease-in-out transform hover:scale-105"
                                     src={featuredImage}
                                     alt={name}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleImageClick(featuredImage);
-                                    }}
+                                    
                                 />
-                            </div>
-                            <div className="p-4 bg-gradient-to-b from-gray-50 to-white">
-                                <h3 className="text-lg font-bold mb-2">{name}</h3>
-                                <div className="flex items-center">
+                                 <h3 className="absolute bottom-7 left-5  text-center bg-opacity-50 text-red-500 text-lg sm:text-xl md:text-xl font-medium p-1 bg-white px-5 py-2 rounded">{name}</h3>
+                                <div className="absolute bottom-7 right-5  text-center bg-opacity-50 text-red-500 text-lg sm:text-xl md:text-xl font-medium p-1 bg-white px-5 py-2 rounded">
+                                    <div className='flex flex-col'>
                                     <span className="text-gray-500 line-through mr-2">₹{originalPrice}</span>
-                                    <span className="text-green-500 font-bold">₹{actualPrice}</span>
-                                    <span className="text-red-500 text-sm ml-2">{discountPercentage}% off</span>
+                                    <span className="text-green-500 font-bold ml-4">₹{salePrice}</span>
+                                    {/* <span className="text-red-500 text-sm ml-2">{discountPercentage}% off</span> */}
+                                    </div>
+                                   
                                 </div>
                             </div>
+                            
                         </div>
                     );
                 })}
             </div>
 
-            {showFullImage && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-                    <div className="relative">
-                        <img
-                            src={showFullImage}
-                            alt="Full size product"
-                            className="max-w-full max-h-screen"
-                        />
-                        <button
-                            onClick={handleCloseFullImage}
-                            className="absolute top-0 right-0 m-4 text-red-500 hover:text-red-700"
-                        >
-                            <FaTimes size={32} />
-                        </button>
-                    </div>
-                </div>
-            )}
-        </Container>
+            </div>
+          
+       
     );
 };
 
