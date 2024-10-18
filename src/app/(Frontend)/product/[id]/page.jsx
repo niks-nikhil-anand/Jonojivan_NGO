@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { MdClose } from 'react-icons/md';
 import { AiFillStar } from 'react-icons/ai';
 import Image from 'next/image';
+import Loader from '@/components/loader/loader';
 
 const ProductDetail = () => {
     const [product, setProduct] = useState(null);
@@ -39,13 +40,7 @@ const ProductDetail = () => {
 
     if (loading) {
         return (
-            <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
-                <div className="relative w-24 h-24 bg-gray-200 rounded-full border border-gray-300">
-                    <div className="absolute inset-0 flex items-center justify-center text-blue-500 font-bold text-xl">
-                        {progress}%
-                    </div>
-                </div>
-            </div>
+            <Loader/>
         );
     }
 

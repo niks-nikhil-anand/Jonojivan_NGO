@@ -1,35 +1,168 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FiSearch, FiUser, FiShoppingBag } from "react-icons/fi";
+import { AiOutlineDown, AiOutlineUp, AiOutlineMenu } from "react-icons/ai";
 import Image from 'next/image';
-import logo from '../../../../public/annimatedIcons/grocery.png';
-import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
+import logo from '../../../../public/annimatedIcons/grocery.png'; // Adjust the path to your logo
 
 const Navbar = () => {
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isLearnOpen, setIsLearnOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleShopDropdown = () => {
-    setIsShopOpen(prev => !prev);
-    // Close Learn dropdown if it's open
-    if (isLearnOpen) {
-      setIsLearnOpen(false);
-    }
+    setIsShopOpen((prev) => !prev);
+    if (isLearnOpen) setIsLearnOpen(false);
   };
 
   const toggleLearnDropdown = () => {
-    setIsLearnOpen(prev => !prev);
-    // Close Shop dropdown if it's open
-    if (isShopOpen) {
-      setIsShopOpen(false);
-    }
+    setIsLearnOpen((prev) => !prev);
+    if (isShopOpen) setIsShopOpen(false);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen((prev) => !prev);
   };
 
   return (
-    <nav className="bg-white shadow-md w-full p-4 relative z-50">
-      <div className="container mx-auto flex justify-between items-center">
+    <nav className="bg-white shadow-md w-full py-4 px-6 md:px-12 relative z-50">
+      <div className="flex justify-between items-center">
+  {/* Mobile Menu Icon */}
+  <div className="md:hidden">
+    <AiOutlineMenu
+      className="w-8 h-8 cursor-pointer"
+      onClick={toggleMobileMenu}
+    />
+  </div>
+
+  {/* Logo */}
+  <div className="flex justify-center md:hidden">
+    <Image src={logo} alt="Logo" width={40} height={40} />
+  </div>
+
+  {/* Right Side - Search, User, Cart Icons */}
+  <div className="flex items-center space-x-4 md:hidden">
+    <FiSearch className="w-6 h-6 cursor-pointer" />
+    <FiUser className="w-6 h-6 cursor-pointer" />
+    <FiShoppingBag className="w-6 h-6 cursor-pointer" />
+  </div>
+</div>
+
+{/* Mobile Menu */}
+{isMobileMenuOpen && (
+  <motion.div
+    initial={{ height: 0, opacity: 0 }}
+    animate={{ height: "auto", opacity: 1 }}
+    transition={{ duration: 0.5, ease: "easeInOut" }}
+    className="md:hidden bg-white w-full mt-4 p-6 shadow-lg rounded-lg"
+  >
+    {/* Animate links individually for a staggered effect */}
+    <motion.ul
+      initial="hidden"
+      animate="visible"
+      variants={{
+        hidden: { opacity: 0, y: -10 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            delayChildren: 0.3,
+            staggerChildren: 0.2,
+          },
+        },
+      }}
+      className="space-y-6"
+    >
+      {/* Shop dropdown */}
+      <motion.li variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}>
+        <button
+          onClick={toggleShopDropdown}
+          className="text-lg font-medium flex items-center justify-between w-full"
+        >
+          Shop
+          {isShopOpen ? <AiOutlineUp className="ml-2" /> : <AiOutlineDown className="ml-2" />}
+        </button>
+        {isShopOpen && (
+          <motion.ul
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="mt-2 space-y-2 pl-4"
+          >
+            <li>
+              <a href="#" className="block hover:text-blue-600">
+                Men's Health
+              </a>
+            </li>
+            <li>
+              <a href="#" className="block hover:text-blue-600">
+                Women's Health
+              </a>
+            </li>
+            <li>
+              <a href="#" className="block hover:text-blue-600">
+                Best Sellers
+              </a>
+            </li>
+          </motion.ul>
+        )}
+      </motion.li>
+
+      {/* Learn dropdown */}
+      <motion.li variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}>
+        <button
+          onClick={toggleLearnDropdown}
+          className="text-lg font-medium flex items-center justify-between w-full"
+        >
+          Learn
+          {isLearnOpen ? <AiOutlineUp className="ml-2" /> : <AiOutlineDown className="ml-2" />}
+        </button>
+        {isLearnOpen && (
+          <motion.ul
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="mt-2 space-y-2 pl-4"
+          >
+            <li>
+              <a href="#" className="block hover:text-blue-600">
+                About Us
+              </a>
+            </li>
+            <li>
+              <a href="#" className="block hover:text-blue-600">
+                FAQs
+              </a>
+            </li>
+            <li>
+              <a href="#" className="block hover:text-blue-600">
+                Blog
+              </a>
+            </li>
+          </motion.ul>
+        )}
+      </motion.li>
+
+      {/* Regular Links */}
+      <motion.li variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}>
+        <a href="#" className="block hover:text-blue-600">
+          Rewards
+        </a>
+      </motion.li>
+      <motion.li variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}>
+        <a href="#" className="block hover:text-blue-600">
+          Take Quiz
+        </a>
+      </motion.li>
+    </motion.ul>
+  </motion.div>
+)}
+
+
+      {/* Desktop Menu */}
+      <div className="mx-auto hidden md:flex justify-between items-center px-8 ">
         {/* Left Side - Menu Links */}
-        <div className="flex items-center space-x-10 relative z-50">
+        <div className="flex items-center space-x-10 relative z-50 ">
           {/* Shop Dropdown */}
           <div className="relative">
             <button
