@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import { FaPlus, FaMinus } from 'react-icons/fa'
+import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
+
 
 const ProductForm = () => {
   const [categories, setCategories] = useState([]);
@@ -232,378 +235,496 @@ const handleSubmit = async (e) => {
           transition={{ duration: 0.3 }}
         >
           {currentStep === 1 && (
-            <>
-              <h3 className="text-xl font-semibold mb-4">Step 1: Basic Information</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-gray-700 font-bold mb-2" htmlFor="name">Product Name</label>
-                  <input
-                    className="w-full p-2 border border-gray-300 rounded"
-                    type="text"
-                    name="name"
-                    id="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 font-bold mb-2" htmlFor="description">Description</label>
-                  <textarea
-                    className="w-full p-2 border border-gray-300 rounded"
-                    name="description"
-                    id="description"
-                    value={formData.description}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 font-bold mb-2" htmlFor="actualPrice">Sale Price</label>
-                  <input
-                    className="w-full p-2 border border-gray-300 rounded"
-                    type="number"
-                    name="salePrice"
-                    id="salePrice"
-                    value={formData.salePrice}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 font-bold mb-2" htmlFor="originalPrice">Original Price</label>
-                  <input
-                    className="w-full p-2 border border-gray-300 rounded"
-                    type="number"
-                    name="originalPrice"
-                    id="originalPrice"
-                    value={formData.originalPrice}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 font-bold mb-2" htmlFor="stock">Stock</label>
-                  <input
-                    className="w-full p-2 border border-gray-300 rounded"
-                    type="number"
-                    name="stock"
-                    id="stock"
-                    value={formData.stock}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-
-                <div className="col-span-2">
-                  <label className="block text-gray-700 font-bold mb-2">Category</label>
-                  {fetchingCategories ? (
-                    <p>Loading categories...</p>
-                  ) : (
-                    <div className="flex flex-wrap gap-4">
-                      {categories.map((category) => (
-                        <button
-                          key={category._id}
-                          type="button"
-                          onClick={() => handleCategorySelect(category._id)}
-                          className={`p-3 border rounded-lg ${
-                            selectedCategory === category._id
-                              ? 'bg-blue-500 text-white'
-                              : 'bg-white text-gray-700'
-                          }`}
-                        >
-                          {category.name}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={nextStep}
-                className="w-full p-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700"
-              >
-                Next
-              </button>
-            </>
+             <>
+             <motion.h3
+               className="text-xl font-semibold mb-4 text-blue-600"
+               initial={{ opacity: 0, x: -100 }}
+               animate={{ opacity: 1, x: 0 }}
+               transition={{ duration: 0.5 }}
+             >
+               Step 1: Basic Information
+             </motion.h3>
+         
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+               {/* Product Name */}
+               <div>
+                 <label className="block text-purple-600 font-bold mb-3" htmlFor="name">
+                   Product Name
+                 </label>
+                 <motion.input
+                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+                   type="text"
+                   name="name"
+                   id="name"
+                   value={formData.name}
+                   onChange={handleInputChange}
+                   required
+                   initial={{ opacity: 0, scale: 0.8 }}
+                   animate={{ opacity: 1, scale: 1 }}
+                   transition={{ duration: 0.4 }}
+                 />
+               </div>
+         
+               {/* Description */}
+               <div>
+                 <label className="block text-pink-600 font-bold mb-3" htmlFor="description">
+                   Description
+                 </label>
+                 <motion.textarea
+                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
+                   name="description"
+                   id="description"
+                   value={formData.description}
+                   onChange={handleInputChange}
+                   required
+                   initial={{ opacity: 0, scale: 0.8 }}
+                   animate={{ opacity: 1, scale: 1 }}
+                   transition={{ duration: 0.4 }}
+                 />
+               </div>
+         
+               {/* Sale Price */}
+               <div>
+                 <label className="block text-teal-600 font-bold mb-3" htmlFor="salePrice">
+                   Sale Price
+                 </label>
+                 <motion.input
+                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
+                   type="number"
+                   name="salePrice"
+                   id="salePrice"
+                   value={formData.salePrice}
+                   onChange={handleInputChange}
+                   required
+                   initial={{ opacity: 0, scale: 0.8 }}
+                   animate={{ opacity: 1, scale: 1 }}
+                   transition={{ duration: 0.4 }}
+                 />
+               </div>
+         
+               {/* Original Price */}
+               <div>
+                 <label className="block text-orange-600 font-bold mb-3" htmlFor="originalPrice">
+                   Original Price
+                 </label>
+                 <motion.input
+                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
+                   type="number"
+                   name="originalPrice"
+                   id="originalPrice"
+                   value={formData.originalPrice}
+                   onChange={handleInputChange}
+                   required
+                   initial={{ opacity: 0, scale: 0.8 }}
+                   animate={{ opacity: 1, scale: 1 }}
+                   transition={{ duration: 0.4 }}
+                 />
+               </div>
+         
+               {/* Stock */}
+               <div>
+                 <label className="block text-green-600 font-bold mb-3" htmlFor="stock">
+                   Stock
+                 </label>
+                 <motion.input
+                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+                   type="number"
+                   name="stock"
+                   id="stock"
+                   value={formData.stock}
+                   onChange={handleInputChange}
+                   required
+                   initial={{ opacity: 0, scale: 0.8 }}
+                   animate={{ opacity: 1, scale: 1 }}
+                   transition={{ duration: 0.4 }}
+                 />
+               </div>
+         
+               {/* Category Selection */}
+               <div className="col-span-2">
+                 <label className="block text-blue-600 font-bold mb-3">Category</label>
+                 {fetchingCategories ? (
+                   <p>Loading categories...</p>
+                 ) : (
+                   <div className="flex flex-wrap gap-4">
+                     {categories.map((category) => (
+                       <motion.button
+                         key={category._id}
+                         type="button"
+                         onClick={() => handleCategorySelect(category._id)}
+                         className={`p-3 border rounded-lg ${
+                           selectedCategory === category._id
+                             ? 'bg-blue-500 text-white'
+                             : 'bg-white text-gray-700 hover:bg-gray-200'
+                         }`}
+                         whileHover={{ scale: 1.05 }}
+                         whileTap={{ scale: 0.95 }}
+                         transition={{ duration: 0.3 }}
+                       >
+                         {category.name}
+                       </motion.button>
+                     ))}
+                   </div>
+                 )}
+               </div>
+             </div>
+         
+             {/* Flexbox for the Next button aligned to the right */}
+             <div className="flex justify-end">
+               <motion.button
+                 type="button"
+                 onClick={nextStep}
+                 className="w-40 p-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600"
+                 whileHover={{ scale: 1.05 }}
+                 whileTap={{ scale: 0.95 }}
+               >
+                 Next
+               </motion.button>
+             </div>
+           </>
           )}
 
           {currentStep === 2 && (
-            <>
-              <h3 className="text-xl font-semibold mb-4">Step 2: Upload Relevant Images  </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2">Product Images</label>
-                  {imageInputs.map((input, index) => (
-                    <div key={index} className="mb-4">
-                      <input
-                        className="w-full p-2 border border-gray-300 rounded"
-                        type="file"
-                        onChange={(e) => handleFileChange(e, index)}
-                      />
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    onClick={addMoreImages}
-                    className="w-full p-2 bg-gray-300 text-gray-700 font-bold rounded hover:bg-gray-500 hover:text-white"
-                  >
-                    Add More Images
-                  </button>
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 font-bold mb-2">Featured Image</label>
-                  <input
-                    className="w-full p-2 border border-gray-300 rounded"
-                    type="file"
-                    onChange={handleFeaturedImageChange}
-                  />
-                </div>
-                <div>
-                  <label className="block text-gray-700 font-bold mb-2">Description Image</label>
-                  <input
-                    className="w-full p-2 border border-gray-300 rounded"
-                    type="file"
-                    onChange={handleDescriptionImageChange}
-                  />
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={prevStep}
-                className="w-full p-2 bg-gray-500 text-white font-bold rounded hover:bg-gray-700 mb-4"
-              >
-                Previous
-              </button>
-
-              <button
-                type="button"
-                onClick={nextStep}
-                className="w-full p-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700"
-              >
-                Next
-              </button>
-            </>
+           <>
+           <motion.h3
+             className="text-xl font-semibold mb-4 text-blue-600"
+             initial={{ opacity: 0, x: -100 }}
+             animate={{ opacity: 1, x: 0 }}
+             transition={{ duration: 0.5 }}
+           >
+             Step 2: Upload Relevant Images
+           </motion.h3>
+       
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+             <div className="mb-6">
+               <label className="block text-purple-600 font-bold mb-3">Product Images</label>
+               {imageInputs.map((input, index) => (
+                 <motion.div
+                   key={index}
+                   className="mb-4 flex items-center justify-between"
+                   initial={{ opacity: 0, scale: 0.8 }}
+                   animate={{ opacity: 1, scale: 1 }}
+                   transition={{ duration: 0.4 }}
+                 >
+                   <input
+                     className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                     type="file"
+                     onChange={(e) => handleFileChange(e, index)}
+                   />
+                   <motion.button
+                     type="button"
+                     onClick={() => removeImage(index)}
+                     className="ml-3 text-red-500 text-xl"
+                     whileHover={{ scale: 1.2, color: '#ff4d4d' }}
+                     whileTap={{ scale: 0.9 }}
+                   >
+                     <AiOutlineMinusCircle />
+                   </motion.button>
+                 </motion.div>
+               ))}
+               <motion.button
+                 type="button"
+                 onClick={addMoreImages}
+                 className="w-full bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 mt-4 flex items-center justify-center"
+                 whileHover={{ scale: 1.05, backgroundColor: '#28a745' }}
+                 whileTap={{ scale: 0.95 }}
+               >
+                 <AiOutlinePlusCircle className="mr-2 text-xl" /> Add More Images
+               </motion.button>
+             </div>
+       
+             <div>
+               <label className="block text-pink-600 font-bold mb-3">Featured Image</label>
+               <motion.div
+                 initial={{ opacity: 0, y: 50 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 transition={{ duration: 0.5 }}
+               >
+                 <input
+                   className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
+                   type="file"
+                   onChange={handleFeaturedImageChange}
+                 />
+               </motion.div>
+             </div>
+       
+             <div>
+               <label className="block text-teal-600 font-bold mb-3">Description Image</label>
+               <motion.div
+                 initial={{ opacity: 0, y: 50 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 transition={{ duration: 0.5 }}
+               >
+                 <input
+                   className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
+                   type="file"
+                   onChange={handleDescriptionImageChange}
+                 />
+               </motion.div>
+             </div>
+           </div>
+       
+           {/* Flexbox for buttons with Previous on the left and Next on the right */}
+           <div className="flex justify-between">
+             <motion.button
+               type="button"
+               onClick={prevStep}
+               className="w-40 p-3 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600"
+               whileHover={{ scale: 1.05 }}
+               whileTap={{ scale: 0.95 }}
+             >
+               Previous
+             </motion.button>
+       
+             <motion.button
+               type="button"
+               onClick={nextStep}
+               className="w-40 p-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600"
+               whileHover={{ scale: 1.05 }}
+               whileTap={{ scale: 0.95 }}
+             >
+               Next
+             </motion.button>
+           </div>
+         </>
+        
+         
           )}
           {currentStep === 3 && (
             <>
-              <h3 className="text-xl font-semibold mb-4">Step 3: Additional Information</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2" htmlFor="brand">Suggested Use</label>
-                  <textarea
-                 className="w-full p-2 border border-gray-300 rounded"                    
-                 type="text"
+            <h3 className="text-xl font-semibold mb-4 text-gray-800">Step 3: Additional Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <motion.div
+                className="mb-4"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <label className="block text-gray-700 font-bold mb-2" htmlFor="brand">Suggested Use</label>
+                <textarea
+                  className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                   name="suggestedUse"
-                    id="suggestedUse"
-                    value={formData.suggestedUse}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2" htmlFor="sku">Serving/Bottle</label>
-                  <input
-                   className="w-full p-2 border border-gray-300 rounded"  
-                    type="number"
-                    name="servingPerBottle"
-                    id="servingPerBottle"
-                    value={formData.servingPerBottle}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2" htmlFor="tags">Tags (comma separated)</label>
-                  <input
-                    className="w-full p-2 border border-gray-300 rounded"
-                    type="text"
-                    name="tags"
-                    id="tags"
-                    value={formData.tags}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="flex items-center mb-4">
-                  <input
-                    type="checkbox"
-                    name="isFanFavourites"
-                    checked={formData.isFanFavourites}
-                    onChange={handleInputChange}
-                    id="isFanFavourites"
-                  />
-                  <label htmlFor="isFeatured" className="ml-2 text-gray-700">Fan Favourites</label>
-                </div>
-
-                <div className="flex items-center mb-4">
-                  <input
-                    type="checkbox"
-                    name="isOnSale"
-                    checked={formData.isOnSale}
-                    onChange={handleInputChange}
-                    id="isOnSale"
-                  />
-                  <label htmlFor="isOnSale" className="ml-2 text-gray-700">On Sale</label>
-                </div>
-              </div>
-
-              <button
+                  id="suggestedUse"
+                  value={formData.suggestedUse}
+                  onChange={handleInputChange}
+                />
+              </motion.div>
+          
+              <motion.div
+                className="mb-4"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <label className="block text-gray-700 font-bold mb-2" htmlFor="sku">Serving/Bottle</label>
+                <input
+                  className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  type="number"
+                  name="servingPerBottle"
+                  id="servingPerBottle"
+                  value={formData.servingPerBottle}
+                  onChange={handleInputChange}
+                />
+              </motion.div>
+          
+              <motion.div
+                className="mb-4"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <label className="block text-gray-700 font-bold mb-2" htmlFor="tags">Tags (comma separated)</label>
+                <input
+                  className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  type="text"
+                  name="tags"
+                  id="tags"
+                  value={formData.tags}
+                  onChange={handleInputChange}
+                />
+              </motion.div>
+          
+              <motion.div className="flex items-center mb-4" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <input
+                  type="checkbox"
+                  name="isFanFavourites"
+                  checked={formData.isFanFavourites}
+                  onChange={handleInputChange}
+                  id="isFanFavourites"
+                />
+                <label htmlFor="isFanFavourites" className="ml-2 text-gray-700">Fan Favourites</label>
+              </motion.div>
+          
+              <motion.div className="flex items-center mb-4" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <input
+                  type="checkbox"
+                  name="isOnSale"
+                  checked={formData.isOnSale}
+                  onChange={handleInputChange}
+                  id="isOnSale"
+                />
+                <label htmlFor="isOnSale" className="ml-2 text-gray-700">On Sale</label>
+              </motion.div>
+            </div>
+          
+            <div className="flex justify-between">
+              <motion.button
                 type="button"
                 onClick={prevStep}
-                className="w-full p-2 bg-gray-500 text-white font-bold rounded hover:bg-gray-700 mb-4"
+                className="w-40 p-3 bg-gray-500 text-white font-bold rounded hover:bg-gray-700"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 Previous
-              </button>
-
-              <button
+              </motion.button>
+          
+              <motion.button
                 type="button"
                 onClick={nextStep}
-                className="w-full p-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700"
+                className="w-40 p-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 Next
-              </button>
-            </>
+              </motion.button>
+            </div>
+          </>
           )}
 
           {currentStep === 4 && (
+            
+            
             <>
-               <motion.h2
-        className="text-2xl font-semibold mb-4 text-gray-700"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.1 }}
-      >
-        Ingredients
-      </motion.h2>
-      {ingredients.map((ingredient, index) => (
-        <motion.div
-          key={index}
-          className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-3"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4 }}
-        >
-          <input
-            type="text"
-            placeholder="Name"
-            value={ingredient.name}
-            onChange={(e) => handleIngredientChange(index, "name", e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <input
-            type="text"
-            placeholder="Weight (in grams)"
-            value={ingredient.weightInGram}
-            onChange={(e) => handleIngredientChange(index, "weightInGram", e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <input
-            type="file"
-            onChange={(e) => handleIngredientImageChange(index, e.target.files[0])}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <motion.button
-            type="button"
-            onClick={() => handleRemoveIngredient(index)}
-            className="bg-red-500 text-white py-3 px-3 rounded-lg mt-2 hover:bg-red-600 text-xl"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Remove Ingredient
-          </motion.button>
-        </motion.div>
-      ))}
-      <motion.button
-        type="button"
-        onClick={handleAddIngredient}
-        className="bg-gray-500 text-white py-3 px-3 rounded-lg mt-2 hover:bg-gray-600 text-xl"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        Add Ingredient
-      </motion.button>
-
-      <motion.h2
-        className="text-2xl font-semibold mb-4 text-gray-700"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.1 }}
-      >
-        Product Highlights
-      </motion.h2>
-      {productHighlights.map((highlight, index) => (
-        <motion.div
-          key={index}
-          className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-3"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4 }}
-        >
-          <input
-            type="text"
-            placeholder="Title"
-            value={highlight.title}
-            onChange={(e) => handleProductHighlightChange(index, "title", e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <input
-            type="text"
-            placeholder="Description"
-            value={highlight.description}
-            onChange={(e) => handleProductHighlightChange(index, "description", e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <input
-            type="file"
-            onChange={(e) => handleHighlightIconChange(index, e.target.files[0])}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-         
-          <motion.button
-            type="button"
-            onClick={() => handleRemoveProductHighlight(index)}
-            className=" bg-red-500 text-white py-3 px-3 rounded-lg mt-2 hover:bg-red-600 text-xl"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Remove Highlight
-          </motion.button>
-        </motion.div>
-      ))}
-      <motion.button
-        type="button"
-        onClick={handleAddProductHighlight}
-        className="bg-gray-500 text-white py-3 px-3 rounded-lg mt-2 hover:bg-gray-600 text-xl"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        Add Highlight
-      </motion.button>
-
-              <button
+              <motion.h2
+                className="text-3xl font-bold mb-6 text-purple-700"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.1 }}
+              >
+                Ingredients
+              </motion.h2>
+              {ingredients.map((ingredient, index) => (
+                <motion.div
+                  key={index}
+                  className="mb-6 flex items-center gap-4"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    value={ingredient.name}
+                    onChange={(e) => handleIngredientChange(index, 'name', e.target.value)}
+                    className="flex-1 p-3 border border-gray-300 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Weight (in grams)"
+                    value={ingredient.weightInGram}
+                    onChange={(e) => handleIngredientChange(index, 'weightInGram', e.target.value)}
+                    className="flex-1 p-3 border border-gray-300 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                  <input
+                    type="file"
+                    onChange={(e) => handleIngredientImageChange(index, e.target.files[0])}
+                    className="flex-1 p-3 border border-gray-300 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                  <motion.button
+                    type="button"
+                    onClick={() => handleRemoveIngredient(index)}
+                    className="bg-red-500 text-white py-2 px-3 rounded-full shadow-lg hover:bg-red-600"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <FaMinus />
+                  </motion.button>
+                </motion.div>
+              ))}
+              <motion.button
+                type="button"
+                onClick={handleAddIngredient}
+                className="bg-green-500 text-white py-2 px-4 rounded-full flex items-center gap-2 mt-4 shadow-lg hover:bg-green-600"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <FaPlus />
+                Add Ingredient
+              </motion.button>
+            
+              <motion.h2
+                className="text-3xl font-bold mb-6 text-purple-700"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.1 }}
+              >
+                Product Highlights
+              </motion.h2>
+              {productHighlights.map((highlight, index) => (
+                <motion.div
+                  key={index}
+                  className="mb-6 flex items-center gap-4"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <input
+                    type="text"
+                    placeholder="Title"
+                    value={highlight.title}
+                    onChange={(e) => handleProductHighlightChange(index, 'title', e.target.value)}
+                    className="flex-1 p-3 border border-gray-300 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Description"
+                    value={highlight.description}
+                    onChange={(e) => handleProductHighlightChange(index, 'description', e.target.value)}
+                    className="flex-1 p-3 border border-gray-300 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                  <input
+                    type="file"
+                    onChange={(e) => handleHighlightIconChange(index, e.target.files[0])}
+                    className="flex-1 p-3 border border-gray-300 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                  <motion.button
+                    type="button"
+                    onClick={() => handleRemoveProductHighlight(index)}
+                    className="bg-red-500 text-white py-2 px-3 rounded-full shadow-lg hover:bg-red-600"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <FaMinus />
+                  </motion.button>
+                </motion.div>
+              ))}
+              <motion.button
+                type="button"
+                onClick={handleAddProductHighlight}
+                className="bg-green-500 text-white py-2 px-4 rounded-full flex items-center gap-2 mt-4 shadow-lg hover:bg-green-600"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <FaPlus />
+                Add Highlight
+              </motion.button>
+            <div className='flex justify-between'>
+            <button
                 type="button"
                 onClick={prevStep}
-                className="w-full p-2 bg-gray-500 text-white font-bold rounded hover:bg-gray-700 my-4"
+                className="w-40 p-3  bg-gray-600 text-white font-bold rounded-lg hover:bg-gray-800 mt-6 shadow-md"
               >
                 Previous
               </button>
-
+            
               <button
                 type="submit"
-                className="w-full p-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700"
+                className="w-40 p-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-800 mt-6 shadow-md"
                 disabled={loading}
               >
                 {loading ? 'Submitting...' : 'Submit'}
               </button>
+            </div>
+              
             </>
+            
           )}
         </motion.div>
       </form>
