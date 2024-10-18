@@ -2,14 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { FaRegHeart, FaTimes } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 import Image from 'next/image';
 
 const ProductCard = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [progress, setProgress] = useState(0);
-    const [showFullImage, setShowFullImage] = useState(null); // For full-size image view
     const router = useRouter();
 
     useEffect(() => {
@@ -57,63 +56,60 @@ const ProductCard = () => {
     const handleWishlistClick = () => {
         router.push('/auth/signIn');
     };
- 
 
     return (
-      
-            <div className="flex flex-col mt-5">
-                <h2 className="text-xl md:text-4xl mb-4 text-center font-bold text-red-500">Fan Favorites</h2>
-                <div className="flex gap-5 hover:cursor-pointer justify-center px-2 py-3 flex-wrap">
+        <div className="flex flex-col mt-5">
+            <h2 className="text-xl md:text-4xl mb-4 text-center font-bold text-red-500">Fan Favorites</h2>
+            <div className="flex gap-5 hover:cursor-pointer justify-center px-2 py-3 flex-wrap">
                 {products.map(product => {
-                    const { _id, name, actualPrice, originalPrice, featuredImage , salePrice } = product;
-                    const discountPercentage = Math.round(((originalPrice - actualPrice) / originalPrice) * 100);
+                    const { _id, name, originalPrice, featuredImage, salePrice } = product;
 
                     return (
                         <div
                             key={_id}
-                            className="relative h-[18rem] w-[14rem] sm:h-[22rem] sm:w-[18rem] md:h-[28rem] md:w-[22rem] overflow-hidden rounded-3xl"
+                            className="relative h-[18rem] w-[14rem] sm:h-[22rem] sm:w-[18rem] md:h-[28rem] md:w-[22rem] overflow-hidden rounded-3xl group" // Added group class
                             onClick={() => handleCardClick(_id)}
                         >
                             <div className="absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-4 py-2 rounded-br-lg z-10">
                                 Sale
                             </div>
-                            <div className="absolute top-2 right-2 z-20">
+                            <div className="absolute top-2 right-4 z-20">
                                 <button
                                     onClick={e => {
                                         e.stopPropagation();
                                         handleWishlistClick();
                                     }}
-                                    className="text-black hover:text-red-700 transition-colors"
+                                    className="text-black font-bold hover:text-red-700 transition-colors"
                                 >
                                     <FaRegHeart size={24} />
                                 </button>
                             </div>
+
+                            {/* Image */}
                             <div className="relative h-[18rem] w-[14rem] sm:h-[22rem] sm:w-[18rem] md:h-[28rem] md:w-[22rem] overflow-hidden rounded-3xl">
                                 <img
-                                    className="object-fill w-full h-full transition-transform duration-300 ease-in-out transform hover:scale-105"
+                                    className="object-fill w-full h-full transition-transform duration-300 ease-in-out transform group-hover:scale-105" // Apply hover scaling on the group
                                     src={featuredImage}
                                     alt={name}
-                                    
                                 />
-                                 <h3 className="absolute bottom-7 left-5  text-center bg-opacity-50 text-red-500 text-lg sm:text-xl md:text-xl font-medium p-1 bg-white px-5 py-2 rounded">{name}</h3>
-                                <div className="absolute bottom-7 right-5  text-center bg-opacity-50 text-red-500 text-lg sm:text-xl md:text-xl font-medium p-1 bg-white px-5 py-2 rounded">
+                                <h3 className="absolute bottom-7 left-5 text-center bg-opacity-50 text-red-500 text-lg sm:text-xl md:text-xl font-medium p-1 bg-white px-5 py-2 rounded">{name}</h3>
+                                <div className="absolute bottom-7 right-5 text-center bg-opacity-50 text-red-500 text-lg sm:text-xl md:text-xl font-medium p-1 bg-white px-5 py-2 rounded">
                                     <div className='flex flex-col'>
-                                    <span className="text-gray-500 line-through mr-2">₹{originalPrice}</span>
-                                    <span className="text-green-500 font-bold ml-4">₹{salePrice}</span>
-                                    {/* <span className="text-red-500 text-sm ml-2">{discountPercentage}% off</span> */}
+                                        <span className="text-gray-500 line-through mr-2">₹{originalPrice}</span>
+                                        <span className="text-green-500 font-bold ml-4">₹{salePrice}</span>
                                     </div>
-                                   
                                 </div>
                             </div>
-                            
+
+                            {/* Shop Now button (visible on hover) */}
+                            <div className="absolute inset-0  bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span className="text-black bg-white px-3 py-2 rounded-2xl text-lg font-bold">Shop Now</span>
+                            </div>
                         </div>
                     );
                 })}
             </div>
-
-            </div>
-          
-       
+        </div>
     );
 };
 
