@@ -91,12 +91,12 @@ const Navbar = () => {
           >
             <li>
               <a href="#" className="block hover:text-blue-600">
-                Men's Health
+                Men`&apos;s Health
               </a>
             </li>
             <li>
               <a href="#" className="block hover:text-blue-600">
-                Women's Health
+                Women`&apos;s Health
               </a>
             </li>
             <li>
@@ -185,11 +185,11 @@ const Navbar = () => {
                   <ul className="space-y-6">
                     <li className="flex items-center space-x-3">
                       <span>♂</span>
-                      <a href="#" className="hover:text-blue-600">Men's Health</a>
+                      <a href="#" className="hover:text-blue-600">Men`&apos;s Health</a>
                     </li>
                     <li className="flex items-center space-x-3">
                       <span>♀</span>
-                      <a href="#" className="hover:text-blue-600">Women's Health</a>
+                      <a href="#" className="hover:text-blue-600">Women`&apos;s Health</a>
                     </li>
                     <li className="flex items-center space-x-3">
                       <span>🔥</span>
