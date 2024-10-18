@@ -36,24 +36,25 @@ const CategoriesSection = () => {
   }
 
   return (
-    
 <div className="flex flex-col">
-  <h2 className="text-xl md:text-4xl mb-4 text-center font-bold text-red-500">Shop By Health Focus</h2>
-  <div className="flex gap-4 hover:cursor-pointer justify-center shadow-lg px-4 py-3 overflow-x-scroll snap-x snap-mandatory sm:flex-wrap">
+  <h2 className="text-xl sm:text-2xl md:text-4xl mb-4 text-center font-bold text-red-500">
+    Shop By Health Focus
+  </h2>
+  <div className="flex gap-4 hover:cursor-pointer justify-center shadow-lg px-2 py-3 overflow-x-scroll snap-x snap-mandatory sm:flex-wrap">
     {categories.map((category) => (
       <motion.div
         key={category._id}
-        className="relative flex-shrink-0 snap-center flex flex-col items-center w-48 h-56 sm:w-36 sm:h-44 md:w-[30rem] md:h-[30rem] rounded-md"
+        className="relative flex-shrink-0 snap-center flex flex-col items-center h-[18rem] w-[18rem] sm:h-[24rem] sm:w-[24rem] md:w-[30rem] md:h-[30rem] rounded-md"
       >
         <div className="relative w-full overflow-hidden rounded-3xl">
           <img
             src={category.image}
             alt={category.name}
-            className="object-fill w-full h-full transition-transform duration-300 ease-in-out transform hover:scale-105"
+            className="object-cover w-full h-full transition-transform duration-300 ease-in-out transform hover:scale-105"
             onError={(e) => (e.target.src = '/path/to/fallback-image.jpg')}
           />
           {/* Name over the image */}
-          <p className="absolute top-10 left-0 right-0 text-center bg-opacity-50 text-red-500 text-lg sm:text-xl md:text-2xl font-medium p-1">
+          <p className="absolute top-10 left-0 right-0 text-center bg-opacity-50 text-red-500 text-base sm:text-lg md:text-xl lg:text-2xl font-medium p-1">
             {category.name}
           </p>
         </div>
@@ -61,11 +62,6 @@ const CategoriesSection = () => {
     ))}
   </div>
 </div>
-
-
-
-  
-
   );
 };
 
