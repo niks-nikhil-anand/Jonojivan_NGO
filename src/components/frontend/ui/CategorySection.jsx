@@ -40,11 +40,11 @@ const CategoriesSection = () => {
   <h2 className="text-xl sm:text-2xl md:text-4xl mb-4 text-center font-bold text-red-500">
     Shop By Health Focus
   </h2>
-  <div className="flex gap-4 hover:cursor-pointer justify-center shadow-lg px-2 py-3 overflow-x-scroll snap-x snap-mandatory sm:flex-wrap">
+  <div className="flex gap-4 hover:cursor-pointer justify-center shadow-lg px-2 py-3 overflow-x-auto snap-x snap-mandatory sm:flex-wrap">
     {categories.map((category) => (
       <motion.div
         key={category._id}
-        className="relative flex-shrink-0 snap-center flex flex-col items-center h-[18rem] w-[18rem] sm:h-[24rem] sm:w-[24rem] md:w-[30rem] md:h-[30rem] rounded-md"
+        className="relative flex-shrink-0 snap-center flex flex-col items-center h-[20rem] w-[17rem] sm:h-[24rem] sm:w-[24rem] md:w-[30rem] md:h-[30rem] rounded-md"
       >
         <div className="relative w-full overflow-hidden rounded-3xl">
           <img
