@@ -1,231 +1,175 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import { MdMenu, MdClose, MdSearch, MdShoppingCart, MdFavoriteBorder } from 'react-icons/md'; 
-import { FaUser } from 'react-icons/fa'; 
-import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { FiSearch, FiUser, FiShoppingBag } from "react-icons/fi";
 import Image from 'next/image';
 import logo from '../../../../public/annimatedIcons/grocery.png';
+import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 
-const menuItems = [
-  { name: 'Home', href: '/' },
-  { name: 'Shops', href: '/shops' },
-  { name: 'Most Popular', href: '/most-popular' },
-  { name: 'Wellness Blog', href: '/blog' },
-  { name: 'Contact Us', href: '/contactUs' },
-];
+const Navbar = () => {
+  const [isShopOpen, setIsShopOpen] = useState(false);
+  const [isLearnOpen, setIsLearnOpen] = useState(false);
 
-export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = (e) => {
-    e.stopPropagation();
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.addEventListener('click', closeMenu);
-    } else {
-      document.removeEventListener('click', closeMenu);
+  const toggleShopDropdown = () => {
+    setIsShopOpen(prev => !prev);
+    // Close Learn dropdown if it's open
+    if (isLearnOpen) {
+      setIsLearnOpen(false);
     }
+  };
 
-    return () => {
-      document.removeEventListener('click', closeMenu);
-    };
-  }, [isMenuOpen]);
+  const toggleLearnDropdown = () => {
+    setIsLearnOpen(prev => !prev);
+    // Close Shop dropdown if it's open
+    if (isShopOpen) {
+      setIsShopOpen(false);
+    }
+  };
 
   return (
-    <div className="relative w-full h-full bg-white text-black shadow-md py-2">
-      <div className="mx-auto flex items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
-        {/* Menu Button for Mobile View */}
-        <div className="lg:hidden flex items-center space-x-2">
-          <MdMenu onClick={toggleMenu} className="h-7 w-7 cursor-pointer text-black" />
-        </div>
-        {/* Logo */}
-        <div className="inline-flex items-center space-x-2 flex-shrink-0 ">
-          <Image src={logo} alt="Jono Jivan " width={30} height={30} />
-          <Link href="/" className="font-bold text-black">Blush Belle</Link>
-        </div>
-        <div className="lg:hidden flex items-center space-x-4 ml-4">
-          <Link href="/auth/login">
-            <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
-              <MdFavoriteBorder className="h-7 w-7 text-black" />
-              <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
-            </motion.div>
-          </Link>
-          <Link href="/auth/login">
-            <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
-              <MdShoppingCart className="h-7 w-7 text-black" />
-              <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
-            </motion.div>
-          </Link>
-        </div>
-        {/* Desktop Menu Items */}
-        <div className="hidden lg:flex items-center flex-grow space-x-4 ml-10">
-          {menuItems.map((item) => (
-            <Link key={item.name} href={item.href} className="text-black hover:bg-gray-200 px-4 py-2 rounded-md">
-              {item.name}
-            </Link>
-          ))}
-        </div>
-        {/* Search Bar and Authentication Buttons */}
-        <div className="hidden lg:flex items-center space-x-4 flex-shrink-0">
-          <motion.div 
-            className="relative"
-            whileHover={{ scale: 1.05, boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }}
-            transition={{ type: 'spring', stiffness: 300 }}
-          >
-            <input
-              type="text"
-              placeholder="Search"
-              className="w-64 rounded-md bg-white py-2 px-4 text-sm text-black placeholder-gray-500 shadow-lg focus:outline-none"
-            />
-            <MdSearch className="absolute right-3 top-2.5 h-5 w-5 text-gray-500" />
-          </motion.div>
-          <Link href="/auth/signIn">
-            <motion.button
-              className="bg-black text-white py-2 px-4 rounded-md text-sm font-semibold"
-              whileHover={{ scale: 1.1, backgroundColor: '#333' }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ type: 'spring', stiffness: 300 }}
+    <nav className="bg-white shadow-md w-full p-4 relative z-50">
+      <div className="container mx-auto flex justify-between items-center">
+        {/* Left Side - Menu Links */}
+        <div className="flex items-center space-x-10 relative z-50">
+          {/* Shop Dropdown */}
+          <div className="relative">
+            <button
+              onClick={toggleShopDropdown}
+              className="text-lg font-medium hover:text-gray-700 focus:outline-none flex items-center"
             >
-              Sign In
-            </motion.button>
-          </Link>
-          <Link href="/auth/register">
-            <motion.button
-              className="bg-white text-black border border-black py-2 px-4 rounded-md text-sm font-semibold hover:bg-white"
-              whileHover={{ scale: 1.1, backgroundColor: '#f0f0f0' }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ type: 'spring', stiffness: 300 }}
+              Shop
+              {isShopOpen ? <AiOutlineUp className="ml-2" /> : <AiOutlineDown className="ml-2" />}
+            </button>
+            {isShopOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="absolute left-0 mt-4 w-[60rem] bg-white shadow-xl rounded-b-3xl py-10 px-14 flex gap-[10rem] z-50"
+                style={{ zIndex: 9999 }}
+              >
+                {/* Collections, Categories, Health Focus sections */}
+                <div>
+                  <h3 className="font-bold text-lg mb-3 ml-7">Collections</h3>
+                  <ul className="space-y-6">
+                    <li className="flex items-center space-x-3">
+                      <span>♂</span>
+                      <a href="#" className="hover:text-blue-600">Men's Health</a>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <span>♀</span>
+                      <a href="#" className="hover:text-blue-600">Women's Health</a>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <span>🔥</span>
+                      <a href="#" className="hover:text-blue-600">Best Sellers</a>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <span>🍎</span>
+                      <a href="#" className="hover:text-blue-600">New Products</a>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <span>📦</span>
+                      <a href="#" className="hover:text-blue-600">All Products</a>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg mb-3 ml-7">Categories</h3>
+                  <ul className="space-y-6">
+                    <li className="flex items-center space-x-3">
+                      <span>🍬</span>
+                      <a href="#" className="hover:text-blue-600">Gummies</a>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <span>💧</span>
+                      <a href="#" className="hover:text-blue-600">Liquids</a>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <span>🧂</span>
+                      <a href="#" className="hover:text-blue-600">Powders</a>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <span>💊</span>
+                      <a href="#" className="hover:text-blue-600">Capsules</a>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg mb-3 ml-7">Health Focus</h3>
+                  <ul className="space-y-6">
+                    <li className="flex items-center space-x-3">
+                      <span>🛡️</span>
+                      <a href="#" className="hover:text-blue-600">Immunity</a>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <span>⚛️</span>
+                      <a href="#" className="hover:text-blue-600">Mind + Mood</a>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <span>🌟</span>
+                      <a href="#" className="hover:text-blue-600">Beauty</a>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <span>🏋️‍♂️</span>
+                      <a href="#" className="hover:text-blue-600">Active Line</a>
+                    </li>
+                  </ul>
+                </div>
+              </motion.div>
+            )}
+          </div>
+
+          {/* Learn Dropdown */}
+          <div className="relative">
+            <button
+              onClick={toggleLearnDropdown}
+              className="text-lg font-medium hover:text-gray-700 focus:outline-none flex items-center"
             >
-              Sign Up
-            </motion.button>
-          </Link>
+              Learn
+              {isLearnOpen ? <AiOutlineUp className="ml-2" /> : <AiOutlineDown className="ml-2" />}
+            </button>
+            {isLearnOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="absolute left-0 mt-4 w-[20rem] bg-white shadow-xl rounded-b-3xl py-5 px-5 z-50"
+                style={{ zIndex: 9999 }}
+              >
+                <ul className="space-y-4">
+                  <li className="flex items-center space-x-3">
+                    <span>📖</span>
+                    <a href="#" className="hover:text-blue-600">About Us</a>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <span>❓</span>
+                    <a href="#" className="hover:text-blue-600">FAQs</a>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <span>📝</span>
+                    <a href="#" className="hover:text-blue-600">Wellness Blog</a>
+                  </li>
+                </ul>
+              </motion.div>
+            )}
+          </div>
+
+          <a href="#" className="text-lg font-medium hover:text-gray-700">Rewards</a>
+          <a href="#" className="text-lg font-medium hover:text-gray-700">Take Quiz</a>
         </div>
-        <div className="hidden lg:flex items-center space-x-4 ml-4">
-          <Link href="/auth/signIn">
-            <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
-              <MdFavoriteBorder className="h-6 w-6 text-black" />
-              <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
-            </motion.div>
-          </Link>
-          <Link href="/auth/signIn">
-            <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
-              <MdShoppingCart className="h-6 w-6 text-black" />
-              <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
-            </motion.div>
-          </Link>
+
+        {/* Center - Logo */}
+        <div className="flex justify-center relative z-50">
+          <h1 className="font-bold text-xl">BlushBelle</h1>
+        </div>
+
+        {/* Right Side - Icons */}
+        <div className="flex items-center space-x-6 relative z-50">
+          <FiSearch className="w-6 h-6 cursor-pointer" />
+          <FiUser className="w-6 h-6 cursor-pointer" />
+          <FiShoppingBag className="w-6 h-6 cursor-pointer" />
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <motion.div
-          className="fixed inset-y-0 left-0 z-50 origin-left transform p-2 transition lg:hidden"
-          initial={{ x: '-100%' }}
-          animate={{ x: 0 }}
-          exit={{ x: '-100%' }}
-          transition={{ type: 'spring', stiffness: 300 }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="divide-y-2 divide-gray-600 rounded-lg bg-white text-black shadow-lg ring-1 ring-black ring-opacity-5">
-            <div className="px-5 pb-6 pt-5">
-              <div className="flex items-center justify-between">
-                <div className="inline-flex items-center space-x-2">
-                  <Image src={logo} alt="JonoJivan Grocery" width={30} height={30} />
-                  <span className="font-bold">Blush Belle</span>
-                </div>
-                
-                <div className="-mr-2">
-                  <button
-                    type="button"
-                    onClick={toggleMenu}
-                    className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                  >
-                    <span className="sr-only">Close menu</span>
-                    <MdClose className="h-6 w-6" aria-hidden="true" />
-                  </button>
-                </div>
-              </div>
-              <div className="mt-6">
-                <nav className="grid gap-y-4">
-                  {menuItems.map((item) => (
-                    <Link key={item.name} href={item.href} className="-m-3 flex items-center rounded-md p-3 text-sm font-semibold text-black hover:bg-gray-200">
-                      <span className="ml-3 text-base font-medium">
-                        {item.name}
-                      </span>
-                    </Link>
-                  ))}
-                </nav>
-              </div>
-              <div className="border-t border-gray-600 pt-2 my-4">
-                <motion.div
-                  className="relative"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  whileHover={{ scale: 1.05, boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }}
-                >
-                  <input
-                    type="text"
-                    placeholder="Search"
-                    className="w-full rounded-md bg-white py-2 px-4 text-sm text-black placeholder-gray-500 shadow-lg focus:outline-none"
-                  />
-                  <MdSearch className="absolute right-3 top-2.5 h-5 w-5 text-gray-500" />
-                </motion.div>
-              </div>
-            </div>
-            <div className="px-5 py-3 border-t border-gray-600">
-              <div className="flex flex-col space-y-4">
-                <div className="flex items-center space-x-2 font-bold text-lg">
-                  <FaUser className="h-6 w-6 text-black" />
-                  <span>Accounts</span>
-                </div>
-                <Link href="/auth/signIn">
-                  <motion.button 
-                    className="w-full rounded-md bg-black text-white py-2 px-4 text-sm font-semibold hover:bg-gray-800"
-                    whileHover={{ scale: 1.1, backgroundColor: '#333' }}
-                    whileTap={{ scale: 0.9 }}
-                    transition={{ type: 'spring', stiffness: 300 }}
-                  >
-                    Sign In
-                  </motion.button>
-                </Link>
-                <Link href="/auth/register">
-                  <motion.button 
-                    className="w-full rounded-md bg-white text-black border border-black py-2 px-4 text-sm font-semibold hover:bg-gray-100"
-                    whileHover={{ scale: 1.1, backgroundColor: '#f0f0f0' }}
-                    whileTap={{ scale: 0.9 }}
-                    transition={{ type: 'spring', stiffness: 300 }}
-                  >
-                    Sign Up
-                  </motion.button>
-                </Link>
-              </div>
-              <div className="flex items-center justify-between px-5 py-3 border-t border-gray-600 mt-7">
-              <Link href="/wishlist">
-                <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
-                  <MdFavoriteBorder className="h-6 w-6 text-black" />
-                  <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
-                </motion.div>
-              </Link>
-              <Link href="/cart">
-                <motion.div className="relative cursor-pointer" whileHover={{ scale: 1.05 }}>
-                  <MdShoppingCart className="h-6 w-6 text-black" />
-                  <span className="absolute -top-2 -right-2 rounded-full bg-red-500 text-white text-xs px-1">0</span>
-                </motion.div>
-              </Link>
-            </div>
-            </div>
-          </div>
-        </motion.div>
-      )}
-    </div>
+    </nav>
   );
-}
+};
+
+export default Navbar;
