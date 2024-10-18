@@ -92,11 +92,11 @@ const ProductCard = () => {
                                     src={featuredImage}
                                     alt={name}
                                 />
-                                <h3 className="absolute bottom-7 left-5 text-center bg-opacity-50 text-red-500 text-lg sm:text-xl md:text-xl font-medium p-1 bg-white px-5 py-2 rounded">{name}</h3>
-                                <div className="absolute bottom-7 right-5 text-center bg-opacity-50 text-red-500 text-lg sm:text-xl md:text-xl font-medium p-1 bg-white px-5 py-2 rounded">
+                                <h3 className="absolute bottom-7 left-5 text-center bg-opacity-50 text-red-500 text-lg sm:text-xl md:text-xl font-medium p-1 bg-white px-5 py-2 rounded-lg">{name}</h3>
+                                <div className="absolute bottom-7 right-5 text-center bg-opacity-50 text-red-500 text-lg sm:text-xl md:text-xl font-medium p-1 bg-white px-5 py-2 rounded-lg">
                                     <div className='flex flex-col'>
-                                        <span className="text-gray-500 line-through mr-2">₹{originalPrice}</span>
-                                        <span className="text-green-500 font-bold ml-4">₹{salePrice}</span>
+                                        <span className="text-gray-400 line-through mr-2">₹{originalPrice}</span>
+                                        <span className="text-green-500 font-medium ml-4">₹{salePrice}</span>
                                     </div>
                                 </div>
                             </div>
