@@ -340,8 +340,36 @@ const handleSubmit = async (e) => {
                  />
                </div>
          
-               {/* Category Selection */}
-               <div className="col-span-2">
+               
+             </div>
+         
+             <div className="flex justify-end">
+               <motion.button
+                 type="button"
+                 onClick={nextStep}
+                 className="w-40 p-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600"
+                 whileHover={{ scale: 1.05 }}
+                 whileTap={{ scale: 0.95 }}
+               >
+                 Next
+               </motion.button>
+             </div>
+           </>
+          )}
+          {currentStep === 2 && (
+           <>
+           <motion.h3
+             className="text-xl font-semibold mb-4 text-blue-600"
+             initial={{ opacity: 0, x: -100 }}
+             animate={{ opacity: 1, x: 0 }}
+             transition={{ duration: 0.5 }}
+           >
+             Step 2: Select Categories
+           </motion.h3>
+       
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            {/* Category Selection */}
+            <div className="col-span-2">
                  <label className="block text-blue-600 font-bold mb-3">Category</label>
                  {fetchingCategories ? (
                    <p>Loading categories...</p>
@@ -367,24 +395,40 @@ const handleSubmit = async (e) => {
                    </div>
                  )}
                </div>
-             </div>
+       
+            
+       
+             
+           </div>
+       
+           {/* Flexbox for buttons with Previous on the left and Next on the right */}
+           <div className="flex justify-between">
+             <motion.button
+               type="button"
+               onClick={prevStep}
+               className="w-40 p-3 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600"
+               whileHover={{ scale: 1.05 }}
+               whileTap={{ scale: 0.95 }}
+             >
+               Previous
+             </motion.button>
+       
+             <motion.button
+               type="button"
+               onClick={nextStep}
+               className="w-40 p-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600"
+               whileHover={{ scale: 1.05 }}
+               whileTap={{ scale: 0.95 }}
+             >
+               Next
+             </motion.button>
+           </div>
+         </>
+        
          
-             {/* Flexbox for the Next button aligned to the right */}
-             <div className="flex justify-end">
-               <motion.button
-                 type="button"
-                 onClick={nextStep}
-                 className="w-40 p-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600"
-                 whileHover={{ scale: 1.05 }}
-                 whileTap={{ scale: 0.95 }}
-               >
-                 Next
-               </motion.button>
-             </div>
-           </>
           )}
 
-          {currentStep === 2 && (
+          {currentStep === 3 && (
            <>
            <motion.h3
              className="text-xl font-semibold mb-4 text-blue-600"
@@ -392,7 +436,7 @@ const handleSubmit = async (e) => {
              animate={{ opacity: 1, x: 0 }}
              transition={{ duration: 0.5 }}
            >
-             Step 2: Upload Relevant Images
+             Step 3: Upload Relevant Images
            </motion.h3>
        
            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -490,9 +534,9 @@ const handleSubmit = async (e) => {
         
          
           )}
-          {currentStep === 3 && (
+          {currentStep === 4 && (
             <>
-            <h3 className="text-xl font-semibold mb-4 text-gray-800">Step 3: Additional Information</h3>
+            <h3 className="text-xl font-semibold mb-4 text-gray-800">Step 4: Additional Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <motion.div
                 className="mb-4"
@@ -588,10 +632,9 @@ const handleSubmit = async (e) => {
           </>
           )}
 
-          {currentStep === 4 && (
-            
-            
+          {currentStep === 5 && ( 
             <>
+            <h3 className="text-xl font-semibold mb-4 text-gray-800">Step 5:- Ingredients + Highlights</h3>
               <motion.h2
                 className="text-3xl font-bold mb-6 text-purple-700"
                 initial={{ opacity: 0 }}
