@@ -3,16 +3,17 @@ import mongoose from "mongoose";
 const featuredIngredientsSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, 'Ingredient name is required'],
+    },
+    description:{
+        type: String,
     },
     weightInGram: {
-        type: String,  // Corrected typo here
+       type:String
     },
     image: {
-        type: String,  // Corrected typo here
-    }
+        type:String
+     }
 });
-
 const productHighlightsSchema = new mongoose.Schema({
     title: {
         type: String,

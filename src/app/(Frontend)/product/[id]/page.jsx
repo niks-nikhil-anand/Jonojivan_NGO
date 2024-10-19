@@ -3,9 +3,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { MdClose } from 'react-icons/md';
-import { AiFillStar } from 'react-icons/ai';
 import Image from 'next/image';
 import Loader from '@/components/loader/loader';
+import ProductBanner from '@/components/frontend/ui/(Banners)/ProductBanner';
+import { AiOutlineDown } from 'react-icons/ai';
+
 
 const ProductDetail = () => {
     const [product, setProduct] = useState(null);
@@ -13,6 +15,8 @@ const ProductDetail = () => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [loading, setLoading] = useState(true);
     const [progress, setProgress] = useState(0);
+    const [isOpen, setIsOpen] = useState(false);
+
 
     useEffect(() => {
         const urlPath = window.location.pathname;
@@ -43,27 +47,88 @@ const ProductDetail = () => {
             <Loader/>
         );
     }
+    const toggleOpen = () => {
+      setIsOpen(!isOpen);
+    };
 
     if (!product) {
         return <div>Product not found.</div>;
     }
 
-    const { name, description, images, salePrice, originalPrice, featuredImage, ratings, descriptionImage , servingPerBottle , suggestedUse } = product;
+    
+
+    const { name, description, images, salePrice, originalPrice, featuredImage, ratings, descriptionImage , servingPerBottle , suggestedUse , ingredients , productHighlights} = product;
     const averageRating = ratings?.average || 4.2;
     const allImages = [ ...(images || [])];
 
-    const ProductHighlights = ({ highlights }) => {
+    const ProductHighlights = () => {
         return (
-          <div className="flex justify-around mt-10 bg-white py-10 ">
-            {highlights.map((highlight, index) => (
-              <div key={index} className="flex flex-col items-center text-center w-1/3">
-                <div className="mb-4">
-                  <img src={highlight.icon} alt={highlight.title} className="w-12 h-12" />
-                </div>
-                <h3 className="text-xl text-orange-600 font-bold mb-2">{highlight.title}</h3>
-                <p className="text-gray-700">{highlight.description}</p>
-              </div>
-            ))}
+          <div className="flex flex-col items-center justify-center min-h-[75vh] bg-white py-10">
+      <motion.h2
+        className="text-2xl font-semibold text-orange-600 mb-8"
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        Product Highlights
+      </motion.h2>
+
+      <div className="flex flex-wrap justify-center gap-10">
+        {productHighlights.map((productHighlights, index) => (
+          <motion.div
+            key={productHighlights.id}
+            className="flex flex-col items-center max-w-xs text-center"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.2 }}
+          >
+            <img
+                    src={productHighlights.icon}
+                    alt={productHighlights.icon}
+                    className="h-20 w-20 mx-auto mb-4 rounded-full"
+                  />
+            <h3 className="text-lg font-bold text-orange-600 mb-2">
+              {productHighlights.title}
+            </h3>
+            <p className="text-gray-600">{productHighlights.description}</p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+        );
+      };
+
+      const FeaturedIngredients = () => {
+        return (
+          <div className="py-10 bg-white">
+            <h2 className="text-center text-3xl font-semibold text-orange-600 mb-10">
+              Featured Ingredients
+            </h2>
+            <div className="flex justify-center items-start space-x-5">
+              {ingredients.map((ingredient, index) => (
+                <motion.div
+                  key={index}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-green-100 rounded-xl p-6 shadow-md w-1/5"
+                >
+                  <img
+                    src={ingredient.image}
+                    alt={ingredient.name}
+                    className="h-20 w-20 mx-auto mb-4 rounded-full"
+                  />
+                  <h3 className="text-orange-600 text-center font-semibold text-lg mb-2">
+                    {ingredient.name}
+                  </h3>
+                  <p className="text-center text-gray-700 mb-2">
+                    {ingredient.description}
+                  </p>
+                  <p className="text-center font-semibold text-gray-800">
+                    {ingredient.weightInGram}mg
+                  </p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         );
       };
@@ -178,22 +243,26 @@ const ProductDetail = () => {
       <motion.button 
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="px-4 py-2 bg-[#6a0dad] text-white rounded-full shadow-lg hover:bg-[#4b0082] transition text-base"
+        className="px-4 py-3 bg-[#6a0dad] text-white rounded-full shadow-lg hover:bg-[#4b0082] transition text-base"
       >
         Add to Cart
       </motion.button>
-      <motion.button 
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="px-4 py-2 bg-green-600 text-white rounded-full shadow-lg hover:bg-green-700 transition text-base"
-      >
-        Buy Now
-      </motion.button>
     </motion.div>
 
-    <div className="mt-6">
+    <div className='flex flex-col'>
+      <div className='flex justify-between px-3 py-5'>
       <h3 className="text-orange-600 font-bold mb-2">Suggested Use</h3>
-      <p className="text-gray-700">{suggestedUse}</p>
+      <AiOutlineDown 
+        className="cursor-pointer text-2xl text-orange-600" 
+        onClick={toggleOpen} 
+      />
+      </div>
+      {isOpen && (
+        <div className="mt-1 px-3">
+         
+          <p className="text-gray-700">{suggestedUse}</p>
+        </div>
+      )}
     </div>
   </div>
 </motion.div>
@@ -225,6 +294,10 @@ const ProductDetail = () => {
                     
                 </div>
             </div>
+            <div>
+              <FeaturedIngredients/>
+               <ProductBanner/>
+            </div>
 
             {/* Full-Screen Image Modal */}
             {selectedImage && (
@@ -243,6 +316,7 @@ const ProductDetail = () => {
                             <MdClose />
                         </button>
                     </div>
+                   
                 </motion.div>
             )}
         </div>

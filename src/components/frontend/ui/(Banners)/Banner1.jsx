@@ -7,7 +7,7 @@ const Banner1 = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   const handleResize = () => {
-    setIsMobile(window.innerWidth < 768); // Adjust the breakpoint as needed
+    setIsMobile(window.innerWidth < 768); 
   };
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const Banner1 = () => {
     <div
       className="relative w-full h-[110vh] overflow-hidden"
       style={{
-        backgroundImage: `url(${isMobile ? banner2.src : banner1.src})`, // Use banner2 for mobile, banner1 for desktop
+        backgroundImage: `url(${isMobile ? banner2.src : banner1.src})`, 
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}

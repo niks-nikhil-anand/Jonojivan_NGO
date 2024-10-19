@@ -5,8 +5,6 @@ const Footer = () => {
   return (
     <footer className="bg-gray-50 py-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-6">
-        
-        {/* Useful Links */}
         <motion.div 
           className="space-y-4"
           initial={{ opacity: 0, y: 10 }}
@@ -16,8 +14,18 @@ const Footer = () => {
           <h3 className="text-lg font-bold text-orange-500">Useful Links</h3>
           <div className="w-16 h-1 bg-purple-600 mb-4"></div>
           <ul className="space-y-2">
-            {['Shop', 'Contact', 'Blog', 'International Orders', 'International Distributors', 'About Us', 'Feedback'].map((link) => (
-              <li key={link} className="hover:underline cursor-pointer">{link}</li>
+          {[
+              { name: 'Shop', url: '/shop' },
+              { name: 'Contact', url: '/contact' },
+              { name: 'Blog', url: '/blog' },
+              { name: 'International Orders', url: '/international-orders' },
+              { name: 'International Distributors', url: '/international-distributors' },
+              { name: 'About Us', url: '/about' },
+              { name: 'Feedback', url: '/feedback' }
+            ].map((link) => (
+              <li key={link.name} className="hover:underline cursor-pointer">
+                <a href={link.url}>{link.name}</a>
+              </li>
             ))}
           </ul>
         </motion.div>
@@ -32,8 +40,18 @@ const Footer = () => {
           <h3 className="text-lg font-bold text-orange-500">Resources</h3>
           <div className="w-16 h-1 bg-purple-600 mb-4"></div>
           <ul className="space-y-3">
-            {['Home', 'Shipping and Return Policies', '60-Day Satisfaction Guarantee', 'Privacy Policy', 'Terms of Use', 'CCPA Notice', 'Affiliate Program'].map((link) => (
-              <li key={link} className="hover:underline cursor-pointer">{link}</li>
+          {[
+              { name: 'Home', url: '/' },
+              { name: 'Shipping and Return Policies', url: '/returnPolicy' },
+              { name: '60-Day Satisfaction Guarantee', url: '/guarantee' },
+              { name: 'Privacy Policy', url: '/privacyPolicy' },
+              { name: 'Terms of Use', url: '/termsAndConditions' },
+              { name: 'CCPA Notice', url: '/ccpa' },
+              { name: 'Affiliate Program', url: '/affiliate' }
+            ].map((link) => (
+              <li key={link.name} className="hover:underline cursor-pointer">
+                <a href={link.url}>{link.name}</a>
+              </li>
             ))}
           </ul>
         </motion.div>
