@@ -19,7 +19,7 @@ const ProductBanner = () => {
         </h1>
         <h1 className="text-3xl md:text-4xl ml-5 text-[#D07021]">Bare it all.</h1>
         <p className="mt-10 text-lg md:text-xl w-[15rem] md:w-[40rem] lg:w-[40rem] text-blue-400 ">
-        As a Utah based company, we're proud to show every seed, every extract, every mineral, and every detail of our rigorous testing process because we've got nothing to hide.
+        As a Utah based company, we&apos;re proud to show every seed, every extract, every mineral, and every detail of our rigorous testing process because we&apos;ve got nothing to hide.
         </p>
       </div>
     </div>
