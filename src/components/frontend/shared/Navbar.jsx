@@ -4,6 +4,7 @@ import { FiSearch, FiUser, FiShoppingBag } from "react-icons/fi";
 import { AiOutlineDown, AiOutlineUp, AiOutlineMenu } from "react-icons/ai";
 import Image from 'next/image';
 import logo from '../../../../public/annimatedIcons/grocery.png'; // Adjust the path to your logo
+import Link from "next/link";
 
 const Navbar = () => {
   const [isShopOpen, setIsShopOpen] = useState(false);
@@ -37,7 +38,9 @@ const Navbar = () => {
 
   {/* Logo */}
   <div className="flex justify-center md:hidden">
+    <Link href={"/"}>
     <Image src={logo} alt="Logo" width={40} height={40} />
+    </Link>
   </div>
 
   {/* Right Side - Search, User, Cart Icons */}
@@ -73,7 +76,6 @@ const Navbar = () => {
       }}
       className="space-y-6"
     >
-      {/* Shop dropdown */}
       <motion.li variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}>
         <button
           onClick={toggleShopDropdown}
