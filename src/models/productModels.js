@@ -65,12 +65,16 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Category is required'],
     },
-    collections:{
-        type:String,
+    collections: {
+        type: String,
+        enum: ['Men_Health', 'Women_Health', 'Others'],
+        default: 'Others'
     },
-    subCategory:{
-        type:String,
-    },
+    subCategory: {
+        type: String,
+        enum: ['Gummies', 'Liquids', 'Powders', 'Capsules', 'Others'],
+        default: 'Others'
+    },    
     featuredImage: {
         type: String,
         required: [true, 'Featured image URL is required'],

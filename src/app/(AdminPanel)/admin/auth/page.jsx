@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { FaEye, FaEyeSlash, FaGoogle, FaFacebookF } from 'react-icons/fa';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'; // Import useRouter for navigation
-import loginBanner from '../../../../../public/admin/loginBanner.webp';
+import loginBanner from '../../../../../public/admin/loginBanner.jpg';
 import bannerbg from '../../../../../public/admin/banner-mask-2.png';
 import axios from 'axios';
 
@@ -160,7 +160,7 @@ const AdminLoginForm = () => {
          <div className="relative md:w-1/4 md:h-auto lg:w-1/3 lg:h-auto mr-5">
  
                   <div
-                    className="absolute inset-0 bg-[url('/path-to-bannerbg.jpg')] bg-cover bg-center z-0"
+                    className="absolute inset-0 bg-[url('/path-to-bannerbg.jpg')] bg-cover bg-center z-0 "
                   >
                       <Image
                     src={bannerbg}
@@ -173,7 +173,7 @@ const AdminLoginForm = () => {
                   <Image
                     src={loginBanner}
                     alt="Admin Login Banner"
-                    className="relative w-full h-full object-contain z-10" 
+                    className="relative w-full h-full object-contain z-10 rounded-2xl" 
                   />
                   </div>
       </div>
