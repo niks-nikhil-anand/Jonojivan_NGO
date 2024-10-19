@@ -16,6 +16,8 @@ export const POST = async (req) => {
     };
 
     const name = getTrimmedValue("name");
+    const collections = getTrimmedValue("collections");
+    const subCategory = getTrimmedValue("subCategory");
     const description = getTrimmedValue("description");
     const salePrice = getTrimmedValue("salePrice");
     const originalPrice = getTrimmedValue("originalPrice");
@@ -113,6 +115,8 @@ export const POST = async (req) => {
       salePrice,
       originalPrice,
       category,
+      collections,
+      subCategory,
       stock,
       brand,
       suggestedUse,

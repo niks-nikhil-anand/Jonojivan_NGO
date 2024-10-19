@@ -11,18 +11,22 @@ const ProductForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [fetchingCategories, setFetchingCategories] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCollection, setSelectedCollection] = useState(null);
+  const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     salePrice: '',
     originalPrice: '',
     category: '',
+    subCategory:'',
     stock: 0,
     suggestedUse: '',
     servingPerBottle: '',
     isFanFavourites: false,
     isOnSale: false,
     tags: '',
+
   });
   const [images, setImages] = useState([]);
   const [featuredImage, setFeaturedImage] = useState(null);
@@ -135,6 +139,14 @@ const handleRemoveProductHighlight = (index) => {
   setProductHighlights(updatedHighlights);
 };
 
+const handleCollectionSelect = (collection) => {
+  setSelectedCollection(collection);
+};
+
+const handleSubCategorySelect = (subCategory) => {
+  setSelectedSubCategory(subCategory);
+};
+
   
 
 const handleSubmit = async (e) => {
@@ -152,6 +164,8 @@ const handleSubmit = async (e) => {
   data.append('salePrice', formData.salePrice);
   data.append('originalPrice', formData.originalPrice);
   data.append('category', formData.category);
+  data.append('collections', selectedCollection);
+  data.append('subCategory', selectedSubCategory);
   data.append('stock', formData.stock);
   data.append('suggestedUse', formData.suggestedUse);
   data.append('servingPerBottle', formData.servingPerBottle);
@@ -226,7 +240,7 @@ const handleSubmit = async (e) => {
 
   return (
     <div className="max-w-full mx-auto p-4 bg-white shadow-lg rounded-lg w-full h-screen overflow-y-scroll">
-      <h2 className="text-2xl font-bold mb-6">Add New Product</h2>
+      <h2 className="text-2xl font-bold mb-6 underline">Add New Product</h2>
       <form onSubmit={handleSubmit} className="w-full">
         <motion.div
           key={currentStep}
@@ -356,77 +370,119 @@ const handleSubmit = async (e) => {
              </div>
            </>
           )}
-          {currentStep === 2 && (
-           <>
-           <motion.h3
-             className="text-xl font-semibold mb-4 text-blue-600"
-             initial={{ opacity: 0, x: -100 }}
-             animate={{ opacity: 1, x: 0 }}
-             transition={{ duration: 0.5 }}
-           >
-             Step 2: Select Categories
-           </motion.h3>
-       
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            {/* Category Selection */}
-            <div className="col-span-2">
-                 <label className="block text-blue-600 font-bold mb-3">Category</label>
-                 {fetchingCategories ? (
-                   <p>Loading categories...</p>
-                 ) : (
-                   <div className="flex flex-wrap gap-4">
-                     {categories.map((category) => (
-                       <motion.button
-                         key={category._id}
-                         type="button"
-                         onClick={() => handleCategorySelect(category._id)}
-                         className={`p-3 border rounded-lg ${
-                           selectedCategory === category._id
-                             ? 'bg-blue-500 text-white'
-                             : 'bg-white text-gray-700 hover:bg-gray-200'
-                         }`}
-                         whileHover={{ scale: 1.05 }}
-                         whileTap={{ scale: 0.95 }}
-                         transition={{ duration: 0.3 }}
-                       >
-                         {category.name}
-                       </motion.button>
-                     ))}
-                   </div>
-                 )}
-               </div>
-       
-            
-       
-             
-           </div>
-       
-           {/* Flexbox for buttons with Previous on the left and Next on the right */}
-           <div className="flex justify-between">
-             <motion.button
-               type="button"
-               onClick={prevStep}
-               className="w-40 p-3 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600"
-               whileHover={{ scale: 1.05 }}
-               whileTap={{ scale: 0.95 }}
-             >
-               Previous
-             </motion.button>
-       
-             <motion.button
-               type="button"
-               onClick={nextStep}
-               className="w-40 p-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600"
-               whileHover={{ scale: 1.05 }}
-               whileTap={{ scale: 0.95 }}
-             >
-               Next
-             </motion.button>
-           </div>
-         </>
-        
-         
-          )}
+         {currentStep === 2 && (
+  <>
+    <motion.h3
+      className="text-xl font-semibold mb-4 text-blue-600"
+      initial={{ opacity: 0, x: -100 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      Step 2: Select Categories
+    </motion.h3>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      {/* Category Selection */}
+      <div className="col-span-2">
+        <label className="block text-blue-600 font-bold mb-3">Category</label>
+        {fetchingCategories ? (
+          <p>Loading categories...</p>
+        ) : (
+          <div className="flex flex-wrap gap-4">
+            {categories.map((category) => (
+              <motion.button
+                key={category._id}
+                type="button"
+                onClick={() => handleCategorySelect(category._id)}
+                className={`p-3 border rounded-lg ${
+                  selectedCategory === category._id
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-white text-gray-700 hover:bg-gray-200'
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+              >
+                {category.name}
+              </motion.button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Collection Selection */}
+      <div className="col-span-2">
+        <label className="block text-blue-600 font-bold mb-3">Collection</label>
+        <div className="flex flex-wrap gap-4">
+          {['Men_Health', 'Women_Health', 'Others'].map((collection) => (
+            <motion.button
+              key={collection}
+              type="button"
+              onClick={() => handleCollectionSelect(collection)}
+              className={`p-3 border rounded-lg ${
+                selectedCollection === collection
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-200'
+              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+            >
+              {collection.replace('_', ' ')}
+            </motion.button>
+          ))}
+        </div>
+      </div>
+
+      <div className="col-span-2">
+        <label className="block text-blue-600 font-bold mb-3">Sub-Category</label>
+        <div className="flex flex-wrap gap-4">
+          {['Gummies', 'Liquids', 'Powders' , 'Capsules' , 'Others'].map((subCategory) => (
+            <motion.button
+              key={subCategory}
+              type="button"
+              onClick={() => handleSubCategorySelect(subCategory)}
+              className={`p-3 border rounded-lg ${
+                selectedSubCategory === subCategory
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-200'
+              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+            >
+              {subCategory.replace('_', ' ')}
+            </motion.button>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    {/* Flexbox for buttons with Previous on the left and Next on the right */}
+    <div className="flex justify-between">
+      <motion.button
+        type="button"
+        onClick={prevStep}
+        className="w-40 p-3 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        Previous
+      </motion.button>
+
+      <motion.button
+        type="button"
+        onClick={nextStep}
+        className="w-40 p-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        Next
+      </motion.button>
+    </div>
+  </>
+)}
+
 
           {currentStep === 3 && (
            <>
@@ -540,8 +596,7 @@ const handleSubmit = async (e) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <motion.div
                 className="mb-4"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                
               >
                 <label className="block text-gray-700 font-bold mb-2" htmlFor="brand">Suggested Use</label>
                 <textarea
@@ -555,8 +610,7 @@ const handleSubmit = async (e) => {
           
               <motion.div
                 className="mb-4"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                
               >
                 <label className="block text-gray-700 font-bold mb-2" htmlFor="sku">Serving/Bottle</label>
                 <input
@@ -571,8 +625,7 @@ const handleSubmit = async (e) => {
           
               <motion.div
                 className="mb-4"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                
               >
                 <label className="block text-gray-700 font-bold mb-2" htmlFor="tags">Tags (comma separated)</label>
                 <input
@@ -585,7 +638,7 @@ const handleSubmit = async (e) => {
                 />
               </motion.div>
           
-              <motion.div className="flex items-center mb-4" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <motion.div className="flex items-center mb-4">
                 <input
                   type="checkbox"
                   name="isFanFavourites"
@@ -596,7 +649,7 @@ const handleSubmit = async (e) => {
                 <label htmlFor="isFanFavourites" className="ml-2 text-gray-700">Fan Favourites</label>
               </motion.div>
           
-              <motion.div className="flex items-center mb-4" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <motion.div className="flex items-center mb-4" >
                 <input
                   type="checkbox"
                   name="isOnSale"
