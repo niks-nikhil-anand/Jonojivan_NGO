@@ -65,6 +65,12 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Category is required'],
     },
+    collections:{
+        type:String,
+    },
+    subCategory:{
+        type:String,
+    },
     featuredImage: {
         type: String,
         required: [true, 'Featured image URL is required'],

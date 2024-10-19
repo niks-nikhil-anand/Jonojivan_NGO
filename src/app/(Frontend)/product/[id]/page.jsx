@@ -137,10 +137,10 @@ const ProductDetail = () => {
     return (
         <div>
         <motion.div 
-  className="flex flex-col lg:flex-row  p-4 sm:p-6 bg-[#e0d2ff] w-full h-full"
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ duration: 0.5 }}
+              className="flex flex-col lg:flex-row  p-4 sm:p-6 bg-[#e0d2ff] w-full h-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
 >
   {/* Product Images */}
   <div className="w-[49%] h-full flex flex-col items-center">
