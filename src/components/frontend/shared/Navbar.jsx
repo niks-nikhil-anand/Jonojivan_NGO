@@ -4,7 +4,9 @@ import { FiSearch, FiUser, FiShoppingBag } from "react-icons/fi";
 import { AiOutlineDown, AiOutlineUp, AiOutlineMenu } from "react-icons/ai";
 import Image from 'next/image';
 import logo from '../../../../public/annimatedIcons/grocery.png'; // Adjust the path to your logo
+import waveNav from '../../../../public/frontend/SvgAssets/wave-nav.svg'; // Adjust the path to your logo
 import Link from "next/link";
+
 
 const Navbar = () => {
   const [isShopOpen, setIsShopOpen] = useState(false);
@@ -302,6 +304,9 @@ const Navbar = () => {
           <FiUser className="w-6 h-6 cursor-pointer" />
           <FiShoppingBag className="w-6 h-6 cursor-pointer" />
         </div>
+      </div>
+      <div className="absolute w-full md:bottom-[-2rem]  bottom-[-1.7rem] right-0 left-0 z-0">
+        <Image src={waveNav} alt="wave-navbar" />
       </div>
     </nav>
   );
