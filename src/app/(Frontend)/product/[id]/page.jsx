@@ -7,15 +7,20 @@ import Image from 'next/image';
 import Loader from '@/components/loader/loader';
 import ProductBanner from '@/components/frontend/ui/(Banners)/ProductBanner';
 import { AiOutlineDown } from 'react-icons/ai';
+import { useRouter } from 'next/navigation';
+
 
 
 const ProductDetail = () => {
+    const router = useRouter();
     const [product, setProduct] = useState(null);
     const [idFromURL, setIdFromURL] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const [loading, setLoading] = useState(true);
     const [progress, setProgress] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
+    const [quantity, setQuantity] = useState(1);
+
 
 
     useEffect(() => {
@@ -47,6 +52,58 @@ const ProductDetail = () => {
             <Loader/>
         );
     }
+
+    const handleAddToCart = () => {
+      const cartData = {
+        id: idFromURL,
+        quantity: quantity
+      };
+    
+      // Retrieve the existing cart from localStorage
+      let existingCart = localStorage.getItem('cart');
+    
+      try {
+        // Parse the cart if it exists and is valid JSON, otherwise initialize an empty array
+        existingCart = existingCart ? JSON.parse(existingCart) : [];
+      } catch (e) {
+        // If parsing fails, initialize as an empty array
+        existingCart = [];
+      }
+    
+      // Ensure existingCart is an array
+      if (!Array.isArray(existingCart)) {
+        existingCart = [];
+      }
+    
+      // Check if the product is already in the cart
+      const existingProductIndex = existingCart.findIndex((item) => item.id === idFromURL);
+    
+      if (existingProductIndex !== -1) {
+        // If the product is already in the cart, update its quantity
+        existingCart[existingProductIndex].quantity += quantity;
+      } else {
+        // If the product is not in the cart, add it
+        existingCart.push(cartData);
+      }
+    
+      // Update the cart in localStorage
+      localStorage.setItem('cart', JSON.stringify(existingCart));
+    
+      // Navigate to the cart page
+    };
+    
+    
+    
+    const increaseQuantity = () => {
+      setQuantity(prevQuantity => prevQuantity + 1);
+    };
+    
+    const decreaseQuantity = () => {
+      setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+    };
+
+
+
     const toggleOpen = () => {
       setIsOpen(!isOpen);
     };
@@ -54,9 +111,6 @@ const ProductDetail = () => {
     if (!product) {
         return <div>Product not found.</div>;
     }
-
-    
-
     const { name, description, images, salePrice, originalPrice, featuredImage, ratings, descriptionImage , servingPerBottle , suggestedUse , ingredients , productHighlights } = product;
     const averageRating = ratings?.average || 4.2;
     const allImages = [ ...(images || [])];
@@ -143,16 +197,16 @@ const ProductDetail = () => {
               transition={{ duration: 0.5 }}
 >
         {/* Product Images */}
-  <div className="w-[49%] h-full flex flex-col items-center">
-    {/* Preview Image */}
-    <div className="w-[30rem] h-[40rem] flex justify-center items-center overflow-hidden mb-4 relative rounded-lg">
-        <img 
-            src={selectedImage || featuredImage} 
-            alt={name} 
-            className="object-contain w-full h-full cursor-pointer "
-            onClick={() => selectedImage && setSelectedImage(selectedImage)}
-        />
-    </div>
+          <div className="w-[49%] h-full flex flex-col items-center">
+            {/* Preview Image */}
+            <div className="w-[30rem] h-[40rem] flex justify-center items-center overflow-hidden mb-4 relative rounded-lg">
+                <img 
+                    src={selectedImage || featuredImage} 
+                    alt={name} 
+                    className="object-contain w-full h-full cursor-pointer "
+                    onClick={() => selectedImage && setSelectedImage(selectedImage)}
+                />
+            </div>
 
     {/* Thumbnail Images */}
     <div className="flex gap-2 overflow-x-auto w-full">
@@ -210,14 +264,14 @@ const ProductDetail = () => {
 
         
 
-      <div className="flex justify-center gap-4 mb-4 flex-col">
-        <span className="text-gray-700">Quantity</span>
-        <div className="flex items-center border rounded-3xl py-4 w-1/4 justify-center">
-          <button className="px-3 py-1 ">-</button>
-          <input type="number" className="w-12 text-center" value={1} />
-          <button className="px-3 py-1">+</button>
+          <div className="flex justify-center gap-4 mb-4 flex-col">
+          <span className="text-gray-700">Quantity</span>
+          <div className="flex items-center border rounded-3xl py-4 w-1/4 justify-center">
+            <button className="px-3 py-1" onClick={decreaseQuantity}>-</button>
+            <input type="number" className="w-12 text-center" value={quantity} readOnly />
+            <button className="px-3 py-1" onClick={increaseQuantity}>+</button>
+          </div>
         </div>
-      </div>
 
       <div className='flex flex-col  border-y-2 my-5 border-gray-150'>
       <div className='flex justify-between hover:cursor-pointer py-5'  
@@ -248,6 +302,7 @@ const ProductDetail = () => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         className="px-4 py-3 bg-[#6a0dad] text-white rounded-full shadow-lg hover:bg-[#4b0082] transition text-base"
+        onClick={handleAddToCart} 
       >
         Add to Cart
       </motion.button>
