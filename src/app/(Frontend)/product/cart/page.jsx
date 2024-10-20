@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { FaTrashAlt } from 'react-icons/fa';
 import axios from 'axios';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+
 
 const Cart = () => {
   const [cart, setCart] = useState([]); // Store cart data from localStorage
@@ -103,31 +106,37 @@ const Cart = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-  <div className="w-full p-4 bg-white rounded-lg shadow-lg">
-    <h1 className="text-2xl font-semibold text-orange-600 mb-4">Your Cart</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen shadow-lg border-b-black-100 border">
+        <div className='flex'>
+        <h1 className="text-5xl font-semibold text-orange-600 mb-4">Your Cart</h1>
+        <Link href={"/"}>
+        <h1 className="text-xl font-semibold text-blue-500 mb-4 underline ml-5 mt-3 hover:cursor-pointer hover:underline-offset-1">Continue Shopping </h1>
+        </Link>
+        </div>
+  <div className="w-full p-4 bg-white ">
+    
     {products.length > 0 ? (
       <>
         <table className="w-full table-auto border-collapse">
           <thead>
-            <tr className="bg-gray-200">
+            <tr className="">
               <th className="px-4 py-2 text-left">Product</th>
               <th className="px-4 py-2 text-center">Quantity</th>
               <th className="px-4 py-2 text-right">Total</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody >
             {products.map((product) => (
-              <tr key={product.id} className="border-b">
+              <tr key={product.id} className="border-b ">
                 {/* Product Image and Name */}
                 <td className="flex items-center py-2">
                   <img
                     src={product.featuredImage}
                     alt={product.name}
-                    className="w-16 h-16 object-cover mr-4 rounded-lg"
+                    className="w-16 h-16 object-cover mr-4 rounded-lg hover:cursor-pointer"
                   />
                   <div>
-                    <h2 className="text-lg">{product.name}</h2>
+                    <h2 className="text-lg hover:cursor-pointer hover:underline">{product.name}</h2>
                     <div className="flex gap-3">
                       <p className="text-gray-500">
                         ₹<span className="line-through">{product.originalPrice}</span>
@@ -179,6 +188,12 @@ const Cart = () => {
           <p className="text-sm font-semibold">
             Taxes, discounts, and shipping calculated at checkout
           </p>
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-4 py-3 bg-[#6a0dad] text-white rounded-full shadow-lg hover:bg-[#4b0082] transition text-base mt-5 w-1/5">
+                Check out
+      </motion.button>
         </div>
       </>
     ) : (
