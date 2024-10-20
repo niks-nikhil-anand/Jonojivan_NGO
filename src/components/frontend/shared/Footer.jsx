@@ -45,7 +45,7 @@ const Footer = () => {
               { name: 'Shipping and Return Policies', url: '/returnPolicy' },
               { name: '60-Day Satisfaction Guarantee', url: '/guarantee' },
               { name: 'Privacy Policy', url: '/privacyPolicy' },
-              { name: 'Terms of Use', url: '/termsAndConditions' },
+              { name: 'Terms & Condition', url: '/termsAndConditions' },
               { name: 'CCPA Notice', url: '/ccpa' },
               { name: 'Affiliate Program', url: '/affiliate' }
             ].map((link) => (
