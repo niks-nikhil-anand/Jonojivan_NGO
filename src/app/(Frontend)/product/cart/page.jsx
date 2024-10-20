@@ -104,74 +104,89 @@ const Cart = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full  p-4 bg-white rounded-lg shadow-lg">
-        <h1 className="text-2xl font-semibold text-orange-600 mb-4">Your Cart</h1>
-        {products.length > 0 ? (
-          <>
+  <div className="w-full p-4 bg-white rounded-lg shadow-lg">
+    <h1 className="text-2xl font-semibold text-orange-600 mb-4">Your Cart</h1>
+    {products.length > 0 ? (
+      <>
+        <table className="w-full table-auto border-collapse">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="px-4 py-2 text-left">Product</th>
+              <th className="px-4 py-2 text-center">Quantity</th>
+              <th className="px-4 py-2 text-right">Total</th>
+            </tr>
+          </thead>
+          <tbody>
             {products.map((product) => (
-              <div
-                key={product.id}
-                className="flex flex-col md:flex-row justify-between items-center mb-4"
-              >
+              <tr key={product.id} className="border-b">
                 {/* Product Image and Name */}
-                <div className="flex items-center">
+                <td className="flex items-center py-2">
                   <img
                     src={product.featuredImage}
                     alt={product.name}
-                    className="w-24 h-24 object-cover mr-4"
+                    className="w-16 h-16 object-cover mr-4 rounded-lg"
                   />
                   <div>
-                    <h2 className="text-lg ">{product.name}</h2>
-                    <div className='flex gap-3 '>
-                    <p className="text-gray-500">₹<span className='line-through'>{product.originalPrice}</span></p>
-                    <p className="text-black text-lg">₹{product.salePrice}</p>
+                    <h2 className="text-lg">{product.name}</h2>
+                    <div className="flex gap-3">
+                      <p className="text-gray-500">
+                        ₹<span className="line-through">{product.originalPrice}</span>
+                      </p>
+                      <p className="text-black text-lg">₹{product.salePrice}</p>
                     </div>
-                   
                   </div>
-                </div>
+                </td>
 
                 {/* Quantity Controls */}
-                <div className="flex items-center mt-4 md:mt-0">
-                  <button
-                    className="px-2 py-1 text-gray-600 border border-gray-300 rounded-l hover:bg-gray-200"
-                    onClick={() => decrementQuantity(product._id)}
-                  >
-                    -
-                  </button>
-                  <span className="px-4 py-2">{product.quantity}</span>
-                  <button
-                    className="px-2 py-1 text-gray-600 border border-gray-300 rounded-r hover:bg-gray-200"
-                    onClick={() => incrementQuantity(product._id)}
-                  >
-                    +
-                  </button>
-                </div>
+                <td className="text-center">
+                  <div className="flex items-center justify-center">
+                    <button
+                      className="px-2 py-1 text-gray-600 border border-gray-300 rounded-l hover:bg-gray-200"
+                      onClick={() => decrementQuantity(product._id)}
+                    >
+                      -
+                    </button>
+                    <span className="px-4 py-2">{product.quantity}</span>
+                    <button
+                      className="px-2 py-1 text-gray-600 border border-gray-300 rounded-r hover:bg-gray-200"
+                      onClick={() => incrementQuantity(product._id)}
+                    >
+                      +
+                    </button>
+                    <button
+                      className="text-red-500 hover:text-red-700 ml-4"
+                      onClick={() => removeItem(product._id)}
+                    >
+                      <FaTrashAlt size={20} />
+                    </button>
+                  </div>
+                </td>
 
                 {/* Total Price for the product */}
-                <p className="text-lg font-medium mt-4 md:mt-0">₹{totalPriceForProduct(product)}</p>
-
-                {/* Remove Button */}
-                <button
-                  className="text-red-500 hover:text-red-700 ml-4"
-                  onClick={() => removeItem(product._id)}
-                >
-                  <FaTrashAlt size={20} />
-                </button>
-              </div>
+                <td className="text-right text-lg font-medium">
+                  ₹{totalPriceForProduct(product)}
+                </td>
+              </tr>
             ))}
+          </tbody>
+        </table>
 
-            {/* Estimated Total */}
-            <div className="mt-4 text-right">
-              <p className="text-lg font-semibold">
-                Estimated total: ₹ {estimatedTotal()} 
-              </p>
-            </div>
-          </>
-        ) : (
-          <p className="text-gray-500">Your cart is empty</p>
-        )}
-      </div>
-    </div>
+        {/* Estimated Total */}
+        <div className="mt-4 text-right">
+          <p className="text-lg font-semibold">
+            Estimated total: <span className="pl-5">₹{estimatedTotal()}</span>
+          </p>
+          <p className="text-sm font-semibold">
+            Taxes, discounts, and shipping calculated at checkout
+          </p>
+        </div>
+      </>
+    ) : (
+      <p className="text-gray-500">Your cart is empty</p>
+    )}
+  </div>
+</div>
+
   );
 };
 
