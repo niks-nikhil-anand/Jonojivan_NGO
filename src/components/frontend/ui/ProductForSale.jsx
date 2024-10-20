@@ -65,7 +65,7 @@ const ProductCard = () => {
                     return (
                         <div
                         key={_id}
-                        className="relative h-[22rem] w-full  md:w-[18rem] lg:h-[28rem] lg:w-[22rem] overflow-hidden rounded-3xl group" 
+                        className="relative h-[30rem] w-full  md:w-[18rem] lg:h-[30rem] lg:w-[22rem] overflow-hidden rounded-3xl group" 
                         onClick={() => handleCardClick(_id)}
                     >
                         <div className= "absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-4 py-2 rounded-br-lg z-10">
@@ -84,7 +84,7 @@ const ProductCard = () => {
                         </div>
                     
                         {/* Image */}
-                        <div className="relative h-[22rem] w-full overflow-hidden rounded-3xl border border-gray-300">
+                        <div className="relative h-[30rem] w-full overflow-hidden rounded-3xl border border-gray-300">
                             <img
                                 className="object-fill w-full h-full transition-transform duration-300 ease-in-out transform group-hover:scale-105" // Apply hover scaling on the group
                                 src={featuredImage}
