@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
+import { MdArrowBackIos } from "react-icons/md";
+
 
 const CheckoutPage = () => {
   return (
@@ -67,6 +69,18 @@ const CheckoutPage = () => {
                 className="border w-full py-2 px-4 rounded-md col-span-2"
               />
               <div className='flex justify-between'>
+            <input
+                type="text"
+                placeholder="ZIP code"
+                className="border w-2/5 py-2 px-4 rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="Landmark"
+                className="border w-2/5 py-2 px-4 rounded-md"
+              />
+            </div>
+              <div className='flex justify-between'>
               <input
                 type="text"
                 placeholder="City"
@@ -78,17 +92,24 @@ const CheckoutPage = () => {
                 className="border w-2/5 py-2 px-4 rounded-md"
               />
               </div>
+            
               
-              <input
-                type="text"
-                placeholder="ZIP code"
-                className="border w-2/5 py-2 px-4 rounded-md"
-              />
             </div>
           </div>
-          <button className="bg-purple-600 text-white font-bold py-2 px-6 rounded-md mt-6">
-            Continue to shipping
-          </button>
+          <div className='flex justify-between mt-6'>
+  <div className='flex items-center'>
+    <MdArrowBackIos className='' />
+    <button className="text-black font-bold py-2 px-6 rounded-md">
+      Return to Cart
+    </button>
+  </div>
+
+            <button className="bg-purple-600 text-white font-bold py-2 px-6 rounded-md">
+                Continue to shipping
+            </button>
+            </div>
+
+          
         </div>
 
         {/* Right Section - Cart Summary */}
