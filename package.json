@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@react-email/components": "^0.0.22",
-    "@tailwindcss/typography": "^0.5.14",
+    "@tailwindcss/typography": "^0.5.15",
     "axios": "^1.7.4",
     "bcrypt": "^5.1.1",
     "cloudinary": "^2.4.0",

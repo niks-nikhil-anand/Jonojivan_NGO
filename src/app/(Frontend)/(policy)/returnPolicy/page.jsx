@@ -45,7 +45,7 @@ const Page = () => {
     }
 
     // Sanitize the HTML content before rendering
-    const sanitizedContent = DOMPurify.sanitize(data?.content || '');
+    const sanitizedContent = DOMPurify.sanitize(data.content);
 
     return (
         <motion.div
@@ -72,9 +72,13 @@ const Page = () => {
             </div>
 
             {/* Content */}
-            <div className='w-15/20 mx-auto'>
-                <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
-            </div>
+            <div className="md:w-15/20 w-full px-4 md:px-12 mx-auto overflow-x-hidden">
+       <div 
+        className="prose md:prose-base prose-sm max-w-none text-gray-800"
+        dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+    />
+     </div>
+
         </motion.div>
     );
 };
