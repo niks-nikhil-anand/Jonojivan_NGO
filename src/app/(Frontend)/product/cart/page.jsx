@@ -4,11 +4,14 @@ import { FaTrashAlt } from 'react-icons/fa';
 import axios from 'axios';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import Loader from '@/components/loader/loader';
 
 
 const Cart = () => {
   const [cart, setCart] = useState([]); // Store cart data from localStorage
   const [products, setProducts] = useState([]); // Store product details
+  const [loading, setLoading] = useState(true); // Track loading state
+
 
   // Fetch cart from localStorage and product details from API
   useEffect(() => {
@@ -24,6 +27,7 @@ const Cart = () => {
 
   useEffect(() => {
     const fetchProductDetails = async () => {
+        setLoading(true); 
       try {
         const productDetails = await Promise.all(
           cart.map(async (item) => {
@@ -34,6 +38,8 @@ const Cart = () => {
         setProducts(productDetails);
       } catch (error) {
         console.error('Error fetching product details:', error);
+      }finally{
+        setLoading(false);
       }
     };
 
@@ -79,6 +85,12 @@ const Cart = () => {
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
+
+  if (loading) {
+    return (
+        <Loader/>
+    );
+}
   
   
 
@@ -183,7 +195,7 @@ const Cart = () => {
         {/* Estimated Total */}
         <div className="mt-4 text-right">
           <p className="text-lg font-semibold">
-            Estimated total: <span className="pl-5">₹{estimatedTotal()}</span>
+            <span className='text-[#D07021]'>Estimated total:</span> <span className="pl-3">₹{estimatedTotal()}</span>
           </p>
           <p className="text-sm font-semibold">
             Taxes, discounts, and shipping calculated at checkout
