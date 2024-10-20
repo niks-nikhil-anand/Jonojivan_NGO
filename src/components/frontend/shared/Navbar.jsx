@@ -293,16 +293,20 @@ const Navbar = () => {
           <a href="#" className="text-lg font-medium hover:text-gray-700">Take Quiz</a>
         </div>
 
-        {/* Center - Logo */}
+       
         <div className="flex justify-center relative z-50">
-          <h1 className="font-bold text-xl">BlushBelle</h1>
+          <Link href={"/"}>
+          <h1 className="font-bold text-xl hover:cursor-pointer">BlushBelle</h1>
+          </Link>
         </div>
 
-        {/* Right Side - Icons */}
+        
         <div className="flex items-center space-x-6 relative z-50">
           <FiSearch className="w-6 h-6 cursor-pointer" />
           <FiUser className="w-6 h-6 cursor-pointer" />
+          <Link href={"/product/cart"}>
           <FiShoppingBag className="w-6 h-6 cursor-pointer" />
+          </Link>
         </div>
       </div>
       <div className="absolute w-full md:bottom-[-2rem]  bottom-[-1.7rem] right-0 left-0 z-0">

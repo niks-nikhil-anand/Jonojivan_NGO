@@ -93,7 +93,7 @@ const ProductDetail = () => {
     
       // Navigate to the cart page
       setAddedToCart(true);
-      router.push("/cart")
+      router.push("product/cart")
     };
 
     
