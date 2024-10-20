@@ -200,12 +200,15 @@ const Cart = () => {
           <p className="text-sm font-semibold">
             Taxes, discounts, and shipping calculated at checkout
           </p>
+          <Link href={"cart/information"}>
           <motion.button 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="px-4 py-3 bg-[#6a0dad] text-white rounded-full shadow-lg hover:bg-[#4b0082] transition text-base mt-5 w-1/5">
                 Check out
-      </motion.button>
+           </motion.button>
+          </Link>
+          
         </div>
       </>
     ) : (
