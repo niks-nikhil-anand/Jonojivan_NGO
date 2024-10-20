@@ -57,7 +57,7 @@ const ProductDetail = () => {
 
     
 
-    const { name, description, images, salePrice, originalPrice, featuredImage, ratings, descriptionImage , servingPerBottle , suggestedUse , ingredients , productHighlights} = product;
+    const { name, description, images, salePrice, originalPrice, featuredImage, ratings, descriptionImage , servingPerBottle , suggestedUse , ingredients , productHighlights } = product;
     const averageRating = ratings?.average || 4.2;
     const allImages = [ ...(images || [])];
 
@@ -142,7 +142,7 @@ const ProductDetail = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
 >
-  {/* Product Images */}
+        {/* Product Images */}
   <div className="w-[49%] h-full flex flex-col items-center">
     {/* Preview Image */}
     <div className="w-[30rem] h-[40rem] flex justify-center items-center overflow-hidden mb-4 relative">
@@ -199,7 +199,7 @@ const ProductDetail = () => {
 
       <div className="flex items-center mb-2">
         <span className="text-green-500 text-lg font-bold">★ ★ ★ ★ ★</span>
-        <span className="text-gray-500 ml-2">157 Reviews</span>
+        <span className="text-gray-500 ml-2">{ratings.numberOfRatings} Reviews</span>
       </div>
 
       <h2 className="text-purple-500 mb-2 text-sm">SERVINGS PER BOTTLE: {servingPerBottle}</h2>
@@ -208,20 +208,7 @@ const ProductDetail = () => {
         ₹{salePrice || originalPrice}
       </h1>
 
-      <div className="mb-4">
-        <label className="block mb-1 font-bold">Purchase Options</label>
-        <div className="flex flex-col">
-          <label className="flex items-center">
-            <input type="radio" name="purchase" className="mr-2" defaultChecked />
-            <span>One-time purchase ₹{salePrice || originalPrice}</span>
-          </label>
-          <label className="flex items-center">
-            <input type="radio" name="purchase" className="mr-2" />
-            <span>Subscribe & Save 20% ₹{(salePrice || originalPrice) * 0.8}</span>
-          </label>
-        </div>
-        <div className="text-blue-600 text-sm mt-2 cursor-pointer">Subscription details</div>
-      </div>
+        
 
       <div className="flex items-center gap-4 mb-4">
         <span className="text-gray-700">Quantity</span>
@@ -231,6 +218,23 @@ const ProductDetail = () => {
           <button className="px-3 py-1">+</button>
         </div>
       </div>
+
+      <div className='flex flex-col'>
+      <div className='flex justify-between hover:cursor-pointer py-5'  
+      onClick={toggleOpen}>
+      <h3 className="text-orange-600 font-bold mb-2">Suggested Use</h3>
+      <AiOutlineDown 
+        className="cursor-pointer text-2xl text-orange-600" 
+       
+      />
+      </div>
+      {isOpen && (
+        <div className="mb-5 mt-2 px-3">
+         
+          <p className="text-gray-700">{suggestedUse}</p>
+        </div>
+      )}
+    </div>
     </motion.div>
 
     {/* Action Buttons */}
@@ -249,21 +253,7 @@ const ProductDetail = () => {
       </motion.button>
     </motion.div>
 
-    <div className='flex flex-col'>
-      <div className='flex justify-between px-3 py-5'>
-      <h3 className="text-orange-600 font-bold mb-2">Suggested Use</h3>
-      <AiOutlineDown 
-        className="cursor-pointer text-2xl text-orange-600" 
-        onClick={toggleOpen} 
-      />
-      </div>
-      {isOpen && (
-        <div className="mt-1 px-3">
-         
-          <p className="text-gray-700">{suggestedUse}</p>
-        </div>
-      )}
-    </div>
+   
   </div>
 </motion.div>
 <div>
