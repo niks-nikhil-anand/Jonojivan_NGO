@@ -63,7 +63,7 @@ const ProductDetail = () => {
 
     const ProductHighlights = () => {
         return (
-          <div className="flex flex-col items-center justify-center min-h-[75vh] bg-white py-10">
+          <div className="flex flex-col items-center justify-center min-h-[75vh] bg-white p-10">
       <motion.h2
         className="text-2xl font-semibold text-orange-600 mb-8"
         initial={{ opacity: 0, y: -50 }}
@@ -77,7 +77,7 @@ const ProductDetail = () => {
         {productHighlights.map((productHighlights, index) => (
           <motion.div
             key={productHighlights.id}
-            className="flex flex-col items-center max-w-xs text-center"
+            className="flex flex-col items-center max-w-xs text-center mt-5"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: index * 0.2 }}
@@ -100,17 +100,17 @@ const ProductDetail = () => {
 
       const FeaturedIngredients = () => {
         return (
-          <div className="py-10 bg-white">
+          <div className="p-10 bg-white">
             <h2 className="text-center text-3xl font-semibold text-orange-600 mb-10">
               Featured Ingredients
             </h2>
-            <div className="flex justify-center items-start space-x-5">
+            <div className="flex justify-center items-start space-x-5 flex-wrap ">
               {ingredients.map((ingredient, index) => (
                 <motion.div
                   key={index}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-green-100 rounded-xl p-6 shadow-md w-1/5"
+                  className="bg-green-100 rounded-xl p-6 shadow-md w-1/5 mt-5"
                 >
                   <img
                     src={ingredient.image}
@@ -137,7 +137,7 @@ const ProductDetail = () => {
     return (
         <div>
         <motion.div 
-              className="flex flex-col lg:flex-row  p-4 sm:p-6 bg-[#e0d2ff] w-full h-full"
+              className="flex flex-col lg:flex-row  p-4 sm:p-6 bg-[#e0d2ff] w-full h-full mt-5"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
@@ -145,11 +145,11 @@ const ProductDetail = () => {
         {/* Product Images */}
   <div className="w-[49%] h-full flex flex-col items-center">
     {/* Preview Image */}
-    <div className="w-[30rem] h-[40rem] flex justify-center items-center overflow-hidden mb-4 relative">
+    <div className="w-[30rem] h-[40rem] flex justify-center items-center overflow-hidden mb-4 relative rounded-lg">
         <img 
             src={selectedImage || featuredImage} 
             alt={name} 
-            className="object-contain w-full h-full cursor-pointer"
+            className="object-contain w-full h-full cursor-pointer "
             onClick={() => selectedImage && setSelectedImage(selectedImage)}
         />
     </div>
@@ -210,16 +210,16 @@ const ProductDetail = () => {
 
         
 
-      <div className="flex items-center gap-4 mb-4">
+      <div className="flex justify-center gap-4 mb-4 flex-col">
         <span className="text-gray-700">Quantity</span>
-        <div className="flex items-center border rounded-md">
-          <button className="px-3 py-1">-</button>
-          <input type="number" className="w-12 text-center border-l border-r" value={1} />
+        <div className="flex items-center border rounded-3xl py-4 w-1/4 justify-center">
+          <button className="px-3 py-1 ">-</button>
+          <input type="number" className="w-12 text-center" value={1} />
           <button className="px-3 py-1">+</button>
         </div>
       </div>
 
-      <div className='flex flex-col'>
+      <div className='flex flex-col  border-y-2 my-5 border-gray-150'>
       <div className='flex justify-between hover:cursor-pointer py-5'  
       onClick={toggleOpen}>
       <h3 className="text-orange-600 font-bold mb-2">Suggested Use</h3>
