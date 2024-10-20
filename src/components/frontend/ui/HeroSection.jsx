@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import HeroSection01 from "../../../../public/frontend/heroSection01.webp";
 import HeroSectionMobileView from "../../../../public/frontend/heroSectionMobile01.webp";
+import waveWhite from "../../../../public/frontend/SvgAssets/wave-white.svg";
 
 
 
@@ -60,8 +61,11 @@ const HeroSection = () => {
     Superfruit max gummies
   </motion.p>
 </div>
-
       </motion.div>
+      {/* Wavy white image */}
+      <div className="absolute w-full md:bottom-[-4rem]  bottom-[-1.7rem] right-0 left-0 z-0">
+        <Image src={waveWhite} alt="Wave" layout="responsive" priority />
+      </div>
     </div>
   );
 };

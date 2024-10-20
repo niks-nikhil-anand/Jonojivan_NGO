@@ -16,7 +16,7 @@ const banners = [
 
 const WhoWeAre = () => {
   return (
-    <div className="flex flex-col mt-5">
+    <div className="flex flex-col mt-5 md:mt-11">
   <h2 className="text-xl sm:text-2xl md:text-4xl mb-4 text-center font-bold text-red-500">
     Who We Are
   </h2>
