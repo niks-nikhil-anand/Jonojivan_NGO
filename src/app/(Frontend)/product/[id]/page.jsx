@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 
 
 
+
 const ProductDetail = () => {
     const router = useRouter();
     const [product, setProduct] = useState(null);
@@ -20,6 +21,7 @@ const ProductDetail = () => {
     const [progress, setProgress] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
     const [quantity, setQuantity] = useState(1);
+    const [addedToCart, setAddedToCart] = useState(false);
 
 
 
@@ -90,7 +92,10 @@ const ProductDetail = () => {
       localStorage.setItem('cart', JSON.stringify(existingCart));
     
       // Navigate to the cart page
+      setAddedToCart(true);
+      router.push("/cart")
     };
+
     
     
     
@@ -304,7 +309,7 @@ const ProductDetail = () => {
         className="px-4 py-3 bg-[#6a0dad] text-white rounded-full shadow-lg hover:bg-[#4b0082] transition text-base"
         onClick={handleAddToCart} 
       >
-        Add to Cart
+       {addedToCart ? 'Go to Cart' : 'Add to Cart'}
       </motion.button>
     </motion.div>
 
