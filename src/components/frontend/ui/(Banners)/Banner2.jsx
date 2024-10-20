@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import banner1 from '../../../../../public/frontend/Banner/Banner2.webp';
 import banner2 from '../../../../../public/frontend/Banner/Group_520_mobile.webp'; 
+import waveWhite from '../../../../../public/frontend/SvgAssets/wave-white.svg'; 
+import Image from 'next/image';
 
 const Banner2 = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -32,6 +34,15 @@ const Banner2 = () => {
         <p className="mt-10 text-lg md:text-xl w-[20rem] md:w-[40rem] lg:w-[50rem] text-black">
         By combining the best of nature’s nutrients with science-backed formulas, we create clean, effective supplements tailored to your unique needs.
         </p>
+      </div>
+      <div className="absolute w-full bottom-[-4rem] md:bottom-[-4rem] left-0 right-0 z-0">
+        <Image
+          src={waveWhite}
+          alt="Wave"
+          layout="responsive"
+          priority
+          className="md:h-auto h-[3rem]" 
+        />
       </div>
     </div>
   );

@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import banner1 from '../../../../../public/frontend/Banner/Banner1.webp';
 import banner2 from '../../../../../public/frontend/Banner/Banner12.webp'; 
+import waveWhite from '../../../../../public/frontend/SvgAssets/wave-white.svg'; 
+import Image from 'next/image';
 
 const Banner1 = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -25,6 +27,7 @@ const Banner1 = () => {
         backgroundPosition: 'center',
       }}
     >
+      
       <div className="absolute inset-0 opacity-50" />
       <div className="absolute md:top-1/2 top-[10rem] md:left-[3rem] transform -translate-y-1/2 text-blue-400 p-5">
         <h1 className="text-3xl md:text-6xl">Wellness</h1>
@@ -32,6 +35,9 @@ const Banner1 = () => {
         <p className="mt-10 text-lg md:text-xl w-[20rem] md:w-[40rem] lg:w-[50rem]">
           Zhou Nutrition started with a small group of runners, yogis, athletes, and outdoor enthusiasts all striving for greatness in our own unique ways.
         </p>
+      </div>
+      <div className="absolute w-full md:bottom-[-4rem]  bottom-[-1.7rem] right-0 left-0 z-0">
+        <Image src={waveWhite} alt="Wave" layout="responsive" priority />
       </div>
     </div>
   );
