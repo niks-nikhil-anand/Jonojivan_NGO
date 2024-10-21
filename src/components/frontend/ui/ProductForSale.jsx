@@ -56,7 +56,7 @@ const ProductCard = () => {
     };
 
     return (
-        <div className="flex flex-col mt-5">
+        <div className="flex flex-col mt-5 mb-4">
             <h2 className="text-xl md:text-4xl mb-4 text-center font-bold text-red-500">Fan Favorites</h2>
             <div className="flex gap-5 hover:cursor-pointer justify-center px-2 py-3 flex-wrap">
                 {products.map(product => {
