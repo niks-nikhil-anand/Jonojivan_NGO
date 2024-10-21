@@ -131,7 +131,7 @@ export const POST = async (req) => {
       productHighlights,
     };
 
-    console.log("Final product data:", productData); // Log the final product data before saving
+    console.log("Final product data:", productData); 
 
     await productModels.create(productData);
     return NextResponse.json({ msg: "Product added successfully" }, { status: 200 });

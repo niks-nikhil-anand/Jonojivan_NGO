@@ -15,7 +15,7 @@ const Footer = () => {
           <div className="w-16 h-1 bg-purple-600 mb-4"></div>
           <ul className="space-y-2">
           {[
-              { name: 'Shop', url: '/shop' },
+              { name: 'Shop', url: '/product/shopAllProducts' },
               { name: 'Contact', url: '/contact' },
               { name: 'Blog', url: '/blog' },
               { name: 'International Orders', url: '/international-orders' },

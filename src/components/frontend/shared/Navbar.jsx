@@ -205,7 +205,7 @@ const Navbar = () => {
                     </li>
                     <li className="flex items-center space-x-3">
                       <span>📦</span>
-                      <a href="#" className="hover:text-blue-600">All Products</a>
+                      <Link href={"/product/shopAllProducts"} className="hover:text-blue-600">All Products </Link>
                     </li>
                   </ul>
                 </div>
