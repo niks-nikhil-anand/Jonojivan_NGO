@@ -8,6 +8,14 @@ const addressSchema = new mongoose.Schema({
     streetAddress: {
         type: String,
     },
+    email:{
+        type: String,
+        required: [true, 'Email is required'],
+        match: [/.+\@.+\..+/, 'Please provide a valid email address'],
+        unique: true,
+        lowercase: true,
+        trim: true,
+    },
     state: {
         type: String,
         required: [true, 'State is required'],
@@ -18,7 +26,7 @@ const addressSchema = new mongoose.Schema({
     },
     pinCode: {
         type: String,
-        required: [true, 'Pin Code is required'], // Added a required field with a custom message
+        required: [true, 'Pin Code is required'], 
     },
     landmark: {
         type: String,
@@ -28,10 +36,10 @@ const addressSchema = new mongoose.Schema({
         enum: ['Home', 'Work'],
         default: 'Home',
     },
-    default: {
-        type: Boolean,
-        default: false,
-    }
+    User:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
 }, {
     timestamps: true
 });

@@ -86,11 +86,6 @@ const Cart = () => {
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
-  if (loading) {
-    return (
-        <Loader/>
-    );
-}
   
   
 
