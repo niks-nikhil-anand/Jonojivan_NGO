@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { FiSearch, FiUser, FiShoppingBag } from "react-icons/fi";
 import { AiOutlineDown, AiOutlineUp, AiOutlineMenu } from "react-icons/ai";
 import Image from 'next/image';
-import logo from '../../../../public/annimatedIcons/grocery.png'; // Adjust the path to your logo
+import logo from '../../../../public/annimatedIcons/grocery.png'; 
 import waveNav from '../../../../public/frontend/SvgAssets/wave-nav.svg'; // Adjust the path to your logo
 import Link from "next/link";
 
@@ -303,7 +303,9 @@ const Navbar = () => {
         
         <div className="flex items-center space-x-6 relative z-50">
           <FiSearch className="w-6 h-6 cursor-pointer" />
+          <Link href={"/auth/register"}>
           <FiUser className="w-6 h-6 cursor-pointer" />
+          </Link>
           <Link href={"/product/cart"}>
           <FiShoppingBag className="w-6 h-6 cursor-pointer" />
           </Link>

@@ -7,6 +7,11 @@ import axios from "axios";
 import Image from "next/image";
 import authSignBanner from "../../../../public/frontend/authSignIn.svg";
 import Link from "next/link";
+import dotenv from 'dotenv';
+
+
+dotenv.config();
+
 
 const CreateAccountForm = () => {
   const router = useRouter(); // Initialize useRouter
@@ -69,45 +74,36 @@ const CreateAccountForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-50 px-4 md:px-0">
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white shadow-lg rounded-lg p-8 w-full flex flex-col md:flex-row items-center"
-      >
-        <div className="hidden md:flex md:w-1/2 justify-center">
-          <Image src={authSignBanner} alt="Sign Up Banner" className="w-full h-auto" />
-        </div>
-        <div className="w-full md:w-1/2 md:pl-8">
-          <h2 className="text-2xl font-bold mb-2 text-center md:text-left">Create Your Account</h2>
-          <p className="text-center md:text-left text-gray-600 mb-6">
-            Join JonoJivan Grocery and fullfill your daily needs.
-          </p>
+    <div className="flex justify-center items-center bg-white px-4 md:px-0 w-full flex-col my-10">
+      <div>
+        <h1 className="text-3xl my-5">Create Account</h1>
+      </div>
+      
+        <div className="w-full md:w-1/2">          
           <form onSubmit={handleCreateAccount}>
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Full Name</label>
               <input
                 type="text"
                 value={fullName}
+                placeholder="Full Name"
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+                className="w-full px-6 py-2 border border-black rounded-3xl focus:outline-none focus:ring-2 focus:ring-purple-400"
                 required
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Email</label>
               <input
                 type="email"
                 value={email}
+                placeholder="Email"
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+                className="w-full px-6 py-2 border border-black rounded-3xl focus:outline-none focus:ring-2 focus:ring-purple-400"
                 required
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Mobile Number</label>
               <div className="flex items-center">
-                <span className="bg-gray-200 border border-r-0 rounded-l-lg px-3 py-2 text-gray-600">+91</span>
+                <span className="bg-gray-200 border border-r-0 border-black rounded-l-2xl px-3 py-2 text-gray-600">+91</span>
                 <input
                   type="tel"
                   value={mobileNumber}
@@ -117,7 +113,8 @@ const CreateAccountForm = () => {
                       setMobileNumber(value);
                     }
                   }}
-                  className="w-full px-3 py-2 border border-l-0 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+                  placeholder="Mobile Number"
+                  className="w-full px-3 py-2 border border-l-0 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-purple-400 border-black"
                   maxLength={10} // Limit to 10 digits
                   required
                 />
@@ -125,32 +122,32 @@ const CreateAccountForm = () => {
             </div>
 
             <div className="mb-4 relative">
-              <label className="block text-gray-700 mb-2">Password</label>
               <input
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+                className="w-full px-3 py-2 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-400 border-black "
                 required
+                placeholder="Password"
               />
               <div
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer mt-8"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer mt-1"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <FaEye /> : <FaEyeSlash />}
               </div>
             </div>
             <div className="mb-4 relative">
-              <label className="block text-gray-700 mb-2">Confirm Password</label>
               <input
                 type={showPassword ? "text" : "password"}
                 value={confirmPassword}
+                placeholder="Confirm Password"
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+                className="w-full px-3 py-2 border rounded-2xl border-black focus:outline-none focus:ring-2 focus:ring-purple-400"
                 required
               />
               <div
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer mt-8"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer mt-1  "
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <FaEye /> : <FaEyeSlash />}
@@ -172,27 +169,25 @@ const CreateAccountForm = () => {
                 </Link>
               </label>
             </div>
-
-            <motion.button
+                  <div className="w-full flex justify-center">
+                  <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
               disabled={loading}
-              className={`w-full py-2 px-4 text-white rounded-lg ${
+              className={`w-1/2 py-2 px-4 text-white rounded-2xl  ${
                 loading ? "bg-gray-500" : "bg-purple-900 hover:bg-purple-800"
               }`}
             >
               {loading ? "Creating Account..." : "Create Account"}
             </motion.button>
+                  </div>
+           
           </form>
-          <div className="flex justify-between mt-4">
-            <Link href={"/auth/signIn"} className="text-purple-900 hover:underline">
-              Already have an account? Login
-            </Link>
-          </div>
+          
          
         </div>
-      </motion.div>
+      
     </div>
   );
 };
