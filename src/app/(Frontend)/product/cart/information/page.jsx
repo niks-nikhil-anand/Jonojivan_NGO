@@ -101,8 +101,8 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="flex  mx-auto p-8">
-      <div className="w-full lg:w-2/4">
+    <div className="flex  mx-auto justify-center mt-10 gap-5">
+      <div className="w-full lg:w-2/5">
           <div className="flex mb-6 gap-4">
             <div className="text-sm text-gray-600">
               <Link href="/cart" className="mr-2 text-blue-500">
@@ -249,7 +249,7 @@ const CheckoutPage = () => {
         </div>
       </div>
 
-        <div className="w-full   p-6 rounded-lg flex-1">
+        <div className="w-full border shadow-lg rounded-lg lg:w-5/12 bg-gray-50 p-10">
           <table className="w-full table-auto border-collapse text-xs md:text-base">
             <thead>
               <tr>
