@@ -3,6 +3,8 @@ import "./globals.css";
 import EgoisticNavbar from "@/components/utils/EgosticNavbar";
 import EgoisticFooter from "@/components/utils/EgosticFooter";
 import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,6 +21,8 @@ export default function RootLayout({ children }) {
         <EgoisticNavbar/>
         {children}
         <EgoisticFooter/>
+        
+        <Toaster />
         </body>
     </html>
   );

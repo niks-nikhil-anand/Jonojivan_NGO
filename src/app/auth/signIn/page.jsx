@@ -3,9 +3,12 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import axios from 'axios';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation'; 
-import authSignBanner from '../../../../public/frontend/authSignIn.svg';
+import Link from 'next/link';
+import toast from "react-hot-toast";
+
+
+ 
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -33,6 +36,8 @@ const LoginForm = () => {
         },
       });
 
+
+
       console.log("Login response:", response);
       
       if (response.status === 200) { 
@@ -42,7 +47,7 @@ const LoginForm = () => {
         console.log("Cookie response:", cookieResponse);
 
         if (cookieResponse.status === 200 && cookieResponse.data) {
-
+          toast.success("Login successful!");
           // Clear form fields
           setEmail('');
           setPassword('');
@@ -52,10 +57,12 @@ const LoginForm = () => {
           console.log("Redirecting to user profile:", userId);
           router.push(`/users/${userId}`);
         } else {
+          toast.error("Failed to retrieve user information!");
           console.error("Failed to retrieve cookies or cookies are undefined:", cookieResponse);
         }
       }
     } catch (error) {
+      toast.error("Login failed. Please check your credentials.");
       console.error("Login error:", error);
       // Handle error (e.g., show error message)
     } finally {
@@ -118,7 +125,7 @@ const LoginForm = () => {
           </form>
           <div className="flex justify-between mt-4">
             <a href="#" className="text-purple-900 hover:underline">Forgot password?</a>
-            <a href="#" className="text-purple-900 hover:underline">Create an account</a>
+            <Link href={"/auth/register"}  className="text-purple-900 hover:underline">Create an account</Link>
           </div>
           <div className="flex items-center justify-between mt-6">
             <span className="border-t border-gray-300 flex-grow"></span>

@@ -1,16 +1,13 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Import useRouter for navigation
+import { useRouter } from "next/navigation"; 
 import { motion } from "framer-motion";
-import { FaEye, FaEyeSlash, FaGoogle, FaFacebook } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
-import Image from "next/image";
-import authSignBanner from "../../../../public/frontend/authSignIn.svg";
 import Link from "next/link";
-import dotenv from 'dotenv';
+import { toast, Toaster } from "react-hot-toast"; // Import react-hot-toast
 
 
-dotenv.config();
 
 
 const CreateAccountForm = () => {
@@ -29,13 +26,13 @@ const CreateAccountForm = () => {
     setLoading(true);
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match!");
       setLoading(false);
       return;
     }
 
     if (!acceptedTerms) {
-      alert("You must accept the terms and conditions!");
+      toast.error("You must accept the terms and conditions!");
       setLoading(false);
       return;
     }
@@ -61,11 +58,15 @@ const CreateAccountForm = () => {
         setPassword("");
         setConfirmPassword("");
         setAcceptedTerms(false);
+        toast.success("Account created successfully!");
 
-        // Redirect to the login page
-        router.push("/auth/signIn");
+        setTimeout(() => {
+          router.push("/auth/signIn");
+        }, 1000); // Slight delay to allow users to see the success toast
+      
       }
     } catch (error) {
+      toast.error("Error creating account. Please try again.");
       console.error(error);
       // Handle error
     } finally {
