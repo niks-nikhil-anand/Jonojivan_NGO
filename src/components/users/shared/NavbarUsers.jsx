@@ -7,6 +7,8 @@ import Image from 'next/image';
 import logo from '../../../../public/annimatedIcons/grocery.png'; 
 import waveNav from '../../../../public/frontend/SvgAssets/wave-nav.svg'; // Adjust the path to your logo
 import Link from "next/link";
+import { toast } from 'react-hot-toast';
+
 
 
 
@@ -48,18 +50,24 @@ const Navbar = () => {
         fetchUserDetails();
       }, []);
 
-    // useEffect(() => {
-    //     const handleOutsideClick = (e) => {
-    //       if (isMenuOpen && !e.target.closest('.navbar-menu')) {
-    //         closeMenu();
-    //       }
-    //     };
-    
-    //     document.addEventListener('click', handleOutsideClick);
-    //     return () => {
-    //       document.removeEventListener('click', handleOutsideClick);
-    //     };
-    //   }, [isMenuOpen]);
+      const handleLogout = async () => {
+        try {
+          toast.loading('Logging out...');
+          await fetch('/api/users/auth/logout', {
+            method: 'POST', 
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          toast.dismiss(); // Dismiss the loading toast
+          toast.success('Logged out successfully!');
+          window.location.href = '/';
+        } catch (error) {
+          toast.dismiss(); // Dismiss the loading toast
+          toast.error('Logout failed. Please try again.');
+          console.error('Logout failed:', error);
+        }
+      };
     
     
   return (
@@ -224,11 +232,11 @@ const Navbar = () => {
                   <ul className="space-y-6">
                     <li className="flex items-center space-x-3">
                       <span>♂</span>
-                      <Link href="#" className="hover:text-blue-600">Men`&apos;s Health</Link>
+                      <Link href="#" className="hover:text-blue-600">Men&apos;s Health</Link>
                     </li>
                     <li className="flex items-center space-x-3">
                       <span>♀</span>
-                      <Link href="#" className="hover:text-blue-600">Women`&apos;s Health</Link>
+                      <Link href="#" className="hover:text-blue-600">Women&apos;s Health</Link>
                     </li>
                     <li className="flex items-center space-x-3">
                       <span>🔥</span>
@@ -373,7 +381,7 @@ const Navbar = () => {
                   </li>
                   <li className="flex items-center space-x-3">
                     <span>▶️</span>
-                    <a href="#" className="hover:text-blue-600">Logout</a>
+                    <Link href="#" onClick={handleLogout} className="hover:text-blue-600">Logout</Link>
                   </li>
                 </ul>
               </motion.div>

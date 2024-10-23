@@ -11,7 +11,6 @@ const CheckoutPage = () => {
   const [loading, setLoading] = useState(true); 
 
 
-   // State for all form fields in one object
    const [formData, setFormData] = useState({
     email: "",
     firstName: "",
@@ -23,7 +22,7 @@ const CheckoutPage = () => {
     landmark: "",
     city: "",
     pinCode: "",
-    subcribeChecked: false,
+    subscribeChecked: false, 
   });
 
 
@@ -92,13 +91,35 @@ const CheckoutPage = () => {
   };
 
   const handleContinueToShipping = async () => {
+    // Create a data object to send to the API
+    const checkoutData = {
+      email: formData.email,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      address: formData.address,
+      apartment: formData.apartment,
+      mobileNumber: `+91${formData.mobileNumber}`, // Add country code as needed
+      state: formData.state,
+      landmark: formData.landmark,
+      city: formData.city,
+      pinCode: formData.pinCode,
+      subscribeChecked: formData.subscribeChecked, // Corrected spelling
+      cart
+    };
+  
     try {
-      await axios.post("/api/address", formData);
-      console.log("Address submitted successfully!");
+      const response = await axios.post("/api/pendingOrder/checkout", checkoutData, {
+        headers: {
+          'Content-Type': 'application/json', // Change to application/json
+        },
+      });
+      console.log("Checkout successful!", response.data);
     } catch (error) {
-      console.error("Error submitting address:", error);
+      console.error("Error submitting checkout:", error);
     }
   };
+  
+  
 
   return (
     <div className="flex  mx-auto justify-center mt-10 gap-5">
@@ -131,7 +152,7 @@ const CheckoutPage = () => {
             <input
               type="checkbox"
               name="offersChecked"
-              checked={formData.subcribeChecked}
+              checked={formData.subscribeChecked}
               onChange={handleInputChange}
               className="mr-2"
             />

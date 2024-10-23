@@ -93,7 +93,7 @@ const ProductDetail = () => {
     
       // Navigate to the cart page
       setAddedToCart(true);
-      router.push("product/cart")
+      router.push("/product/cart")
     };
 
     
@@ -268,7 +268,7 @@ const ProductDetail = () => {
       ₹{salePrice || originalPrice}
     </h1>
 
-    <div className="flex flex-col sm:flex-row justify-center gap-4 mb-4">
+    <div className="flex flex-col sm:flex-row justify-start  gap-4 mb-4">
       <span className="text-gray-700">Quantity</span>
       <div className="flex items-center border rounded-3xl py-3 px-5 w-full sm:w-1/4 justify-between">
         <button className="px-3 py-1" onClick={decreaseQuantity}>-</button>

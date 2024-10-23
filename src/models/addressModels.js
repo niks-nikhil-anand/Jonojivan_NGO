@@ -1,20 +1,31 @@
 import mongoose from "mongoose";
 
 const addressSchema = new mongoose.Schema({
-    nameOfAddressHolder: {
+    firstName: {
         type: String,
-        required: [true, 'Name of the address holder is required'], // Added a required field with a custom message
+        required: [true, 'First name is required'], 
     },
-    streetAddress: {
+    lastName: {
         type: String,
+        required: [true, 'Last name is required'], 
+    },
+    address: { 
+        type: String,
+        required: [true, 'Address is required'],
+    },
+    apartment:{
+        type: String,
+        required: [true, 'apartment is required'],
     },
     email:{
         type: String,
         required: [true, 'Email is required'],
         match: [/.+\@.+\..+/, 'Please provide a valid email address'],
-        unique: true,
         lowercase: true,
         trim: true,
+    },
+    mobileNumber:{
+        type: String
     },
     state: {
         type: String,
@@ -24,10 +35,7 @@ const addressSchema = new mongoose.Schema({
         type: String,
         required: [true, 'City is required'],
     },
-    pinCode: {
-        type: String,
-        required: [true, 'Pin Code is required'], 
-    },
+     
     landmark: {
         type: String,
     },
