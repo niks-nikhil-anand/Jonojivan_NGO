@@ -296,14 +296,14 @@ const Navbar = () => {
        
         <div className="flex justify-center relative z-50">
           <Link href={"/"}>
-          <h1 className="font-bold text-xl hover:cursor-pointer">BlushBelle</h1>
+          <h1 className="font-bold text-xl hover:cursor-pointer">Cleanveda</h1>
           </Link>
         </div>
 
         
         <div className="flex items-center space-x-6 relative z-50">
           <FiSearch className="w-6 h-6 cursor-pointer" />
-          <Link href={"/auth/register"}>
+          <Link href={"/auth/signIn"}>
           <FiUser className="w-6 h-6 cursor-pointer" />
           </Link>
           <Link href={"/product/cart"}>
