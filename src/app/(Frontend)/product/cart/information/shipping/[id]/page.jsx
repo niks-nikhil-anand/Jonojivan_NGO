@@ -13,22 +13,6 @@ const CheckoutPage = () => {
   const [loading, setLoading] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [rememberMe, setRememberMe] = useState(false);
-   
-
-
-   const [formData, setFormData] = useState({
-    email: "",
-    firstName: "",
-    lastName: "",
-    address: "",
-    apartment: "",
-    mobileNumber: "",
-    state: "",
-    landmark: "",
-    city: "",
-    pinCode: "",
-    subscribeChecked: false, 
-  });
 
 
 
@@ -206,25 +190,6 @@ const CheckoutPage = () => {
         </div>
 
         {/* Online Payment Option */}
-        <div
-          className={`flex items-center p-4 border ${
-            paymentMethod === "online"
-              ? "border-purple-600 bg-purple-50"
-              : "border-gray-300"
-          } rounded-lg cursor-pointer`}
-          onClick={() => setPaymentMethod("online")}
-        >
-          <FaCreditCard className="text-purple-600 mr-4" size={24} />
-          <input
-            type="radio"
-            name="paymentMethod"
-            checked={paymentMethod === "online"}
-            className="form-radio text-purple-600 mr-2"
-            readOnly
-            
-          />
-          <label className="cursor-pointer">Online Payment</label>
-        </div>
       </div>
     </div>
 

@@ -30,11 +30,7 @@ const cartSchema = new Schema({
         type: [cartItemSchema],
         default: [], 
     },
-    totalPrice: {
-        type: Number,
-        required: true,
-        default: 0,
-    },
+    
 } ,{ 
     timestamps: true // Automatically adds createdAt and updatedAt
 });

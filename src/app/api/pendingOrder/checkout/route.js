@@ -6,17 +6,11 @@ import userModels from "@/models/userModels";
 import { NextResponse } from "next/server";
 import jwt from 'jsonwebtoken';
 
-
-
 export const POST = async (req) => {
   try {
-    console.log("Connecting to the database...");
     await connectDB();
-    console.log("Connected to the database.");
 
     const body = await req.json();
-    console.log("Request body received:", body);
-
     const {
       email,
       firstName,
@@ -32,24 +26,8 @@ export const POST = async (req) => {
       cart,
     } = body;
 
-    console.log("Received values:", {
-      email,
-      firstName,
-      lastName,
-      address,
-      apartment,
-      mobileNumber,
-      state,
-      landmark,
-      city,
-      pinCode,
-      subscribeChecked,
-      cart,
-    });
-
     // Validate required fields
     if (!email || !firstName || !lastName || !address || !mobileNumber || !state || !city || !pinCode || !cart) {
-      console.log("Validation failed: Missing required fields.");
       return NextResponse.json({ msg: "Please provide all the required fields." }, { status: 400 });
     }
 
@@ -58,27 +36,28 @@ export const POST = async (req) => {
     const existingUser = await userModels.findOne({ email });
 
     if (existingUser) {
-      console.log("User found:");
       userId = existingUser._id;
-    } else {
-      console.log("User not found. Proceeding without a user.");
     }
 
     // Check if a cart exists and update it, otherwise create a new cart
     let existingCart = await cartModels.findOne({ userId });
     if (existingCart) {
-      existingCart.products = cart.products;
-      existingCart.totalPrice = cart.totalPrice || 0;
+      existingCart.items = cart.map(item => ({
+        productId: item.id, // Update this line to match your schema
+        quantity: item.quantity,
+        price: item.price || 0 // Assuming price is included in the cart item, or set it to 0 if not
+      }));
       await existingCart.save();
-      console.log("Cart updated:");
     } else {
       existingCart = new cartModels({
         userId,
-        products: cart.products,
-        totalPrice: cart.totalPrice || 0,
+        items: cart.map(item => ({
+          productId: item.id, // Update this line to match your schema
+          quantity: item.quantity,
+          price: item.price || 0 // Assuming price is included in the cart item, or set it to 0 if not
+        })),
       });
       await existingCart.save();
-      console.log("New cart created:");
     }
 
     // Check if an address exists and update it, otherwise create a new address
@@ -94,7 +73,6 @@ export const POST = async (req) => {
       existingAddress.pinCode = pinCode;
       existingAddress.mobileNumber = mobileNumber;
       await existingAddress.save();
-      console.log("Address updated:");
     } else {
       existingAddress = new addressModels({
         firstName,
@@ -110,7 +88,6 @@ export const POST = async (req) => {
         user: userId,
       });
       await existingAddress.save();
-      console.log("New address created:");
     }
 
     let existingPendingOrder = await pendingOrderModel.findOne({ user: userId, isCheckoutCompleted: false });
@@ -118,7 +95,6 @@ export const POST = async (req) => {
       existingPendingOrder.cart = existingCart._id;
       existingPendingOrder.address = existingAddress._id;
       await existingPendingOrder.save();
-      console.log("Pending order updated:", existingPendingOrder);
     } else {
       existingPendingOrder = new pendingOrderModel({
         user: userId,
@@ -129,42 +105,31 @@ export const POST = async (req) => {
         isPaymentCompleted: false,
       });
       await existingPendingOrder.save();
-      console.log("New pending order created:");
     }
-    
-      console.log('Generating token...');
-      const token = generateToken({   
-        orderId: existingPendingOrder._id,
-        cartId: existingCart._id,
-        addressId: existingAddress._id,
-        userId: userId,});
 
+    const token = generateToken({   
+      orderId: existingPendingOrder._id,
+      cartId: existingCart._id,
+      addressId: existingAddress._id,
+      userId: userId,
+    });
 
-      // Set the cookie with the token
-      console.log('Setting cookie with token...');
+    // Set the cookie with the token
+    const response = NextResponse.json({ msg: "Order processed successfully.", orderId: existingPendingOrder._id }, { status: 200 });
+    response.cookies.set('pendingOrder', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', 
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24, 
+      path: '/'
+    });
 
-      const response = NextResponse.json({ msg: "Order processed successfully.", orderId: existingPendingOrder._id }, { status: 200 });
-      response.cookies.set('pendingOrder', token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production', 
-          sameSite: 'strict',
-          maxAge: 60 * 60 * 24 , 
-          path: '/'
-      });
-
-      console.log('Response with cookie:');
-      console.log('Generated token:');
-      
-
-    return response
+    return response;
   } catch (error) {
-    console.log("Error processing request:", error.message);
     return NextResponse.json({ msg: "Error processing request", error: error.message }, { status: 500 });
   }
 };
 
-
 function generateToken(user) {
-    console.log('Generating token for user:', user);
-    return jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1w' });
+  return jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1w' });
 }
