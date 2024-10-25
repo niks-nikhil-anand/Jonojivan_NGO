@@ -123,23 +123,28 @@ const CheckoutPage = () => {
       console.log("Checkout successful!", checkoutResponse.data);
     
       if (checkoutResponse.status >= 200 && checkoutResponse.status < 300) {
-        console.log("Checkout successful!", checkoutResponse.data);
         
         // Fetch order ID from cookies
         console.log("Fetching order ID from cookies...");
-        const orderIdResponse = await axios.get("/api/pendingOrder/checkout/cookies");
-        console.log("Order ID response received:", orderIdResponse);
+            const decodedTokenResponse = await axios.get("/api/pendingOrder/checkout/cookies");
+            const decodedToken = decodedTokenResponse.data; 
     
-        const { orderId } = orderIdResponse.data;
-        console.log("Fetched Order ID:", orderId);
+            console.log("Order ID response received:", decodedToken);
+
+            // Access the properties from the decoded token
+            const { orderId, cartId, addressId, userId } = decodedToken;
+          
+            // Redirect to the shipping page with the orderId if it exists
+            if (orderId) {
+              console.log(`Redirecting to shipping page with Order ID: ${orderId}`);
+              router.push(`/product/cart/information/shipping/${orderId}`);
+            } else {
+              console.error("Order ID not found.");
+            }
     
-        // Redirect to the shipping page with the orderId if it exists
-        if (orderId) {
-          console.log(`Redirecting to shipping page with Order ID: ${orderId}`);
-          router.push(`/product/cart/information/shipping/${orderId}`);
-        } else {
-          console.error("Order ID not found.");
-        }
+            console.log(`Cart ID: ${cartId}, Address ID: ${addressId}, User ID: ${userId}`);
+
+       
       } else {
         console.error("Checkout failed with status:", checkoutResponse.status);
       }

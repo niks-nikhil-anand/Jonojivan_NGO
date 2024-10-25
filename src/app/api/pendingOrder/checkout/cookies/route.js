@@ -28,10 +28,8 @@ export const GET = async (req) => {
       throw new Error("Invalid token.");
     }
 
-    const orderId = decodedToken.orderId;
-    console.log("Extracted Order ID:", orderId);
 
-    return NextResponse.json({ orderId }, {
+    return NextResponse.json(decodedToken , {
       status: 200,
     });
     
