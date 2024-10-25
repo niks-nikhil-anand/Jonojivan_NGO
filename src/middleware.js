@@ -8,13 +8,13 @@ export async function middleware(req) {
   const userAuthToken = cookies.userAuthToken;
   const authToken = cookies.adminAuthToken;
 
-//   if (req.nextUrl.pathname.startsWith('/user')) {
-//     if (!userAuthToken) {
-//       const url = new URL('/partnersignin', req.nextUrl.origin);
-//       return NextResponse.redirect(url);
-//     }
-//     return NextResponse.next();
-//   }
+  if (req.nextUrl.pathname.startsWith('/user')) {
+    if (!userAuthToken) {
+      const url = new URL('/auth/signIn', req.nextUrl.origin);
+      return NextResponse.redirect(url);
+    }
+    return NextResponse.next();
+  }
 
 
   if (req.nextUrl.pathname.startsWith('/admin/dashboard')) {
