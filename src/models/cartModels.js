@@ -1,5 +1,3 @@
-// cartModels.js
-
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
@@ -25,6 +23,10 @@ const cartSchema = new Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+    },
+    orderId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'PendingOrder',
     },
     items: {
         type: [cartItemSchema],
