@@ -1,11 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import axios from "axios"; // Fix axios import
+import axios from "axios"; 
 import { MdArrowBackIos } from "react-icons/md";
 import Loader from "@/components/loader/loader";
+import { useRouter } from 'next/navigation';
+
 
 const CheckoutPage = () => {
+  const router = useRouter();
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]); 
   const [loading, setLoading] = useState(true); 
@@ -24,6 +27,8 @@ const CheckoutPage = () => {
     pinCode: "",
     subscribeChecked: false, 
   });
+
+
 
 
 
@@ -91,14 +96,14 @@ const CheckoutPage = () => {
   };
 
   const handleContinueToShipping = async () => {
-    // Create a data object to send to the API
+    // Data object for the checkout API
     const checkoutData = {
       email: formData.email,
       firstName: formData.firstName,
       lastName: formData.lastName,
       address: formData.address,
       apartment: formData.apartment,
-      mobileNumber: `+91${formData.mobileNumber}`, 
+      mobileNumber: formData.mobileNumber, 
       state: formData.state,
       landmark: formData.landmark,
       city: formData.city,
@@ -108,21 +113,48 @@ const CheckoutPage = () => {
     };
   
     try {
-      const response = await axios.post("/api/pendingOrder/checkout", checkoutData, {
+      // Submit checkout data
+      console.log("Submitting checkout data:", checkoutData);
+       const checkoutResponse = await axios.post("/api/pendingOrder/checkout", checkoutData, {
         headers: {
           'Content-Type': 'application/json', 
         },
       });
-      console.log("Checkout successful!", response.data);
+      console.log("Checkout successful!", checkoutResponse.data);
+    
+      if (checkoutResponse.status >= 200 && checkoutResponse.status < 300) {
+        console.log("Checkout successful!", checkoutResponse.data);
+        
+        // Fetch order ID from cookies
+        console.log("Fetching order ID from cookies...");
+        const orderIdResponse = await axios.get("/api/pendingOrder/checkout/cookies");
+        console.log("Order ID response received:", orderIdResponse);
+    
+        const { orderId } = orderIdResponse.data;
+        console.log("Fetched Order ID:", orderId);
+    
+        // Redirect to the shipping page with the orderId if it exists
+        if (orderId) {
+          console.log(`Redirecting to shipping page with Order ID: ${orderId}`);
+          router.push(`/product/cart/information/shipping/${orderId}`);
+        } else {
+          console.error("Order ID not found.");
+        }
+      } else {
+        console.error("Checkout failed with status:", checkoutResponse.status);
+      }
     } catch (error) {
-      console.error("Error submitting checkout:", error);
+      console.error("Error during checkout or fetching order ID:", error);
     }
+    
+     
   };
+  
   
   
 
   return (
-    <div className="flex  mx-auto justify-center mt-10 gap-5">
+    <div className="flex  mx-auto justify-center my-10 gap-5">
       <div className="w-full lg:w-2/5">
           <div className="flex mb-6 gap-4">
             <div className="text-sm text-gray-600">

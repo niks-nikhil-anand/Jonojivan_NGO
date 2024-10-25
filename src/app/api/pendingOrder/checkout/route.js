@@ -23,7 +23,7 @@ export const POST = async (req) => {
       lastName,
       address,
       apartment,
-      mobileNumber, // Already formatted with country code
+      mobileNumber, 
       state,
       landmark,
       city,
@@ -58,7 +58,7 @@ export const POST = async (req) => {
     const existingUser = await userModels.findOne({ email });
 
     if (existingUser) {
-      console.log("User found:", existingUser._id);
+      console.log("User found:");
       userId = existingUser._id;
     } else {
       console.log("User not found. Proceeding without a user.");
@@ -70,7 +70,7 @@ export const POST = async (req) => {
       existingCart.products = cart.products;
       existingCart.totalPrice = cart.totalPrice || 0;
       await existingCart.save();
-      console.log("Cart updated:", existingCart);
+      console.log("Cart updated:");
     } else {
       existingCart = new cartModels({
         userId,
@@ -78,7 +78,7 @@ export const POST = async (req) => {
         totalPrice: cart.totalPrice || 0,
       });
       await existingCart.save();
-      console.log("New cart created:", existingCart);
+      console.log("New cart created:");
     }
 
     // Check if an address exists and update it, otherwise create a new address
@@ -94,7 +94,7 @@ export const POST = async (req) => {
       existingAddress.pinCode = pinCode;
       existingAddress.mobileNumber = mobileNumber;
       await existingAddress.save();
-      console.log("Address updated:", existingAddress);
+      console.log("Address updated:");
     } else {
       existingAddress = new addressModels({
         firstName,
@@ -110,7 +110,7 @@ export const POST = async (req) => {
         user: userId,
       });
       await existingAddress.save();
-      console.log("New address created:", existingAddress);
+      console.log("New address created:");
     }
 
     let existingPendingOrder = await pendingOrderModel.findOne({ user: userId, isCheckoutCompleted: false });
@@ -129,12 +129,9 @@ export const POST = async (req) => {
         isPaymentCompleted: false,
       });
       await existingPendingOrder.save();
-      console.log("New pending order created:", existingPendingOrder);
+      console.log("New pending order created:");
     }
-
-   
-   
-
+    
       console.log('Generating token...');
       const token = generateToken({   
         orderId: existingPendingOrder._id,
@@ -151,12 +148,12 @@ export const POST = async (req) => {
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production', 
           sameSite: 'strict',
-          maxAge: 60 * 60 * 24 , // 1 month if 'rememberMe', otherwise 1 week
+          maxAge: 60 * 60 * 24 , 
           path: '/'
       });
 
-      console.log('Response with cookie:', response);
-      console.log('Generated token:', token);
+      console.log('Response with cookie:');
+      console.log('Generated token:');
       
 
     return response

@@ -221,8 +221,7 @@ const CheckoutPage = () => {
             checked={paymentMethod === "online"}
             className="form-radio text-purple-600 mr-2"
             readOnly
-            disabled
-
+            
           />
           <label className="cursor-pointer">Online Payment</label>
         </div>
