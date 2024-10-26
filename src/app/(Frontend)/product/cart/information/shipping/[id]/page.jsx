@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import axios from "axios"; // Fix axios import
+import axios from "axios"; 
 import { MdArrowBackIos } from "react-icons/md";
 import Loader from "@/components/loader/loader";
-import { FaMoneyBillWave, FaCreditCard } from "react-icons/fa";
+import { FaMoneyBillWave} from "react-icons/fa";
 
 
 const CheckoutPage = () => {
@@ -37,7 +37,7 @@ const CheckoutPage = () => {
             const response = await axios.get(
               `/api/admin/dashboard/product/${item.id}`
             );
-            return { ...response.data, quantity: item.quantity }; // Add quantity from the cart
+            return { ...response.data, quantity: item.quantity }; 
           })
         );
         setProducts(productDetails);
@@ -81,20 +81,7 @@ const CheckoutPage = () => {
 
   const handleContinueToShipping = async () => {
     // Create a data object to send to the API
-    const checkoutData = {
-      email: formData.email,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      address: formData.address,
-      apartment: formData.apartment,
-      mobileNumber: `+91${formData.mobileNumber}`, 
-      state: formData.state,
-      landmark: formData.landmark,
-      city: formData.city,
-      pinCode: formData.pinCode,
-      subscribeChecked: formData.subscribeChecked, 
-      cart
-    };
+    
   
     try {
       const response = await axios.post("/api/pendingOrder/checkout", checkoutData, {
