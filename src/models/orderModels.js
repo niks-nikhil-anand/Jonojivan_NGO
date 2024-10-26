@@ -5,27 +5,15 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
-    items: [{
-        product: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Product',
-            required: [true, 'Product is required'],
-        },
-        quantity: {
-            type: Number,
-            required: [true, 'Quantity is required'],
-            min: [1, 'Quantity cannot be less than 1'],
-        },
-        price: {
-            type: Number,
-            required: [true, 'Price is required'],
-        }
-    }],
+    cart:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
     totalAmount: {
         type: Number,
         required: [true, 'Total amount is required'],
     },
-    shippingAddress: {
+    address: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Address',
         required: [true, 'Shipping address is required'],
