@@ -2,19 +2,19 @@ import connectDB from "@/lib/dbConnect";
 import pendingOrder from "@/models/pendingOrder";
 import { NextResponse } from "next/server";
 
-export const POST = async (request, { params }) => {
+export const GET = async (request, { params }) => {
   const { id } = params;
 
-  console.log("POST request received. ID:", id); // Debugging ID in POST request
+  console.log("GET request received. ID:", id); // Debugging ID in GET request
 
   if (!id) {
-    console.log("ID parameter is missing in POST request");
+    console.log("ID parameter is missing in GET request");
     return NextResponse.json({ status: "error", msg: "ID parameter is required" }, { status: 400 });
   }
 
   try {
     await connectDB();
-    console.log("Database connected successfully for POST request");
+    console.log("Database connected successfully for GET request");
 
     // Fetch pending order
     const order = await pendingOrder.findById(id);

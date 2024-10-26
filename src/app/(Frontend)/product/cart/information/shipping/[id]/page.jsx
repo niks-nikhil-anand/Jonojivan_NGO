@@ -29,41 +29,43 @@ const CheckoutPage = () => {
       try {
         console.log("Fetching order ID from cookies...");
         const decodedTokenResponse = await axios.get("/api/pendingOrder/checkout/cookies");
+        console.log("Decoded token response:", decodedTokenResponse.data);
+  
         const { orderId, cartId, addressId, userId } = decodedTokenResponse.data;
-        console.log("Order ID response received:", decodedTokenResponse.data);
-
+        console.log("Extracted IDs:", { orderId, cartId, addressId, userId });
+  
         if (orderId) {
           console.log(`Redirecting to shipping page with Order ID: ${orderId}`);
+  
+          if (addressId) {
+            console.log("Fetching address details for Address ID:", addressId);
+            const addressResponse = await axios.get(`/api/admin/dashboard/pendingOrder/address/${addressId}`);
+            console.log("Address details received:", addressResponse.data);
+  
+            const { email, mobileNumber, address } = addressResponse.data.data;
+            setContactInfo({
+              email: email || '',
+              mobileNumber: mobileNumber || '',
+              address: address || ''
+            });
+  
+            console.log("Fetching shipping information for Order ID:", orderId);
+            const postResponse = await axios.get(`/api/pendingOrder/shipping/${orderId}`);
+            console.log("POST request URL:", `/api/pendingOrder/shipping/${orderId}`);
+          } else {
+            console.error("Address ID not found.");
+          }
         } else {
           console.error("Order ID not found.");
         }
-
-        if (addressId) {
-          console.log("Fetching address details for Address ID:", addressId);
-          const addressResponse = await axios.get(`/api/admin/dashboard/pendingOrder/address/${addressId}`);
-          console.log("Address details received:", addressResponse.data);
-
-          const { email, mobileNumber, address } = addressResponse.data.data; // Update this if `data` structure changes
-
-          setContactInfo({
-            email: email || '',
-            mobileNumber: mobileNumber || '',
-            address: address || ''
-          });
-
-          console.log(`Posting to /api/pendingOrder/shipping/${orderId}`);
-          await axios.post(`/api/pendingOrder/shipping/${orderId}`)
-          console.log("POST request successful.");
-        } else {
-          console.log("Address ID not found.");
-        }
       } catch (error) {
-        console.error("Error fetching order or address details:", error);
+        console.error("Error fetching order or address details:", error.response || error.message);
       }
     };
-
+  
     fetchOrderAndAddress();
   }, [router]);
+  
 
 
   useEffect(() => {
