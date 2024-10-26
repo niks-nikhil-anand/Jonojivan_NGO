@@ -14,20 +14,20 @@ const pendingOrderSchema = new Schema({
     },
     address: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Address', // Reference to the Address model
+        ref: 'Address', 
         required: true,
     },
     isCheckoutCompleted: {
         type: Boolean,
-        default: false, // True when checkout is completed
+        default: false,
     },
-    isDeliveryConfirmed: {
+    isShippingConfirmed: {
         type: Boolean,
-        default: false, // True when delivery details are confirmed
+        default: false, 
     },
     isPaymentCompleted: {
         type: Boolean,
-        default: false, // True when payment is completed
+        default: false, 
     },
     orderStatus: {
         type: String,

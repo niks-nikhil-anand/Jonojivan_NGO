@@ -1,33 +1,39 @@
 import connectDB from "@/lib/dbConnect";
-import addressModels from "@/models/addressModels";
+import pendingOrder from "@/models/pendingOrder";
 import { NextResponse } from "next/server";
 
-export const GET = async (request, { params }) => {
+export const POST = async (request, { params }) => {
   const { id } = params;
 
-  console.log("GET request received. ID:", id); // Debugging ID in GET request
+  console.log("POST request received. ID:", id); // Debugging ID in POST request
 
   if (!id) {
-    console.log("ID parameter is missing in GET request");
+    console.log("ID parameter is missing in POST request");
     return NextResponse.json({ status: "error", msg: "ID parameter is required" }, { status: 400 });
   }
 
   try {
     await connectDB();
-    console.log("Database connected successfully for GET request");
+    console.log("Database connected successfully for POST request");
 
-    const address = await addressModels.findById(id);
-    console.log("Address data fetched:", address); // Debug fetched address data
+    // Fetch pending order
+    const order = await pendingOrder.findById(id);
+    console.log("Order data fetched:", order); // Debug fetched order data
 
-    if (!address) {
-      console.log("Address not found with ID:", id);
-      return NextResponse.json({ status: "error", msg: "Address not found" }, { status: 404 });
+    if (!order) {
+      console.log("Order not found with ID:", id);
+      return NextResponse.json({ status: "error", msg: "Order not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ status: "success", data: address }, { status: 200 });
+    // Update `isShippingConfirmed` to true
+    order.isShippingConfirmed = true;
+    await order.save();
+    console.log("Order updated with isShippingConfirmed: true");
+
+    return NextResponse.json({ status: "success", data: order }, { status: 200 });
   } catch (error) {
-    console.error("Error fetching address:", error);
-    return NextResponse.json({ status: "error", msg: "Error fetching address", error: error.message }, { status: 500 });
+    console.error("Error updating order shipping status:", error);
+    return NextResponse.json({ status: "error", msg: "Error updating order", error: error.message }, { status: 500 });
   }
 };
 

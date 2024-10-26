@@ -4,16 +4,66 @@ import Link from "next/link";
 import axios from "axios"; 
 import { MdArrowBackIos } from "react-icons/md";
 import Loader from "@/components/loader/loader";
+import { useRouter } from "next/navigation";
 import { FaMoneyBillWave} from "react-icons/fa";
 
 
 const CheckoutPage = () => {
+  const router = useRouter();
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [rememberMe, setRememberMe] = useState(false);
+  const [contactInfo, setContactInfo] = useState({
+    email: "",
+    mobileNumber: "",
+    address: ""
+  });
 
+
+
+  // Fetch order ID and address details on page load
+  useEffect(() => {
+    const fetchOrderAndAddress = async () => {
+      try {
+        console.log("Fetching order ID from cookies...");
+        const decodedTokenResponse = await axios.get("/api/pendingOrder/checkout/cookies");
+        const { orderId, cartId, addressId, userId } = decodedTokenResponse.data;
+        console.log("Order ID response received:", decodedTokenResponse.data);
+
+        if (orderId) {
+          console.log(`Redirecting to shipping page with Order ID: ${orderId}`);
+        } else {
+          console.error("Order ID not found.");
+        }
+
+        if (addressId) {
+          console.log("Fetching address details for Address ID:", addressId);
+          const addressResponse = await axios.get(`/api/admin/dashboard/pendingOrder/address/${addressId}`);
+          console.log("Address details received:", addressResponse.data);
+
+          const { email, mobileNumber, address } = addressResponse.data.data; // Update this if `data` structure changes
+
+          setContactInfo({
+            email: email || '',
+            mobileNumber: mobileNumber || '',
+            address: address || ''
+          });
+
+          console.log(`Posting to /api/pendingOrder/shipping/${orderId}`);
+          await axios.post(`/api/pendingOrder/shipping/${orderId}`)
+          console.log("POST request successful.");
+        } else {
+          console.log("Address ID not found.");
+        }
+      } catch (error) {
+        console.error("Error fetching order or address details:", error);
+      }
+    };
+
+    fetchOrderAndAddress();
+  }, [router]);
 
 
   useEffect(() => {
@@ -122,7 +172,7 @@ const CheckoutPage = () => {
       <div className="mb-4">
         <div className="flex justify-between">
           <span className="text-gray-600">Email</span>
-          <span>niks.anand.252001@gail.com</span>
+          <span>{contactInfo.email || "Not Available"}</span>
           <a href="#" className="text-purple-600 hover:underline">Change</a>
         </div>
       </div>
@@ -130,7 +180,7 @@ const CheckoutPage = () => {
       <div className="mb-4">
         <div className="flex justify-between">
           <span className="text-gray-600">Mobile No.</span>
-          <span>+91 9631494191</span>
+          <span>{contactInfo.mobileNumber || "Not Available"}</span>
           <a href="#" className="text-purple-600 hover:underline">Change</a>
         </div>
       </div>
@@ -138,7 +188,7 @@ const CheckoutPage = () => {
       <div className="mb-4">
         <div className="flex justify-between">
           <span className="text-gray-600">Ship to</span>
-          <span>Noida, Kailua Kona HI 96740, United States</span>
+          <span>{contactInfo.address || "Not Available"}</span>
           <a href="#" className="text-purple-600 hover:underline">Change</a>
         </div>
       </div>
@@ -202,7 +252,7 @@ const CheckoutPage = () => {
             <MdArrowBackIos />
             <Link href="/cart">
               <button className="text-black font-bold py-2 px-6 rounded-md">
-                Return to Cart
+                Return to Checkout
               </button>
             </Link>
           </div>
@@ -210,7 +260,7 @@ const CheckoutPage = () => {
             onClick={handleContinueToShipping}
             className="bg-purple-600 text-white font-bold py-2 px-6 rounded-md"
           >
-            Continue to shipping
+            Place Order
           </button>
         </div>
         </div>

@@ -101,7 +101,7 @@ export const POST = async (req) => {
         cart: existingCart._id,
         address: existingAddress._id,
         isCheckoutCompleted: true,
-        isDeliveryConfirmed: false,
+        isShippingConfirmed: false,
         isPaymentCompleted: false,
       });
       await existingPendingOrder.save();
