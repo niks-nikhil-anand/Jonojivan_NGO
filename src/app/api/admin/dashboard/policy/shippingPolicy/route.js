@@ -1,5 +1,5 @@
 import connectDB from "@/lib/dbConnect";
-import shippingPolicy from "@/models/(policyModels)/shippingPolicy";
+import ShippingPolicy from "@/models/(policyModels)/shippingPolicy"; // Renamed the import for clarity
 import { NextResponse } from "next/server";
 
 export const POST = async (req) => {
@@ -18,7 +18,7 @@ export const POST = async (req) => {
       return NextResponse.json({ msg: "Please provide the shipping policy content." }, { status: 400 });
     }
 
-    await shippingPolicy.updateOne({}, { $set: { content } }, { upsert: true });
+    await ShippingPolicy.updateOne({}, { $set: { content } }, { upsert: true });
 
     console.log("Shipping policy updated successfully.");
     return NextResponse.json({ msg: "Shipping policy updated successfully" }, { status: 200 });
@@ -34,9 +34,9 @@ export const GET = async (req) => {
     await connectDB();
     console.log("Connected to the database.");
 
-    const shippingPolicy = await shippingPolicy.findOne(); 
-    console.log("Fetched shipping policy:", shippingPolicy);
-    return NextResponse.json(shippingPolicy, { status: 200 });
+    const policy = await ShippingPolicy.findOne(); // Renamed variable to avoid conflict
+    console.log("Fetched shipping policy:", policy);
+    return NextResponse.json(policy, { status: 200 });
   } catch (error) {
     console.error("Error fetching shipping policy:", error);
     return NextResponse.json({ msg: "Error fetching shipping policy", error: error.message }, { status: 500 });
