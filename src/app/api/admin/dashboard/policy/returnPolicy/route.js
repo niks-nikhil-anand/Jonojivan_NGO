@@ -36,7 +36,7 @@ export const GET = async (req) => {
       await connectDB();
       console.log("Connected to the database.");
   
-      const privacyPolicy = await privacyPolicyModels.findOne(); 
+      const privacyPolicy = await returnPolicyModels.findOne(); 
       console.log("Fetched privacy policy:");
       return NextResponse.json(privacyPolicy, { status: 200 });
     } catch (error) {
