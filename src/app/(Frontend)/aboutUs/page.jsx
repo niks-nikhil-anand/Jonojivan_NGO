@@ -11,26 +11,7 @@ const locations = [
   },
 ]
 
-const users = [
-  {
-    name: 'Gabrielle Fernandez',
-    image:
-      'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=600&w=600&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
-    position: 'Marketing Lead',
-  },
-  {
-    name: 'Victória Silva',
-    image:
-      'https://images.generated.photos/vBRCiI_3UM4l40sU8s7fCwbJwzDwRTGpebzPkfHFsY4/rs:fit:512:512/czM6Ly9pY29uczgu/Z3Bob3Rvcy1wcm9k/LnBob3Rvcy92M18w/ODgyMTAyLmpwZw.jpg',
-    position: 'Back-end developer',
-  },
-  {
-    name: 'Sadie Lewis',
-    image:
-      'https://images.unsplash.com/photo-1485960994840-902a67e187c8?q=80&fm=jpg&crop=faces&fit=crop&h=600&w=600',
-    position: 'Sales',
-  },
-]
+
 
 export default function AboutPageOne() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
@@ -55,9 +36,8 @@ export default function AboutPageOne() {
           <p className="text-3xl font-bold text-gray-900 md:text-5xl md:leading-10">
             Made with love, right here in India
           </p>
-          <p className="max-w-4xl text-base text-gray-600 md:text-xl">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore veritatis voluptates
-            neque itaque repudiandae sint, explicabo assumenda quam ratione placeat?
+          <p className="w-full text-base text-gray-600 md:text-xl">
+          Unlock optimal wellness at CleanVeda.com with our premium natural health supplements, herbal personal care products, and rejuvenating skin and hair care solutions. Discover effective, plant-based formulations crafted for holistic health, vitality, and beauty. Shop our organic, cruelty-free products today and elevate your health and beauty regimen with the power of nature!
           </p>
         </motion.div>
         <motion.div
@@ -73,7 +53,7 @@ export default function AboutPageOne() {
           />
         </motion.div>
         {/* Locations */}
-        <div className="my-8 flex flex-col gap-y-6 md:flex-row lg:justify-around">
+        <div className="my-8 flex flex-col gap-y-6 md:flex-row justify-start">
           {locations.map((location) => (
             <motion.div
               key={location.title}
@@ -83,8 +63,7 @@ export default function AboutPageOne() {
               className="flex flex-col space-y-3 md:w-2/4 lg:w-1/5"
             >
               <FaMapMarkerAlt className="h-5 w-5" />
-              <p className="w-full text-xl font-semibold text-gray-900">{location.title}</p>
-              <p className="w-full text-base text-gray-700">{location.timings}</p>
+              <p className="w-full text-xl font-semibold text-gray-900">Kozy Biorech</p>
               <p className="text-sm font-medium">{location.address}</p>
             </motion.div>
           ))}
@@ -97,7 +76,7 @@ export default function AboutPageOne() {
           transition={{ duration: 0.5 }}
           className="mt-16 flex items-center"
         >
-          <div className="space-y-6 md:w-3/4">
+          <div className="space-y-6 md:w-3/4 ">
             <div className="max-w-max rounded-full border bg-gray-50 p-1 px-3">
               <p className="text-xs font-semibold leading-normal md:text-sm">Join Us &rarr;</p>
             </div>
@@ -108,29 +87,8 @@ export default function AboutPageOne() {
             </p>
           </div>
         </motion.div>
-        {/* Team */}
-        <div className="grid grid-cols-1 gap-4 gap-y-6 border-b border-gray-300 py-12 pb-20 md:grid-cols-2 lg:grid-cols-4">
-          {users.map((user) => (
-            <motion.div
-              key={user.name}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="rounded-md border"
-            >
-              <img
-                src={user.image}
-                alt={user.name}
-                className="h-[300px] w-full rounded-lg object-cover"
-              />
-              <p className="mt-6 w-full px-2 text-xl font-semibold text-gray-900">{user.name}</p>
-              <p className="w-full px-2 pb-6 text-sm font-semibold text-gray-500">
-                {user.position}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-        {/* Hiring Banner */}
+        <hr className="mt-20" />
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
