@@ -56,7 +56,7 @@ const Page = () => {
             className="w-full bg-white flex flex-col"
         >
             <div className='w-full bg-blue-500 h-[60vh] flex justify-center items-center relative'>
-                <h1 className='text-white md:text-6xl text-3xl text-center'>Shipping And Return Policy</h1>
+                <h1 className='text-white md:text-6xl text-3xl text-center'>Cancellations And Refund Policy</h1>
             </div>
 
             {/* Wave SVG */}
