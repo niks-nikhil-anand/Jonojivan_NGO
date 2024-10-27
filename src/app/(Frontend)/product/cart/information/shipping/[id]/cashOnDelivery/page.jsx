@@ -1,10 +1,40 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaCheckCircle } from 'react-icons/fa'; // Importing a tick icon
+import { FaCheckCircle } from 'react-icons/fa'; 
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
   const [orderComplete, setOrderComplete] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchCookieAndRedirect = async () => {
+      try {
+        console.log("Attempting to retrieve cookies...");
+        
+        const cookieResponse = await axios.get('/api/auth/userAuthTokenCookies');
+        
+        console.log("Cookie response:", cookieResponse.data);
+        
+        const userId = cookieResponse.data[0]?._id;
+        
+        if (!userId) {
+          console.error("User ID not found in the cookie response.");
+          return;
+        }
+        
+        console.log("Redirecting to user profile with userId:", userId);
+        router.push(`/users/${userId}`);
+        
+      } catch (error) {
+        console.error("Error retrieving cookies or redirecting:", error);
+      }
+    };
+
+    fetchCookieAndRedirect();
+  }, [router]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

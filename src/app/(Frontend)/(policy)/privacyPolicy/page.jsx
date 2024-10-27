@@ -7,9 +7,9 @@ import Image from 'next/image';
 import DOMPurify from 'dompurify';
 
 const Page = () => {
-    const [data, setData] = useState(null); // State to store API response
-    const [loading, setLoading] = useState(true); // State to manage loading state
-    const [error, setError] = useState(null); // State to handle errors
+    const [data, setData] = useState(null); 
+    const [loading, setLoading] = useState(true); 
+    const [error, setError] = useState(null); 
 
     useEffect(() => {
         const fetchData = async () => {
