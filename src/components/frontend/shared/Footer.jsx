@@ -42,8 +42,8 @@ const Footer = () => {
           <ul className="space-y-3">
           {[
               { name: 'Home', url: '/' },
-              { name: 'Shipping and Return Policies', url: '/returnPolicy' },
-              { name: 'Shipping And Delivery', url: '/guarantee' },
+              { name: 'Cancellation and Return Policies', url: '/returnPolicy' },
+              { name: 'Shipping And Delivery', url: '/shippingPolicy' },
               { name: 'Privacy Policy', url: '/privacyPolicy' },
               { name: 'Terms & Condition', url: '/termsAndConditions' },
               { name: 'CCPA Notice', url: '/ccpa' },

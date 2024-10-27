@@ -1,6 +1,6 @@
 import connectDB from "@/lib/dbConnect";
-import privacyPolicyModels from "@/models/privacyPolicyModels";
-import returnPolicyModels from "@/models/returnPolicyModels";
+import privacyPolicyModels from "@/models/(policyModels)/privacyPolicyModels";
+import returnPolicyModels from "@/models/(policyModels)/returnPolicyModels";
 import { NextResponse } from "next/server";
 
 

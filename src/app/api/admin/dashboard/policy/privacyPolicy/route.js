@@ -1,5 +1,5 @@
 import connectDB from "@/lib/dbConnect";
-import privacyPolicyModels from "@/models/privacyPolicyModels";
+import privacyPolicyModels from "@/models/(policyModels)/privacyPolicyModels";
 import { NextResponse } from "next/server";
 
 export const POST = async (req) => {
