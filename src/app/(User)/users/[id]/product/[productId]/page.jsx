@@ -57,50 +57,22 @@ const ProductDetail = () => {
 
     const handleAddToCart = async () => {
       const cartData = {
-        id: idFromURL,
-        quantity: quantity
+          id: idFromURL,
+          quantity: quantity // Include quantity when adding to cart
       };
-    
-      // Retrieve the existing cart from localStorage
-      let existingCart = localStorage.getItem('cart');
-    
-      try {
-        // Parse the cart if it exists and is valid JSON, otherwise initialize an empty array
-        existingCart = existingCart ? JSON.parse(existingCart) : [];
-      } catch (e) {
-        // If parsing fails, initialize as an empty array
-        existingCart = [];
-      }
-    
-      // Ensure existingCart is an array
-      if (!Array.isArray(existingCart)) {
-        existingCart = [];
-      }
-    
-      // Check if the product is already in the cart
-      const existingProductIndex = existingCart.findIndex((item) => item.id === idFromURL);
-    
-      if (existingProductIndex !== -1) {
-        // If the product is already in the cart, update its quantity
-        existingCart[existingProductIndex].quantity += quantity;
-      } else {
-        // If the product is not in the cart, add it
-        existingCart.push(cartData);
-      }
-    
-      // Update the cart in localStorage
-      localStorage.setItem('cart', JSON.stringify(existingCart));
 
       try {
-        await axios.post(`/api/users/cart/${idFromURL}`, {
-            cart: existingCart,
-        });
-        setAddedToCart(true);
-        router.push(`/users/${userIdFromURL}/product/cart`);  
-    } catch (error) {
-        console.error("Error syncing cart with the backend:", error);
-    }  
-    };
+          // Directly send the cart data to the backend without using local storage
+          await axios.post(`/api/users/cart/${idFromURL}`, {
+              cart: [cartData], // Send cart data directly to the backend
+          });
+
+          setAddedToCart(true);
+          router.push(`/users/${userIdFromURL}/product/cart`);
+      } catch (error) {
+          console.error("Error syncing cart with the backend:", error);
+      }
+  };
 
     
     

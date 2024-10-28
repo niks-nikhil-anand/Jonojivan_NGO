@@ -36,14 +36,14 @@ export const POST = async (request, { params }) => {
     console.log('Auth token:', authToken);
 
     if (!authToken) {
-      throw new Error("User authentication token is missing.");
+      return NextResponse.json({ msg: "User authentication token is missing." }, { status: 401 });
     }
 
     const decodedToken = jwt.decode(authToken.value);
     console.log("Decoded token:", decodedToken);
 
     if (!decodedToken || !decodedToken.id) {
-      throw new Error("Invalid token.");
+      return NextResponse.json({ msg: "Invalid token." }, { status: 401 });
     }
 
     const userId = decodedToken.id;
@@ -53,6 +53,7 @@ export const POST = async (request, { params }) => {
     console.log('Fetched cart for user:', cart);
 
     if (!cart) {
+      // Create a new cart if one does not exist
       cart = new cartModels({
         userId,
         items: [{ productId: id, quantity: 1, price: product.originalPrice }],
@@ -67,13 +68,16 @@ export const POST = async (request, { params }) => {
       const itemInCart = cart.items.find(item => item.productId.toString() === id);
 
       if (itemInCart) {
+        // Update the quantity if the product is already in the cart
         itemInCart.quantity += 1;
         console.log('Updated product quantity in cart:', itemInCart);
       } else {
+        // Add the new product to the cart
         cart.items.push({ productId: id, quantity: 1, price: product.originalPrice });
         console.log('Added new product to cart:', cart.items);
       }
 
+      // Recalculate total price
       cart.totalPrice = calculateTotalPrice(cart.items);
       console.log('Updated total price:', cart.totalPrice);
     }
