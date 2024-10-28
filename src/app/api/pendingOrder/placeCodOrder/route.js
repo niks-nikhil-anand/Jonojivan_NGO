@@ -130,7 +130,7 @@ export const POST = async (req) => {
         await newOrder.save();
         console.log("New order created:", newOrder);
 
-        // Delete any previous pending orders for this user
+        
        // Delete only the specific pending order associated with this orderId
         await pendingOrder.deleteOne({ _id: orderId });
         console.log("Deleted specific pending order with orderId:", orderId);

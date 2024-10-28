@@ -25,8 +25,11 @@ const Page = () => {
           return;
         }
         
-        console.log("Redirecting to user profile with userId:", userId);
-        router.push(`/users/${userId}`);
+        // Delay the redirect by 5 seconds
+        setTimeout(() => {
+          console.log("Redirecting to user profile with userId:", userId);
+          router.push(`/users/${userId}`);
+        }, 3000);
         
       } catch (error) {
         console.error("Error retrieving cookies or redirecting:", error);
@@ -38,14 +41,19 @@ const Page = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="p-8 rounded-lg shadow-2xl bg-white">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+        className="p-8 rounded-lg shadow-2xl bg-white"
+      >
         {orderComplete && (
           <motion.div
-            initial={{ opacity: 0, scale: 0 }}
+            initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
             className="flex items-center mt-4 bg-green-50 p-4 rounded-md border border-green-200"
-            transition={{ duration: 0.5 }}
           >
             <motion.div
               initial={{ y: -10 }}
@@ -65,14 +73,14 @@ const Page = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.2, ease: "easeInOut" }}
               className="text-lg font-semibold text-green-600"
             >
               Order Completed Successfully!
             </motion.span>
           </motion.div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 };
