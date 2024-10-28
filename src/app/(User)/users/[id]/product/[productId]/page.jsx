@@ -25,7 +25,6 @@ const ProductDetail = () => {
 
     useEffect(() => {
       const urlPath = window.location.pathname;
-
       const userId = urlPath.split('/')[2];
       const productId = urlPath.split('/')[4];
         setIdFromURL(productId);
