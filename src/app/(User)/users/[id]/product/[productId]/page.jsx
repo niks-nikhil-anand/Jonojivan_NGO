@@ -13,6 +13,7 @@ const ProductDetail = () => {
     const router = useRouter();
     const [product, setProduct] = useState(null);
     const [idFromURL, setIdFromURL] = useState('');
+    const [userIdFromURL, setUserIdFromUR] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const [loading, setLoading] = useState(true);
     const [progress, setProgress] = useState(0);
@@ -23,9 +24,12 @@ const ProductDetail = () => {
 
 
     useEffect(() => {
-        const urlPath = window.location.pathname;
-        const productId = urlPath.substring(urlPath.lastIndexOf('/') + 1);
+      const urlPath = window.location.pathname;
+
+      const userId = urlPath.split('/')[2];
+      const productId = urlPath.split('/')[4];
         setIdFromURL(productId);
+        setUserIdFromUR(userId);
 
         if (productId) {
             const interval = setInterval(() => {
@@ -93,12 +97,10 @@ const ProductDetail = () => {
             cart: existingCart,
         });
         setAddedToCart(true);
-        router.push("/product/cart");
+        router.push(`/users/${userIdFromURL}/product/cart`);  
     } catch (error) {
         console.error("Error syncing cart with the backend:", error);
-    }
-    
-      
+    }  
     };
 
     
