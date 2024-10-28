@@ -25,7 +25,7 @@ const ProductDetail = () => {
     useEffect(() => {
         const urlPath = window.location.pathname;
         const productId = urlPath.substring(urlPath.lastIndexOf('/') + 1);
-        setIdFromURL(id);
+        setIdFromURL(productId);
 
         if (productId) {
             const interval = setInterval(() => {
@@ -52,7 +52,7 @@ const ProductDetail = () => {
         );
     }
 
-    const handleAddToCart = () => {
+    const handleAddToCart = async () => {
       const cartData = {
         id: idFromURL,
         quantity: quantity
@@ -87,10 +87,18 @@ const ProductDetail = () => {
     
       // Update the cart in localStorage
       localStorage.setItem('cart', JSON.stringify(existingCart));
+
+      try {
+        await axios.post(`/api/users/cart/${idFromURL}`, {
+            cart: existingCart,
+        });
+        setAddedToCart(true);
+        router.push("/product/cart");
+    } catch (error) {
+        console.error("Error syncing cart with the backend:", error);
+    }
     
-      // Navigate to the cart page
-      setAddedToCart(true);
-      router.push("/product/cart")
+      
     };
 
     
