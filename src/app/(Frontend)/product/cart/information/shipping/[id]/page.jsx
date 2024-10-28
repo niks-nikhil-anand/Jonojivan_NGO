@@ -226,7 +226,7 @@ const CheckoutPage = () => {
             disabled={placingOrder}
             className="bg-purple-600 text-white font-bold py-2 px-6 rounded-md flex items-center justify-center"
           >
-            {placingOrder ? <Loader /> : "Place Order"}
+            {placingOrder ? "Loading..." : "Place Order"}
           </button>
           </div>
       </div>
