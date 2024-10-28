@@ -190,9 +190,9 @@ export const PUT = async (request, { params }) => {
 
 // Remove a product from the cart
 export const DELETE = async (request, { params }) => {
-  const { id } = params;
+  const { id: productId } = params; // Rename id to productId for clarity
   console.log('Request Params:', params);
-  console.log('ID:', id);
+  console.log('Product ID:', productId);
 
   try {
     await connectDB();
@@ -203,19 +203,20 @@ export const DELETE = async (request, { params }) => {
     console.log('Auth token:', authToken);
 
     if (!authToken) {
-      throw new Error("User authentication token is missing.");
+      return NextResponse.json({ msg: "User authentication token is missing." }, { status: 401 });
     }
 
     const decodedToken = jwt.decode(authToken.value);
     console.log("Decoded token:", decodedToken);
 
     if (!decodedToken || !decodedToken.id) {
-      throw new Error("Invalid token.");
+      return NextResponse.json({ msg: "Invalid token." }, { status: 403 });
     }
 
     const userId = decodedToken.id;
     console.log('User ID from token:', userId);
 
+    // Find the user's cart
     const cart = await cartModels.findOne({ userId });
     console.log('Fetched cart for user:', cart);
 
@@ -223,11 +224,13 @@ export const DELETE = async (request, { params }) => {
       return NextResponse.json({ msg: "Cart not found" }, { status: 404 });
     }
 
-    if (!cart.items) {
-      cart.items = [];
+    // Check if cart items exist
+    if (!cart.items || cart.items.length === 0) {
+      return NextResponse.json({ msg: "Cart is empty" }, { status: 400 });
     }
 
-    const itemIndex = cart.items.findIndex(item => item.productId.toString() === id);
+    // Find the index of the product to remove
+    const itemIndex = cart.items.findIndex(item => item.productId.toString() === productId);
     console.log('Product index in cart:', itemIndex);
 
     if (itemIndex === -1) {
@@ -242,6 +245,7 @@ export const DELETE = async (request, { params }) => {
     cart.totalPrice = calculateTotalPrice(cart.items);
     console.log('Updated total price:', cart.totalPrice);
 
+    // Save the updated cart
     await cart.save();
     console.log('Cart saved after deletion:', cart);
 

@@ -121,13 +121,23 @@ const Cart = () => {
 
   // Remove item from cart
   const removeItem = async (productId) => {
-    const updatedProducts = products.filter((product) => product._id !== productId);
-    setProducts(updatedProducts);
-
-    // Also update cart and API
-    const updatedCart = cart.filter((item) => item.productId !== productId);
-    setCart(updatedCart);
-    await updateCartAPI(updatedCart);
+    const urlPath = window.location.pathname;
+    const userId = urlPath.split('/')[2]; // Ensure userId is available
+    try {
+      // Make an API call to delete the product from the server
+      const response = await axios.delete(`/api/users/cart/${productId}`);
+      console.log(response.data.msg); // Log success message from server
+  
+      const updatedProducts = products.filter((product) => product._id !== productId);
+      setProducts(updatedProducts);
+  
+      // Also update cart state
+      const updatedCart = cart.filter((item) => item.productId !== productId);
+      setCart(updatedCart);
+      await updateCartAPI(updatedCart);
+    } catch (error) {
+      console.error('Error removing item:', error);
+    }
   };
 
   return (
