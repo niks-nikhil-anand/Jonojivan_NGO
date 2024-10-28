@@ -19,6 +19,9 @@ const Page = () => {
         console.log("Cookie response:", cookieResponse.data);
         
         const userId = cookieResponse.data[0]?._id;
+
+         // Empty the cart from localStorage
+         localStorage.removeItem('cart');
         
         if (!userId) {
           console.error("User ID not found in the cookie response.");

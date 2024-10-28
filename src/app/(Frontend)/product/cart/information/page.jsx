@@ -12,12 +12,14 @@ const CheckoutPage = () => {
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]); 
   const [loading, setLoading] = useState(true); 
+  const [loadingButton, setLoadingButton] = useState(false); // New loading state for button
+
 
 
    const [formData, setFormData] = useState({
     email: "",
     firstName: "",
-    lastName: "",
+    lastName: "", 
     address: "",
     apartment: "",
     mobileNumber: "",
@@ -114,6 +116,7 @@ const CheckoutPage = () => {
   
     try {
       // Submit checkout data
+      setLoadingButton(true);
       console.log("Submitting checkout data:", checkoutData);
        const checkoutResponse = await axios.post("/api/pendingOrder/checkout", checkoutData, {
         headers: {
@@ -150,6 +153,8 @@ const CheckoutPage = () => {
       }
     } catch (error) {
       console.error("Error during checkout or fetching order ID:", error);
+    }finally {
+      setLoadingButton(false); // Stop loading
     }
     
      
@@ -299,11 +304,12 @@ const CheckoutPage = () => {
             </Link>
           </div>
           <button
-            onClick={handleContinueToShipping}
-            className="bg-purple-600 text-white font-bold py-2 px-6 rounded-md"
-          >
-            Continue to shipping
-          </button>
+          onClick={handleContinueToShipping}
+          className="bg-purple-600 text-white font-bold py-2 px-6 rounded-md"
+          disabled={loadingButton} // Disable button while loading
+        >
+          {loadingButton ? "Loading..." : "Continue to shipping"}
+        </button>
         </div>
       </div>
 

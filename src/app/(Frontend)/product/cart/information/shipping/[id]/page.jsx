@@ -12,6 +12,7 @@ const CheckoutPage = () => {
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]); 
   const [loading, setLoading] = useState(true);
+  const [placingOrder, setPlacingOrder] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery"); // Change this line
   const [rememberMe, setRememberMe] = useState(false);
   const [contactInfo, setContactInfo] = useState({
@@ -103,6 +104,13 @@ const CheckoutPage = () => {
   }
 
   const handlePlaceOrder = async () => {
+    if (!orderId || !cartId || !addressId) {
+      console.error("Order ID, Cart ID, or Address ID missing.");
+      return;
+    }
+  
+    setPlacingOrder(true); // Start placing order
+  
     const checkoutData = {
       orderId,
       cartId,
@@ -116,21 +124,24 @@ const CheckoutPage = () => {
       })),
       totalAmount: estimatedTotal(),
     };
-
+  
     try {
       const response = await axios.post("/api/pendingOrder/placeCodOrder", checkoutData, {
         headers: {
-          'Content-Type': 'application/json', 
+          'Content-Type': 'application/json',
         },
       });
-
+  
       if (response.status === 200) {
         router.push(`/product/cart/information/shipping/${orderId}/cashOnDelivery`);
       }
     } catch (error) {
       console.error("Error submitting checkout:", error);
+    } finally {
+      setPlacingOrder(false); // Reset placing order state
     }
   };
+  
 
   return (
     <div className="flex mx-auto justify-center my-10 gap-5">
@@ -210,7 +221,13 @@ const CheckoutPage = () => {
               <button className="text-black font-bold py-2 px-6 rounded-md">Return to Checkout</button>
             </Link>
           </div>
-          <button onClick={handlePlaceOrder} className="bg-purple-600 text-white font-bold py-2 px-6 rounded-md">Place Order</button>
+          <button
+            onClick={handlePlaceOrder}
+            disabled={placingOrder}
+            className="bg-purple-600 text-white font-bold py-2 px-6 rounded-md flex items-center justify-center"
+          >
+            {placingOrder ? <Loader /> : "Place Order"}
+          </button>
           </div>
       </div>
 
