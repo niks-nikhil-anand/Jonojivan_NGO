@@ -8,11 +8,11 @@ import logo from '../../../../public/annimatedIcons/grocery.png';
 import waveNav from '../../../../public/frontend/SvgAssets/wave-nav.svg'; // Adjust the path to your logo
 import Link from "next/link";
 import { toast } from 'react-hot-toast';
-
-
+import { useRouter } from 'next/navigation';
 
 
 const Navbar = () => {
+  const [userId, setUserId] = useState(null);
     const [isShopOpen, setIsShopOpen] = useState(false);
     const [isLearnOpen, setIsLearnOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -36,18 +36,23 @@ const Navbar = () => {
         setIsMobileMenuOpen((prev) => !prev);
       };
 
-   useEffect(() => {
-        const fetchUserDetails = async () => {
+      useEffect(() => {
+        // Fetch user details from the API
+        const fetchUser = async () => {
           try {
             const response = await fetch('/api/users/userDetails/cookies');
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
             const data = await response.json();
-            setUserDetails(data[0]);
+            console.log(data)
+            setUserId(data[0]._id); // Assuming the API returns an object with the `_id` field
           } catch (error) {
             console.error('Failed to fetch user details:', error);
           }
         };
     
-        fetchUserDetails();
+        fetchUser();
       }, []);
 
       const handleLogout = async () => {
@@ -83,7 +88,7 @@ const Navbar = () => {
 
   {/* Logo */}
   <div className="flex justify-center md:hidden">
-    <Link href={"/"}>
+    <Link href={`/users/${userId}`}>
     <Image src={logo} alt="Logo" width={40} height={40} />
     </Link>
   </div>
@@ -338,7 +343,7 @@ const Navbar = () => {
 
        
         <div className="flex justify-center relative z-50">
-          <Link href={"/"}>
+          <Link href={`/users/${userId}`}>
           <h1 className="font-bold text-xl hover:cursor-pointer">Cleanveda</h1>
           </Link>
         </div>
