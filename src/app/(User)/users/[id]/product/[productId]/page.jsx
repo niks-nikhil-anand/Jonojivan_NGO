@@ -6,9 +6,11 @@ import { MdClose } from 'react-icons/md';
 import Image from 'next/image';
 import Loader from '@/components/loader/loader';
 import ProductBanner from '@/components/frontend/ui/(Banners)/ProductBanner';
-import { AiOutlineDown } from 'react-icons/ai';
 import { useRouter } from 'next/navigation';
-import { AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
+import { AiOutlineDown, AiOutlineClose } from 'react-icons/ai';
+import { FaRegArrowAltCircleRight , FaRegArrowAltCircleLeft  } from "react-icons/fa";
+
 
 
 const ProductDetail = () => {
@@ -17,13 +19,14 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [idFromURL, setIdFromURL] = useState('');
   const [userIdFromURL, setUserIdFromUR] = useState('');
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
+
 
 
   useEffect(() => {
@@ -54,12 +57,7 @@ const ProductDetail = () => {
 
 
 
-  useEffect(() => {
-    if (product?.images?.length > 0) {
-    setSelectedImage(product.images[0]);
-    }
-  }, [product]);
-
+ 
 
 
 
@@ -81,6 +79,20 @@ const ProductDetail = () => {
       }
   };
 
+
+
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % product.images.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + product.images.length) % product.images.length);
+  };
+
+  const toggleFullScreen = () => {
+    setIsFullScreen(!isFullScreen);
+  };
+
   const increaseQuantity = () => setQuantity((prevQuantity) => prevQuantity + 1);
   const decreaseQuantity = () => setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
   const toggleOpen = () => setIsOpen(!isOpen);
@@ -93,6 +105,8 @@ const ProductDetail = () => {
   const averageRating = ratings?.average || 4.2;
   const allImages = [...(images || [])];
 
+  const currentImage = images[currentImageIndex];
+
 
 
   return (
@@ -104,42 +118,50 @@ const ProductDetail = () => {
               transition={{ duration: 0.5 }}
 >
         {/* Product Images */}
-        <div className="w-full md:w-[49%] h-full flex flex-col items-center">
+        <div className="w-full md:w-[49%] h-full flex flex-col items-center ">
           {/* Preview Image */}
-          <div className="w-full md:w-[30rem] h-[20rem] md:h-[40rem] flex justify-center items-center overflow-hidden mb-4 relative rounded-lg">
+          <div className="w-full md:w-[30rem] h-[20rem] md:h-[40rem] flex justify-center items-center overflow-hidden mb-4  rounded-lg relative">
             <img
-              src={selectedImage}
+              src={currentImage}
               alt={name}
               className="object-contain w-full h-full cursor-pointer"
-              onClick={() => setIsFullScreen(true)}
+              
+              onClick={toggleFullScreen} // Open full-screen on click
+              
             />
           </div>
 
-    {/* Thumbnail Images */}
-    <div className="md:flex gap-2 overflow-x-auto w-full hidden">
-        {allImages.length > 0 ? (
-          allImages.map((image, index) => (
-            <motion.div
-              key={index}
-              className="w-[5rem] h-[5rem] sm:w-[6rem] sm:h-[6rem] overflow-hidden rounded-lg shadow-lg cursor-pointer border border-gray-300 p-1"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: 'spring', stiffness: 100 }}
-              onClick={() => setSelectedImage(image)} // Update the selected image on click
-            >
-              <img
-                src={image}
-                alt={`Product Image ${index + 1}`}
-                className="w-full h-full object-cover rounded"
-              />
-            </motion.div>
-          ))
-        ) : (
-          <div className="col-span-5 flex items-center justify-center text-gray-500">
-            No images available
+          {/* Manual Image Slider Controls */}
+                    <div className="flex justify-between w-full md:hidden absolute top-1/2 transform -translate-y-1/2 left-0 right-0">
+            <button onClick={prevImage} className="p-2 rounded-l text-black text-2xl">
+              <FaRegArrowAltCircleLeft />
+            </button>
+            <button onClick={nextImage} className="p-2 rounded-l text-black text-2xl">
+              <FaRegArrowAltCircleRight />
+            </button>
           </div>
-        )}
-      </div>
-</div>
+
+
+          {/* Thumbnail Images (Optional) */}
+          <div className="md:flex gap-2 overflow-x-auto w-full hidden">
+            {images.length > 0 ? (
+              images.map((image, index) => (
+                <div key={index} className="w-[5rem] h-[5rem] sm:w-[6rem] sm:h-[6rem] overflow-hidden rounded-lg shadow-lg cursor-pointer">
+                  <img
+                    src={image}
+                    alt={`Product Image ${index + 1}`}
+                    className="w-full h-full object-cover rounded"
+                    onClick={() => setCurrentImageIndex(index)}
+                  />
+                </div>
+              ))
+            ) : (
+              <div className="col-span-5 flex items-center justify-center text-gray-500">
+                No images available
+              </div>
+            )}
+          </div>
+        </div>
 
 
   {/* Product Details */}
@@ -253,16 +275,24 @@ const ProductDetail = () => {
                <ProductBanner/>
             </div>
 
-            {/* Full-Screen Image Modal */}
-            {/* Full-Screen Image Modal */}
             {isFullScreen && (
-              <motion.div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={() => setIsFullScreen(false)}>
-                <div className="relative bg-white p-2 rounded-lg" style={{ width: '80vw', height: '80vh' }}>
-                  <img src={selectedImage} alt="Full Size Product" className="object-contain w-full h-full" />
-                  <AiOutlineClose className="absolute top-2 right-2 text-2xl text-gray-600 cursor-pointer" onClick={() => setIsFullScreen(false)} />
-                </div>
-              </motion.div>
-            )}
+          <motion.div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+            <div className="relative bg-white p-2 rounded-lg" style={{ width: '80vw', height: '80vh' }}>
+              <img src={currentImage} alt="Full Size Product" className="object-contain w-full h-full" />
+              <AiOutlineClose className="absolute top-2 right-2 text-2xl text-gray-600 cursor-pointer" onClick={toggleFullScreen} />
+              
+              {/* Navigation Controls */}
+              <div className="absolute left-0 right-0 top-1/2 transform -translate-y-1/2 flex justify-between px-4">
+                <button onClick={prevImage} className="text-black text-2xl">
+                  <AiOutlineLeft />
+                </button>
+                <button onClick={nextImage} className="text-black text-2xl">
+                  <AiOutlineRight />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
         </div>
     );
 };
