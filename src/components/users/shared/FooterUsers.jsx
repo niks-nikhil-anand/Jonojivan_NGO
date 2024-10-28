@@ -73,7 +73,7 @@ const Footer = () => {
               { name: 'Blog', url: '/blog' },
               { name: 'International Orders', url: '/international-orders' },
               { name: 'International Distributors', url: '/international-distributors' },
-              { name: 'About Us', url: '/about' },
+              { name: 'About Us', url: '/AboutUs' },
               { name: 'Feedback', url: '/feedback' }
             ].map((link) => (
               <li key={link.name} className="hover:underline cursor-pointer">
