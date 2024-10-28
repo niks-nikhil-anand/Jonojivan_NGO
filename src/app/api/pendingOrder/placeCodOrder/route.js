@@ -131,8 +131,10 @@ export const POST = async (req) => {
         console.log("New order created:", newOrder);
 
         // Delete any previous pending orders for this user
-        await pendingOrder.deleteMany({ user: user._id, status: "Pending", _id: { $ne: newOrder._id } });
-        console.log("Deleted previous pending orders for user:", user._id);
+       // Delete only the specific pending order associated with this orderId
+        await pendingOrder.deleteOne({ _id: orderId });
+        console.log("Deleted specific pending order with orderId:", orderId);
+
 
         return response;
 
