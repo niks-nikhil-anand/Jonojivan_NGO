@@ -97,7 +97,10 @@ const Navbar = () => {
   <div className="flex items-center space-x-4 md:hidden">
     <FiSearch className="w-6 h-6 cursor-pointer" />
     <FiUser className="w-6 h-6 cursor-pointer" />
+    <Link  href={`/users/${userId}/cart`}>
     <FiShoppingBag className="w-6 h-6 cursor-pointer" />
+    </Link>
+
   </div>
 </div>
 
@@ -392,7 +395,7 @@ const Navbar = () => {
               </motion.div>
             )}
           </div>
-          <Link href={"/product/cart"}>
+          <Link href={`/users/${userId}/cart`}>
           <FiShoppingBag className="w-6 h-6 cursor-pointer" />
           </Link>
         </div>
