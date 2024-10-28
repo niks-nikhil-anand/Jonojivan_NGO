@@ -8,63 +8,70 @@ import Loader from '@/components/loader/loader';
 import ProductBanner from '@/components/frontend/ui/(Banners)/ProductBanner';
 import { AiOutlineDown } from 'react-icons/ai';
 import { useRouter } from 'next/navigation';
+import { AiOutlineClose } from 'react-icons/ai';
+
 
 const ProductDetail = () => {
-    const router = useRouter();
-    const [product, setProduct] = useState(null);
-    const [idFromURL, setIdFromURL] = useState('');
-    const [userIdFromURL, setUserIdFromUR] = useState('');
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [progress, setProgress] = useState(0);
-    const [isOpen, setIsOpen] = useState(false);
-    const [quantity, setQuantity] = useState(1);
-    const [addedToCart, setAddedToCart] = useState(false);
+  // Main hooks and setup
+  const router = useRouter();
+  const [product, setProduct] = useState(null);
+  const [idFromURL, setIdFromURL] = useState('');
+  const [userIdFromURL, setUserIdFromUR] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [addedToCart, setAddedToCart] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
 
-
-    useEffect(() => {
+  useEffect(() => {
       const urlPath = window.location.pathname;
       const userId = urlPath.split('/')[2];
       const productId = urlPath.split('/')[4];
-        setIdFromURL(productId);
-        setUserIdFromUR(userId);
+      setIdFromURL(productId);
+      setUserIdFromUR(userId);
 
-        if (productId) {
-            const interval = setInterval(() => {
-                setProgress(prev => (prev < 100 ? prev + 1 : prev));
-            }, 10); 
+      if (productId) {
+          const interval = setInterval(() => {
+              setProgress((prev) => (prev < 100 ? prev + 1 : prev));
+          }, 10);
 
-            axios.get(`/api/admin/dashboard/product/${productId}`)
-                .then(response => {
-                    clearInterval(interval);
-                    setProduct(response.data);
-                    setLoading(false);
-                })
-                .catch(error => {
-                    console.error("Error fetching product data:", error);
-                    clearInterval(interval);
-                    setLoading(false);
-                });
-        }
-    }, []);
+          axios.get(`/api/admin/dashboard/product/${productId}`)
+              .then((response) => {
+                  clearInterval(interval);
+                  setProduct(response.data);
+                  setLoading(false);
+              })
+              .catch((error) => {
+                  console.error("Error fetching product data:", error);
+                  clearInterval(interval);
+                  setLoading(false);
+              });
+      }
+  }, []);
 
-    if (loading) {
-        return (
-            <Loader/>
-        );
+
+
+  useEffect(() => {
+    if (product?.images?.length > 0) {
+    setSelectedImage(product.images[0]);
     }
+  }, [product]);
 
-    const handleAddToCart = async () => {
+
+
+
+  const handleAddToCart = async () => {
       const cartData = {
           id: idFromURL,
-          quantity: quantity // Include quantity when adding to cart
+          quantity: quantity,
       };
 
       try {
-          // Directly send the cart data to the backend without using local storage
           await axios.post(`/api/users/cart/${idFromURL}`, {
-              cart: [cartData], // Send cart data directly to the backend
+              cart: [cartData],
           });
 
           setAddedToCart(true);
@@ -74,105 +81,21 @@ const ProductDetail = () => {
       }
   };
 
-    
-    
-    
-    const increaseQuantity = () => {
-      setQuantity(prevQuantity => prevQuantity + 1);
-    };
-    
-    const decreaseQuantity = () => {
-      setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : 1));
-    };
+  const increaseQuantity = () => setQuantity((prevQuantity) => prevQuantity + 1);
+  const decreaseQuantity = () => setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+  const toggleOpen = () => setIsOpen(!isOpen);
+
+  if (loading) {
+      return <Loader />;
+  }
+
+  const { name, description, images, salePrice, originalPrice, featuredImage, ratings, descriptionImage, servingPerBottle, suggestedUse, ingredients, productHighlights } = product || {};
+  const averageRating = ratings?.average || 4.2;
+  const allImages = [...(images || [])];
 
 
 
-    const toggleOpen = () => {
-      setIsOpen(!isOpen);
-    };
-
-    if (!product) {
-        return <div>Product not found.</div>;
-    }
-    const { name, description, images, salePrice, originalPrice, featuredImage, ratings, descriptionImage , servingPerBottle , suggestedUse , ingredients , productHighlights } = product;
-    const averageRating = ratings?.average || 4.2;
-    const allImages = [ ...(images || [])];
-
-    const ProductHighlights = () => {
-        return (
-          <div className="flex flex-col items-center justify-center min-h-[75vh] bg-white p-6 sm:p-10">
-  <motion.h2
-    className="text-xl sm:text-2xl font-semibold text-orange-600 mb-6 sm:mb-8"
-    initial={{ opacity: 0, y: -50 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6 }}
-  >
-    Product Highlights
-  </motion.h2>
-
-  <div className="flex flex-wrap justify-center gap-6 sm:gap-8 lg:gap-10">
-    {productHighlights.map((productHighlights, index) => (
-      <motion.div
-        key={productHighlights.id}
-        className="flex flex-col items-center max-w-[90%] sm:max-w-xs text-center mt-4 sm:mt-5"
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: index * 0.2 }}
-      >
-        <img
-          src={productHighlights.icon}
-          alt={productHighlights.icon}
-          className="h-16 w-16 sm:h-20 sm:w-20 mx-auto mb-3 sm:mb-4 rounded-full"
-        />
-        <h3 className="text-base sm:text-lg font-bold text-orange-600 mb-1 sm:mb-2">
-          {productHighlights.title}
-        </h3>
-        <p className="text-sm sm:text-base text-gray-600">{productHighlights.description}</p>
-      </motion.div>
-    ))}
-  </div>
-</div>
-
-        );
-      };
-
-      const FeaturedIngredients = () => {
-        return (
-          <div className="p-6 sm:p-10 bg-white">
-  <h2 className="text-center text-2xl sm:text-3xl font-semibold text-orange-600 mb-6 sm:mb-10">
-    Featured Ingredients
-  </h2>
-  <div className="flex justify-center items-start flex-wrap gap-5 sm:space-x-5">
-    {ingredients.map((ingredient, index) => (
-      <motion.div
-        key={index}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="bg-green-100 rounded-xl p-4 sm:p-6 shadow-md w-full sm:w-[45%] lg:w-[20%] mt-5"
-      >
-        <img
-          src={ingredient.image}
-          alt={ingredient.name}
-          className="h-16 w-16 sm:h-20 sm:w-20 mx-auto mb-3 sm:mb-4 rounded-full"
-        />
-        <h3 className="text-orange-600 text-center font-semibold text-base sm:text-lg mb-1 sm:mb-2">
-          {ingredient.name}
-        </h3>
-        <p className="text-center text-sm sm:text-base text-gray-700 mb-2">
-          {ingredient.description}
-        </p>
-        <p className="text-center font-semibold text-gray-800">
-          {ingredient.weightInGram}mg
-        </p>
-      </motion.div>
-    ))}
-  </div>
-</div>
-        );
-      };
-      
-
-    return (
+  return (
         <div>
         <motion.div 
               className="flex flex-col lg:flex-row  p-4 sm:p-6 bg-[#e0d2ff] w-full h-full mt-5"
@@ -182,39 +105,40 @@ const ProductDetail = () => {
 >
         {/* Product Images */}
         <div className="w-full md:w-[49%] h-full flex flex-col items-center">
-  {/* Preview Image */}
-  <div className="w-full md:w-[30rem] h-[20rem] md:h-[40rem] flex justify-center items-center overflow-hidden mb-4 relative rounded-lg">
-    <img
-      src={selectedImage || featuredImage}
-      alt={name}
-      className="object-contain w-full h-full cursor-pointer"
-      onClick={() => selectedImage && setSelectedImage(selectedImage)}
-    />
-  </div>
+          {/* Preview Image */}
+          <div className="w-full md:w-[30rem] h-[20rem] md:h-[40rem] flex justify-center items-center overflow-hidden mb-4 relative rounded-lg">
+            <img
+              src={selectedImage}
+              alt={name}
+              className="object-contain w-full h-full cursor-pointer"
+              onClick={() => setIsFullScreen(true)}
+            />
+          </div>
 
     {/* Thumbnail Images */}
-    <div className="md:flex gap-2 overflow-x-auto w-full hidden ">
+    <div className="md:flex gap-2 overflow-x-auto w-full hidden">
         {allImages.length > 0 ? (
-            allImages.map((image, index) => (
-                <motion.div 
-                    key={index}
-                    className="w-[5rem] h-[5rem] sm:w-[6rem] sm:h-[6rem] overflow-hidden rounded-lg shadow-lg cursor-pointer border border-gray-300 p-1"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ type: 'spring', stiffness: 100 }}
-                >
-                    <img 
-                        src={image} 
-                        alt={`Product Image ${index + 1}`} 
-                        className="w-full h-full object-cover rounded"
-                    />
-                </motion.div>
-            ))
+          allImages.map((image, index) => (
+            <motion.div
+              key={index}
+              className="w-[5rem] h-[5rem] sm:w-[6rem] sm:h-[6rem] overflow-hidden rounded-lg shadow-lg cursor-pointer border border-gray-300 p-1"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: 'spring', stiffness: 100 }}
+              onClick={() => setSelectedImage(image)} // Update the selected image on click
+            >
+              <img
+                src={image}
+                alt={`Product Image ${index + 1}`}
+                className="w-full h-full object-cover rounded"
+              />
+            </motion.div>
+          ))
         ) : (
-            <div className="col-span-5 flex items-center justify-center text-gray-500">
-                No images available
-            </div>
+          <div className="col-span-5 flex items-center justify-center text-gray-500">
+            No images available
+          </div>
         )}
-    </div>
+      </div>
 </div>
 
 
@@ -288,9 +212,10 @@ const ProductDetail = () => {
 
 </motion.div>
 <div>
-{product.productHighlights && (
-        <ProductHighlights highlights={product.productHighlights} />
-    )}
+{product && product.productHighlights && (
+  <ProductHighlights highlights={product.productHighlights} />
+)}
+
 </div>
             {/* Additional Banner */}
             <div className="flex flex-col md:flex-row items-center p-4 md:p-8 mt-10 bg-[#e0d2ff]">
@@ -318,34 +243,99 @@ const ProductDetail = () => {
   </div>
 </div>
 
+
             <div>
-              <FeaturedIngredients/>
+            {product && product.ingredients && (
+  <FeaturedIngredients ingredients={product.ingredients} />
+)}
+            </div> 
+            <div>
                <ProductBanner/>
             </div>
 
             {/* Full-Screen Image Modal */}
-            {selectedImage && (
-                <motion.div 
-                    className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    onClick={() => setSelectedImage(null)}
-                >
-                    <div className="relative bg-white p-2 rounded-lg" style={{ width: '80vw', height: '80vh' }}>
-                        <img src={selectedImage} alt="Full Size Product" className="w-full h-full object-contain" />
-                        <button 
-                            className="absolute top-4 right-4 text-black text-3xl"
-                            onClick={() => setSelectedImage(null)}
-                        >
-                            <MdClose />
-                        </button>
-                    </div>
-                   
-                </motion.div>
+            {/* Full-Screen Image Modal */}
+            {isFullScreen && (
+              <motion.div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={() => setIsFullScreen(false)}>
+                <div className="relative bg-white p-2 rounded-lg" style={{ width: '80vw', height: '80vh' }}>
+                  <img src={selectedImage} alt="Full Size Product" className="object-contain w-full h-full" />
+                  <AiOutlineClose className="absolute top-2 right-2 text-2xl text-gray-600 cursor-pointer" onClick={() => setIsFullScreen(false)} />
+                </div>
+              </motion.div>
             )}
         </div>
     );
 };
+
+
+// Place these components outside of ProductDetail to avoid conditional rendering issues
+const ProductHighlights = ({ highlights }) => (
+  <div className="flex flex-col items-center justify-center min-h-[75vh] bg-white p-6 sm:p-10">
+    <motion.h2
+      className="text-xl sm:text-2xl font-semibold text-orange-600 mb-6 sm:mb-8"
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      Product Highlights
+    </motion.h2>
+    <div className="flex flex-wrap justify-center gap-6 sm:gap-8 lg:gap-10">
+      {highlights.map((highlight, index) => (
+        <motion.div
+          key={highlight.id}
+          className="flex flex-col items-center max-w-[90%] sm:max-w-xs text-center mt-4 sm:mt-5"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: index * 0.2 }}
+        >
+          <img
+            src={highlight.icon}
+            alt={highlight.icon}
+            className="h-16 w-16 sm:h-20 sm:w-20 mx-auto mb-3 sm:mb-4 rounded-full"
+          />
+          <h3 className="text-base sm:text-lg font-bold text-orange-600 mb-1 sm:mb-2">
+            {highlight.title}
+          </h3>
+          <p className="text-sm sm:text-base text-gray-600">{highlight.description}</p>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+);
+
+const FeaturedIngredients = ({ ingredients }) => (
+  <div className="p-6 sm:p-10 bg-white">
+    <h2 className="text-center text-2xl sm:text-3xl font-semibold text-orange-600 mb-6 sm:mb-10">
+      Featured Ingredients
+    </h2>
+    <div className="flex justify-center items-start flex-wrap gap-5 sm:space-x-5">
+      {ingredients.map((ingredient, index) => (
+        <motion.div
+          key={index}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="bg-green-100 rounded-xl p-4 sm:p-6 shadow-md w-full sm:w-[45%] lg:w-[20%] mt-5"
+        >
+          <img
+            src={ingredient.image}
+            alt={ingredient.name}
+            className="h-16 w-16 sm:h-20 sm:w-20 mx-auto mb-3 sm:mb-4 rounded-full"
+          />
+          <h3 className="text-orange-600 text-center font-semibold text-base sm:text-lg mb-1 sm:mb-2">
+            {ingredient.name}
+          </h3>
+          <p className="text-center text-sm sm:text-base text-gray-700 mb-2">
+            {ingredient.description}
+          </p>
+          <p className="text-center font-semibold text-gray-800">
+            {ingredient.weightInGram}mg
+          </p>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+);
+
 
 export default ProductDetail;
 
