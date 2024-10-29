@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import axios from "axios"; 
+import axios from "axios";
 import { MdArrowBackIos } from "react-icons/md";
 import Loader from "@/components/loader/loader";
 import { useRouter } from "next/navigation";
@@ -10,26 +10,27 @@ import { FaMoneyBillWave } from "react-icons/fa";
 const CheckoutPage = () => {
   const router = useRouter();
   const [cart, setCart] = useState([]);
-  const [products, setProducts] = useState([]); 
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [placingOrder, setPlacingOrder] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery"); // Change this line
+  const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
   const [rememberMe, setRememberMe] = useState(false);
   const [contactInfo, setContactInfo] = useState({
     email: "",
     mobileNumber: "",
     address: "",
-    name:""
+    name: ""
   });
   const [orderId, setOrderId] = useState(null);
   const [cartId, setCartId] = useState(null);
   const [addressId, setAddressId] = useState(null);
+  const [userId, setUserId] = useState(null); // Add userId state
 
   useEffect(() => {
     const fetchOrderAndAddress = async () => {
       try {
         const decodedTokenResponse = await axios.get("/api/pendingOrder/checkout/cookies");
-        const { orderId, cartId, addressId, userId } = decodedTokenResponse.data;
+        const { orderId, cartId, addressId } = decodedTokenResponse.data;
 
         setOrderId(orderId);
         setCartId(cartId);
@@ -37,7 +38,7 @@ const CheckoutPage = () => {
 
         if (orderId && addressId) {
           const addressResponse = await axios.get(`/api/admin/dashboard/pendingOrder/address/${addressId}`);
-          const { email, mobileNumber, address , firstName , lastName   } = addressResponse.data.data;
+          const { email, mobileNumber, address, firstName, lastName } = addressResponse.data.data;
 
           setContactInfo({
             name: `${firstName || ''} ${lastName || ''}`,
@@ -52,33 +53,48 @@ const CheckoutPage = () => {
       } catch (error) {
         console.error("Error fetching order or address details:", error.response || error.message);
       }
-    };  
+    };
     fetchOrderAndAddress();
   }, [router]);
 
   useEffect(() => {
-    const fetchCartFromLocalStorage = () => {
-      const cartData = JSON.parse(localStorage.getItem("cart")); 
-      if (cartData) {
-        setCart(cartData);
+    const urlPath = window.location.pathname;
+    const extractedUserId = urlPath.split('/')[2];
+    setUserId(extractedUserId); // Save userId in state
+
+    const fetchCart = async () => {
+      if (extractedUserId) {
+        try {
+          const response = await axios.get(`/api/users/cart/${extractedUserId}`);
+          const fetchedCart = response.data.items;
+          setCart(fetchedCart);
+        } catch (error) {
+          console.error('Error fetching cart:', error);
+        }
       }
     };
-    fetchCartFromLocalStorage();
+
+    fetchCart();
   }, []);
 
   useEffect(() => {
     const fetchProductDetails = async () => {
+      if (cart.length === 0) return;
       setLoading(true);
       try {
         const productDetails = await Promise.all(
           cart.map(async (item) => {
-            const response = await axios.get(`/api/admin/dashboard/product/${item.id}`);
-            return { ...response.data, quantity: item.quantity }; 
+            if (!item.productId) {
+              console.warn('Missing productId in cart item:', item);
+              return null;
+            }
+            const response = await axios.get(`/api/admin/dashboard/product/${item.productId}`);
+            return { ...response.data, quantity: item.quantity || 1 };
           })
         );
-        setProducts(productDetails);
+        setProducts(productDetails.filter(Boolean));
       } catch (error) {
-        console.error("Error fetching product details:", error);
+        console.error('Error fetching product details:', error);
       } finally {
         setLoading(false);
       }
@@ -104,13 +120,13 @@ const CheckoutPage = () => {
   }
 
   const handlePlaceOrder = async () => {
-    if (!orderId || !cartId || !addressId) {
-      console.error("Order ID, Cart ID, or Address ID missing.");
+    if (!orderId || !cartId || !addressId || !userId) {
+      console.error("Order ID, Cart ID, Address ID, or User ID missing.");
       return;
     }
-  
-    setPlacingOrder(true); // Start placing order
-  
+
+    setPlacingOrder(true);
+
     const checkoutData = {
       orderId,
       cartId,
@@ -124,24 +140,23 @@ const CheckoutPage = () => {
       })),
       totalAmount: estimatedTotal(),
     };
-  
+
     try {
-      const response = await axios.post("/api/pendingOrder/placeCodOrder", checkoutData, {
+      const response = await axios.post(`/api/users/pendingOrder/${userId}/placeCodOrder`, checkoutData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-  
+
       if (response.status === 200) {
-        router.push(`/product/cart/information/shipping/${orderId}/cashOnDelivery`);
+        router.push(`/users/${userId}/product/cart/information/shipping/${orderId}/cashOnDelivery`);
       }
     } catch (error) {
       console.error("Error submitting checkout:", error);
     } finally {
-      setPlacingOrder(false); // Reset placing order state
+      setPlacingOrder(false);
     }
   };
-  
 
   return (
     <div className="flex mx-auto justify-center my-10 gap-5">
@@ -223,7 +238,7 @@ const CheckoutPage = () => {
           </div>
           <button
             onClick={handlePlaceOrder}
-            disabled={placingOrder}
+           
             className="bg-purple-600 text-white font-bold py-2 px-6 rounded-md flex items-center justify-center"
           >
             {placingOrder ? "Loading..." : "Place Order"}
@@ -247,11 +262,11 @@ const CheckoutPage = () => {
                   <img src={product.featuredImage} alt={product.name} className="w-12 md:w-16 h-12 md:h-16 object-cover mr-2 md:mr-4 rounded-lg hover:cursor-pointer" />
                   <div className="flex flex-col">
                     <h3 className="text-xs md:text-base">{product.name}</h3>
-                    <p className="text-xs md:text-sm text-gray-500">${product.salePrice}</p>
+                    <p className="text-xs md:text-sm text-gray-500">₹{product.salePrice}</p>
                   </div>
                 </td>
                 <td className="px-2 md:px-4 py-2 text-center hidden md:table-cell">{product.quantity}</td>
-                <td className="px-2 md:px-4 py-2 text-right">${totalPriceForProduct(product)}</td>
+                <td className="px-2 md:px-4 py-2 text-right">₹{totalPriceForProduct(product)}</td>
               </tr>
             ))}
           </tbody>
@@ -267,7 +282,7 @@ const CheckoutPage = () => {
         </div>
         <div className="flex justify-between py-4 font-bold text-lg">
           <span>Total</span>
-          <span>${estimatedTotal()}</span>
+          <span>₹{estimatedTotal()}</span>
         </div>
       </div>
     </div>

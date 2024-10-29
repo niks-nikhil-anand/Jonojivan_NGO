@@ -112,6 +112,9 @@ const CheckoutPage = () => {
   };
 
   const handleContinueToShipping = async () => {
+
+    const urlPath = window.location.pathname;
+  const userId = urlPath.split('/')[2]; 
     // Data object for the checkout API
     const checkoutData = {
       email: formData.email,
@@ -132,7 +135,7 @@ const CheckoutPage = () => {
       // Submit checkout data
       setLoadingButton(true);
       console.log("Submitting checkout data:", checkoutData);
-       const checkoutResponse = await axios.post("/api/pendingOrder/checkout", checkoutData, {
+      const checkoutResponse = await axios.post(`/api/users/pendingOrder/${userId}/checkout`, checkoutData, {
         headers: {
           'Content-Type': 'application/json', 
         },
@@ -149,12 +152,12 @@ const CheckoutPage = () => {
             console.log("Order ID response received:", decodedToken);
 
             // Access the properties from the decoded token
-            const { orderId, cartId, addressId, userId } = decodedToken;
+            const { orderId } = decodedToken;
           
             // Redirect to the shipping page with the orderId if it exists
             if (orderId) {
               console.log(`Redirecting to shipping page with Order ID: ${orderId}`);
-              router.push(`/product/cart/information/shipping/${orderId}`);
+              router.push(`/users/${userId}/product/cart/information/shipping/${orderId}`);
             } else {
               console.error("Order ID not found.");
             }
