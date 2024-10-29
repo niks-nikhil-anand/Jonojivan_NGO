@@ -395,7 +395,7 @@ const Navbar = () => {
               </motion.div>
             )}
           </div>
-          <Link href={`/users/${userId}/cart`}>
+          <Link href={`/users/${userId}/product/cart`}>
           <FiShoppingBag className="w-6 h-6 cursor-pointer" />
           </Link>
         </div>

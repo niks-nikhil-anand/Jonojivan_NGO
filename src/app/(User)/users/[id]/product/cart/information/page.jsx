@@ -35,41 +35,55 @@ const CheckoutPage = () => {
 
 
   useEffect(() => {
-    const fetchCartFromLocalStorage = () => {
-      const cartData = JSON.parse(localStorage.getItem("cart")); 
-      if (cartData) {
-        setCart(cartData);
+    const urlPath = window.location.pathname;
+    const userId = urlPath.split('/')[2]; // Extract userId
+
+    const fetchCart = async () => {
+      if (userId) { // Ensure userId is available
+        try {
+          const response = await axios.get(`/api/users/cart/${userId}`);
+          const fetchedCart = response.data.items; // Access items directly
+          setCart(fetchedCart);
+        } catch (error) {
+          console.error('Error fetching cart:', error);
+        }
       }
     };
-    fetchCartFromLocalStorage();
+
+    fetchCart();
   }, []);
 
   
 
   useEffect(() => {
     const fetchProductDetails = async () => {
+      if (cart.length === 0) return; // Ensure cart has items before fetching details
       setLoading(true);
       try {
         const productDetails = await Promise.all(
           cart.map(async (item) => {
-            const response = await axios.get(
-              `/api/admin/dashboard/product/${item.id}`
-            );
-            return { ...response.data, quantity: item.quantity }; // Add quantity from the cart
+            if (!item.productId) {
+              console.warn('Missing productId in cart item:', item);
+              return null; // Skip any item without a valid productId
+            }
+            const response = await axios.get(`/api/admin/dashboard/product/${item.productId}`);
+            return { ...response.data, quantity: item.quantity || 1 }; // Default to 1 if undefined
           })
         );
-        setProducts(productDetails);
+        // Filter out any null entries that may have resulted from missing productId
+        setProducts(productDetails.filter(Boolean));
       } catch (error) {
-        console.error("Error fetching product details:", error);
+        console.error('Error fetching product details:', error);
       } finally {
         setLoading(false);
       }
     };
-
+  
     if (cart.length > 0) {
       fetchProductDetails();
     }
   }, [cart]);
+  
 
  
 

@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useState, useEffect } from 'react';
 import { FaTrashAlt } from 'react-icons/fa';
@@ -7,138 +8,98 @@ import { motion } from 'framer-motion';
 import Loader from '@/components/loader/loader';
 
 const Cart = () => {
-  const [cart, setCart] = useState([]); // Store cart data from the API
-  const [products, setProducts] = useState([]); // Store product details
-  const [loading, setLoading] = useState(true); // Track loading state
+  const [cart, setCart] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const userId = typeof window !== 'undefined' ? window.location.pathname.split('/')[2] : null;
 
   useEffect(() => {
-    const urlPath = window.location.pathname;
-    const userId = urlPath.split('/')[2]; // Extract userId
-
-    const fetchCart = async () => {
-      if (userId) { // Ensure userId is available
+    const fetchCartAndProducts = async () => {
+      if (userId) {
+        setLoading(true);
         try {
-          const response = await axios.get(`/api/users/cart/${userId}`);
-          const fetchedCart = response.data.items; // Access items directly
+          const cartResponse = await axios.get(`/api/users/cart/${userId}`);
+          const fetchedCart = cartResponse.data.items || [];
           setCart(fetchedCart);
+
+          const productDetails = await Promise.all(
+            fetchedCart.map(async (item) => {
+              const response = await axios.get(`/api/admin/dashboard/product/${item.productId}`);
+              return { ...response.data, quantity: item.quantity || 1 };
+            })
+          );
+          setProducts(productDetails);
         } catch (error) {
-          console.error('Error fetching cart:', error);
+          console.error('Error fetching cart or product details:', error);
+        } finally {
+          setLoading(false);
         }
       }
     };
 
-    fetchCart();
-  }, []);
-
-  useEffect(() => {
-    const fetchProductDetails = async () => {
-      setLoading(true);
-      try {
-        const productDetails = await Promise.all(
-          cart.map(async (item) => {
-            const response = await axios.get(`/api/admin/dashboard/product/${item.productId}`);
-            // Ensure quantity is passed correctly
-            return { ...response.data, quantity: item.quantity || 1 }; // Default to 1 if undefined
-          })
-        );
-        setProducts(productDetails);
-      } catch (error) {
-        console.error('Error fetching product details:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (cart.length > 0) {
-      fetchProductDetails();
-    }
-  }, [cart]);
+    fetchCartAndProducts();
+  }, [userId]);
 
   const updateCartAPI = async (updatedCart) => {
-    const urlPath = window.location.pathname;
-    const userId = urlPath.split('/')[2];
-    
-    // Prepare updated cart structure with userId and productId
-    const formattedCart = updatedCart.map(item => ({
-      productId: item.productId,
-      quantity: item.quantity,
-    }));
-
-    await axios.put(`/api/users/cart/${userId}`, { items: formattedCart }); // Update cart on the server
+    try {
+      const formattedCart = updatedCart.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+      }));
+      await axios.put(`/api/users/cart/${userId}`, { items: formattedCart });
+    } catch (error) {
+      console.error('Error updating cart:', error);
+    }
   };
 
   const incrementQuantity = async (productId) => {
-    const updatedProducts = products.map((product) => {
-      if (product._id === productId) {
-        return { ...product, quantity: product.quantity + 1 }; // Increment the quantity for the correct product
-      }
-      return product; // Return other products unchanged
-    });
+    const updatedProducts = products.map((product) => (
+      product._id === productId ? { ...product, quantity: product.quantity + 1 } : product
+    ));
+    setProducts(updatedProducts);
 
-    setProducts(updatedProducts); // Update state
-
-    // Update cart and API
     const updatedCart = cart.map((item) =>
-      item.productId === productId ? { ...item, quantity: (item.quantity || 1) + 1 } : item // Default to 1 if undefined
+      item.productId === productId ? { ...item, quantity: (item.quantity || 1) + 1 } : item
     );
-
     setCart(updatedCart);
     await updateCartAPI(updatedCart);
   };
 
   const decrementQuantity = async (productId) => {
-    const updatedProducts = products.map((product) => {
-      if (product._id === productId && product.quantity > 1) {
-        return { ...product, quantity: product.quantity - 1 }; // Decrement the quantity for the correct product
-      }
-      return product; // Return other products unchanged
-    });
+    const updatedProducts = products.map((product) =>
+      product._id === productId && product.quantity > 1 ? { ...product, quantity: product.quantity - 1 } : product
+    );
+    setProducts(updatedProducts);
 
-    setProducts(updatedProducts); // Update state
-
-    // Update cart and API
     const updatedCart = cart.map((item) =>
       item.productId === productId && item.quantity > 1
         ? { ...item, quantity: item.quantity - 1 }
         : item
     );
-
     setCart(updatedCart);
     await updateCartAPI(updatedCart);
   };
 
-  // Calculate total price for a specific product
-  const totalPriceForProduct = (product) => {
-    return (product.salePrice * product.quantity).toFixed(2);
-  };
+  const totalPriceForProduct = (product) => (product.salePrice * product.quantity).toFixed(2);
 
-  // Calculate estimated total for the entire cart
-  const estimatedTotal = () => {
-    return products.reduce((total, product) => {
-      return total + (product.salePrice * product.quantity);
-    }, 0).toFixed(2);
-  };
+  const estimatedTotal = () => (
+    products.reduce((total, product) => total + (product.salePrice * product.quantity), 0).toFixed(2)
+  );
 
-  // Remove item from cart
   const removeItem = async (productId) => {
-    const urlPath = window.location.pathname;
-    const userId = urlPath.split('/')[2]; // Ensure userId is available
     try {
-      // Make an API call to delete the product from the server
-      const response = await axios.delete(`/api/users/cart/${productId}`);
-      console.log(response.data.msg); // Log success message from server
-  
+      await axios.delete(`/api/users/cart/${productId}`);
       const updatedProducts = products.filter((product) => product._id !== productId);
       setProducts(updatedProducts);
-  
-      // Also update cart state
+
       const updatedCart = cart.filter((item) => item.productId !== productId);
       setCart(updatedCart);
       await updateCartAPI(updatedCart);
     } catch (error) {
       console.error('Error removing item:', error);
     }
-  };
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen shadow-lg border-b-black-100 border p-4">
@@ -151,14 +112,14 @@ const Cart = () => {
 
       <div className="w-full p-2 md:p-4 bg-white">
         {loading ? (
-          <Loader /> // Loader component while fetching
+          <Loader />
         ) : products.length > 0 ? (
           <>
             <table className="w-full table-auto border-collapse text-xs md:text-base">
               <thead>
                 <tr>
                   <th className="px-2 md:px-4 py-2 text-left">Product</th>
-                  <th className="px-2 md:px-4 py-2 text-center hidden md:table-cell ">Quantity</th>
+                  <th className="px-2 md:px-4 py-2 text-center hidden md:table-cell">Quantity</th>
                   <th className="px-2 md:px-4 py-2 text-right">Total</th>
                 </tr>
               </thead>
@@ -181,7 +142,6 @@ const Cart = () => {
                         </div>
                       </div>
                     </td>
-
                     <td className="text-center hidden md:table-cell">
                       <div className="flex items-center justify-center">
                         <button
@@ -205,7 +165,6 @@ const Cart = () => {
                         </button>
                       </div>
                     </td>
-
                     <td className="text-right text-xs md:text-lg font-medium">
                       ₹{totalPriceForProduct(product)}
                     </td>
@@ -213,7 +172,6 @@ const Cart = () => {
                 ))}
               </tbody>
             </table>
-
             <div className="mt-4 text-right">
               <p className="text-base md:text-lg font-semibold">
                 <span className='text-[#D07021]'>Estimated total:</span> <span className="pl-3">₹{estimatedTotal()}</span>
