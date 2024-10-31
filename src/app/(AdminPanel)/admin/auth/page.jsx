@@ -47,18 +47,14 @@ const AdminLoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
-      <div className="flex flex-col md:flex-row w-full  overflow-hidden justify-between h-full">
-        
-       
-
-
-        {/* Form Section */}
+    <div className="flex justify-center items-center bg-white px-4 md:px-0 w-full flex-col my-10">
+  <div className="w-full md:pl-8 md:w-1/2 ">
+    {/* Form Section */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="p-10 md:w-1/2 w-full flex flex-col justify-center md:ml-6"
+          className="p-10  w-full flex flex-col justify-center md:ml-6"
         >
           <motion.h2
             initial={{ scale: 0.9 }}
@@ -86,7 +82,7 @@ const AdminLoginForm = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-3 py-2 border rounded-2xl border-black focus:outline-none focus:ring-2 focus:ring-purple-400"
                 required
               />
             </div>
@@ -99,7 +95,7 @@ const AdminLoginForm = () => {
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className= "w-full px-3 py-2 border rounded-2xl border-black focus:outline-none focus:ring-2 focus:ring-purple-400"
                 required
               />
               <div
@@ -123,7 +119,7 @@ const AdminLoginForm = () => {
               whileTap={{ scale: 0.95 }}
               type="submit"
               disabled={loading}
-              className={`w-full py-2 px-4 text-white rounded-lg ${loading ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'}`}
+              className={`w-1/2 py-2 px-4 text-white rounded-2xl ${loading ? 'bg-gray-500' : 'bg-purple-900 hover:bg-purple-800'}`}
             >
               {loading ? 'Logging in...' : 'Login'}
             </motion.button>
@@ -155,27 +151,6 @@ const AdminLoginForm = () => {
             <a href="/forgot-password" className="text-blue-500 hover:underline">Forgot your password?</a>
           </motion.div>
         </motion.div>
-
-         {/* Banner Image - Only for Desktop and Tablet */}
-         <div className="relative md:w-1/4 md:h-auto lg:w-1/3 lg:h-auto mr-5">
- 
-                  <div
-                    className="absolute inset-0 bg-[url('/path-to-bannerbg.jpg')] bg-cover bg-center z-0 "
-                  >
-                      <Image
-                    src={bannerbg}
-                    alt="Admin Login Banner"
-                    className="relative w-full h-full object-contain z-10" 
-                  />
-                  </div>
-
-                  {/* Foreground Image */}
-                  <Image
-                    src={loginBanner}
-                    alt="Admin Login Banner"
-                    className="relative w-full h-full object-contain z-10 rounded-2xl" 
-                  />
-                  </div>
       </div>
     </div>
   );
