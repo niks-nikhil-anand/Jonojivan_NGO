@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { MdClose } from 'react-icons/md';
 import Image from 'next/image';
 import Loader from '@/components/loader/loader';
 import ProductBanner from '@/components/frontend/ui/(Banners)/ProductBanner';

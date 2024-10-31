@@ -183,9 +183,18 @@ const CreateAccountForm = () => {
               {loading ? "Creating Account..." : "Create Account"}
             </motion.button>
                   </div>
-           
+
+
+                  <div className="flex justify-between mt-4">
+            <Link href={"/auth/register"}  className="text-purple-900">
+            Already have an account? <span className="text-blue-500  hover:underline">Sign in</span></Link>
+          </div>
           </form>
-          
+           <div className="flex items-center justify-between mt-6">
+            <span className="border-t border-gray-300 flex-grow"></span>
+            <span className="mx-4 text-gray-600">Cleanveda</span>
+            <span className="border-t border-gray-300 flex-grow"></span>
+          </div>
          
         </div>
       
