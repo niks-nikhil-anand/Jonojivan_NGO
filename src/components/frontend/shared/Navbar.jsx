@@ -1,17 +1,48 @@
-import { useState } from "react";
+"use client"
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FiSearch, FiUser, FiShoppingBag } from "react-icons/fi";
 import { AiOutlineDown, AiOutlineUp, AiOutlineMenu } from "react-icons/ai";
 import Image from 'next/image';
 import logo from '../../../../public/annimatedIcons/grocery.png'; 
-import waveNav from '../../../../public/frontend/SvgAssets/wave-nav.svg'; // Adjust the path to your logo
+import waveNav from '../../../../public/frontend/SvgAssets/wave-nav.svg'; 
 import Link from "next/link";
+
+
+
+const useLocalStorage = (key, initialValue = []) => {
+  const [storedValue, setStoredValue] = useState(initialValue);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const item = localStorage.getItem(key);
+        if (item) setStoredValue(JSON.parse(item));
+      } catch (error) {
+        console.error(error);
+        setStoredValue(initialValue);
+      }
+    }
+  }, [key, initialValue]);
+
+  const setValue = (value) => {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+      setStoredValue(value);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return [storedValue, setValue];
+};
 
 
 const Navbar = () => {
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isLearnOpen, setIsLearnOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [cart, setCart] = useLocalStorage("cart", []); 
 
   const toggleShopDropdown = () => {
     setIsShopOpen((prev) => !prev);
@@ -49,7 +80,14 @@ const Navbar = () => {
   <div className="flex items-center space-x-4 md:hidden">
     <FiSearch className="w-6 h-6 cursor-pointer" />
     <FiUser className="w-6 h-6 cursor-pointer" />
-    <FiShoppingBag className="w-6 h-6 cursor-pointer" />
+    <div className="relative">
+            <FiShoppingBag className="w-6 h-6 cursor-pointer" />
+            {cart.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                {cart.length}
+              </span>
+            )}
+          </div>
   </div>
 </div>
 
@@ -307,7 +345,14 @@ const Navbar = () => {
           <FiUser className="w-6 h-6 cursor-pointer" />
           </Link>
           <Link href={"/product/cart"}>
-          <FiShoppingBag className="w-6 h-6 cursor-pointer" />
+          <div className="relative">
+            <FiShoppingBag className="w-6 h-6 cursor-pointer" />
+            {cart.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                {cart.length}
+              </span>
+            )}
+          </div>
           </Link>
         </div>
       </div>
