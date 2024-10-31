@@ -10,39 +10,13 @@ import Link from "next/link";
 
 
 
-const useLocalStorage = (key, initialValue = []) => {
-  const [storedValue, setStoredValue] = useState(initialValue);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const item = localStorage.getItem(key);
-        if (item) setStoredValue(JSON.parse(item));
-      } catch (error) {
-        console.error(error);
-        setStoredValue(initialValue);
-      }
-    }
-  }, [key, initialValue]);
-
-  const setValue = (value) => {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-      setStoredValue(value);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  return [storedValue, setValue];
-};
 
 
 const Navbar = () => {
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isLearnOpen, setIsLearnOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [cart, setCart] = useLocalStorage("cart", []); 
 
   const toggleShopDropdown = () => {
     setIsShopOpen((prev) => !prev);
@@ -82,11 +56,7 @@ const Navbar = () => {
     <FiUser className="w-6 h-6 cursor-pointer" />
     <div className="relative">
             <FiShoppingBag className="w-6 h-6 cursor-pointer" />
-            {cart.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                {cart.length}
-              </span>
-            )}
+        
           </div>
   </div>
 </div>
@@ -347,11 +317,6 @@ const Navbar = () => {
           <Link href={"/product/cart"}>
           <div className="relative">
             <FiShoppingBag className="w-6 h-6 cursor-pointer" />
-            {cart.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                {cart.length}
-              </span>
-            )}
           </div>
           </Link>
         </div>
