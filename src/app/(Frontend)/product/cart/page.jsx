@@ -11,6 +11,8 @@ const Cart = () => {
   const [cart, setCart] = useState([]); // Store cart data from localStorage
   const [products, setProducts] = useState([]); // Store product details
   const [loading, setLoading] = useState(true); // Track loading state
+  const [checkoutLoading, setCheckoutLoading] = useState(false); // Track checkout button loading state
+
 
 
   // Fetch cart from localStorage and product details from API
@@ -111,6 +113,7 @@ const Cart = () => {
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen shadow-lg border-b-black-100 border p-4">

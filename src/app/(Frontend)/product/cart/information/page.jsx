@@ -14,8 +14,6 @@ const CheckoutPage = () => {
   const [loading, setLoading] = useState(true); 
   const [loadingButton, setLoadingButton] = useState(false); // New loading state for button
 
-
-
    const [formData, setFormData] = useState({
     email: "",
     firstName: "",
@@ -123,6 +121,8 @@ const CheckoutPage = () => {
           'Content-Type': 'application/json', 
         },
       });
+
+      
       console.log("Checkout successful!", checkoutResponse.data);
     
       if (checkoutResponse.status >= 200 && checkoutResponse.status < 300) {
