@@ -28,7 +28,8 @@ export default {
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
-        poppins: ['Poppins', 'sans-serif'],
+        cormorant: ['Cormorant', 'serif'],
+
       },
       transitionProperty: {
         borderColor: 'border-color',

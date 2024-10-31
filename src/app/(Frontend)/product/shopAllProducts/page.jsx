@@ -2,10 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Loader from "@/components/loader/loader";
-import waveSvg from '../../../../../public/frontend/SvgAssets/wave-white.svg';
 import Image from "next/image";
-import banner from '../../../../../public/frontend/Banner/AllProductPageBannerlg.webp'
-
+import waveSvg from '../../../../../public/frontend/SvgAssets/wave-white.svg';
+import banner from '../../../../../public/frontend/Banner/AllProductPageBannerlg.webp';
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
@@ -72,7 +71,6 @@ const AllProducts = () => {
     <motion.div
       className="relative h-[25rem] w-full md:w-[18rem] lg:h-[28rem] lg:w-[22rem] bg-white rounded-3xl shadow-lg overflow-hidden group"
     >
-      {/* Product Image */}
       <div className="overflow-hidden h-[18rem]">
         <img
           src={product.featuredImage}
@@ -80,28 +78,30 @@ const AllProducts = () => {
           className="object-cover h-full w-full transition-transform duration-300 ease-in-out transform group-hover:scale-110"
         />
       </div>
-      {/* Product Details */}
       <div className="p-4 text-center">
         <h3 className="text-xl font-semibold text-gray-900 mt-2 group-hover:text-orange-600">
           {product.name}
         </h3>
-        <p className="text-gray-700 font-semibold mt-2 text-lg">
-          ₹{product.salePrice}
-        </p>
+        <div className="flex gap-5 justify-center">
+          <p className="text-red-500 line-through text-lg mt-2">
+            ₹{product.originalPrice}
+          </p>
+          <p className="text-gray-700 font-semibold mt-2 text-xl">
+            ₹{product.salePrice}
+          </p>
+        </div>
       </div>
     </motion.div>
   );
 
   return (
-    <div className="">
+    <div className="mb-5">
       {loading ? (
         <Loader />
       ) : (
         <>
-          {/* Filters and Product List */}
-          <div className="flex w-full flex-col mb-5">
-
-          <div className="relative w-full h-[60vh] flex items-center">
+          {/* Banner and Title */}
+          <div className="relative w-full h-[60vh] flex items-center ">
             <Image 
               src={banner} 
               alt="Banner"
@@ -115,20 +115,38 @@ const AllProducts = () => {
             </h1>
           </div>
 
-            <div className="relative w-full overflow-hidden md:-mt-[1rem] -mt-[1rem]">
-                <Image 
-                    src={waveSvg} 
-                    alt="Wave"
-                    layout="responsive"
-                    objectFit="cover" 
-                    className="w-full"
-                    priority 
-                />
-            </div>
-            <div className="flex gap-5 py-5">
-              {/* Left Filter Section */}
-            <aside className="w-1/4 p-6 bg-white border-r border-gray-300">
+          {/* Wave SVG Divider */}
+          <div className="relative w-full overflow-hidden md:-mt-[1rem] -mt-[1rem]">
+            <Image 
+              src={waveSvg} 
+              alt="Wave"
+              layout="responsive"
+              objectFit="cover" 
+              className="w-full"
+              priority 
+            />
+          </div>
+
+          {/* Sort By Dropdown */}
+          <div className="flex justify-end px-6 py-4">
+            <label className="mr-2 mt-2 text-lg font-medium text-gray-700">Sort By:</label>
+            <select
+              className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              value={sortOption}
+              onChange={handleSortChange}
+            >
+              <option value="best-selling">Best Selling</option>
+              <option value="price-low-high">Price: Low to High</option>
+              <option value="price-high-low">Price: High to Low</option>
+            </select>
+          </div>
+
+          {/* Filters and Product List */}
+          <div className="flex flex-col md:flex-row gap-5 py-5">
+            {/* Left Filter Section */}
+            <aside className="md:w-1/4 w-full p-6 bg-white border-r border-gray-300 shadow-lg rounded-md">
               <h2 className="text-xl font-semibold mb-6">Filters</h2>
+              
               {/* Filter: Category */}
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -136,10 +154,13 @@ const AllProducts = () => {
                 </label>
                 <select className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
                   <option>All</option>
-                  <option>Category 1</option>
-                  <option>Category 2</option>
+                  <option>Gummies</option>
+                  <option>Liquids</option>
+                  <option>Powders</option>
+                  <option>Capsules</option>
                 </select>
               </div>
+
               {/* Filter: Price Range */}
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -147,6 +168,7 @@ const AllProducts = () => {
                 </label>
                 <input type="range" min="0" max="100" className="w-full" />
               </div>
+
               {/* Filter: Rating */}
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -159,6 +181,7 @@ const AllProducts = () => {
                   <input type="checkbox" className="w-4 h-4" /> <span>3 Stars & up</span>
                 </div>
               </div>
+
               {/* Filter: Availability */}
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -173,9 +196,7 @@ const AllProducts = () => {
               </div>
             </aside>
 
-
-
-              {/* Products Grid */}
+            {/* Products Grid */}
             <motion.div
               className="flex flex-wrap gap-7"
               initial={{ opacity: 0 }}
@@ -186,11 +207,9 @@ const AllProducts = () => {
                 <ProductCard key={product.id} product={product} />
               ))}
             </motion.div>
-            
-            </div>
-            
+          </div>
 
-            {/* Pagination */}
+          {/* Pagination */}
           <motion.div className="mt-6 flex justify-center space-x-4">
             {Array.from({ length: Math.ceil(filteredProducts.length / productsPerPage) }, (_, index) => (
               <button
@@ -206,9 +225,6 @@ const AllProducts = () => {
               </button>
             ))}
           </motion.div>
-            
-          </div>
-          
         </>
       )}
     </div>
