@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { FiSearch, FiUser, FiShoppingBag } from "react-icons/fi";
 import { AiOutlineDown, AiOutlineUp, AiOutlineMenu } from "react-icons/ai";
 import Image from 'next/image';
-import logo from '../../../../public/annimatedIcons/grocery.png'; 
 import waveNav from '../../../../public/frontend/SvgAssets/wave-nav.svg'; 
 import Link from "next/link";
 
@@ -46,7 +45,7 @@ const Navbar = () => {
   {/* Logo */}
   <div className="flex justify-center md:hidden">
     <Link href={"/"}>
-    <Image src={logo} alt="Logo" width={40} height={40} />
+    <h1>Logo</h1>
     </Link>
   </div>
 

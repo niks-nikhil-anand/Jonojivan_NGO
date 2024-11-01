@@ -17,7 +17,7 @@ const LoginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isOtpLogin, setIsOtpLogin] = useState(false);
-  const [otp, setOtp] = useState(Array(6).fill(""));
+  const [otpInput, setOtpInput] = useState('');
   const router = useRouter();
 
   const handleLogin = async (e) => {
@@ -44,10 +44,9 @@ const LoginForm = () => {
       }
     } else {
       // Handle login with OTP
-      const otpCode = otp.join("");
-      if (otpCode === "123456") { // Mock OTP validation
+      if (otpInput === "123456") { // Mock OTP validation
         toast.success("OTP verified successfully!");
-        setOtp(Array(6).fill(""));
+        setOtpInput('');
         router.push(`/users/profile`); // Change route as needed
       } else {
         toast.error("Invalid OTP. Please try again.");
@@ -56,20 +55,10 @@ const LoginForm = () => {
     }
   };
 
-  const handleOtpChange = (value, index) => {
-    if (!/^[0-9]$/.test(value) && value !== "") return; 
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-
-    if (value && index < 5) {
-      document.getElementById(`otp-input-${index + 1}`).focus();
-    }
-  };
-
-  const handleBackspace = (e, index) => {
-    if (e.key === "Backspace" && !otp[index] && index > 0) {
-      document.getElementById(`otp-input-${index - 1}`).focus();
+  const handleOtpInputChange = (e) => {
+    const value = e.target.value;
+    if (/^\d{0,6}$/.test(value)) { // Allow only numbers, max 6 digits
+      setOtpInput(value);
     }
   };
 
@@ -127,21 +116,16 @@ const LoginForm = () => {
               </div>
             </div>
           ) : (
-            <div className="flex justify-start space-x-2 mb-4 ">
-              <h1 className='text-2xl mr-7 mt-2 font-semibold'> ENTER OTP:</h1>
-              {otp.map((digit, index) => (
-                <input
-                  key={index}
-                  id={`otp-input-${index}`}
-                  type="text"
-                  inputMode="numeric"
-                  maxLength="1"
-                  value={digit}
-                  onChange={(e) => handleOtpChange(e.target.value, index)}
-                  onKeyDown={(e) => handleBackspace(e, index)}
-                  className="w-12 h-12 text-center border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-              ))}
+            <div className="mb-4">
+              <input
+                type="text"
+                value={otpInput}
+                onChange={handleOtpInputChange}
+                maxLength={6}
+                className="w-full px-6 py-2 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-purple-500"
+                placeholder="Enter 6-digit OTP"
+                required
+              />
             </div>
           )}
 
