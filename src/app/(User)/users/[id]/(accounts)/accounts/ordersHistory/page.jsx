@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Loader from '@/components/loader/loader';
 
 const OrderHistory = () => {
   const [orderHistory, setOrderHistory] = useState([]);
@@ -41,7 +42,9 @@ const OrderHistory = () => {
     fetchOrderHistory();
   }, []);
 
-  if (loading) return <div>Loading order history...</div>;
+  if (loading) return <div>
+    <Loader/>
+  </div>;
 
   return (
     <div className="p-4">

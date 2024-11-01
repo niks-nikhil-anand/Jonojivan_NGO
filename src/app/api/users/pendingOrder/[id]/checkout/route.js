@@ -39,76 +39,61 @@ export const POST = async (request, { params }) => {
       return NextResponse.json({ msg: "Please provide all the required fields." }, { status: 400 });
     }
 
-    // Check if a cart exists and update it, otherwise create a new cart
-   // Check if a cart exists and update it, otherwise create a new cart
-let existingCart = await cartModels.findOne({ userId: id });
-if (existingCart) {
-  console.log('Existing cart found, updating:', existingCart);
-  existingCart.items = cart.map(item => ({
-    productId: item.productId, // Corrected item reference
-    quantity: item.quantity,
-    price: item.price || 0 
-  }));
-  await existingCart.save();
-} else {
-  console.log('Creating new cart.');
-  existingCart = new cartModels({
-    userId: id,
-    items: cart.map(item => ({
-      productId: item.productId,
-      quantity: item.quantity,
-      price: item.price || 0 
-    })),
-  });
-  await existingCart.save();
-}
-
-
-    // Check if an address exists and update it, otherwise create a new address
-    let existingAddress = await addressModels.findOne({ user: id });
-    if (existingAddress) {
-      console.log('Existing address found, updating:', existingAddress);
-      existingAddress.firstName = firstName;
-      existingAddress.lastName = lastName;
-      existingAddress.address = address;
-      existingAddress.apartment = apartment;
-      existingAddress.landmark = landmark;
-      existingAddress.city = city;
-      existingAddress.state = state;
-      existingAddress.pinCode = pinCode;
-      existingAddress.mobileNumber = mobileNumber;
-      await existingAddress.save();
+    let existingCart = await cartModels.findOne({ userId: id });
+    if (existingCart) {
+      console.log('Existing cart found, updating:', existingCart);
+      existingCart.items = cart.map(item => ({
+        productId: item.productId,
+        quantity: item.quantity,
+        price: item.price || 0 
+      }));
+      await existingCart.save();
     } else {
-      console.log('Creating new address.');
-      existingAddress = new addressModels({
-        firstName,
-        lastName,
-        address,
-        apartment,
-        landmark,
-        city,
-        state,
-        pinCode,
-        email,
-        mobileNumber,
-        user: id,
+      console.log('Creating new cart.');
+      existingCart = new cartModels({
+        userId: id,
+        items: cart.map(item => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          price: item.price || 0 
+        })),
       });
-      await existingAddress.save();
+      await existingCart.save();
     }
+
+    // Create a new address without checking for an existing one
+    console.log('Creating new address.');
+    const newAddress = new addressModels({
+      firstName,
+      lastName,
+      address,
+      apartment,
+      landmark,
+      city,
+      state,
+      pinCode,
+      email,
+      mobileNumber,
+      user: id,
+    });
+    await newAddress.save();
+
+    // Update user with new address ID
+    await userModels.findByIdAndUpdate(id, { $push: { address: newAddress._id } });
 
     // Check if a pending order exists and update it, otherwise create a new pending order
     let existingPendingOrder = await pendingOrderModel.findOne({ user: id, isCheckoutCompleted: false });
     if (existingPendingOrder) {
       console.log('Existing pending order found, updating:', existingPendingOrder);
       existingPendingOrder.cart = existingCart._id;
-      existingPendingOrder.address = existingAddress._id;
+      existingPendingOrder.address = newAddress._id;
       await existingPendingOrder.save();
     } else {
       console.log('Creating new pending order.');
       existingPendingOrder = new pendingOrderModel({
         user: id,
         cart: existingCart._id,
-        address: existingAddress._id,
+        address: newAddress._id,
         isCheckoutCompleted: true,
         isShippingConfirmed: false,
         isPaymentCompleted: false,
@@ -119,7 +104,7 @@ if (existingCart) {
     const token = generateToken({   
       orderId: existingPendingOrder._id,
       cartId: existingCart._id,
-      addressId: existingAddress._id,
+      addressId: newAddress._id,
       userId: id,
     });
     console.log('Generated JWT Token:', token);
