@@ -13,7 +13,7 @@ import {
     return (
       <Html lang="en" dir="ltr">
         <Head>
-          <title>Welcome to BlushBelle</title>
+          <title>Welcome to Cleanveda</title>
           <Font
             fontFamily="Roboto"
             fallbackFontFamily="Verdana"
@@ -25,28 +25,27 @@ import {
             fontStyle="normal"
           />
         </Head>
-        <Preview>Welcome to Blush Belle, {fullName}!</Preview>
+        <Preview>Welcome to Cleanveda, {fullName}!</Preview>
         <Section style={{ padding: '20px', backgroundColor: '#f4f4f4' }}>
           <Row style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '8px' }}>
             <Heading as="h2" style={{ color: '#333' }}>
               Welcome, {fullName}!
             </Heading>
             <Text style={{ fontSize: '16px', color: '#555' }}>
-              We&apos;re thrilled to have you join Blush Belle, your go-to destination for all your shopping needs.
+              We&apos;re thrilled to have you join Cleanveda, your go-to destination for all your shopping needs.
             </Text>
             <Text style={{ fontSize: '16px', color: '#555' }}>
-              At Blush Belle, we offer a wide variety of products, from the latest fashion trends to everyday essentials, all at competitive prices.
+              At CleanVeda, Unlock optimal wellness at CleanVeda.com with premium natural health supplements, herbal personal care products, and rejuvenating skin and hair care solutions.
             </Text>
             <Text style={{ fontSize: '16px', color: '#555' }}>
-              Start exploring our vast selection of items and enjoy a seamless shopping experience with us.
-            </Text>
+            Natural supplements, herbal products, skin care, hair care, organic beauty, wellness products, holistic health, cruelty-free. </Text>
             <Text style={{ fontSize: '16px', color: '#555', marginTop: '20px' }}>
-              Thank you for choosing Blush Belle. We look forward to serving you with the best shopping experience.
+              Thank you for choosing CleanVeda. We look forward to serving you with the best shopping experience.
             </Text>
             <Text style={{ fontSize: '16px', color: '#555' }}>
               Best regards,
               <br />
-              The BlushBelle Team
+              The CleanVeda Team
             </Text>
           </Row>
         </Section>
