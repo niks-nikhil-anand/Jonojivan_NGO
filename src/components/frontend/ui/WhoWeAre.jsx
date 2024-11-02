@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Banner1 from '../../../../public/frontend/WhoWeAre/Banner1.webp';
-import Banner2 from '../../../../public/frontend/WhoWeAre/Banner1.webp';
+import Banner2 from '../../../../public/frontend/WhoWeAre/Banner2.webp';
 import Banner3 from '../../../../public/frontend/WhoWeAre/Banner3.webp';
 import Banner4 from '../../../../public/frontend/WhoWeAre/Banner4.webp';
 import { MdDirections } from "react-icons/md";
@@ -15,7 +15,7 @@ const banners = [
     heading: 'Your Grocery Destination' 
   },
   { 
-    src: Banner1, 
+    src: Banner2, 
     label: 'We Provide You the Best Quality Products', 
     description: 'Our commitment to quality ensures that you receive only the finest products, sourced from trusted suppliers and designed to meet your expectations.', 
     heading: 'Quality You Can Trust' 
@@ -52,7 +52,7 @@ const WhoWeAre = () => {
           alt={banner.label}
           className="object-cover w-full h-full transition-transform duration-300 ease-in-out transform group-hover:scale-105"
         />
-        <p className="absolute top-10 left-0 right-0 text-center text-red-500 text-base sm:text-lg md:text-xl font-medium p-1">
+        <p className="absolute top-10 left-0 right-0 text-center text-white text-base sm:text-lg md:text-xl font-medium p-1 bg-gray-500 px-2 py-4">
           {banner.label}
         </p>
 
