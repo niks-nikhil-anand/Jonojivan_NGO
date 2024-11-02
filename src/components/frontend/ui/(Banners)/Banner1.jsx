@@ -33,7 +33,7 @@ const Banner1 = () => {
       <h1 className="text-3xl md:text-6xl">Quality</h1>
         <h1 className="text-3xl md:text-4xl ml-5">from Nature</h1>
         <p className="mt-10 text-lg md:text-xl w-[20rem] md:w-[40rem] lg:w-[50rem]">
-          JonoJivan Grocery was founded with a passion for providing fresh, natural foods to our community. We bring together quality produce and everyday essentials so you can shop confidently, knowing you're getting the best nature has to offer.
+          JonoJivan Grocery was founded with a passion for providing fresh, natural foods to our community. We bring together quality produce and everyday essentials so you can shop confidently, knowing you&apos;re getting the best nature has to offer.
         </p>
       </div>
       <div className="absolute w-full md:bottom-[-4rem]  bottom-[-1.7rem] right-0 left-0 z-0">
