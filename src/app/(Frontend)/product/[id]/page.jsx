@@ -6,8 +6,8 @@ import Image from 'next/image';
 import Loader from '@/components/loader/loader';
 import ProductBanner from '@/components/frontend/ui/(Banners)/ProductBanner';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
-import { AiOutlineDown, AiOutlineClose } from 'react-icons/ai';
 import { FaRegArrowAltCircleRight , FaRegArrowAltCircleLeft  } from "react-icons/fa";
+import { AiOutlineClose } from "react-icons/ai";
 import { useRouter } from 'next/navigation';
 
 
