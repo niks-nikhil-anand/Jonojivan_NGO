@@ -4,7 +4,8 @@ import { FaUserCircle, FaHome, FaCog, FaUser } from 'react-icons/fa';
 import { IoIosMenu } from 'react-icons/io';
 import { HiMoon, HiSun } from 'react-icons/hi'; 
 import Image from 'next/image';
-import logo from '../../../public/logo/logo.jpeg'; // Import the logo
+import logo from '../../../public/logo/logo.jpeg';
+
 
 const Navbar = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -58,6 +59,8 @@ const Navbar = () => {
           <FaUserCircle className="text-2xl hover:text-blue-300 transition-colors duration-200" />
         </div>
       </div>
+
+      
     </nav>
   );
 };

@@ -7,8 +7,8 @@ import Loader from '@/components/loader/loader';
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1); // For pagination
-  const [itemsPerPage] = useState(10); // Number of items per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); 
 
   // Fetch products from API
   useEffect(() => {
@@ -58,14 +58,13 @@ const Products = () => {
         {currentProducts.map((product) => (
           <motion.div
             key={product._id}
-            className="flex flex-col items-center bg-gray-300 px-4 py-6"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: 'spring', stiffness: 300 }}
+            className="flex flex-col items-center bg-gray-300 px-4 py-6 w-64 h-80 rounded-2xl" // Fixed width and height
+           
           >
             <div className="h-[10rem] overflow-hidden shadow-lg rounded-lg hover:cursor-pointer">
               <img
                 src={product.featuredImage}
-                alt={product.featuredImage}
+                alt={product.name} // Use product name for alt text
                 className="w-full h-full object-cover"
                 onError={(e) => (e.target.src = '/path/to/fallback-image.jpg')} // Fallback image
               />
@@ -76,6 +75,20 @@ const Products = () => {
             <p className="text-center text-2xl font-bold text-green-500 mt-2">
               ${product.salePrice}
             </p>
+            <div className="mt-4 flex justify-between w-full">
+              <button 
+                onClick={() => handleView(product._id)} 
+                className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+              >
+                View
+              </button>
+              <button 
+                onClick={() => handleDelete(product._id)} 
+                className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
+              >
+                Delete
+              </button>
+            </div>
           </motion.div>
         ))}
       </div>

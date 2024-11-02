@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { AiOutlineClose } from 'react-icons/ai'; // Importing the close icon
+import { FaEye, FaTrash } from 'react-icons/fa'; 
+
 
 const News = () => {
   const [articles, setArticles] = useState([]);
@@ -72,13 +73,10 @@ const News = () => {
 
   return (
     <div className="flex flex-col mb-10 mt-5 px-10">
-      <h1 className="text-3xl font-bold mb-2 text-center">Beauty Tips</h1>
+      <h1 className="text-3xl font-bold mb-2 text-center underline"> ALL BLOGS</h1>
       {loading ? (
         <motion.div
           className="flex justify-center items-center h-64"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
         >
           <div className="loader"></div>
         </motion.div>
@@ -89,8 +87,6 @@ const News = () => {
               <motion.div
                 key={article._id}
                 className="flex bg-white rounded-lg shadow-md cursor-pointer p-4 relative"
-                whileHover={{ scale: 1.05 }}
-                onClick={() => handleCardClick(article._id)}
               >
                 <img
                   src={article.featuredImage}
@@ -109,24 +105,26 @@ const News = () => {
                   <div className="flex justify-end space-x-2 absolute bottom-4 right-4">
                     {/* View Button */}
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleViewClick(article._id);
-                      }}
-                      className="bg-blue-500 text-white px-3 py-1 rounded-lg shadow hover:bg-blue-600"
-                    >
-                      View
-                    </button>
-                    {/* Delete Button */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteClick(article._id);
-                      }}
-                      className="bg-red-500 text-white px-3 py-1 rounded-lg shadow hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleViewClick(article._id);
+                  }}
+                  className="bg-blue-500 text-white px-2 py-1 text-sm rounded-md shadow-md hover:bg-blue-600 flex items-center"
+                >
+                  <FaEye className="mr-1" /> {/* View icon */}
+                  View
+                </button>
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteClick(article._id);
+                  }}
+                  className="bg-red-500 text-white px-2 py-1 text-sm rounded-md shadow-md hover:bg-red-600 flex items-center"
+                >
+                  <FaTrash className="mr-1" /> {/* Delete icon */}
+                  Delete
+                </button>
                   </div>
                 </div>
               </motion.div>

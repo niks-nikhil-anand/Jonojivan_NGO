@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import Loader from '@/components/loader/loader';
+import { FaEdit, FaTrash } from 'react-icons/fa';
+
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -51,19 +53,35 @@ const Categories = () => {
         {currentCategories.map((category) => (
           <motion.div
             key={category._id}
-            className="flex flex-col items-center bg-gray-300 px-4 py-6"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: 'spring', stiffness: 300 }}
+            className="flex flex-col items-center bg-gray-300 px-4 py-6 rounded-2xl"
+            
           >
             <div className="h-[10rem] overflow-hidden shadow-lg rounded-lg hover:cursor-pointer">
               <img
                 src={category.image}
                 alt={category.name}
-                className="w-full h-full object-cover"
-                onError={(e) => (e.target.src = '/path/to/fallback-image.jpg')} // Fallback image
+                className="w-full h-full object-cover rounded-xl "
+                onError={(e) => (e.target.src = '/path/to/fallback-image.jpg')} 
               />
             </div>
             <p className="mt-5 text-center text-xl font-medium">{category.name}</p>
+
+            <div className="flex space-x-2 mt-3">
+              <button
+                className="flex items-center px-3 py-1 text-sm bg-blue-500 text-white rounded shadow hover:bg-blue-600"
+                onClick={() => handleEdit(category._id)}
+              >
+                <FaEdit className="mr-1" />
+                Edit
+              </button>
+              <button
+                className="flex items-center px-3 py-1 text-sm bg-red-500 text-white rounded shadow hover:bg-red-600"
+                onClick={() => handleDelete(category._id)}
+              >
+                <FaTrash className="mr-1" />
+                Delete
+              </button>
+            </div>
           </motion.div>
         ))}
       </div>

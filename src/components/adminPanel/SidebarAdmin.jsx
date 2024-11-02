@@ -8,6 +8,9 @@ import Link from 'next/link';
 import { MdOutlineLogout } from "react-icons/md";
 import { GrArticle } from "react-icons/gr";
 import { useRouter } from 'next/navigation';
+import waveNav from '../../../public/frontend/SvgAssets/wave-nav.svg'; 
+
+
 
 const SidebarAdmin = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,6 +57,15 @@ const SidebarAdmin = () => {
             <SidebarItem icon={<FaHome />} label="Home" isOpen={isOpen} />
           </Link>
 
+
+          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-300">Orders</h3>}
+          <Link href="/admin/dashboard/orders/allOrders" passHref>
+            <SidebarItem icon={<FaShoppingCart />} label="Orders" isOpen={isOpen} />
+          </Link>
+          <Link href="/admin/dashboard/orders/allOrders" passHref>
+            <SidebarItem icon={<FaShoppingCart />} label="Pending Orders" isOpen={isOpen} />
+          </Link>
+
           {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-300 ">Products</h3>}
 
           <Link href="/admin/dashboard/product/addProduct" passHref>
@@ -73,13 +85,8 @@ const SidebarAdmin = () => {
             <SidebarItem icon={<FaListAlt />} label="All Categories" isOpen={isOpen} />
           </Link>
 
-          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-300">Orders</h3>}
-          <Link href="/admin/dashboard/orders/allOrders" passHref>
-            <SidebarItem icon={<FaShoppingCart />} label="All Orders" isOpen={isOpen} />
-          </Link>
-          <Link href="/admin/dashboard/orders/orderStatus" passHref>
-            <SidebarItem icon={<FaListAlt />} label="Order Status" isOpen={isOpen} />
-          </Link>
+          
+          
 
           {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-300">Blog</h3>}
           <Link href="/admin/dashboard/blog/addBlog" passHref>
