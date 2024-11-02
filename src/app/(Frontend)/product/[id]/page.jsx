@@ -8,7 +8,9 @@ import ProductBanner from '@/components/frontend/ui/(Banners)/ProductBanner';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import { FaRegArrowAltCircleRight , FaRegArrowAltCircleLeft  } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineDown } from "react-icons/ai";
 import { useRouter } from 'next/navigation';
+
 
 
 
