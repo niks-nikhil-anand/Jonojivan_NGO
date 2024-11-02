@@ -1,18 +1,39 @@
 import React from 'react';
 import Image from 'next/image';
 import Banner1 from '../../../../public/frontend/WhoWeAre/Banner1.webp';
-import Banner2 from '../../../../public/frontend/WhoWeAre/Banner2.webp';
+import Banner2 from '../../../../public/frontend/WhoWeAre/Banner1.webp';
 import Banner3 from '../../../../public/frontend/WhoWeAre/Banner3.webp';
 import Banner4 from '../../../../public/frontend/WhoWeAre/Banner4.webp';
 import { MdDirections } from "react-icons/md";
 
 
 const banners = [
-  { src: Banner1, label: 'Clean Ingredients' , description: 'By combining the best of nature’s nutrients with science-backed formulas, we create clean, effective supplements tailored to your unique needs.' , heading: 'We Test' },
-  { src: Banner2, label: 'By Enthusiasts , For Enthusiasts' , description: 'By combining the best of nature’s nutrients with science-backed formulas, we create clean, effective supplements tailored to your unique needs.' , heading: 'Our Standards' },
-  { src: Banner3, label: 'Based on the Heart Of Utah' , description: 'By combining the best of nature’s nutrients with science-backed formulas, we create clean, effective supplements tailored to your unique needs.' , heading: 'Our Home'},
-  { src: Banner4, label: 'Greatness Guaranteed' , description: 'By combining the best of nature’s nutrients with science-backed formulas, we create clean, effective supplements tailored to your unique needs.' , heading: 'Money Back Guarantee'},
+  { 
+    src: Banner1, 
+    label: 'Grocery Store At the Center of the City', 
+    description: 'Discover the freshest produce and high-quality groceries, conveniently located at the heart of the city for all your shopping needs.', 
+    heading: 'Your Grocery Destination' 
+  },
+  { 
+    src: Banner1, 
+    label: 'We Provide You the Best Quality Products', 
+    description: 'Our commitment to quality ensures that you receive only the finest products, sourced from trusted suppliers and designed to meet your expectations.', 
+    heading: 'Quality You Can Trust' 
+  },
+  { 
+    src: Banner3, 
+    label: 'Feed Your Family the Best!', 
+    description: 'Nourish your loved ones with our range of wholesome, nutritious food options that cater to every family member’s needs.', 
+    heading: 'Healthy Meals for Happy Families' 
+  },
+  { 
+    src: Banner4, 
+    label: 'Greatness Guaranteed', 
+    description: 'We stand behind our products with a promise of excellence; if you’re not satisfied, we’ll make it right.', 
+    heading: 'Satisfaction Guaranteed' 
+  },
 ];
+
 
 const WhoWeAre = () => {
   return (

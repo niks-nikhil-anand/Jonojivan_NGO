@@ -1,5 +1,5 @@
 import React from 'react';
-import Banner from '../../../../../public/frontend/Banner/Group_910.webp';
+import Banner from '../../../../../public/frontend/Banner/Group_910.avif';
 import Image from 'next/image';
 
 const BannerText02 = () => {
@@ -8,10 +8,10 @@ const BannerText02 = () => {
   {/* Text Section */}
   <div className='w-full md:w-1/2 mt-6 md:mt-0 md:mr-10 text-left  flex-col hidden md:flex'>
     <h1 className='text-3xl md:text-6xl font-bold text-[#D07021] mb-4'>
-      Utah Born. Utah Made.
+    Your Local Grocery, JonoJivan
     </h1>
     <p className='text-gray-600 text-base md:text-lg leading-relaxed'>
-      Zhou HQ is located in Salt Lake City, tucked away in Utah’s Wasatch Mountain Range. Our passion for all things outdoors fuels everything we do. We design supplements to help us feel our best, so we can keep enjoying the beauty around us.
+    At JonoJivan Grocery, we bring you the freshest produce and quality ingredients sourced directly from local farms. Our commitment to sustainability and community ensures that you enjoy healthy choices while supporting local growers. Join us in celebrating good food and a vibrant lifestyle!
     </p>
   </div>
 

@@ -10,26 +10,27 @@ import EgoisticFooter from "@/components/utils/EgosticFooter";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "CleanVeda | Natural Health & Beauty Solutions",
-  description: "Unlock optimal wellness at CleanVeda.com with premium natural health supplements, herbal personal care products, and rejuvenating skin and hair care solutions. Discover plant-based formulations crafted for holistic health and beauty.",
-  keywords: "CleanVeda, natural supplements, herbal products, skin care, hair care, organic beauty, wellness products, holistic health, cruelty-free",
-  author: "CleanVeda Team",
+  title: "JonoJivan | Your Grocery Destination",
+  description: "Explore JonoJivan for the freshest vegetables, fruits, and essential daily needs. We provide a wide range of grocery items to meet all your household needs, delivered right to your door.",
+  keywords: "JonoJivan, grocery, vegetables, fruits, daily needs, fresh produce, online grocery, household essentials",
+  author: "JonoJivan Team",
   robots: "index, follow",
   openGraph: {
-    title: "CleanVeda - Natural Health & Herbal Solutions",
+    title: "JonoJivan - Your Grocery Destination",
     type: "website",
-    url: "https://www.cleanveda.com",
-    description: "Discover effective, plant-based formulations crafted for holistic health and beauty at CleanVeda. Elevate your wellness with our natural supplements and personal care products.",
+    url: "https://www.jonojivangrocery.in", // Update this URL as needed
+    description: "Discover the best in groceries with JonoJivan. From fresh vegetables to daily essentials, we have everything you need for your home.",
     images: [
       {
-        url: "/public/logo/og-image.jpg", // Adjusted to use the public path
+        url: "/public/logo/og-image.jpg", // Adjust this path as necessary
         width: 1200,
         height: 630,
-        alt: "CleanVeda - Natural Health & Herbal Solutions",
+        alt: "JonoJivan - Your Grocery Destination",
       },
     ],
   },
 };
+
 
 export default function RootLayout({ children }) {
   return (
