@@ -11,7 +11,7 @@ const SavedAddressPage = () => {
     useEffect(() => {
         const fetchAddresses = async () => {
             try {
-                const response = await axios.get('/api/savedAddress'); // Adjust the API endpoint as necessary
+                const response = await axios.get('/api/savedAddress'); 
                 setAddresses(response.data);
             } catch (err) {
                 setError(err.message);
