@@ -30,10 +30,10 @@ const Banner1 = () => {
       
       <div className="absolute inset-0 opacity-50" />
       <div className="absolute md:top-1/2 top-[10rem] md:left-[3rem] transform -translate-y-1/2 text-blue-400 p-5">
-        <h1 className="text-3xl md:text-6xl">Wellness</h1>
-        <h1 className="text-3xl md:text-4xl ml-5">by Nature</h1>
+      <h1 className="text-3xl md:text-6xl">Quality</h1>
+        <h1 className="text-3xl md:text-4xl ml-5">from Nature</h1>
         <p className="mt-10 text-lg md:text-xl w-[20rem] md:w-[40rem] lg:w-[50rem]">
-          Zhou Nutrition started with a small group of runners, yogis, athletes, and outdoor enthusiasts all striving for greatness in our own unique ways.
+          JonoJivan Grocery was founded with a passion for providing fresh, natural foods to our community. We bring together quality produce and everyday essentials so you can shop confidently, knowing you're getting the best nature has to offer.
         </p>
       </div>
       <div className="absolute w-full md:bottom-[-4rem]  bottom-[-1.7rem] right-0 left-0 z-0">

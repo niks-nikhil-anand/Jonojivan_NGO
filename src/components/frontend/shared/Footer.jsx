@@ -64,7 +64,8 @@ const Footer = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <h3 className="text-2xl font-bold text-black text-center">Get 15% Off</h3>
-          <p className="text-sm text-black font-medium text-center">Sign up to get 15% off your first order and other great promos, giveaways and news!</p>
+          <p className="text-sm text-black font-medium text-center">Subscribe to receive the latest updates, offers, and more from JonoJivan Grocery!</p>
+
           
           <form className="space-y-4">
             <input 
@@ -87,11 +88,11 @@ const Footer = () => {
         </motion.div>
       </div>
       <div className="mt-10 text-center text-sm text-black">
-        <p>Copyright © 2024, <a href="#" className="text-black underline">JonoJivan Grocery</a></p>
-        <div className="mt-4  p-4  flex justify-center items-center flex-col ">
+        <p>© 2024, <a href="#" className="text-black underline">JonoJivan Grocery</a>. All Rights Reserved.</p>
+        <div className="mt-4 p-4 flex justify-center items-center flex-col">
           <div className='md:w-[50rem] w-[20rem] rounded-lg border border-gray-200 px-5 md:py-8 py-5'>
-          <p className=' text-center'>50% OFF discount valid on Superfruit Max Gummies at BlushBelle.com. Discount not applicable on repeating subscription orders. Discount automatically applied at checkout. Offer valid until 11/15/24 at 11:59 PM MST. Offer may be modified or terminated at any time. Exclusions apply.</p>
-          <p className="mt-2  text-center">**These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure or prevent any disease.</p>
+          <p className='text-center'>Enjoy 50% OFF select products and explore our wide range of grocery items, carefully sourced to provide the freshest and finest quality. Our commitment is to deliver exceptional groceries, ensuring every item meets our high standards for freshness and sustainability. Shop with us and taste the difference of quality ingredients.</p>
+            <p className="mt-2 text-center">**Please note: These statements have not been evaluated by any regulatory authority. Our products are selected with care but are not intended to diagnose, treat, cure, or prevent any disease. Always consult with a healthcare professional for specific dietary or health-related guidance.</p>
           </div>
          
         </div>

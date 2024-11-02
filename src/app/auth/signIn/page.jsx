@@ -146,7 +146,7 @@ const LoginForm = () => {
         </div>
         <div className="flex items-center justify-between mt-6">
           <span className="border-t border-gray-300 flex-grow"></span>
-          <span className="mx-4 text-gray-600">Cleanveda</span>
+          <span className="mx-4 text-gray-600">JonoJivan Grocery</span>
           <span className="border-t border-gray-300 flex-grow"></span>
         </div>
 
