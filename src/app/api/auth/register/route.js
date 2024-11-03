@@ -63,9 +63,9 @@ export const POST = async (req) => {
 
 
     await resend.emails.send({
-      from: 'no-reply@cleanveda.com',
+      from: 'no-reply@JonoJivan.com',
       to: email,
-      subject: 'Welcome to Cleanveda',
+      subject: 'Welcome to JonoJivan',
       react: <WelcomeEmail fullName={fullName} />,
     });
     console.log("Welcome email sent to:", email);

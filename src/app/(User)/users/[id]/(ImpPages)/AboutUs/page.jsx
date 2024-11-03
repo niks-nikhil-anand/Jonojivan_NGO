@@ -30,7 +30,7 @@ export default function AboutPageOne() {
             Made with love, right here in India
           </p>
           <p className="w-[75%] text-base text-gray-600 md:text-xl">
-          Unlock optimal wellness at CleanVeda.com with our premium natural health supplements, herbal personal care products, and rejuvenating skin and hair care solutions. Discover effective, plant-based formulations crafted for holistic health, vitality, and beauty. Shop our organic, cruelty-free products today and elevate your health and beauty regimen with the power of nature!
+          Unlock optimal wellness at JonoJivan.com with our premium natural health supplements, herbal personal care products, and rejuvenating skin and hair care solutions. Discover effective, plant-based formulations crafted for holistic health, vitality, and beauty. Shop our organic, cruelty-free products today and elevate your health and beauty regimen with the power of nature!
           </p>
         </motion.div>
         <div className='flex flex-col justify-around px-[10rem]'>
@@ -44,12 +44,12 @@ export default function AboutPageOne() {
            <div>
            <p className="text-3xl font-bold text-[#D07021] md:text-4xl">The best of nature meets the latest science.</p>
             <p className="max-w-4xl text-base text-[#612BE2xBF] md:text-xl">
-            Unlock your potential for optimal wellness at CleanVeda.com. We offer a diverse range of premium natural health supplements, rejuvenating skin and hair care solutions, and herbal personal care products, all designed to nourish your body from the inside out. Our commitment to quality ensures that you receive effective, organic, and cruelty-free products that align with your values and enhance your vitality.
+            Unlock your potential for optimal wellness at JonoJivan.com. We offer a diverse range of premium natural health supplements, rejuvenating skin and hair care solutions, and herbal personal care products, all designed to nourish your body from the inside out. Our commitment to quality ensures that you receive effective, organic, and cruelty-free products that align with your values and enhance your vitality.
             </p>
 
             <p className="text-3xl font-bold text-[#D07021] md:text-4xl">Transform Your Health Routine</p>
             <p className="max-w-4xl text-base text-gray-700 md:text-xl">
-            At CleanVeda, we believe that true wellness begins with nature. Our premium natural health supplements and herbal personal care products are meticulously crafted to support your journey toward holistic health. Whether you’re looking to boost your vitality or enhance your beauty regimen, our plant-based formulations are designed with your well-being in mind. Experience the transformative power of nature and elevate your health and beauty routine today.
+            At JonoJivan, we believe that true wellness begins with nature. Our premium natural health supplements and herbal personal care products are meticulously crafted to support your journey toward holistic health. Whether you’re looking to boost your vitality or enhance your beauty regimen, our plant-based formulations are designed with your well-being in mind. Experience the transformative power of nature and elevate your health and beauty routine today.
             </p>
            </div>
            <div className="w-full">
@@ -72,7 +72,7 @@ export default function AboutPageOne() {
             className="flex flex-col items-center gap-x-4 gap-y-4 py-16 md:flex-row"
             >
             <div className="space-y-6">
-                <p className="text-sm font-semibold md:text-base text-blue-600">Embrace Wellness with CleanVeda &rarr;</p>
+                <p className="text-sm font-semibold md:text-base text-blue-600">Embrace Wellness with JonoJivan &rarr;</p>
                 <p className="text-3xl font-bold md:text-4xl text-green-600">We&apos;re just getting started</p>
                 <p className="text-base text-gray-600 md:text-lg">
                 Our philosophy is simple — hire a team of diverse, passionate people and foster a

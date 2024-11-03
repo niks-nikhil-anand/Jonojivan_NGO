@@ -347,7 +347,7 @@ const Navbar = () => {
        
         <div className="flex justify-center relative z-50">
           <Link href={`/users/${userId}`}>
-          <h1 className="font-bold text-xl hover:cursor-pointer">Cleanveda</h1>
+          <h1 className="font-bold text-xl hover:cursor-pointer">JonoJivan</h1>
           </Link>
         </div>
 
