@@ -6,6 +6,7 @@ import { AiOutlineDown, AiOutlineUp, AiOutlineMenu } from "react-icons/ai";
 import Image from 'next/image';
 import waveNav from '../../../../public/frontend/SvgAssets/wave-nav.svg'; 
 import Link from "next/link";
+import logo from '../../../../public/logo/logo.png'
 
 
 const Navbar = () => {
@@ -39,11 +40,12 @@ const Navbar = () => {
   </div>
 
   {/* Logo */}
-  <div className="flex justify-center md:hidden">
-    <Link href={"/"}>
-    <h1>Logo</h1>
-    </Link>
-  </div>
+  <div className="flex justify-center md:hidden z-50">
+  <Link href={"/"}>
+    <Image src={logo} alt="Logo" width={50} height={50} />
+  </Link>
+</div>
+
 
   {/* Right Side - Search, User, Cart Icons */}
   <div className="flex items-center space-x-4 md:hidden">
