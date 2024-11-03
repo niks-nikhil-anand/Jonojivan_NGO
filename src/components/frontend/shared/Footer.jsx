@@ -18,8 +18,6 @@ const Footer = () => {
               { name: 'Shop', url: '/product/shopAllProducts' },
               { name: 'Contact', url: '/contactUs' },
               { name: 'Blog', url: '/blog' },
-              { name: 'International Orders', url: '/international-orders' },
-              { name: 'International Distributors', url: '/international-distributors' },
               { name: 'About Us', url: '/aboutUs' },
               { name: 'Feedback', url: '/feedback' }
             ].map((link) => (
@@ -46,8 +44,6 @@ const Footer = () => {
               { name: 'Shipping And Delivery', url: '/shippingPolicy' },
               { name: 'Privacy Policy', url: '/privacyPolicy' },
               { name: 'Terms & Condition', url: '/termsAndConditions' },
-              { name: 'CCPA Notice', url: '/ccpa' },
-              { name: 'Affiliate Program', url: '/affiliate' }
             ].map((link) => (
               <li key={link.name} className="hover:underline cursor-pointer">
                 <a href={link.url}>{link.name}</a>

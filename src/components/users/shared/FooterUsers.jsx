@@ -71,8 +71,6 @@ const Footer = () => {
               { name: 'Shop', url: '/product/shopAllProducts' },
               { name: 'ContactUs', url: '/ContactUs' },
               { name: 'Blog', url: '/blog' },
-              { name: 'International Orders', url: '/international-orders' },
-              { name: 'International Distributors', url: '/international-distributors' },
               { name: 'About Us', url: '/AboutUs' },
               { name: 'Feedback', url: '/feedback' }
             ].map((link) => (
@@ -99,8 +97,6 @@ const Footer = () => {
               { name: '60-Day Satisfaction Guarantee', url: '/guarantee' },
               { name: 'Privacy Policy', url: '/privacyPolicy' },
               { name: 'Terms & Condition', url: '/termsAndConditions' },
-              { name: 'CCPA Notice', url: '/ccpa' },
-              { name: 'Affiliate Program', url: '/affiliate' }
             ].map((link) => (
               <li key={link.name} className="hover:underline cursor-pointer">
                 <a href="#" onClick={(e) => { e.preventDefault(); handleLinkClick(link.url); }}>{link.name}</a>
