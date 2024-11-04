@@ -8,17 +8,16 @@ import Loader from '@/components/loader/loader';
 
 
 const Cart = () => {
-  const [cart, setCart] = useState([]); // Store cart data from localStorage
-  const [products, setProducts] = useState([]); // Store product details
-  const [loading, setLoading] = useState(true); // Track loading state
-  const [checkoutLoading, setCheckoutLoading] = useState(false); // Track checkout button loading state
+  const [cart, setCart] = useState([]); 
+  const [products, setProducts] = useState([]); 
+  const [loading, setLoading] = useState(true);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
 
 
 
-  // Fetch cart from localStorage and product details from API
   useEffect(() => {
     const fetchCartFromLocalStorage = () => {
-      const cartData = JSON.parse(localStorage.getItem('cart')); // Retrieve from localStorage
+      const cartData = JSON.parse(localStorage.getItem('cart')); 
       if (cartData) {
         setCart(cartData);
       }
