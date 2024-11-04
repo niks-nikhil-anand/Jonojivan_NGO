@@ -142,14 +142,19 @@ const Navbar = () => {
             className="mt-2 space-y-2 pl-4"
           >
             <li>
-              <a href="#" className="block hover:text-blue-600">
+              <Link href={"/aboutUs"} className="block hover:text-blue-600">
                 About Us
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="block hover:text-blue-600">
+              <Link href={"/contactUs"} className="block hover:text-blue-600">
+               Contact Us
+              </Link>
+            </li>
+            <li>
+              <Link href={"/Faqs"} className="block hover:text-blue-600">
                 FAQs
-              </a>
+              </Link>
             </li>
             <li>
               <a href="#" className="block hover:text-blue-600">
