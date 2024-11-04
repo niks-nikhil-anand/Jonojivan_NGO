@@ -157,9 +157,9 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <a href="#" className="block hover:text-blue-600">
+              <Link href={"/blog"} className="block hover:text-blue-600">
                 Blog
-              </a>
+              </Link>
             </li>
           </motion.ul>
         )}
@@ -300,7 +300,7 @@ const Navbar = () => {
                   </li>
                   <li className="flex items-center space-x-3">
                     <span>📝</span>
-                    <a href="#" className="hover:text-blue-600">Wellness Blog</a>
+                    <Link href={"/blog"} className="hover:text-blue-600">Wellness Blog</Link>
                   </li>
                 </ul>
               </motion.div>
