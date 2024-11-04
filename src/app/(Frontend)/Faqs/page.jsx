@@ -1,5 +1,7 @@
-// FaqsPage.jsx
+"use client"
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+
 
 const faqs = [
   {
@@ -42,14 +44,44 @@ const FaqsPage = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center mb-8">Frequently Asked Questions</h1>
+    <div className="flex flex-col">
+      <div className="w-full bg-green-600 h-[60vh] flex justify-center items-center relative">
+        <div className="flex flex-col space-y-8 pb-10 pt-12 md:pt-24">
+          <motion.div
+            className="mx-auto max-w-max rounded-full border-2 border-white bg-gray-50 p-2 shadow-lg"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <p className="text-center text-xs font-semibold leading-normal md:text-sm">
+              We&apos;d love to hear your thoughts
+            </p>
+          </motion.div>
+          <motion.p
+            className="text-center text-3xl font-bold text-white md:text-5xl md:leading-10"
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            We Value Your Feedback
+          </motion.p>
+          <p className="mx-auto max-w-4xl text-center text-base text-gray-200 md:text-xl">
+            Your opinions and experiences matter to us. Please feel free to share your thoughts, and let&apos;s make things better together.
+          </p>
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+      <h1 className="text-3xl font-bold text-center mt-10 mb-8">Frequently Asked Questions</h1>
       <div className="space-y-4">
         {faqs.map((faq, index) => (
-          <div
+          <motion.div
             key={index}
-            className="border-b border-gray-200 pb-4 mb-4 cursor-pointer"
+            className="border-b border-gray-200 pb-4 mb-4 cursor-pointer px-10"
             onClick={() => toggleFAQ(index)}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
           >
             <h2 className="text-lg font-semibold flex justify-between items-center">
               {faq.question}
@@ -62,13 +94,21 @@ const FaqsPage = () => {
               </span>
             </h2>
             {activeIndex === index && (
-              <p className="mt-2 text-gray-600">{faq.answer}</p>
+              <motion.p
+                className="mt-2 text-gray-600"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {faq.answer}
+              </motion.p>
             )}
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
   );
 };
+
 
 export default FaqsPage;
