@@ -76,7 +76,7 @@ const CreateAccountForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center bg-white px-4 md:px-0 w-full flex-col ">
+    <div className="flex justify-center items-center bg-white px-4 md:px-0 w-full flex-col my-10">
   <div>
     <h1 className="text-3xl md:text-4xl text-green-800 my-5 text-center">Create Account</h1>
   </div>

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { FiSearch, FiUser, FiShoppingBag } from "react-icons/fi";
 import { AiOutlineDown, AiOutlineUp, AiOutlineMenu } from "react-icons/ai";
 import Image from 'next/image';
-import logo from '../../../../public/logo/logo.png'; 
+import logo from '../../../../public/logo/logo.png'
 import waveNav from '../../../../public/frontend/SvgAssets/wave-nav.svg'; // Adjust the path to your logo
 import Link from "next/link";
 import { toast } from 'react-hot-toast';
