@@ -15,8 +15,14 @@ export default NextAuth({
   ],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
+      if (account.provider === "google") {
+        // Check for Google account-specific errors here
+        if (!profile.email_verified) {
+          throw new Error("Email not verified. Please verify your email to continue.");
+        }
+      }
       // Additional logic can go here
-      return true;
+      return true; // Allow sign in
     },
     async session({ session, token }) {
       session.user.id = token.id;

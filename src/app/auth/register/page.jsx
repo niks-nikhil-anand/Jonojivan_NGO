@@ -23,9 +23,18 @@ const CreateAccountForm = () => {
   const [loading, setLoading] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false); 
 
-  const handleProviderSignIn = (provider) => {
-    signIn(provider, { callbackUrl: "/dashboard" }); // Adjust callback URL as needed
+  const handleProviderSignIn = async (provider) => {
+    try {
+      await signIn(provider, { callbackUrl: "/dashboard" });
+    } catch (error) {
+      // Redirect to error page with the error message
+      router.push({
+        pathname: "/auth/error",
+        query: { error: error.message },
+      });
+    }
   };
+  
 
   const handleCreateAccount = async (e) => {
     e.preventDefault();
