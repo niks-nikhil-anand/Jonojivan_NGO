@@ -5,9 +5,10 @@ import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import Link from "next/link";
-import googleIcon from "../../../../public/IconHub/facebookIcon.png";
+import googleIcon from "../../../../public/IconHub/GoogleIcons.png";
 import facebookIcon from "../../../../public/IconHub/facebookIcon.png";
 import Image from "next/image";
+import { signIn } from 'next-auth/react';
 
 
 
@@ -207,13 +208,13 @@ const CreateAccountForm = () => {
     </div>
 
     <div className="space-y-4">
-        <button
-          onClick={() => signIn("google")}
-          className="flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white hover:shadow-md transition-shadow"
-        >
-          <Image src={googleIcon} alt="Google Icon" width={24} height={24} />
-          <span className="ml-2 text-gray-700">Sign in with Google</span>
-        </button>
+          <button
+        onClick={() => handleProviderSignIn("google")}
+        className="flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white hover:shadow-md transition-shadow"
+      >
+        <Image src={googleIcon} alt="Google Icon" width={24} height={24} />
+        <span className="ml-2 text-gray-700">Sign in with Google</span>
+      </button>
         <button
           onClick={() => signIn("facebook")}
           className="flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white hover:shadow-md transition-shadow"
