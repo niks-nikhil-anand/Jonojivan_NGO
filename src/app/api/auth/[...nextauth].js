@@ -1,4 +1,3 @@
-// pages/api/auth/[...nextauth].js
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
@@ -16,6 +15,7 @@ export default NextAuth({
   ],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
+      // Additional logic can go here
       return true;
     },
     async session({ session, token }) {
@@ -29,5 +29,7 @@ export default NextAuth({
   },
   pages: {
     signIn: "/auth/signin", // Custom sign-in page
+    error: '/auth/error', // Error page
   },
+  debug: process.env.NODE_ENV === "development", // Enable debug messages in development
 });
