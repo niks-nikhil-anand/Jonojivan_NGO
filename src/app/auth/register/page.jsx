@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import Link from "next/link";
-import googleIcon from "../../../public/IconHub/GoogleIcons.png";
-import facebookIcon from "../../../public/IconHub/facebookIcon.png";
+import googleIcon from "../../../../public/IconHub/facebookIcon.png";
+import facebookIcon from "../../../../public/IconHub/facebookIcon.png";
 import Image from "next/image";
 
 
