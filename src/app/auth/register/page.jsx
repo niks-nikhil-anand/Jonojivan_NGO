@@ -25,15 +25,18 @@ const CreateAccountForm = () => {
 
   const handleProviderSignIn = async (provider) => {
     try {
+      console.log("Attempting to sign in with provider:", provider); // Log the provider being used
+      console.log("Redirecting to callback URL:", "/dashboard"); // Log the callback URL
+  
       await signIn(provider, { callbackUrl: "/dashboard" });
     } catch (error) {
-      // Redirect to error page with the error message
-      router.push({
-        pathname: "/auth/error",
-        query: { error: error.message },
-      });
+      console.log("Error during sign-in:", error.message); // Log any error messages
+  
+      
     }
   };
+  
+  
   
 
   const handleCreateAccount = async (e) => {

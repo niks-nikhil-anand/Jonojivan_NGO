@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 
-export default NextAuth({
+const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -16,13 +16,11 @@ export default NextAuth({
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       if (account.provider === "google") {
-        // Check for Google account-specific errors here
         if (!profile.email_verified) {
           throw new Error("Email not verified. Please verify your email to continue.");
         }
       }
-      // Additional logic can go here
-      return true; // Allow sign in
+      return true;
     },
     async session({ session, token }) {
       session.user.id = token.id;
@@ -34,8 +32,10 @@ export default NextAuth({
     },
   },
   pages: {
-    signIn: "/auth/signin", // Custom sign-in page
-    error: '/auth/error', // Error page
+    error: '/auth/error',
   },
-  debug: process.env.NODE_ENV === "development", // Enable debug messages in development
-});
+  debug: process.env.NODE_ENV === "development",
+};
+
+export const GET = NextAuth(authOptions);
+export const POST = NextAuth(authOptions);
