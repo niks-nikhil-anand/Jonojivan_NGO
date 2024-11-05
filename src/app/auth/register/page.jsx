@@ -21,7 +21,11 @@ const CreateAccountForm = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [acceptedTerms, setAcceptedTerms] = useState(false); // State for Terms and Conditions checkbox
+  const [acceptedTerms, setAcceptedTerms] = useState(false); 
+
+  const handleProviderSignIn = (provider) => {
+    signIn(provider, { callbackUrl: "/dashboard" }); // Adjust callback URL as needed
+  };
 
   const handleCreateAccount = async (e) => {
     e.preventDefault();
