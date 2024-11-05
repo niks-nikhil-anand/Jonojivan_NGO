@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import Link from "next/link";
-import facebookIcon from '../../../../public/IconHub/facebookIcon.png'
-import googleIcon from '../../../../public/IconHub/GoogleIcons.png'
+import googleIcon from "../../../public/IconHub/GoogleIcons.png";
+import facebookIcon from "../../../public/IconHub/facebookIcon.png";
 import Image from "next/image";
 
 
@@ -37,6 +37,11 @@ const CreateAccountForm = () => {
       setLoading(false);
       return;
     }
+
+
+    const handleProviderSignIn = (provider) => {
+      signIn(provider, { callbackUrl: "/dashboard" }); // Adjust callback URL as needed
+    };
 
     const formData = new FormData();
     formData.append("fullName", fullName);
@@ -201,16 +206,22 @@ const CreateAccountForm = () => {
       <span className="border-t border-gray-300 flex-grow"></span>
     </div>
 
-    <div className="flex justify-center mt-6 space-x-2">
-      <button className="flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white hover:shadow-md transition-shadow">
-        <Image src={googleIcon} alt="Google Icon" width={24} height={24} />
-        <span className="ml-2 text-gray-700">Sign up with Google</span>
-      </button>
-      <button className="flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white hover:shadow-md transition-shadow">
-        <Image src={facebookIcon} alt="Facebook Icon" width={24} height={24} />
-        <span className="ml-2 text-gray-700">Sign up with Facebook</span>
-      </button>
-    </div>
+    <div className="space-y-4">
+        <button
+          onClick={() => signIn("google")}
+          className="flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white hover:shadow-md transition-shadow"
+        >
+          <Image src={googleIcon} alt="Google Icon" width={24} height={24} />
+          <span className="ml-2 text-gray-700">Sign in with Google</span>
+        </button>
+        <button
+          onClick={() => signIn("facebook")}
+          className="flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white hover:shadow-md transition-shadow"
+        >
+          <Image src={facebookIcon} alt="Facebook Icon" width={24} height={24} />
+          <span className="ml-2 text-gray-700">Sign in with Facebook</span>
+        </button>
+      </div>
   </div>
 </div>
 
