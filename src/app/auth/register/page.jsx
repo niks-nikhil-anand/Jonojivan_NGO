@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation"; 
 import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
@@ -8,12 +7,14 @@ import Link from "next/link";
 import googleIcon from "../../../../public/IconHub/GoogleIcons.png";
 import facebookIcon from "../../../../public/IconHub/facebookIcon.png";
 import Image from "next/image";
-import { signIn } from 'next-auth/react';
+import { signIn } from "next-auth/react";
+  import { useRouter } from 'next/navigation';
 
 
 
 const CreateAccountForm = () => {
   const router = useRouter(); // Initialize useRouter
+
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
@@ -23,18 +24,32 @@ const CreateAccountForm = () => {
   const [loading, setLoading] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false); 
 
+
+
+
+  
+
+  
+  
   const handleProviderSignIn = async (provider) => {
+  
     try {
-      console.log("Attempting to sign in with provider:", provider); // Log the provider being used
-      console.log("Redirecting to callback URL:", "/dashboard"); // Log the callback URL
+      console.log("Attempting to sign in with provider:", provider);
+      const result = await signIn(provider, { redirect: false });
+      console.log("Sign-in result:", result);
   
-      await signIn(provider, { callbackUrl: "/dashboard" });
+      if (result?.error) {
+        console.error("Sign-in error:", result.error);
+        throw new Error(result.error);
+      }
+      else {
+        console.log("No user ID found in session.");
+      }
     } catch (error) {
-      console.log("Error during sign-in:", error.message); // Log any error messages
-  
-      
+      console.error("Error during sign-in:", error.message);
     }
   };
+  
   
   
   
@@ -56,9 +71,6 @@ const CreateAccountForm = () => {
     }
 
 
-    const handleProviderSignIn = (provider) => {
-      signIn(provider, { callbackUrl: "/dashboard" }); // Adjust callback URL as needed
-    };
 
     const formData = new FormData();
     formData.append("fullName", fullName);
@@ -223,22 +235,24 @@ const CreateAccountForm = () => {
       <span className="border-t border-gray-300 flex-grow"></span>
     </div>
 
-    <div className="space-y-4">
-          <button
-        onClick={() => handleProviderSignIn("google")}
-        className="flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white hover:shadow-md transition-shadow"
-      >
-        <Image src={googleIcon} alt="Google Icon" width={24} height={24} />
-        <span className="ml-2 text-gray-700">Sign in with Google</span>
-      </button>
-        <button
-          onClick={() => signIn("facebook")}
-          className="flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white hover:shadow-md transition-shadow"
-        >
-          <Image src={facebookIcon} alt="Facebook Icon" width={24} height={24} />
-          <span className="ml-2 text-gray-700">Sign in with Facebook</span>
-        </button>
-      </div>
+    <div className="flex flex-col sm:flex-row sm:justify-around space-y-4 sm:space-y-0 sm:space-x-4">
+  <button
+    onClick={() => handleProviderSignIn("google")}
+    className="flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-r from-white to-gray-100 hover:from-gray-100 hover:to-white transition-all transform hover:-translate-y-1 hover:shadow-xl active:shadow-md active:translate-y-0"
+  >
+    <Image src={googleIcon} alt="Google Icon" width={24} height={24} />
+    <span className="ml-2 text-gray-700 font-medium">Sign in with Google</span>
+  </button>
+  <button
+    onClick={() => signIn("facebook")}
+    className="flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-r from-white to-gray-100 hover:from-gray-100 hover:to-white transition-all transform hover:-translate-y-1 hover:shadow-xl active:shadow-md active:translate-y-0"
+  >
+    <Image src={facebookIcon} alt="Facebook Icon" width={24} height={24} />
+    <span className="ml-2 text-gray-700 font-medium">Sign in with Facebook</span>
+  </button>
+</div>
+
+
   </div>
 </div>
 
