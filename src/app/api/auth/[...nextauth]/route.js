@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import FacebookProvider from "next-auth/providers/facebook"; // Missing FacebookProvider import
 import userModels from "@/models/userModels";
 import connectDB from "@/lib/dbConnect";
 
@@ -11,19 +12,16 @@ const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      scope: "openid profile email", // Only email and profile are needed to access name and email
-      async profile(profile) {
-        return {
-          id: profile.sub,
-          name: profile.name,
-          email: profile.email,
-        };
-      },
+    }),
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     }),
   ],
 
   callbacks: {
     async signIn({ user, account, profile }) {
+      // Check if the email is verified for Google provider
       if (account.provider === "google" && !profile.email_verified) {
         console.error("Google email is not verified.");
         return false; // Block sign-in if email is not verified
