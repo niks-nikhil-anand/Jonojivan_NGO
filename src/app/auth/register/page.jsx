@@ -23,19 +23,12 @@ const CreateAccountForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false); 
-
-
-
-
-  
-
-  
   
   const handleProviderSignIn = async (provider) => {
   
     try {
       console.log("Attempting to sign in with provider:", provider);
-      const result = await signIn(provider, { redirect: false });
+      const result = await signIn(provider);
       console.log("Sign-in result:", result);
   
       if (result?.error) {

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { parse } from 'cookie';
-import jwt from 'jsonwebtoken';
+import { getToken } from "next-auth/jwt"
 
 export async function middleware(req) {
   const cookieHeader = req.headers.get('cookie');
@@ -8,15 +8,27 @@ export async function middleware(req) {
   const userAuthToken = cookies.userAuthToken;
   const authToken = cookies.adminAuthToken;
 
+  const token = await getToken({ req })
+  const isAuthPage = req.nextUrl.pathname === '/auth/register';
+
+
+
+  if (token && isAuthPage) {
+    const url = new URL(`/users/${token.id}`, req.nextUrl.origin);
+    console.log("Redirecting to user page:", url.href);
+    return NextResponse.redirect(url);
+  }
+
+  // Check for user-related routes
   if (req.nextUrl.pathname.startsWith('/user')) {
-    if (!userAuthToken) {
+    if (!userAuthToken && !token) {
       const url = new URL('/auth/signIn', req.nextUrl.origin);
       return NextResponse.redirect(url);
     }
     return NextResponse.next();
   }
 
-
+  // Check for admin dashboard routes
   if (req.nextUrl.pathname.startsWith('/admin/dashboard')) {
     if (!authToken) {
       const url = new URL('/admin/auth', req.nextUrl.origin);

@@ -3,10 +3,8 @@ import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import userModels from "@/models/userModels";
 import connectDB from "@/lib/dbConnect";
-import jwt from 'jsonwebtoken';
-import { setCookie } from 'nookies';  // Use a cookie management library
 
-// Connect to MongoDB
+// Connect to MongoDB once
 connectDB();
 
 const authOptions = {
@@ -20,91 +18,68 @@ const authOptions = {
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     }),
   ],
+
   callbacks: {
+    // SignIn callback to check email verification and create new user if not found
     async signIn({ user, account, profile }) {
-      console.log("SignIn Callback", { user, account, profile });
-
       if (account.provider === "google" && !profile.email_verified) {
-        return "/auth/error?message=Email not verified. Please verify your email to continue.";
+        return false; // Block sign-in if email is not verified
       }
 
-      // Check if user exists in MongoDB database
-      let existingUser = await userModels.findOne({ email: user.email });
-      console.log("Existing User:", existingUser);
+      try {
+        let existingUser = await userModels.findOne({ email: user.email });
 
-      if (!existingUser) {
-        // If user doesn't exist, create a new user
-        existingUser = await userModels.create({
-          fullName: user.name,
-          email: user.email,
-          profilePic: profile.picture || "",
-        });
-        console.log("Created New User:", existingUser);
+        if (!existingUser) {
+          // Create new user if not found in the database
+          existingUser = await userModels.create({
+            fullName: user.name,
+            email: user.email,
+            profilePic: profile.picture || "",
+          });
+        }
+
+        user._id = existingUser._id; // Add _id to the user object
+        return true;
+      } catch (error) {
+        console.error("Error in signIn callback", error);
+        return false; // If any error occurs, sign-in will be blocked
       }
-
-      // Set the user ID for the session and token
-      user._id = existingUser._id;
-      console.log("User Object after setting _id:", user);
-
-      // Generate a token after user is authenticated
-      const token = generateToken({ id: existingUser._id, email: existingUser.email });
-
-      // Return true to indicate successful sign-in
-      return true;
     },
 
-    async session({ session, token }) {
-      console.log("Session Callback", { session, token });
-
-      // Set session user data from token
-      session.user.id = token.id;
-      session.user.email = token.email;
-      session.user.profilePic = token.profilePic;
-      session.token = token;  // Attach token to session
-      return session;
-    },
-
+    // JWT callback to add custom properties to the JWT token
     async jwt({ token, user }) {
-      console.log("JWT Callback", { token, user });
-
       if (user) {
-        // Save _id and other details to the token for session management
+        // Add user details to token during sign-in
         token.id = user._id;
         token.email = user.email;
         token.profilePic = user.profilePic || null;
-        
-        // Generate JWT token and save it in cookies
-        const jwtToken = generateToken(token);
-
-        // Save the JWT in cookies
-        setCookie(null, 'userAuthToken', jwtToken, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'strict',
-          maxAge: 60 * 60 * 24 * 30, // 30 days
-          path: '/',
-        });
-
-        // Return the token
-        token.jwt = jwtToken;
       }
-      return token;
+
+      return token; // Return token to the session callback
+    },
+
+    // Session callback to attach custom token properties to the session object
+    async session({ session, token }) {
+      console.log("Session Callback", { session, token });
+
+      if (token) {
+        // Add user details to session from the token
+        session.user.id = token.id;
+        session.user.email = token.email;
+        session.user.profilePic = token.profilePic;
+      }
+
+      return session; // Return the modified session object
     },
   },
 
   pages: {
-    error: '/auth/error',
-    signIn: '/auth/signin',
+    error: "/auth/error",  // Custom error page
+    signIn: "/auth/signin",  // Custom sign-in page
   },
 
-  debug: process.env.NODE_ENV === "development",
+  debug: process.env.NODE_ENV === "development", // Enable debug in development mode
 };
 
-// Function to generate a JWT token
-function generateToken(user) {
-  console.log('Generating token for user:', user);
-  return jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1w' });
-}
-
-export const GET = NextAuth(authOptions);
-export const POST = NextAuth(authOptions);
+export const GET = NextAuth(authOptions); // Handle GET requests
+export const POST = NextAuth(authOptions); // Handle POST requests
