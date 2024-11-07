@@ -20,6 +20,25 @@ const LoginForm = () => {
   const [otpInput, setOtpInput] = useState('');
   const router = useRouter();
 
+
+
+  const handleProviderSignIn = async (provider) => {
+    try {
+      console.log("Attempting to sign in with provider:", provider);
+      const result = await signIn(provider);
+      console.log("Sign-in result:", result);
+  
+      if (result?.error) {
+        console.error("Sign-in error:", result.error);
+        throw new Error(result.error);
+      } else {
+        console.log("User signed in successfully:", result);
+      }
+    } catch (error) {
+      console.error("Error during sign-in:", error.message);
+    }
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -152,22 +171,22 @@ const LoginForm = () => {
     </div>
 
     {/* Social login buttons */}
-    <div className="flex justify-center mt-6 space-x-4">
-      <button
-        onClick={() => handleSocialLogin("Google")}
-        className="flex items-center px-4 py-2 border rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-200 bg-white"
-      >
-        <Image src={googleIcon} alt="Google Icon" width={30} height={30} className="mr-2" />
-        <span className="text-gray-700 font-semibold text-sm md:text-base">Sign In with Google</span>
-      </button>
-      <button
-        onClick={() => handleSocialLogin("Facebook")}
-        className="flex items-center px-4 py-2 border rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-200 bg-white"
-      >
-        <Image src={facebookIcon} alt="Facebook Icon" width={30} height={30} className="mr-2" />
-        <span className="text-gray-700 font-semibold text-sm md:text-base">Sign In with Facebook</span>
-      </button>
-    </div>
+    <div className="flex flex-col sm:flex-row sm:justify-around space-y-4 sm:space-y-0 sm:space-x-4">
+  <button
+    onClick={() => handleProviderSignIn("google")}
+    className="flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-r from-white to-gray-100 hover:from-gray-100 hover:to-white transition-all transform hover:-translate-y-1 hover:shadow-xl active:shadow-md active:translate-y-0"
+  >
+    <Image src={googleIcon} alt="Google Icon" width={24} height={24} />
+    <span className="ml-2 text-gray-700 font-medium">Sign in with Google</span>
+  </button>
+  <button
+    onClick={() => signIn("facebook")}
+    className="flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-r from-white to-gray-100 hover:from-gray-100 hover:to-white transition-all transform hover:-translate-y-1 hover:shadow-xl active:shadow-md active:translate-y-0"
+  >
+    <Image src={facebookIcon} alt="Facebook Icon" width={24} height={24} />
+    <span className="ml-2 text-gray-700 font-medium">Sign in with Facebook</span>
+  </button>
+</div>
   </div>
 </div>
 
