@@ -25,7 +25,6 @@ const CreateAccountForm = () => {
   const [acceptedTerms, setAcceptedTerms] = useState(false); 
   
   const handleProviderSignIn = async (provider) => {
-  
     try {
       console.log("Attempting to sign in with provider:", provider);
       const result = await signIn(provider);
@@ -34,14 +33,14 @@ const CreateAccountForm = () => {
       if (result?.error) {
         console.error("Sign-in error:", result.error);
         throw new Error(result.error);
-      }
-      else {
-        console.log("No user ID found in session.");
+      } else {
+        console.log("User signed in successfully:", result);
       }
     } catch (error) {
       console.error("Error during sign-in:", error.message);
     }
   };
+  
   
   
   
