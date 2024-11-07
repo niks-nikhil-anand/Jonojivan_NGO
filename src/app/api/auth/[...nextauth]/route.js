@@ -12,10 +12,29 @@ const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      scope: "openid profile email", // Ensure you're requesting email and profile information
+      async profile(profile) {
+        // You can transform the profile object here if needed
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture, // Google provides a 'picture' field
+        };
+      },
     }),
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+      async profile(profile) {
+        // Facebook profile data may vary, ensure the 'picture' property exists
+        return {
+          id: profile.id,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture?.data?.url || null, // Facebook's image URL may be nested
+        };
+      },
     }),
   ],
 
@@ -23,6 +42,7 @@ const authOptions = {
     // SignIn callback to check email verification and create new user if not found
     async signIn({ user, account, profile }) {
       if (account.provider === "google" && !profile.email_verified) {
+        console.error("Google email is not verified.");
         return false; // Block sign-in if email is not verified
       }
 
@@ -30,18 +50,18 @@ const authOptions = {
         let existingUser = await userModels.findOne({ email: user.email });
 
         if (!existingUser) {
-          // Create new user if not found in the database
+          // Create a new user if not found in the database
           existingUser = await userModels.create({
             fullName: user.name,
             email: user.email,
-            profilePic: profile.picture || "",
+            profilePic: user.image || "", // Profile pic may come from Google/Facebook
           });
         }
 
-        user._id = existingUser._id; // Add _id to the user object
+        user._id = existingUser._id; // Attach MongoDB _id to the user object
         return true;
       } catch (error) {
-        console.error("Error in signIn callback", error);
+        console.error("Error in signIn callback:", error);
         return false; // If any error occurs, sign-in will be blocked
       }
     },
@@ -52,7 +72,7 @@ const authOptions = {
         // Add user details to token during sign-in
         token.id = user._id;
         token.email = user.email;
-        token.profilePic = user.profilePic || null;
+        token.profilePic = user.profilePic || null; // If no profile picture, set null
       }
 
       return token; // Return token to the session callback
@@ -60,10 +80,8 @@ const authOptions = {
 
     // Session callback to attach custom token properties to the session object
     async session({ session, token }) {
-      console.log("Session Callback", { session, token });
-
       if (token) {
-        // Add user details to session from the token
+        // Attach user details from the token to the session object
         session.user.id = token.id;
         session.user.email = token.email;
         session.user.profilePic = token.profilePic;
@@ -74,8 +92,8 @@ const authOptions = {
   },
 
   pages: {
-    error: "/auth/error",  // Custom error page
-    signIn: "/auth/signin",  // Custom sign-in page
+    error: "/auth/error", // Custom error page
+    signIn: "/auth/signin", // Custom sign-in page
   },
 
   debug: process.env.NODE_ENV === "development", // Enable debug in development mode
