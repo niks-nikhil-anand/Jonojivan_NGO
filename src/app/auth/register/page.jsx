@@ -193,7 +193,7 @@ const CreateAccountForm = () => {
             className="mr-2"
             required
           />
-          <Link href="/terms" className="text-green-700 hover:underline">
+          <Link href={"/termsAndConditions"}  className="text-green-700 hover:underline">
             I accept the terms & conditions
           </Link>
         </label>
