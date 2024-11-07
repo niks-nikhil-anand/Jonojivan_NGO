@@ -19,9 +19,8 @@ export async function middleware(req) {
     return NextResponse.redirect(url);
   }
 
-  // Check for user-related routes
-  if (req.nextUrl.pathname.startsWith('/user')) {
-    if (!userAuthToken && !token) {
+  if (req.nextUrl.pathname.startsWith('/users')) {
+    if (!token) {
       const url = new URL('/auth/signIn', req.nextUrl.origin);
       return NextResponse.redirect(url);
     }
