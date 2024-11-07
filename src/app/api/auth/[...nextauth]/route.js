@@ -38,7 +38,7 @@ const authOptions = {
           });
         }
 
-        user._id = existingUser._id; // Attach MongoDB _id to the user object
+        user._id = existingUser._id;
         return true;
       } catch (error) {
         console.error("Error in signIn callback:", error);
@@ -47,8 +47,8 @@ const authOptions = {
     },
 
     async jwt({ token, user }) {
-      if (user) {
-        token.id = user._id;
+      if (user && user._id) {
+        token.id = user._id.toString();
         token.email = user.email;
       }
       return token;

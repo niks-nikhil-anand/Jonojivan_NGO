@@ -23,7 +23,6 @@ export const GET = async (req) => {
 
     const id = tokenToUse.id;
 
-    // Fetch user from the database using the decoded ID
     const user = await userModels.findById(id);
 
     if (!user) {

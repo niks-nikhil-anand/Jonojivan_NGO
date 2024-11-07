@@ -45,7 +45,7 @@ const ProductCardUser = () => {
             }
             const data = await response.json();
             console.log(data)
-            setUserId(data[0]._id); // Assuming the API returns an object with the `_id` field
+            setUserId(data[0]._id); 
           } catch (error) {
             console.error('Failed to fetch user details:', error);
           }
