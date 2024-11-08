@@ -1,6 +1,8 @@
 'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
+import { FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
+
 
 export default function AboutPageOne() {
   return (
@@ -60,34 +62,52 @@ export default function AboutPageOne() {
           </motion.div>
 
           <hr className="mt-5" />
+          
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="flex flex-col items-center gap-6 py-8 px-4 md:flex-row md:justify-between md:gap-8"
+    >
+      {/* Left Section */}
+      <div className="md:w-2/3 space-y-6">
+        <p className="text-sm font-semibold text-green-600 md:text-lg">
+          Shop with JonoJivan &rarr;
+        </p>
+        <h1 className="text-3xl font-bold text-green-600 md:text-4xl">
+          Convenience Meets Quality
+        </h1>
+        <p className="text-base text-gray-600 md:text-lg">
+          We aim to make grocery shopping an enjoyable and hassle-free experience. From fresh produce to household essentials, JonoJivan offers a wide variety of quality products you can trust.
+        </p>
+        <div className="w-full md:w-1/2">
+          <img
+            src="https://plus.unsplash.com/premium_photo-1686285541215-015dfccebe27?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHZlZ2V0YWJsZXN8ZW58MHx8MHx8fDA%3D"
+            className="w-full rounded-lg object-cover shadow-md"
+            alt="Convenient grocery shopping"
+          />
+        </div>
+      </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col items-center gap-x-4 gap-y-4 py-5 md:flex-row"
-          >
-            <div className="space-y-6 md:w-2/3">
-              <p className="text-sm font-semibold md:text-base text-green-600">Shop with JonoJivan &rarr;</p>
-              <p className="text-3xl font-bold md:text-4xl text-green-600">Convenience Meets Quality</p>
-              <p className="text-base text-gray-600 md:text-lg">
-                We aim to make grocery shopping an enjoyable and hassle-free experience. From fresh produce to household essentials, JonoJivan offers a wide variety of quality products that you can trust.
-              </p>
-              <button
-                type="button"
-                className="rounded-md bg-green-700 px-3 py-2 text-sm font-semibold text-white md:px-6 md:py-3"
-              >
-                Discover More
-              </button>
+      {/* Contact Card */}
+      <div className="mt-8 max-w-sm w-full rounded-lg bg-white shadow-lg p-6 border border-gray-200">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">Contact Us</h2>
+        <div className="space-y-4 text-gray-700">
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center justify-center bg-green-100 rounded-full p-2">
+              <FaMapMarkerAlt className="h-5 w-5 text-green-600" />
             </div>
-            <div className="md:w-1/3 w-full">
-              <img
-                src="https://plus.unsplash.com/premium_photo-1686285541215-015dfccebe27?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHZlZ2V0YWJsZXN8ZW58MHx8MHx8fDA%3D"
-                className="max-w-full rounded-lg object-cover"
-                alt="Convenient grocery shopping"
-              />
+            <p className="text-base">Biswanath Chariali, Sonitpur Assam, 784176</p>
+          </div>
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center justify-center bg-green-100 rounded-full p-2">
+              <FaPhoneAlt className="h-5 w-5 text-green-600" />
             </div>
-          </motion.div>
+            <p className="text-base">+91 8761873802</p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
         </div>
       </div>
     </div>
