@@ -1,43 +1,12 @@
 import mongoose from "mongoose";
 
-const featuredIngredientsSchema = new mongoose.Schema({
-    name: {
-        type: String,
-    },
-    description:{
-        type: String,
-    },
-    weightInGram: {
-       type:String
-    },
-    image: {
-        type:String
-     }
-});
-const productHighlightsSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: [true, 'Color name is required'],
-    },
-    description: {
-       type:String
-    },
-    icon: {
-        type:String
-     }
-});
+
 
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Product name is required'],
         trim: true,
-    },
-    ingredients: {
-        type: [featuredIngredientsSchema],
-    },
-    productHighlights: {
-        type: [productHighlightsSchema],
     },
     stock: {
         type: Number,
@@ -48,7 +17,7 @@ const productSchema = new mongoose.Schema({
         default: 0,
     },
     description: {
-        type: String,
+        type: mongoose.Schema.Types.Mixed,
         required: [true, 'Product description is required'],
     },
     salePrice: {
@@ -64,22 +33,8 @@ const productSchema = new mongoose.Schema({
     category: {
         type: String,
         required: [true, 'Category is required'],
-    },
-    collections: {
-        type: String,
-        enum: ['Men_Health', 'Women_Health', 'Others'],
-        default: 'Others'
-    },
-    subCategory: {
-        type: String,
-        enum: ['Gummies', 'Liquids', 'Powders', 'Capsules', 'Others'],
-        default: 'Others'
-    },    
+    }, 
     featuredImage: {
-        type: String,
-        required: [true, 'Featured image URL is required'],
-    },
-    descriptionImage: {
         type: String,
         required: [true, 'Featured image URL is required'],
     },
@@ -98,12 +53,6 @@ const productSchema = new mongoose.Schema({
             type: Number,
             default: 0,
         }
-    },
-    suggestedUse: {
-        type: String,
-    },
-    servingPerBottle:{
-        type: String,
     },
     isFanFavourites: {
         type: Boolean,
