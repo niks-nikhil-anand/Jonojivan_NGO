@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { FaTrash } from 'react-icons/fa';
 
 const Page = () => {
   const [fetchingCategories, setFetchingCategories] = useState(false);
@@ -25,6 +26,10 @@ const Page = () => {
     const updatedSubCategories = [...subCategories];
     updatedSubCategories[index][field] = value;
     setSubCategories(updatedSubCategories);
+  };
+
+  const handleRemoveSubCategory = (index) => {
+    setSubCategories(subCategories.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e) => {
@@ -81,7 +86,7 @@ const Page = () => {
   return (
     <div className="bg-white p-4 w-full mx-auto">
       <h2 className="text-3xl font-bold mb-4 text-black">Sub-Categories</h2>
-      <hr className="my-4 border-gray-300 w-full" />
+      <hr className="my-4 border-black w-full" />
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="flex flex-wrap gap-4 flex-col">
           <div className="flex">
@@ -114,38 +119,49 @@ const Page = () => {
             </div>
           </div>
 
-          {/* New Fields for SubCategory */}
-          {subCategories.map((subCategory, index) => (
-            <div key={index} className="flex gap-4">
-              <div className="flex-1">
-                <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor={`subCategoryName${index}`}>
-                  SubCategory Name
-                </label>
-                <input
-                  type="text"
-                  id={`subCategoryName${index}`}
-                  value={subCategory.name}
-                  onChange={(e) => handleSubCategoryChange(index, 'name', e.target.value)}
-                  className="shadow appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                  placeholder="Enter SubCategory Name"
-                  required
-                />
-              </div>
+          {/* SubCategory Fields with Scrollable Container */}
+          <div className="max-h-48 overflow-y-auto space-y-4">
+            {subCategories.map((subCategory, index) => (
+              <div key={index} className="flex gap-4 items-center">
+                <div className="flex-1">
+                  <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor={`subCategoryName${index}`}>
+                    SubCategory Name
+                  </label>
+                  <input
+                    type="text"
+                    id={`subCategoryName${index}`}
+                    value={subCategory.name}
+                    onChange={(e) => handleSubCategoryChange(index, 'name', e.target.value)}
+                    className="shadow appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    placeholder="Enter SubCategory Name"
+                    required
+                  />
+                </div>
 
-              <div className="flex-1">
-                <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor={`subCategoryImage${index}`}>
-                  SubCategory Image
-                </label>
-                <input
-                  type="file"
-                  id={`subCategoryImage${index}`}
-                  onChange={(e) => handleSubCategoryChange(index, 'image', e.target.files[0])}
-                  className="shadow appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                  required
-                />
+                <div className="flex-1">
+                  <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor={`subCategoryImage${index}`}>
+                    SubCategory Image
+                  </label>
+                  <input
+                    type="file"
+                    id={`subCategoryImage${index}`}
+                    onChange={(e) => handleSubCategoryChange(index, 'image', e.target.files[0])}
+                    className="shadow appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    required
+                  />
+                </div>
+
+                {/* Remove SubCategory Button */}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveSubCategory(index)}
+                  className="text-red-500 hover:text-red-700 transition duration-200 mt-2"
+                >
+                  <FaTrash size={20} />
+                </button>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
 
           {/* Button for Adding SubCategory */}
           <div className="flex justify-start mt-4">
