@@ -1,7 +1,4 @@
 import mongoose from "mongoose";
-
-
-
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -10,9 +7,6 @@ const productSchema = new mongoose.Schema({
     },
     stock: {
         type: Number,
-        required: function () {
-            return !this.colors || this.colors.length === 0;
-        },
         min: [0, 'Stock cannot be negative'],
         default: 0,
     },
