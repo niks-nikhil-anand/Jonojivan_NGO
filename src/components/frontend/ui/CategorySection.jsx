@@ -63,8 +63,6 @@ const CategoriesSection = () => {
       ))}
     </div>
 </div>
- 
-
   );
 };
 

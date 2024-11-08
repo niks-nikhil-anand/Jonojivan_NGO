@@ -45,50 +45,109 @@ const AddCategoryForm = () => {
 
   
   return (
-    <div className="flex  min-h-[50vh] bg-gray-100 justify-center items-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-6 text-center">Add Categories</h2>
-        <form className="flex items-center space-x-4" onSubmit={handleSubmit}>
-          <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
-              Category Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter category name"
-              required
-            />
-          </div>
+    <div className="flex flex-col  min-h-[50vh]  w-full ">
+      <div className="bg-white p-4  w-full mx-auto ">
+  <h2 className="text-3xl font-bold mb-4  text-blue-600">Add Categories</h2>
+  <form className="space-y-6" onSubmit={handleSubmit}>
+    <div className="flex flex-wrap gap-4">
+      <div className="flex-1">
+        <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="name">
+          Category Name
+        </label>
+        <input
+          type="text"
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="shadow appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+          placeholder="Enter category name"
+          required
+        />
+      </div>
 
-          <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
-              Category Image
-            </label>
-            <input
-              type="file"
-              id="image"
-              onChange={(e) => setImage(e.target.files[0])}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
-            />
-          </div>
-
-          <div className="flex items-end">
-            <button
-              type="submit"
-              className={`bg-blue-500 hover:bg-blue-700 mt-5 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${loading && 'opacity-50 cursor-not-allowed'}`}
-              disabled={loading}
-            >
-              {loading ? 'Adding...' : 'Add Category'}
-            </button>
-          </div>
-        </form>
+      <div className="flex-1">
+        <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="image">
+          Category Image
+        </label>
+        <input
+          type="file"
+          id="image"
+          onChange={(e) => setImage(e.target.files[0])}
+          className="shadow appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+          required
+        />
       </div>
     </div>
+
+    <div className="flex justify-end mt-4">
+      <button
+        type="submit"
+        className={`bg-blue-500 hover:bg-blue-600 transition-colors duration-300 ease-in-out text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+          loading && 'opacity-50 cursor-not-allowed'
+        }`}
+        disabled={loading}
+      >
+        {loading ? 'Adding...' : 'Add Category'}
+      </button>
+    </div>
+  </form>
+</div>
+
+
+<hr className="my-6 border-gray-300 w-full" />
+
+
+
+<div className="bg-white p-4  w-full mx-auto ">
+  <h2 className="text-3xl font-bold mb-4  text-blue-600">Sub-Categories</h2>
+  <form className="space-y-6" onSubmit={handleSubmit}>
+    <div className="flex flex-wrap gap-4">
+      <div className="flex-1">
+        <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="name">
+          Category Name
+        </label>
+        <input
+          type="text"
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="shadow appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+          placeholder="Enter category name"
+          required
+        />
+      </div>
+
+      <div className="flex-1">
+        <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="image">
+          Category Image
+        </label>
+        <input
+          type="file"
+          id="image"
+          onChange={(e) => setImage(e.target.files[0])}
+          className="shadow appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+          required
+        />
+      </div>
+    </div>
+
+    <div className="flex justify-end mt-4">
+      <button
+        type="submit"
+        className={`bg-blue-500 hover:bg-blue-600 transition-colors duration-300 ease-in-out text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+          loading && 'opacity-50 cursor-not-allowed'
+        }`}
+        disabled={loading}
+      >
+        {loading ? 'Adding...' : 'Add Category'}
+      </button>
+    </div>
+  </form>
+</div>
+    </div>
+
+    
+    
   );
 };
 

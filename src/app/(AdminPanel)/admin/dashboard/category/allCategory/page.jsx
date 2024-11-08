@@ -9,8 +9,8 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1); // For pagination
-  const [itemsPerPage] = useState(10); // Number of items per page
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [itemsPerPage] = useState(10); 
 
   // Fetch categories from API
   useEffect(() => {
@@ -47,60 +47,52 @@ const Categories = () => {
   }
 
   return (
-    <div>
-      {/* Display categories */}
-      <div className="flex flex-wrap justify-start gap-4">
-        {currentCategories.map((category) => (
-          <motion.div
-            key={category._id}
-            className="flex flex-col items-center bg-gray-300 px-4 py-6 rounded-2xl"
-            
-          >
-            <div className="h-[10rem] overflow-hidden shadow-lg rounded-lg hover:cursor-pointer">
-              <img
-                src={category.image}
-                alt={category.name}
-                className="w-full h-full object-cover rounded-xl "
-                onError={(e) => (e.target.src = '/path/to/fallback-image.jpg')} 
-              />
-            </div>
-            <p className="mt-5 text-center text-xl font-medium">{category.name}</p>
+    <div className="flex flex-col items-center gap-6 p-4 md:p-8">
+  <h2 className="text-lg sm:text-xl md:text-4xl mb-4 font-bold text-red-500">
+    JonoJivan Categories
+  </h2>
 
-            <div className="flex space-x-2 mt-3">
-              <button
-                className="flex items-center px-3 py-1 text-sm bg-blue-500 text-white rounded shadow hover:bg-blue-600"
-                onClick={() => handleEdit(category._id)}
-              >
-                <FaEdit className="mr-1" />
-                Edit
-              </button>
-              <button
-                className="flex items-center px-3 py-1 text-sm bg-red-500 text-white rounded shadow hover:bg-red-600"
-                onClick={() => handleDelete(category._id)}
-              >
-                <FaTrash className="mr-1" />
-                Delete
-              </button>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+  {/* Category Cards Container with Fixed Height and Scrollbar */}
+  <div className="flex gap-4 sm:gap-6 justify-center shadow-lg p-4 md:p-6 overflow-y-auto flex-wrap w-full h-80 md:h-96">
+    {categories.map((category) => (
+      <motion.div
+        key={category._id}
+        className="flex-shrink-0 flex flex-col items-center w-28 h-36 sm:w-36 sm:h-48 md:w-56 md:h-64 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-3 sm:p-4"
+      >
+        {/* Circular Image Container */}
+        <div className="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 bg-gray-200 rounded-full overflow-hidden flex items-center justify-center mb-2 sm:mb-3">
+          <img
+            src={category.image}
+            alt={category.name}
+            className="object-cover w-full h-full transition-transform duration-300 ease-in-out transform hover:scale-110"
+            onError={(e) => (e.target.src = '/path/to/fallback-image.jpg')}
+          />
+        </div>
 
-      {/* Pagination controls */}
-      <div className="mt-8 flex justify-center space-x-4">
-        {[...Array(Math.ceil(categories.length / itemsPerPage)).keys()].map((number) => (
-          <button
-            key={number}
-            className={`px-3 py-1 rounded-md ${
-              currentPage === number + 1 ? 'bg-blue-500 text-white' : 'bg-gray-300'
-            }`}
-            onClick={() => paginate(number + 1)}
-          >
-            {number + 1}
-          </button>
-        ))}
-      </div>
-    </div>
+        {/* Category Name Below the Image */}
+        <p className="text-center text-xs sm:text-sm md:text-lg font-medium text-red-500 mt-1 sm:mt-2">
+          {category.name}
+        </p>
+      </motion.div>
+    ))}
+  </div>
+
+  {/* Pagination controls */}
+  <div className="mt-8 flex justify-center space-x-4">
+    {[...Array(Math.ceil(categories.length / itemsPerPage)).keys()].map((number) => (
+      <button
+        key={number}
+        className={`px-3 py-1 rounded-md ${
+          currentPage === number + 1 ? 'bg-blue-500 text-white' : 'bg-gray-300'
+        }`}
+        onClick={() => paginate(number + 1)}
+      >
+        {number + 1}
+      </button>
+    ))}
+  </div>
+</div>
+
   );
 };
 
