@@ -1,6 +1,8 @@
 'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
+import { FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
+
 
 export default function AboutPageOne() {
   return (
