@@ -3,9 +3,10 @@ import categoryModels from "@/models/categoryModels";
 import { NextResponse } from "next/server";
 
 export const GET = async (request, { params }) => {
-  const { id } = params;
-  console.log('Request Params:', params);
-  console.log('ID:', id);
+    const id = params.category
+    console.log('Request Params:', params);
+    console.log('ID:', id);
+
 
   try {
     await connectDB();
