@@ -3,10 +3,9 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaEye, FaEyeSlash, FaGoogle, FaFacebookF } from 'react-icons/fa';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation'; // Import useRouter for navigation
-import loginBanner from '../../../../../public/admin/loginBanner.jpg';
-import bannerbg from '../../../../../public/admin/banner-mask-2.png';
+import { useRouter } from 'next/navigation'; 
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const AdminLoginForm = () => {
   const [email, setEmail] = useState('');
@@ -19,32 +18,29 @@ const AdminLoginForm = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+  
     try {
       const response = await axios.post('/api/admin/auth', {
         email,
         password,
         rememberMe,
       });
-
+  
       if (response.status === 200) {
-        // Clear the form fields
         setEmail('');
         setPassword('');
         setRememberMe(false);
-
-        console.log("redirecting to the admin panel")
+        toast.success("Login successful! Redirecting to the admin panel...");
         router.push('/admin/dashboard');
-        console.log("redirected")
-
       }
     } catch (error) {
       console.error(error);
-      // Handle error (e.g., display a notification or message)
+      toast.error("Login failed! Please check your credentials.");
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="flex justify-center items-center bg-white px-4 md:px-0 w-full flex-col my-10">

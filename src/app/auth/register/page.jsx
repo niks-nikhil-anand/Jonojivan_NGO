@@ -15,8 +15,7 @@ import toast from "react-hot-toast";
 
 
 const CreateAccountForm = () => {
-  const router = useRouter(); // Initialize useRouter
-
+  const router = useRouter(); 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
