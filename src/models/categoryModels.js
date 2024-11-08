@@ -11,10 +11,7 @@ const categorySchema = new Schema(
     image: {
       type: String,
     },
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Product',
-    },
+    
     subcategories: [
       {
         name: {
@@ -24,6 +21,10 @@ const categorySchema = new Schema(
         image: {
           type: String,
           required: true,
+        },
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Product',
         },
       },
     ],

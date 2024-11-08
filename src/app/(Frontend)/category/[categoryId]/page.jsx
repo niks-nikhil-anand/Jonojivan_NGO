@@ -1,11 +1,14 @@
 "use client"
 import Loader from '@/components/loader/loader';
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
 
 const Page = () => {
     const [data, setData] = useState(null); // State to store API response
     const [loading, setLoading] = useState(true); // State to manage loading state
     const [error, setError] = useState(null); // State to handle error
+    const router = useRouter();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,7 +45,9 @@ const Page = () => {
             <div className="flex gap-4 sm:gap-6 justify-center p-1 md:p-6 overflow-x-auto snap-x snap-mandatory flex-wrap">
                 {/* Map through subcategories and display each as a card */}
                 {data?.subcategories?.map((subcategory) => (
-                    <div key={subcategory._id} className="flex-shrink-0 snap-center flex flex-col items-center w-32 h-36 sm:w-36 sm:h-48 md:w-56 md:h-64 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300  sm:p-4 cursor-pointer">
+                    <div key={subcategory._id} className="flex-shrink-0 snap-center flex flex-col items-center w-32 h-36 sm:w-36 sm:h-48 md:w-56 md:h-64 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300  sm:p-4 cursor-pointer"
+                    onClick={() => router.push(`/category/${subcategory._id}/products`)}
+                    >
                         {/* Subcategory Image */}
                         <img 
                             src={subcategory.image} 
