@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import Loader from '@/components/loader/loader';
-import Container from '@/components/utils/Container';
+import { useRouter } from 'next/navigation';
 
 const CategoriesSection = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
 
   useEffect(() => {
     axios
@@ -44,7 +46,8 @@ const CategoriesSection = () => {
       {categories.map((category) => (
         <motion.div
           key={category._id}
-          className="flex-shrink-0 snap-center flex flex-col items-center w-32 h-36 sm:w-36 sm:h-48 md:w-56 md:h-64 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300  sm:p-4"
+          className="flex-shrink-0 snap-center flex flex-col items-center w-32 h-36 sm:w-36 sm:h-48 md:w-56 md:h-64 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300  sm:p-4 cursor-pointer"
+          onClick={() => router.push(`/category/${category._id}`)}
         >
           {/* Circular Image Container */}
           <div className="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 bg-gray-200 rounded-full overflow-hidden flex items-center justify-center mb-2 sm:mb-3">
