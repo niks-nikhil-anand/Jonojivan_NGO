@@ -36,32 +36,35 @@ const CategoriesSection = () => {
   }
 
   return (
-<div className="flex flex-col">
-  <h2 className="text-xl sm:text-2xl md:text-4xl mb-4 text-center font-bold text-red-500">
-    Shop By Health Focus
+<div className="flex flex-col items-center gap-4">
+  <h2 className="text-lg sm:text-xl md:text-4xl mb-4 font-bold text-red-500">
+    Shop By Category
   </h2>
-  <div className="flex gap-4 hover:cursor-pointer justify-center shadow-lg px-2 py-3 overflow-x-auto snap-x snap-mandatory sm:flex-wrap">
+  <div className="flex gap-3 justify-center shadow-lg px-3 py-4 overflow-x-auto snap-x snap-mandatory flex-wrap">
     {categories.map((category) => (
       <motion.div
         key={category._id}
-        className="relative flex-shrink-0 snap-center flex flex-col items-center h-[20rem] w-[17rem] sm:h-[24rem] sm:w-[24rem] md:w-[30rem] md:h-[30rem] rounded-md"
+        className="flex-shrink-0 snap-center flex flex-col items-center w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
       >
-        <div className="relative w-full overflow-hidden rounded-3xl">
+        {/* Image container */}
+        <div className="relative w-full h-full overflow-hidden rounded-lg">
           <img
             src={category.image}
             alt={category.name}
             className="object-cover w-full h-full transition-transform duration-300 ease-in-out transform hover:scale-105"
             onError={(e) => (e.target.src = '/path/to/fallback-image.jpg')}
           />
-          {/* Name over the image */}
-          <p className="absolute top-10 left-0 right-0 text-center bg-opacity-50 text-red-500 text-base sm:text-lg md:text-xl lg:text-2xl font-medium p-1">
-            {category.name}
-          </p>
         </div>
+        {/* Category Name Below the Image */}
+        <p className="text-center text-xs sm:text-sm md:text-lg font-medium text-red-500 mt-2">
+          {category.name}
+        </p>
       </motion.div>
     ))}
   </div>
 </div>
+
+
   );
 };
 

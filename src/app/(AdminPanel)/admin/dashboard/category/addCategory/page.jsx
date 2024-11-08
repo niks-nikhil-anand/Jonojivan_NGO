@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { Toaster, toast } from 'react-hot-toast';
 
 const AddCategoryForm = () => {
   const [name, setName] = useState('');
@@ -11,6 +11,9 @@ const AddCategoryForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    // Show loading toast
+    const loadingToast = toast.loading('Adding category...');
 
     const formData = new FormData();
     formData.append('name', name);
@@ -22,16 +25,25 @@ const AddCategoryForm = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      toast.success('Category added successfully!');
+
+      // Update loading toast to success
+      toast.success('Category added successfully!', {
+        id: loadingToast,
+      });
+
       setName('');
       setImage(null);
     } catch (error) {
-      toast.error('Failed to add category.');
+      // Update loading toast to error
+      toast.error('Failed to add category.', {
+        id: loadingToast,
+      });
     } finally {
       setLoading(false);
     }
   };
 
+  
   return (
     <div className="flex  min-h-[50vh] bg-gray-100 justify-center items-center">
       <div className="bg-white p-8 rounded-lg shadow-lg">
