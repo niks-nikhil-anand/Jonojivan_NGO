@@ -10,9 +10,8 @@ const Page = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [name, setName] = useState('');
-  const [image, setImage] = useState(null);
-  const [subCategories, setSubCategories] = useState([]);
+
+  const [subCategories, setSubCategories] = useState([{ name: "", image: null }]);
 
   const handleCategorySelect = (categoryId) => {
     setSelectedCategory(categoryId);
@@ -22,43 +21,56 @@ const Page = () => {
     setSubCategories([...subCategories, { name: '', image: null }]);
   };
 
+  // Handler for updating subcategory details
   const handleSubCategoryChange = (index, field, value) => {
-    const updatedSubCategories = [...subCategories];
-    updatedSubCategories[index][field] = value;
+    const updatedSubCategories = subCategories.map((subCategory, i) =>
+      i === index ? { ...subCategory, [field]: value } : subCategory
+    );
     setSubCategories(updatedSubCategories);
   };
 
+  // Handler for removing subcategories
   const handleRemoveSubCategory = (index) => {
-    setSubCategories(subCategories.filter((_, i) => i !== index));
+    const updatedSubCategories = subCategories.filter((_, i) => i !== index);
+    setSubCategories(updatedSubCategories);
+  };
+
+  // Handler for file input for subcategory image
+  const handleSubCategoryImageChange = (index, file) => {
+    const updatedSubCategories = subCategories.map((subCategory, i) =>
+      i === index ? { ...subCategory, image: file } : subCategory
+    );
+    setSubCategories(updatedSubCategories);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const loadingToast = toast.loading('Adding category...');
+    
+    const data = new FormData();
 
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('image', image);
+    // Log formData for debugging
+    console.log('Form Data:', data);
+
+    data.append('category', selectedCategory);
+    console.log('SubCategories:', subCategories);
+
+    // Append subcategories
+    subCategories.forEach((subCategory, index) => {
+      data.append(`subCategories[${index}][name]`, subCategory.name);
+      if (subCategory.image) {
+        data.append(`subCategories[${index}][image]`, subCategory.image);
+      }
+    });
 
     try {
-      const response = await axios.post('/api/admin/dashboard/category', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      toast.success('Category added successfully!', {
-        id: loadingToast,
-      });
-
-      setName('');
-      setImage(null);
-      setSubCategories([]);
+      console.log('Sending data to API:', Array.from(data.entries())); // Log FormData entries
+      await axios.post('/api/admin/dashboard/category/subCategory', data);
+      console.log('Subcategory added successfully:', data);
+      toast.success('Subcategory added successfully!');
     } catch (error) {
-      toast.error('Failed to add category.', {
-        id: loadingToast,
-      });
+      console.error('Error adding subcategory:', error);
+      toast.error('Error adding subcategory!');
     } finally {
       setLoading(false);
     }
@@ -145,7 +157,7 @@ const Page = () => {
                   <input
                     type="file"
                     id={`subCategoryImage${index}`}
-                    onChange={(e) => handleSubCategoryChange(index, 'image', e.target.files[0])}
+                    onChange={(e) => handleSubCategoryImageChange(index, e.target.files[0])}
                     className="shadow appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                     required
                   />
@@ -184,7 +196,7 @@ const Page = () => {
             }`}
             disabled={loading}
           >
-            {loading ? 'Adding...' : 'Add Category'}
+            {loading ? 'Adding...' : 'Add SubCategory'}
           </button>
         </div>
       </form>
