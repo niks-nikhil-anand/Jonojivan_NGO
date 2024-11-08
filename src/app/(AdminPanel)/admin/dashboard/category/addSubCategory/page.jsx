@@ -46,7 +46,6 @@ const Page = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
     const data = new FormData();
 
     // Log formData for debugging
@@ -68,13 +67,14 @@ const Page = () => {
       await axios.post('/api/admin/dashboard/category/subCategory', data);
       console.log('Subcategory added successfully:', data);
       toast.success('Subcategory added successfully!');
+      window.location.reload();
     } catch (error) {
       console.error('Error adding subcategory:', error);
       toast.error('Error adding subcategory!');
     } finally {
       setLoading(false);
     }
-  };
+};
 
   useEffect(() => {
     const fetchCategories = async () => {
