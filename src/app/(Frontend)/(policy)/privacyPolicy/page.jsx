@@ -35,7 +35,7 @@ const Page = () => {
     }
 
     if (error) {
-        return <div className="text-center text-red-500 text-lg p-5">Error: {error}</div>;
+        return <div className="text-center text-red-500 text-lg p-4">Error: {error}</div>;
     }
 
     // Sanitize the HTML content before rendering
