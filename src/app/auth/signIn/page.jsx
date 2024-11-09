@@ -10,7 +10,10 @@ import Image from "next/image";
 import facebookIcon from '../../../../public/IconHub/facebookIcon.png';
 import googleIcon from '../../../../public/IconHub/GoogleIcons.png';
 
+
+
 const LoginForm = () => {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -18,7 +21,6 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [isOtpLogin, setIsOtpLogin] = useState(false);
   const [otpInput, setOtpInput] = useState('');
-  const router = useRouter();
 
   const handleProviderSignIn = async (provider) => {
     try {
@@ -43,8 +45,12 @@ const LoginForm = () => {
           setEmail(''); setPassword(''); setRememberMe(false);
           console.log(cookieResponse.data._id)
           console.log("redirecting")
+
+          console.log("User ID:", cookieResponse.data._id); // Verify ID
+          console.log(`/users/${cookieResponse.data._id}`)
+        setTimeout(() => {
           router.push(`/users/${cookieResponse.data._id}`);
-          console.log("successfully redirected")
+        }, 500);
         }
       }
     } catch (error) {
