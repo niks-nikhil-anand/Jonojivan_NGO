@@ -1,40 +1,42 @@
 import { NextResponse } from 'next/server';
 import { parse } from 'cookie';
-import { getToken } from "next-auth/jwt"
+import { getToken } from "next-auth/jwt";
 
 export async function middleware(req) {
   const cookieHeader = req.headers.get('cookie');
   const cookies = parse(cookieHeader || '');
   const userAuthToken = cookies.userAuthToken;
-  const authToken = cookies.adminAuthToken;
+  const adminAuthToken = cookies.adminAuthToken;
 
-  const token = await getToken({ req })
-  const isAuthPage = req.nextUrl.pathname === '/auth/register';
+  const token = await getToken({ req });
+  const { pathname } = req.nextUrl;
 
+  const isAuthPage = pathname === '/auth/register';
+  const isSignInPage = pathname === '/auth/signIn';
 
-
-  if (token && isAuthPage) {
-    const url = new URL(`/users/${token.id}`, req.nextUrl.origin);
-    console.log("Redirecting to user page:", url.href);
-    return NextResponse.redirect(url);
+  // Redirect logged-in users away from auth pages
+  if (token && (isAuthPage || isSignInPage)) {
+    return NextResponse.redirect(new URL(`/users/${token.id}`, req.nextUrl.origin));
   }
 
-  if (req.nextUrl.pathname.startsWith('/users')) {
-    if (!token) {
-      const url = new URL('/auth/signIn', req.nextUrl.origin);
-      return NextResponse.redirect(url);
-    }
-    return NextResponse.next();
+  // Redirect user to their profile if they are already logged in
+  if (userAuthToken && (isAuthPage || isSignInPage)) {
+    return NextResponse.redirect(new URL(`/users/${userAuthToken?.id}`, req.nextUrl.origin));
   }
 
-  // Check for admin dashboard routes
-  if (req.nextUrl.pathname.startsWith('/admin/dashboard')) {
-    if (!authToken) {
-      const url = new URL('/admin/auth', req.nextUrl.origin);
-      return NextResponse.redirect(url);
-    }
-    return NextResponse.next();
+  
+
+  // Protect /users routes and redirect to sign-in if not authenticated
+  if (pathname.startsWith('/users') && !(token || userAuthToken) && !isSignInPage) {
+    return NextResponse.redirect(new URL('/auth/signIn', req.nextUrl.origin));
+  }
+  
+
+  // Protect /admin/dashboard routes and redirect to admin auth if not authenticated
+  if (pathname.startsWith('/admin/dashboard') && !adminAuthToken) {
+    return NextResponse.redirect(new URL('/admin/auth', req.nextUrl.origin));
   }
 
+  // Allow access to the requested page if all conditions pass
   return NextResponse.next();
 }

@@ -48,9 +48,7 @@ const LoginForm = () => {
 
           console.log("User ID:", cookieResponse.data._id); // Verify ID
           console.log(`/users/${cookieResponse.data._id}`)
-        setTimeout(() => {
           router.push(`/users/${cookieResponse.data._id}`);
-        }, 500);
         }
       }
     } catch (error) {

@@ -79,7 +79,6 @@ const CreateAccountForm = () => {
       });
 
       if (response.status === 200) {
-        // Clear form fields
         setFullName("");
         setEmail("");
         setMobileNumber("");
@@ -90,7 +89,7 @@ const CreateAccountForm = () => {
 
         setTimeout(() => {
           router.push("/auth/signIn");
-        }, 1000); // Slight delay to allow users to see the success toast
+        }, 1000); 
       
       }
     } catch (error) {
