@@ -48,7 +48,14 @@ const LoginForm = () => {
   return (
     <div className="flex justify-center items-center bg-green-50 px-6 md:px-4 w-full flex-col">
       <div className="w-full md:w-2/3 lg:w-1/2 md:pl-6 my-5">
-        <h2 className="text-3xl font-bold mb-4 text-center md:text-left text-green-900 mt-5">Login</h2>
+    <motion.h2
+      className="text-4xl font-extrabold mb-6 text-center md:text-left text-green-800 mt-8 tracking-wide"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      Welcome Back to JonoJivan Grocery
+    </motion.h2>
 
         <div className="flex justify-center mb-6">
           <button
