@@ -7,6 +7,7 @@ export async function middleware(req) {
   const cookies = parse(cookieHeader || '');
   const userAuthToken = cookies.userAuthToken;
   const adminAuthToken = cookies.adminAuthToken;
+  const vendorAuthToken = cookies.vendorAuthToken;
 
   const token = await getToken({ req });
   const { pathname } = req.nextUrl;
@@ -34,6 +35,11 @@ export async function middleware(req) {
 
   // Protect /admin/dashboard routes and redirect to admin auth if not authenticated
   if (pathname.startsWith('/admin/dashboard') && !adminAuthToken) {
+    return NextResponse.redirect(new URL('/admin/auth', req.nextUrl.origin));
+  }
+
+  // Protect /admin/dashboard routes and redirect to admin auth if not authenticated
+  if (pathname.startsWith('/vendor/dashboard') && !vendorAuthToken) {
     return NextResponse.redirect(new URL('/admin/auth', req.nextUrl.origin));
   }
 
