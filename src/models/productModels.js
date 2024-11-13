@@ -40,9 +40,14 @@ const productSchema = new mongoose.Schema({
         min: [0, 'Price cannot be negative'],
     },
     category: {
-        type: String,
-        required: [true, 'Category is required'],
-    }, 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+    },
+    subCategory: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Category.subcategories', 
+    },
     featuredImage: {
         type: String,
         required: [true, 'Featured image URL is required'],

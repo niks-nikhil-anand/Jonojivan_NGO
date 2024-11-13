@@ -3,13 +3,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
-
-
 const ProductForm = () => {
   const [categories, setCategories] = useState([]);
   const [currentStep, setCurrentStep] = useState(1);
   const [fetchingCategories, setFetchingCategories] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [subcategories, setSubcategories] = useState([]); // Add this line
+  const [selectedSubcategories, setSelectedSubcategories] = useState([]);
+  const [fetchingSubcategories, setFetchingSubcategories] = useState(false);
+
+
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -48,6 +51,19 @@ const ProductForm = () => {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    if (selectedCategory) {
+      setFetchingSubcategories(true); // Start fetching subcategories
+      axios.get(`/api/admin/dashboard/category/subCategory/${selectedCategory}`)
+        .then((response) => {
+          setSubcategories(response.data.subcategories);
+        })
+        .catch((error) => console.error('Error fetching subcategories', error))
+        .finally(() => setFetchingSubcategories(false)); // Stop fetching
+    }
+  }, [selectedCategory]);
+  
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -62,6 +78,26 @@ const ProductForm = () => {
     setImages(newImages);
   };
 
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+    setSelectedSubcategories([]); // Reset subcategories when category changes
+  };
+
+  const handleSubcategorySelect = (subcategoryId) => {
+    setSelectedSubcategories((prev) => {
+      if (prev.includes(subcategoryId)) {
+        return prev.filter((id) => id !== subcategoryId);
+      } else {
+        return [...prev, subcategoryId];
+      }
+    });
+  };
+  
+
+  const handleSubcategoryChange = (event) => {
+    const value = Array.from(event.target.selectedOptions, option => option.value);
+    setSelectedSubcategories(value);
+  };
  
   const handleCategorySelect = (categoryId) => {
     setSelectedCategory(categoryId);
@@ -70,6 +106,12 @@ const ProductForm = () => {
       category: categoryId,
     });
   };
+
+  const handleFeaturedImageChange = (e) => {
+    const file = e.target.files[0]; 
+    setFeaturedImage(file); 
+  };
+  
 const handleSubmit = async (e) => {
   e.preventDefault();
   setLoading(true);
@@ -85,6 +127,7 @@ const handleSubmit = async (e) => {
   data.append('salePrice', formData.salePrice);
   data.append('originalPrice', formData.originalPrice);
   data.append('category', formData.category);
+  data.append('subcategories', JSON.stringify(selectedSubcategories)); 
   data.append('stock', formData.stock);
   data.append('isFanFavourites', formData.isFanFavourites);
   data.append('isOnSale', formData.isOnSale);
@@ -254,31 +297,61 @@ const handleSubmit = async (e) => {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
       {/* Category Selection */}
       <div className="col-span-2">
-        <label className="block text-blue-600 font-bold mb-3">Category</label>
-        {fetchingCategories ? (
-          <p>Loading categories...</p>
-        ) : (
-          <div className="flex flex-wrap gap-4">
-            {categories.map((category) => (
-              <motion.button
-                key={category._id}
-                type="button"
-                onClick={() => handleCategorySelect(category._id)}
-                className={`p-3 border rounded-lg ${
-                  selectedCategory === category._id
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-200'
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.3 }}
-              >
-                {category.name}
-              </motion.button>
-            ))}
-          </div>
-        )}
+  <label className="block text-blue-600 font-bold mb-3">Category</label>
+  {fetchingCategories ? (
+    <p>Loading categories...</p>
+  ) : (
+    <div className="flex flex-wrap gap-4">
+      {categories.map((category) => (
+        <motion.button
+          key={category._id}
+          type="button"
+          onClick={() => handleCategorySelect(category._id)}
+          className={`p-3 border rounded-lg ${
+            selectedCategory === category._id
+              ? 'bg-blue-500 text-white'
+              : 'bg-white text-gray-700 hover:bg-gray-200'
+          }`}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ duration: 0.3 }}
+        >
+          {category.name}
+        </motion.button>
+      ))}
+    </div>
+  )}
+</div>
+
+{selectedCategory && (
+  <div className="col-span-2">
+    <label className="block text-blue-600 font-bold mb-3">Subcategories</label>
+    {fetchingSubcategories ? (
+      <p>Loading subcategories...</p>
+    ) : (
+      <div className="flex flex-wrap gap-4">
+        {subcategories.map((subcategory) => (
+          <motion.button
+            key={subcategory._id}
+            type="button"
+            onClick={() => handleSubcategorySelect(subcategory._id)}
+            className={`p-3 border rounded-lg ${
+              selectedSubcategories.includes(subcategory._id)
+                ? 'bg-blue-500 text-white'
+                : 'bg-white text-gray-700 hover:bg-gray-200'
+            }`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.3 }}
+          >
+            {subcategory.name}
+          </motion.button>
+        ))}
       </div>
+    )}
+  </div>
+)}
+
     </div>
 
     {/* Flexbox for buttons with Previous on the left and Next on the right */}
