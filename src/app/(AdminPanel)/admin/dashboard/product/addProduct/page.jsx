@@ -24,6 +24,8 @@ const ProductForm = () => {
     isFanFavourites: false,
     isOnSale: false,
     tags: '',
+    weight: '', 
+    unit: '',
 
   });
   const [images, setImages] = useState([]);
@@ -132,6 +134,8 @@ const handleSubmit = async (e) => {
   data.append('isFanFavourites', formData.isFanFavourites);
   data.append('isOnSale', formData.isOnSale);
   data.append('tags', formData.tags);
+  data.append('weight', formData.weight); 
+  data.append('unit', formData.unit);
 
   // Append images
   images.forEach((file) => {

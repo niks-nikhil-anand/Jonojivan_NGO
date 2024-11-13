@@ -25,6 +25,8 @@ export const POST = async (req) => {
     const tags = getTrimmedValue("tags");
     const isFanFavourites = formData.get("isFanFavourites") === 'true';
     const isOnSale = formData.get("isOnSale") === 'true';
+    const weight = getTrimmedValue("weight");
+    const unit = getTrimmedValue("unit");
 
     if (!name || !category) {
       return NextResponse.json({ msg: "Please provide all the required fields." }, { status: 400 });
@@ -69,13 +71,16 @@ export const POST = async (req) => {
       tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
       images: imageUploads,
       featuredImage: featuredImageUrl,
+      weight: {
+        value: weight,  
+        unit: unit,    
+      },
     };
 
     console.log("Final product data:", productData);
-
-    // Create product in database
-    // await productModels.create(productData);
-    return NextResponse.json({ msg: "Product added successfully" }, { status: 200 });
+    const newProduct = await productModels.create(productData);
+    
+    return NextResponse.json({ msg: "Product added successfully", product: newProduct }, { status: 200 });
   } catch (error) {
     console.error("Error adding product:", error);  // More detailed error logging
     return NextResponse.json({ msg: "Error adding product", error: error.message }, { status: 500 });
