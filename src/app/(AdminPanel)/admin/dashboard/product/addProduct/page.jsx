@@ -33,8 +33,6 @@ const ProductForm = () => {
   const [descriptionImage, setDescriptionImage] = useState(null);
   const [imageInputs, setImageInputs] = useState([0]);
   const [loading, setLoading] = useState(false);
-  const [ingredients, setIngredients] = useState([{ name: "", weightInGram: "", image: null }]);
-  const [productHighlights, setProductHighlights] = useState([{ title: "", description: "", icon: null }]);
 
 
   useEffect(() => {

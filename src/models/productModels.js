@@ -10,6 +10,21 @@ const productSchema = new mongoose.Schema({
         min: [0, 'Stock cannot be negative'],
         default: 0,
     },
+    weight: {
+        value: {
+            type: Number,
+            required: [true, 'Weight value is required'],
+            min: [0, 'Weight cannot be negative'],
+        },
+        unit: {
+            type: String,
+            required: [true, 'Weight unit is required'],
+            enum: {
+                values: ['ML', 'Gm', 'kg'],
+                message: 'Weight unit must be either ML, Gm, or kg',
+            },
+        },
+    },
     description: {
         type: mongoose.Schema.Types.Mixed,
         required: [true, 'Product description is required'],
