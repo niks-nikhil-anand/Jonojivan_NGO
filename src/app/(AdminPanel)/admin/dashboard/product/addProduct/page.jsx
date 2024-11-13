@@ -468,94 +468,129 @@ const handleSubmit = async (e) => {
              </motion.button>
            </div>
          </>
-        
+
          
           )}
-          {currentStep === 4 && (
+           {currentStep === 4 && (
             <>
-            <h3 className="text-xl font-semibold mb-4 text-gray-800">Step 4: Additional Information</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          
-          
-          
-              <motion.div
-                className="mb-4"
+              <h3 className="text-xl font-semibold mb-4 text-gray-800">Step 4: Additional Information</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 
-              >
-                <label className="block text-gray-700 font-bold mb-2" htmlFor="tags">Tags (comma separated)</label>
-                <input
-                  className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  type="text"
-                  name="tags"
-                  id="tags"
-                  value={formData.tags}
-                  onChange={handleInputChange}
-                />
-              </motion.div>
+                {/* Tags Input */}
+                <motion.div className="mb-4">
+                  <label className="block text-gray-700 font-bold mb-2" htmlFor="tags">Tags (comma separated)</label>
+                  <input
+                    className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    type="text"
+                    name="tags"
+                    id="tags"
+                    value={formData.tags}
+                    onChange={handleInputChange}
+                  />
+                </motion.div>
 
-               {/* Stock */}
-               <div>
-                 <label className="block text-green-600 font-bold mb-3" htmlFor="stock">
-                   Stock
-                 </label>
-                 <motion.input
-                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
-                   type="number"
-                   name="stock"
-                   id="stock"
-                   value={formData.stock}
-                   onChange={handleInputChange}
-                   required
-                   initial={{ opacity: 0, scale: 0.8 }}
-                   animate={{ opacity: 1, scale: 1 }}
-                   transition={{ duration: 0.4 }}
-                 />
-               </div>
-          
-              <motion.div className="flex items-center mb-4">
-                <input
-                  type="checkbox"
-                  name="isFanFavourites"
-                  checked={formData.isFanFavourites}
-                  onChange={handleInputChange}
-                  id="isFanFavourites"
-                />
-                <label htmlFor="isFanFavourites" className="ml-2 text-gray-700">Fan Favourites</label>
-              </motion.div>
-          
-              <motion.div className="flex items-center mb-4" >
-                <input
-                  type="checkbox"
-                  name="isOnSale"
-                  checked={formData.isOnSale}
-                  onChange={handleInputChange}
-                  id="isOnSale"
-                />
-                <label htmlFor="isOnSale" className="ml-2 text-gray-700">On Sale</label>
-              </motion.div>
-            </div>
-          
-            <div className="flex justify-between">
-              <motion.button
-                type="button"
-                onClick={prevStep}
-                className="w-40 p-3 bg-gray-500 text-white font-bold rounded hover:bg-gray-700"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Previous
-              </motion.button>
-          
-              <button
-                type="submit"
-                className="w-40 p-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-800 mt-6 shadow-md"
-                disabled={loading}
-              >
-                {loading ? 'Submitting...' : 'Submit'}
-              </button>
-            </div>
-          </>
+                {/* Stock */}
+                <div>
+                  <label className="block text-green-600 font-bold mb-3" htmlFor="stock">
+                    Stock
+                  </label>
+                  <motion.input
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+                    type="number"
+                    name="stock"
+                    id="stock"
+                    value={formData.stock}
+                    onChange={handleInputChange}
+                    required
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4 }}
+                  />
+                </div>
+
+                {/* Weight Input */}
+                <div>
+                  <label className="block text-green-600 font-bold mb-3">Weight</label>
+                  <motion.input
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+                    type="number"
+                    name="weight"
+                    value={formData.weight}
+                    onChange={handleInputChange}
+                    placeholder="Enter weight"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4 }}
+                  />
+                </div>
+
+                {/* Unit Dropdown */}
+                <div>
+                  <label className="block text-green-600 font-bold mb-3">Unit</label>
+                  <motion.select
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+                    name="unit"
+                    value={formData.unit}
+                    onChange={handleInputChange}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <option value="ML">ML</option>
+                    <option value="Gm">Gm</option>
+                    <option value="kg">kg</option>
+                  </motion.select>
+                </div>
+
+                {/* Fan Favourites Checkbox */}
+                <motion.div className="flex items-center mb-4">
+                  <input
+                    type="checkbox"
+                    name="isFanFavourites"
+                    checked={formData.isFanFavourites}
+                    onChange={handleInputChange}
+                    id="isFanFavourites"
+                  />
+                  <label htmlFor="isFanFavourites" className="ml-2 text-gray-700">Fan Favourites</label>
+                </motion.div>
+
+                {/* On Sale Checkbox */}
+                <motion.div className="flex items-center mb-4">
+                  <input
+                    type="checkbox"
+                    name="isOnSale"
+                    checked={formData.isOnSale}
+                    onChange={handleInputChange}
+                    id="isOnSale"
+                  />
+                  <label htmlFor="isOnSale" className="ml-2 text-gray-700">On Sale</label>
+                </motion.div>
+              </div>
+
+              <div className="flex justify-between">
+                {/* Previous Button */}
+                <motion.button
+                  type="button"
+                  onClick={prevStep}
+                  className="w-40 p-3 bg-gray-500 text-white font-bold rounded hover:bg-gray-700"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Previous
+                </motion.button>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  className="w-40 p-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-800 mt-6 shadow-md"
+                  disabled={loading}
+                >
+                  {loading ? 'Submitting...' : 'Submit'}
+                </button>
+              </div>
+            </>
           )}
+
 
         </motion.div>
       </form>
