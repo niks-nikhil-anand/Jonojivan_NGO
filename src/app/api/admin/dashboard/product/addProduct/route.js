@@ -1,5 +1,7 @@
+const mongoose = require("mongoose");
 import connectDB from "@/lib/dbConnect";
 import uploadImage from "@/lib/uploadImages";
+import categoryModels from "@/models/categoryModels";
 import productModels from "@/models/productModels";
 import { NextResponse } from "next/server";
 
@@ -20,7 +22,7 @@ export const POST = async (req) => {
     const salePrice = getTrimmedValue("salePrice");
     const originalPrice = getTrimmedValue("originalPrice");
     const category = getTrimmedValue("category");
-    const subcategories = formData.get("subcategories");  // Handle subcategories
+    const subCategory = formData.get("subcategories");  
     const stock = parseInt(getTrimmedValue("stock"), 10);
     const tags = getTrimmedValue("tags");
     const isFanFavourites = formData.get("isFanFavourites") === 'true';
@@ -57,6 +59,8 @@ export const POST = async (req) => {
       featuredImageUrl = featuredImageResult.secure_url;
     }
 
+   
+
     // Construct product data
     const productData = {
       name,
@@ -64,7 +68,7 @@ export const POST = async (req) => {
       salePrice,
       originalPrice,
       category,
-      subcategories,  
+      subCategory,  
       stock,
       isFanFavourites,
       isOnSale,
@@ -79,6 +83,51 @@ export const POST = async (req) => {
 
     console.log("Final product data:", productData);
     const newProduct = await productModels.create(productData);
+
+    console.log("Subcategory data found:", category);
+    console.log("Subcategory array length:", subCategory.length);
+    console.log("Category data found:", subCategory[0][0]);
+
+
+
+    // Step 1: Find the category based on the provided category ID
+const categoryData = await categoryModels.findById(category).populate('subcategories.product');
+if (!categoryData) {
+  console.log("Category not found:", category);
+  return NextResponse.json({ msg: "Category not found." }, { status: 400 });
+}
+
+console.log("Category data found:", categoryData);
+
+// Step 2: Check if subCategory is an array or single ID
+const subCategoryId = Array.isArray(subCategory) ? subCategory[0] : subCategory;
+console.log("Using subcategory ID:", subCategoryId);
+
+if (!mongoose.Types.ObjectId.isValid(subCategoryId)) {
+  console.log("Invalid subcategory ID:", subCategoryId);
+  return NextResponse.json({ msg: "Invalid subcategory ID." }, { status: 400 });
+}
+
+// Step 3: Find the subcategory inside the category
+const subCategoryData = categoryData.subcategories.find(subcat => 
+  subcat._id.toString() === subCategoryId.toString()
+);
+
+if (!subCategoryData) {
+  console.log("Subcategory not found for ID:", subCategoryId);
+  return NextResponse.json({ msg: "Subcategory not found." }, { status: 400 });
+}
+
+console.log("Subcategory data found:", subCategoryData);
+
+// Step 4: Add the product ID to the subcategory's product array
+subCategoryData.product.push(newProduct._id);
+console.log("Adding product ID to subcategory's product array:", newProduct._id);
+
+// Step 5: Save the category with the updated subcategory
+await categoryData.save();
+console.log("Category data saved with updated subcategory:", categoryData);
+
     
     return NextResponse.json({ msg: "Product added successfully", product: newProduct }, { status: 200 });
   } catch (error) {

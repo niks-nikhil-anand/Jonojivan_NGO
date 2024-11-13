@@ -19,7 +19,7 @@ const ProductForm = () => {
     salePrice: '',
     originalPrice: '',
     category: '',
-    subCategory:'',
+    subCategory: '',
     stock: 0,
     isFanFavourites: false,
     isOnSale: false,
@@ -80,10 +80,7 @@ const ProductForm = () => {
     setImages(newImages);
   };
 
-  const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
-    setSelectedSubcategories([]); // Reset subcategories when category changes
-  };
+  
 
   const handleSubcategorySelect = (subcategoryId) => {
     setSelectedSubcategories((prev) => {
