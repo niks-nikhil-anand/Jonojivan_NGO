@@ -38,7 +38,6 @@ export const POST = async (req) => {
 
     // Log subcategories to check if they are captured correctly
     console.log("Parsed subcategories:", newSubCategories);
-
     if (categoryId) {
       // Find the existing category and update it
       const existingCategory = await categoryModels.findById(categoryId);

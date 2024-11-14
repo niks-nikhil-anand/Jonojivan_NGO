@@ -45,17 +45,17 @@ const Page = () => {
             <div className="flex gap-4 sm:gap-6 justify-center p-1 md:p-6 overflow-x-auto snap-x snap-mandatory flex-wrap">
                 {/* Map through subcategories and display each as a card */}
                 {data?.subcategories?.map((subcategory) => (
-                    <div key={subcategory._id} className="flex-shrink-0 snap-center flex flex-col items-center w-32 h-36 sm:w-36 sm:h-48 md:w-56 md:h-64 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300  sm:p-4 cursor-pointer"
+                    <div key={subcategory._id} className="flex-shrink-0 snap-center flex flex-col items-center w-32 h-36 sm:w-36 sm:h-44 md:w-56 md:h-64 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300  sm:p-4 cursor-pointer"
                     onClick={() => router.push(`/category/${subcategory._id}/products`)}
                     >
                         {/* Subcategory Image */}
                         <img 
                             src={subcategory.image} 
                             alt={subcategory.name} 
-                            className="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 bg-gray-200 rounded-full overflow-hidden flex items-center justify-center mb-2 sm:mb-3"
+                            className="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32  rounded-2xl overflow-hidden flex items-center justify-center mb-2 sm:mb-3 shadow-lg p-3"
                         />
                         {/* Subcategory Name */}
-                        <h2 className="text-center text-xs sm:text-sm md:text-lg font-medium text-red-500 mt-1 sm:mt-2">{subcategory.name}</h2>
+                        <h2 className="text-center text-base sm:text-base md:text-lg font-medium text-red-500 mt-1 sm:mt-2 px-2">{subcategory.name}</h2>
                     </div>
                 ))}
             </div>
