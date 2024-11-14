@@ -133,7 +133,7 @@ const ProductDetail = () => {
     if (!product) {
         return <div>Product not found.</div>;
     }
-    const { name, description, images, salePrice, originalPrice, featuredImage, ratings, descriptionImage , servingPerBottle , suggestedUse , ingredients , productHighlights } = product;
+    const { name, description, images, salePrice, originalPrice, featuredImage, ratings} = product;
     const averageRating = ratings?.average || 4.2;
     const allImages = [ ...(images || [])];
 
@@ -235,17 +235,7 @@ const ProductDetail = () => {
     </div>
   </div>
 
-  <div className="flex flex-col border-y-2 my-5 border-gray-150">
-    <div className="flex justify-between hover:cursor-pointer py-5" onClick={toggleOpen}>
-      <h3 className="text-orange-600 font-bold mb-2">Suggested Use</h3>
-      <AiOutlineDown className="cursor-pointer text-2xl text-orange-600" />
-    </div>
-    {isOpen && (
-      <div className="mb-5 mt-2 px-3">
-        <p className="text-gray-700">{suggestedUse}</p>
-      </div>
-    )}
-  </div>
+  
 </motion.div>
 
 {/* Action Buttons */}
@@ -279,7 +269,7 @@ const ProductDetail = () => {
   {/* Image Section */}
   <div className="w-full md:w-1/2 mb-6 md:mb-0 md:mr-8">
     <Image
-      src={descriptionImage}
+      src={featuredImage}
       alt="Banner Image"
       className="w-full h-[20rem] md:h-[30rem] object-cover rounded-xl"
       width={500}
@@ -299,15 +289,6 @@ const ProductDetail = () => {
 </div>
 </div>
 
-
-          <div>
-          {product && product.ingredients && (
-<FeaturedIngredients ingredients={product.ingredients} />
-)}
-          </div> 
-          <div>
-             <ProductBanner/>
-          </div>
 
           {isFullScreen && (
         <motion.div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
