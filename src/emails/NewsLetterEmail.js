@@ -33,7 +33,7 @@ import {
               Hello, {fullName}!
             </Heading>
             <Text style={{ fontSize: '16px', color: '#555' }}>
-              Thank you for joining the JonoJivan Grocery family! We're excited to offer you a convenient and reliable way to shop for your grocery needs.
+              Thank you for joining the JonoJivan Grocery family! We are excited to offer you a convenient and reliable way to shop for your grocery needs.
             </Text>
             <Text style={{ fontSize: '16px', color: '#555', marginTop: '20px' }}>
               As a welcome gift, use the code <strong>JONOJIVAN10</strong> to enjoy 10% off on your first purchase!
