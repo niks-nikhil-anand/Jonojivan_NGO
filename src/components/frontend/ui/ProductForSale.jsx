@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { FaRegHeart } from "react-icons/fa";
-import Image from 'next/image';
 import Loader from '@/components/loader/loader';
 
 const ProductCard = () => {
@@ -23,9 +22,10 @@ const ProductCard = () => {
             }, 30);
         }
 
-        axios.get('/api/admin/dashboard/product/addProduct')
+        axios.get('/api/product/onSaleProducts')
             .then(response => {
-                setProducts(response.data);
+                console.log(response.data.products)
+                setProducts(response.data.products);
                 setLoading(false);
             })
             .catch(error => {
@@ -57,58 +57,72 @@ const ProductCard = () => {
 
     return (
         <div className="flex flex-col mt-5 mb-4">
-            <h2 className="text-xl md:text-4xl mb-4 text-center font-bold text-red-500">Fan Favorites</h2>
-            <div className="flex gap-5 hover:cursor-pointer justify-center px-2 py-3 flex-wrap">
-                {products.map(product => {
-                    const { _id, name, originalPrice, featuredImage, salePrice } = product;
+    <h2 className="text-xl md:text-4xl mb-4 text-center font-bold text-red-500">Fan Favorites</h2>
+    <div className="flex gap-5 hover:cursor-pointer justify-center px-2 py-3 flex-wrap">
+        {products.map(product => {
+            const { _id, name, originalPrice, featuredImage, salePrice , weight } = product;
 
-                    return (
-                        <div
-                        key={_id}
-                        className="relative h-[30rem] w-full  md:w-[18rem] lg:h-[30rem] lg:w-[22rem] overflow-hidden rounded-3xl group" 
-                        onClick={() => handleCardClick(_id)}
-                    >
-                        <div className= "absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-4 py-2 rounded-br-lg z-10">
-                            Sale
-                        </div>
-                        <div className="absolute top-2 right-4 z-20">
-                            <button
-                                onClick={e => {
-                                    e.stopPropagation();
-                                    handleWishlistClick();
-                                }}
-                                className="text-black font-bold hover:text-red-700 transition-colors"
-                            >
-                                <FaRegHeart size={24} />
-                            </button>
-                        </div>
-                    
-                        {/* Image */}
-                        <div className="relative h-[30rem] w-full overflow-hidden rounded-3xl border border-gray-300">
-                            <img
-                                className="object-fill w-full h-full transition-transform duration-300 ease-in-out transform group-hover:scale-105" // Apply hover scaling on the group
-                                src={featuredImage}
-                                alt={name}
-                            />
-                            <h3 className="absolute bottom-7 left-5 text-center bg-opacity-50 text-red-500 text-lg sm:text-xl md:text-xl font-medium p-1 bg-white px-5 py-2 rounded-lg"> {truncateText(name, 10)} </h3>
-                            <div className="absolute bottom-7 right-5 text-center bg-opacity-50 text-red-500 text-lg sm:text-xl md:text-xl font-medium p-1 bg-white px-5 py-2 rounded-lg">
-                                <div className='flex flex-col'>
-                                    <span className="text-gray-400 line-through mr-2">₹{originalPrice}</span>
-                                    <span className="text-green-500 font-medium ml-4">₹{salePrice}</span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        {/* Shop Now button (visible on hover) */}
-                        <div className="absolute inset-0 bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <span className="text-black bg-white px-3 py-2 rounded-2xl text-lg font-bold">Shop Now</span>
-                        </div>
+            return (
+                <div
+                key={_id}
+                className="relative flex flex-col items-center w-52 h-80 border border-gray-200 rounded-lg shadow-sm p-4 cursor-pointer"
+                onClick={() => handleCardClick(_id)}
+            >
+                {/* SALE Badge */}
+                <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded">
+                    SALE
+                </div>
+            
+                {/* Time Estimate Badge */}
+                <div className="absolute top-2 left-2 bg-white text-gray-500 text-xs flex items-center gap-1 p-1 rounded">
+                    <span>⏱ 6 mins</span>
+                </div>
+            
+                {/* Product Image */}
+                <img
+                    src={featuredImage}
+                    alt={name}
+                    className="w-full h-36 object-contain mb-3"
+                />
+            
+                {/* Product Name */}
+                <h3 className="text-center font-semibold text-gray-800 text-sm mb-1">
+                    {name}
+                </h3>
+            
+                {/* Product Weight */}
+                <span className="text-gray-500 text-sm mb-3">
+                    {weight.value} {weight.unit}
+                </span>
+            
+                {/* Pricing and Add to Cart */}
+                <div className="flex justify-between items-center w-full mt-auto">
+                    <div className='flex gap-1'>
+                    <span className="text-lg font-bold text-gray-400 line-through">
+                        ₹{originalPrice}
+                    </span>
+                    <span className="text-lg font-bold text-gray-800">
+                        ₹{salePrice}
+                    </span>
                     </div>
                     
-                    );
-                })}
+                    <button
+                        className="text-green-600 border border-green-600 rounded px-4 py-1 text-sm font-semibold hover:bg-green-100 transition"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            // Add to cart logic here
+                        }}
+                    >
+                        ADD
+                    </button>
+                </div>
             </div>
-        </div>
+            
+            );
+        })}
+    </div>
+</div>
+
     );
 };
 

@@ -1,7 +1,5 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-
-import 'react-toastify/dist/ReactToastify.css';
 import toast, { Toaster } from 'react-hot-toast';
 import ogImage from '../../public/logo/og-image.jpg'; // Local image import
 import EgoisticNavbar from "@/components/utils/EgosticNavbar";
