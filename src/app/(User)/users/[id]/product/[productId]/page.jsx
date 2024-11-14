@@ -5,10 +5,9 @@ import { motion } from 'framer-motion';
 import { MdClose } from 'react-icons/md';
 import Image from 'next/image';
 import Loader from '@/components/loader/loader';
-import ProductBanner from '@/components/frontend/ui/(Banners)/ProductBanner';
 import { useRouter } from 'next/navigation';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
-import { AiOutlineDown, AiOutlineClose } from 'react-icons/ai';
+import {  AiOutlineClose } from 'react-icons/ai';
 import { FaRegArrowAltCircleRight , FaRegArrowAltCircleLeft  } from "react-icons/fa";
 
 
@@ -186,7 +185,6 @@ const ProductDetail = () => {
       <span className="text-gray-500 ml-2">{ratings.numberOfRatings} Reviews</span>
     </div>
 
-    <h2 className="text-purple-500 mb-2 text-xs sm:text-sm">SERVINGS PER BOTTLE: {servingPerBottle}</h2>
 
     <h1 className="text-2xl sm:text-3xl font-bold mb-4">
       ₹{salePrice || originalPrice}
@@ -201,17 +199,7 @@ const ProductDetail = () => {
       </div>
     </div>
 
-    <div className="flex flex-col border-y-2 my-5 border-gray-150">
-      <div className="flex justify-between hover:cursor-pointer py-5" onClick={toggleOpen}>
-        <h3 className="text-orange-600 font-bold mb-2">Suggested Use</h3>
-        <AiOutlineDown className="cursor-pointer text-2xl text-orange-600" />
-      </div>
-      {isOpen && (
-        <div className="mb-5 mt-2 px-3">
-          <p className="text-gray-700">{suggestedUse}</p>
-        </div>
-      )}
-    </div>
+    
   </motion.div>
 
   {/* Action Buttons */}
@@ -233,47 +221,6 @@ const ProductDetail = () => {
 </div>
 
 </motion.div>
-<div>
-{product && product.productHighlights && (
-  <ProductHighlights highlights={product.productHighlights} />
-)}
-
-</div>
-            {/* Additional Banner */}
-            <div className="flex flex-col md:flex-row items-center p-4 md:p-8 mt-10 bg-[#e0d2ff]">
-  <div className="flex w-full flex-col md:flex-row justify-between">
-    {/* Image Section */}
-    <div className="w-full md:w-1/2 mb-6 md:mb-0 md:mr-8">
-      <Image
-        src={descriptionImage}
-        alt="Banner Image"
-        className="w-full h-[20rem] md:h-[30rem] object-cover rounded-xl"
-        width={500}
-        height={300}
-      />
-    </div>
-
-    {/* Text Section */}
-    <div className="flex flex-col justify-start w-full md:w-1/2">
-      <h1 className="text-xl md:text-3xl lg:text-4xl text-[#D07021] mb-4">
-        {name}
-      </h1>
-      <p className="text-black-100 text-base md:text-lg lg:text-xl leading-relaxed">
-        {description}
-      </p>
-    </div>
-  </div>
-</div>
-
-
-            <div>
-            {product && product.ingredients && (
-  <FeaturedIngredients ingredients={product.ingredients} />
-)}
-            </div> 
-            <div>
-               <ProductBanner/>
-            </div>
 
             {isFullScreen && (
           <motion.div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
