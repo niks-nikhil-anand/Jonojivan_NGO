@@ -26,7 +26,7 @@ const SidebarVendor = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('/api/admin/auth/logout', {
+      const response = await fetch('/api/vendor/auth/logout', {
         method: 'POST',
       });
       const data = await response.json();
