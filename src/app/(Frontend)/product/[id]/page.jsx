@@ -218,9 +218,6 @@ const ProductDetail = () => {
     <span className="text-green-500 text-lg font-bold">★ ★ ★ ★ ★</span>
     <span className="text-gray-500 ml-2">{ratings.numberOfRatings} Reviews</span>
   </div>
-
-  <h2 className="text-purple-500 mb-2 text-xs sm:text-sm">SERVINGS PER BOTTLE: {servingPerBottle}</h2>
-
   <h1 className="text-2xl sm:text-3xl font-bold mb-4">
     ₹{salePrice || originalPrice}
   </h1>
