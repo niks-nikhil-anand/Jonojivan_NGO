@@ -260,7 +260,7 @@ const ProductDetail = () => {
 
 </div>
           {/* Additional Banner */}
-          <div className="flex flex-col md:flex-row items-center p-4 md:p-8 mt-10 bg-[#e0d2ff]">
+          <div className="flex flex-col md:flex-row items-center p-4 md:p-8  border-t-2 border-gray-300 bg-[#e0d2ff]">
 <div className="flex w-full flex-col md:flex-row justify-between">
   {/* Image Section */}
   <div className="w-full md:w-1/2 mb-6 md:mb-0 md:mr-8">
