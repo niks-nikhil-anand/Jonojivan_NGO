@@ -38,7 +38,7 @@ const Page = () => {
     return (
         <div className="flex flex-col items-center gap-6 p-4 md:p-8 my-8">
             {/* Display Category Name at the Top */}
-            <h1 className="text-lg sm:text-xl md:text-4xl mb-4 font-bold text-red-500">{data?.name || "Category"}</h1>
+            <h1 className="text-lg sm:text-xl md:text-4xl mb-4 font-bold text-red-500 underline">{data?.name || "Category"}</h1>
 
 
                 
