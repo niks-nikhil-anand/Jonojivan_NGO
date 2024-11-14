@@ -121,7 +121,15 @@ if (!subCategoryData) {
 console.log("Subcategory data found:", subCategoryData);
 
 // Step 4: Add the product ID to the subcategory's product array
-subCategoryData.product.push(newProduct._id);
+// Step 5: Add the product ID to the subcategory's product array
+if (subCategoryData.product) {
+  subCategoryData.product.push(newProduct._id);
+  console.log("Adding product ID to subcategory's product array:", newProduct._id);
+} else {
+  console.log("Subcategory 'product' array not found, initializing it.");
+  subCategoryData.product = [newProduct._id]; // If product array doesn't exist, initialize it
+}
+
 console.log("Adding product ID to subcategory's product array:", newProduct._id);
 
 // Step 5: Save the category with the updated subcategory

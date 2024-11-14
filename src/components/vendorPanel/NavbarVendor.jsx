@@ -26,7 +26,7 @@ const NavbarVendor = () => {
     {/* Logo */}
     <div className="flex items-center space-x-2">
       <Image src={logo} alt="Logo" className="w-[45px]" />
-      <span className="text-lg font-bold text-black">Admin Panel</span>
+      <span className="text-lg font-bold text-black">JonoJivan Vendor</span>
     </div>
 
     {/* Hamburger Menu for Mobile View */}

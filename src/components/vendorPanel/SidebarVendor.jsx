@@ -57,12 +57,12 @@ const SidebarVendor = () => {
           <h2 className={`text-lg font-semibold mb-4 ${isOpen ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}>
             {isOpen ? "Dashboard" : ""}
           </h2>
-          <Link href="/admin/dashboard/property/AddProperty" passHref>
+          <Link href="/vendor/dashboard" passHref>
             <SidebarItem icon={<FaHome />} label="Home" isOpen={isOpen} selected={selectedItem === 'Home'} onClick={() => setSelectedItem('Home')} />
           </Link>
 
           {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-500">Orders</h3>}
-          <Link href="/admin/dashboard/orders/allOrders" passHref>
+          <Link href="/vendor/dashboard" passHref>
             <SidebarItem icon={<FaShoppingCart />} label="All Orders" isOpen={isOpen} selected={selectedItem === 'All Orders'} onClick={() => setSelectedItem('All Orders')} />
           </Link>
           <Link href="/admin/dashboard/orders/pendingOrders" passHref>
@@ -70,30 +70,11 @@ const SidebarVendor = () => {
           </Link>
 
           {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-400">Products</h3>}
-          <Link href="/admin/dashboard/product/addProduct" passHref>
+          <Link href="/vendor/dashboard/product/addProduct" passHref>
             <SidebarItem icon={<MdAdd />} label="Add Product" isOpen={isOpen} selected={selectedItem === 'Add Product'} onClick={() => setSelectedItem('Add Product')} />
           </Link>
           <Link href="/admin/dashboard/product/allProduct" passHref>
             <SidebarItem icon={<FaProductHunt />} label="Products" isOpen={isOpen} selected={selectedItem === 'Products'} onClick={() => setSelectedItem('Products')} />
-          </Link>
-
-          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-400">Categories</h3>}
-          <Link href="/admin/dashboard/category/addCategory" passHref>
-            <SidebarItem icon={<MdAdd />} label="Add Categories" isOpen={isOpen} selected={selectedItem === 'Add Categories'} onClick={() => setSelectedItem('Add Categories')} />
-          </Link>
-          <Link href="/admin/dashboard/category/addSubCategory" passHref>
-            <SidebarItem icon={<MdAdd />} label="Add SubCategories" isOpen={isOpen} selected={selectedItem === 'Add SubCategories'} onClick={() => setSelectedItem('Add SubCategories')} />
-          </Link>
-          <Link href="/admin/dashboard/category/allCategory" passHref>
-            <SidebarItem icon={<FaListUl />} label="All Categories" isOpen={isOpen} selected={selectedItem === 'All Categories'} onClick={() => setSelectedItem('All Categories')} />
-          </Link>
-
-          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-400">Blog</h3>}
-          <Link href="/admin/dashboard/blog/addBlog" passHref>
-            <SidebarItem icon={<MdAdd />} label="Add Blog" isOpen={isOpen} selected={selectedItem === 'Add Blog'} onClick={() => setSelectedItem('Add Blog')} />
-          </Link>
-          <Link href="/admin/dashboard/blog/allBlog" passHref>
-            <SidebarItem icon={<GiOpenBook />} label="Blogs" isOpen={isOpen} selected={selectedItem === 'Blogs'} onClick={() => setSelectedItem('Blogs')} />
           </Link>
 
           {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-400">Users</h3>}
@@ -107,19 +88,7 @@ const SidebarVendor = () => {
             <SidebarItem icon={<FaSearch />} label="Search Users" isOpen={isOpen} selected={selectedItem === 'Search Users'} onClick={() => setSelectedItem('Search Users')} />
           </Link>
 
-          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-400">Policies</h3>}
-          <Link href="/admin/dashboard/policy/termsAndCondition" passHref>
-            <SidebarItem icon={<IoDocumentAttach />} label="Terms & Conditions" isOpen={isOpen} selected={selectedItem === 'Terms & Conditions'} onClick={() => setSelectedItem('Terms & Conditions')} />
-          </Link>
-          <Link href="/admin/dashboard/policy/privacyPolicy" passHref>
-            <SidebarItem icon={<IoDocuments />} label="Privacy Policy" isOpen={isOpen} selected={selectedItem === 'Privacy Policy'} onClick={() => setSelectedItem('Privacy Policy')} />
-          </Link>
-          <Link href="/admin/dashboard/policy/returnPolicy" passHref>
-            <SidebarItem icon={<IoDocumentText />} label="Return Policy" isOpen={isOpen} selected={selectedItem === 'Return Policy'} onClick={() => setSelectedItem('Return Policy')} />
-          </Link>
-          <Link href="/admin/dashboard/policy/shippingPolicy" passHref>
-            <SidebarItem icon={<GiTruck />} label="Shipping Policy" isOpen={isOpen} selected={selectedItem === 'Shipping Policy'} onClick={() => setSelectedItem('Shipping Policy')} />
-          </Link>
+          
 
           {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-400">Account</h3>}
           <Link href="/admin/dashboard/profile" passHref>

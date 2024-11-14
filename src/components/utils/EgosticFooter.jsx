@@ -7,11 +7,10 @@ import Footer from '../frontend/shared/Footer';
 const EgoisticFooter = () => {
   const pathname = usePathname();
   const isAdminPage = pathname.startsWith('/admin/dashboard');
+  const isVendorPage = pathname.startsWith('/vendor/dashboard');
   const isUserPage = pathname.startsWith('/user');
-//   const isUserPage = pathname.startsWith('/user');
-//   const isBranchPage = pathname.startsWith('/branch');
 
-  if (isAdminPage || isUserPage) {
+  if (isAdminPage || isUserPage || isVendorPage ) {
     return null; 
   }
 

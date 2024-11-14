@@ -21,7 +21,7 @@ const LoginForm = () => {
     setLoading(true);
 
     try {
-      const loginUrl = role === 'vendor' ? '/api/vendor/auth' : '/api/admin/auth'; // API route based on role
+      const loginUrl = role === 'vendor' ? '/api/vendor/auth' : '/api/admin/auth';
 
       const response = await axios.post(loginUrl, {
         email,
