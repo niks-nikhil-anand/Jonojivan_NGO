@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectDB from "@/lib/dbConnect";
 import { Resend } from "resend";
-import NewsLetterEmail from '@/emails/newsLetterEmail';
+import NewsLetterEmail from '@/emails/NewsLetterEmail';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
