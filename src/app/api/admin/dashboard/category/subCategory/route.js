@@ -19,25 +19,25 @@ export const POST = async (req) => {
     const categoryId = getTrimmedValue("category"); // Should be category ID if updating
     console.log("Received category ID:", categoryId);
 
-    // Parsing and uploading subcategories
-    const subCategories = [];
-    let subCategoryCount = 0;
-    while (formData.has(`subCategories[${subCategoryCount}][name]`)) {
-      const subCategoryName = formData.get(`subCategories[${subCategoryCount}][name]`);
-      const subCategoryImage = formData.get(`subCategories[${subCategoryCount}][image]`);
-      
-      if (subCategoryName) {
-        console.log(`Processing subcategory ${subCategoryCount}:`, subCategoryName);
-        const subCategoryImageUrl = subCategoryImage ? await uploadImage(subCategoryImage, 'subCategoryImages') : null;
-        console.log(`Subcategory ${subCategoryCount} image URL:`, subCategoryImageUrl?.secure_url);
-        
-        subCategories.push({ name: subCategoryName, image: subCategoryImageUrl?.secure_url });
-      }
-      subCategoryCount++;
-    }
+     // Parsing and uploading subcategories
+     const newSubCategories = [];
+     let subCategoryCount = 0;
+     while (formData.has(`subCategories[${subCategoryCount}][name]`)) {
+       const subCategoryName = formData.get(`subCategories[${subCategoryCount}][name]`);
+       const subCategoryImage = formData.get(`subCategories[${subCategoryCount}][image]`);
+       
+       if (subCategoryName) {
+         console.log(`Processing subcategory ${subCategoryCount}:`, subCategoryName);
+         const subCategoryImageUrl = subCategoryImage ? await uploadImage(subCategoryImage, 'subCategoryImages') : null;
+         console.log(`Subcategory ${subCategoryCount} image URL:`, subCategoryImageUrl?.secure_url);
+         
+         newSubCategories.push({ name: subCategoryName, image: subCategoryImageUrl?.secure_url });
+       }
+       subCategoryCount++;
+     }
 
     // Log subcategories to check if they are captured correctly
-    console.log("Parsed subcategories:", subCategories);
+    console.log("Parsed subcategories:", newSubCategories);
 
     if (categoryId) {
       // Find the existing category and update it
@@ -45,8 +45,8 @@ export const POST = async (req) => {
       console.log("Existing category found:", existingCategory);
 
       if (existingCategory) {
-        console.log("Updating existing category...");
-        existingCategory.subcategories = subCategories; // Set the subcategories array
+        console.log("Updating existing category by adding new subcategories...");
+        existingCategory.subcategories = [...existingCategory.subcategories, ...newSubCategories]; // Append new subcategories
         await existingCategory.save();
         return NextResponse.json({ msg: "Category updated successfully" }, { status: 200 });
       } else {
