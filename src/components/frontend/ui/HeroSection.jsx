@@ -38,7 +38,7 @@ const HeroSection = () => {
 
       {/* Content */}
       <motion.div
-        className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4"
+        className="relative  flex flex-col items-center justify-center h-full text-white text-center px-4"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
@@ -54,23 +54,7 @@ const HeroSection = () => {
         </h1>
       </motion.div>
 
-      {/* Slider Dots */}
-      <motion.div
-        className="absolute bottom-10 sm:bottom-20 left-1/2 transform -translate-x-1/2 flex gap-2 sm:gap-4 z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
-        {slides.map((_, i) => (
-          <div
-            key={i}
-            onClick={() => setCurrentSlide(i)}
-            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full cursor-pointer ${
-              currentSlide === i ? "bg-yellow-400" : "bg-white"
-            }`}
-          ></div>
-        ))}
-      </motion.div>
+     
     </div>
   );
 };

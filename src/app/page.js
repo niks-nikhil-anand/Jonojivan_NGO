@@ -9,12 +9,14 @@ import Banner1 from "@/components/frontend/ui/(Banners)/Banner1";
 import Banner2 from "@/components/frontend/ui/(Banners)/Banner2";
 import BannerText01 from "@/components/frontend/ui/(Banners)/BannerText01";
 import BannerText02 from "@/components/frontend/ui/(Banners)/BannerText02";
+import DonationForm from "@/components/frontend/ui/DonationForm";
 
 export default function Home() {
   return (
     <>
       {/* Hero and Section components */}
       <HeroSection />
+      <DonationForm/>
       <WhoWeAre />
       <ProductCard />
       <CategoriesSection />
