@@ -1,51 +1,92 @@
-"use client";
+"use client"
 import React, { useState, useEffect } from 'react';
-import banner1 from '../../../../../public/frontend/Banner/Banner2.webp';
-import banner2 from '../../../../../public/frontend/Banner/Group_520_mobile.webp'; 
-import waveWhite from '../../../../../public/frontend/SvgAssets/wave-white.svg'; 
-import Image from 'next/image';
+import axios from 'axios';
+import { motion } from 'framer-motion';
+import Loader from '@/components/loader/loader';
+import bgImage from '../../../../../public/frontend/Banner/worldMapBanner.webp'
 
-const Banner2 = () => {
-  const [isMobile, setIsMobile] = useState(false);
+const BlogInProductPage = () => {
+  const [idFromURL, setIdFromURL] = useState('');
 
-  const handleResize = () => {
-    setIsMobile(window.innerWidth < 768); 
-  };
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    handleResize(); 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    const fetchArticles = async () => {
+      try {
+        console.log('Fetching articles...');
+        const response = await axios.get(`/api/admin/dashboard/blog`);
+        console.log('Articles fetched:', response.data);
+        setArticles(response.data);
+      } catch (error) {
+        console.error('Error fetching articles:', error);
+      } finally {
+        setLoading(false);
+        console.log('Loading state set to false');
+      }
+    };
+
+    fetchArticles();
   }, []);
 
-  return (
-    <div
-      className="relative w-full h-[110vh] overflow-hidden"
-      style={{
-        backgroundImage: `url(${isMobile ? banner2.src : banner1.src})`, 
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
-        <div className="absolute inset-0 opacity-50" />
-      <div className="absolute md:top-1/2 top-[10rem] md:right-[3rem] transform -translate-y-1/2  p-5">
-      <h1 className="text-3xl md:text-7xl text-[#D07021]">Freshness</h1>
-        <h1 className="text-3xl md:text-4xl ml-5 text-[#D07021]">From the Farm</h1>
-        <p className="mt-10 text-lg md:text-xl w-[20rem] md:w-[40rem] lg:w-[50rem] text-black">
-          At JonoJivan Grocery, we believe in delivering the freshest produce and high-quality ingredients directly to your table. Our carefully curated selection ensures that you enjoy wholesome, delicious foods that nourish your body and support local farmers.
-        </p>
-      </div>
-      <div className="absolute w-full bottom-[-4rem] md:bottom-[-4rem] left-0 right-0 z-0">
-        <Image
-          src={waveWhite}
-          alt="Wave"
-          layout="responsive"
-          priority
-          className="md:h-auto h-[3rem]" 
-        />
-      </div>
-    </div>
-  );
-}
+  const handleCardClick = (id) => {
+    // Define your card click logic here
+    console.log(`Redirect to blog article with id: ${id}`);
+  };
 
-export default Banner2;
+  return (
+    <div className="flex flex-col px-4 md:px-10 mt-10 mb-10 justify-center md:ml-[90px]"
+    >
+    {/* Heading Section */}
+    <div
+      className="relative bg-no-repeat bg-right"
+      style={{ backgroundImage: `url(${bgImage.src})` }}
+    >
+      <h2 className="text-4xl md:text-5xl lg:text-6xl mb-4 font-bold text-center leading-tight">
+        MAKE SOMEONE’S LIFE BY
+        <span className="block w-full text-[#F4B03E]">GIVING OF YOURS.</span>
+      </h2>
+    </div>
+
+  
+    {loading ? (
+      <Loader />
+    ) : (
+      <div className="overflow-x-auto py-4">
+        <div className="flex gap-4 flex-wrap"> {/* flex-wrap for wrapping cards on small screens */}
+          {articles.map((article) => (
+            <motion.div
+              key={article._id}
+              className="p-4 cursor-pointer w-full sm:w-full md:w-[30%] mt-5"
+              onClick={() => handleCardClick(article._id)}
+            >
+              <img
+                src={article.featuredImage}
+                alt={article.title}
+                className="w-full h-44 sm:h-56 md:h-44 object-cover rounded-t-lg mb-3"
+              />
+              <h3 className="text-base md:text-xl lg:text-base font-semibold text-center textColor hover:underline">
+                {article.title}
+              </h3>
+              <div className='mt-5'>
+                <p className="text-sm md:text-base lg:text-sm text-gray-600 ">
+                  {article.subtitle.split(" ").slice(0, 50).join(" ")}{article.subtitle.split(" ").length > 50 ? "..." : ""}
+                </p>
+                <div className="text-xs md:text-sm lg:text-base text-gray-500 mt-2">
+                  {article.category}
+                </div>
+                <div className="text-xs md:text-sm lg:text-base text-gray-400 mt-1">
+                  Published on {new Date(article.createdAt).toLocaleDateString()}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+  
+  );
+};
+
+export default BlogInProductPage;
