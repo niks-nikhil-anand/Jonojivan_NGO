@@ -2,8 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { MdClose } from 'react-icons/md';
-import Image from 'next/image';
 import Loader from '@/components/loader/loader';
 import { useRouter } from 'next/navigation';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
