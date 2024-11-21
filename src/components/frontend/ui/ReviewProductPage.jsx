@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast, Toaster } from 'react-hot-toast';
 import { FaStar } from "react-icons/fa";
+import { FiLoader } from 'react-icons/fi'; // Import the loader icon
+
 
 
 const ReviewProductPage = ({ productId }) => {
