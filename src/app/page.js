@@ -17,6 +17,7 @@ export default function Home() {
       {/* Hero and Section components */}
       <HeroSection />
       <DonationForm/>
+      <BannerText01 />
       <WhoWeAre />
       <ProductCard />
       <CategoriesSection />
@@ -24,7 +25,6 @@ export default function Home() {
       
       {/* Banner Components */}
       <Banner1 />
-      <BannerText01 />
       <BannerText02 />
       <Banner2 />
     </>
