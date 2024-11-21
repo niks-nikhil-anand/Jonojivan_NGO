@@ -16,6 +16,8 @@ const ReviewProductPage = ({ productId }) => {
     email: ''
   });
   const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(false); // Loading state for button
+
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -46,6 +48,7 @@ const ReviewProductPage = ({ productId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
   
     try {
       // Extract the ID from the URL
@@ -80,6 +83,8 @@ const ReviewProductPage = ({ productId }) => {
       console.error('Error submitting review:', error);
       const errorMessage = error.response?.data?.message || 'Failed to submit review. Please try again.';
       toast.error(errorMessage);
+    }finally {
+      setLoading(false); // Set loading to false after submission attempt
     }
   };
   
@@ -175,9 +180,16 @@ const ReviewProductPage = ({ productId }) => {
 
           <button
             type="submit"
-            className="w-full p-3 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 focus:outline-none focus:ring"
+            className="w-full p-3 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 focus:outline-none focus:ring disabled:opacity-50"
+            disabled={loading} // Disable button when loading
           >
-            Submit Review
+            {loading ? (
+              <span className="flex justify-center items-center">
+                <FiLoader className="animate-spin mr-2" /> Submitting...
+              </span>
+            ) : (
+              'Submit Review'
+            )}
           </button>
         </form>
       )}
