@@ -19,9 +19,9 @@ export default function Home() {
       <DonationForm/>
       <BannerText01 />
       <WhoWeAre />
-      <ProductCard />
+      {/* <ProductCard />
       <CategoriesSection />
-      <Marquee />
+      <Marquee /> */}
       
       {/* Banner Components */}
       <Banner1 />

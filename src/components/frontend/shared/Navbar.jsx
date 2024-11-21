@@ -146,7 +146,7 @@ const Navbar = () => {
             <li className="hover:text-orange-500">DONATION CAMPAIGNS</li>
             <li className="hover:text-orange-500">BECOME A VOLUNTEER</li>
             <li className="text-orange-500 font-bold">CONTACT US</li>
-            <li className="hover:text-orange-500">FAQ'S</li>
+            <li className="hover:text-orange-500">FAQ&apos;S</li>
           </ul>
           <div className="mt-auto flex flex-wrap justify-between pt-6 border-t border-gray-300 text-sm">
             <a href="#" className="hover:text-orange-500">

@@ -47,7 +47,7 @@ const HeroSection = () => {
           Helping around the world
         </h2>
         <h1 className="text-3xl sm:text-5xl font-bold mt-4">
-          MAKE SOMEONE'S LIFE BY
+          MAKE SOMEONE&apos;S LIFE BY
         </h1>
         <h1 className="text-3xl sm:text-5xl font-bold text-yellow-400 mt-2">
           GIVING OF YOURS.
