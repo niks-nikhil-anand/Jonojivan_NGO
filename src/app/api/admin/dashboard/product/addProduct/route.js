@@ -143,3 +143,19 @@ console.log("Category data saved with updated subcategory:", categoryData);
     return NextResponse.json({ msg: "Error adding product", error: error.message }, { status: 500 });
   }
 };
+
+
+export const GET = async (req) => {
+  try {
+    console.log("Connecting to the database...");
+    await connectDB();
+    console.log("Connected to the database.");
+
+    const products = await productModels.find();
+    console.log("Fetched products:", products);
+    return NextResponse.json(products, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return NextResponse.json({ msg: "Error fetching products", error: error.message }, { status: 500 });
+  }
+};

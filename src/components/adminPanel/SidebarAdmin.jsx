@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaAppleAlt, FaCarrot, FaShoppingCart, FaListUl, FaCog , FaSearch , FaHome } from "react-icons/fa";
+import { FaAppleAlt, FaCarrot, FaPlus , FaShoppingCart, FaListUl, FaCog , FaSearch , FaHome } from "react-icons/fa";
 import { FaTable , FaIdCard , FaProductHunt } from "react-icons/fa6";
-import { GiReturnArrow, GiTruck, GiFruitBowl, GiOpenBook } from "react-icons/gi";
-import { MdOutlineLogout , MdPendingActions } from "react-icons/md";
+import { GiTruck, GiOpenBook } from "react-icons/gi";
+import { MdOutlineLogout , MdPendingActions , MdOutlineRateReview } from "react-icons/md";
 import { RiDashboardHorizontalFill } from "react-icons/ri";
 import { IoDocumentAttach , IoDocuments , IoDocumentText } from "react-icons/io5";
 
@@ -44,7 +44,7 @@ const SidebarAdmin = () => {
     <div className="flex">
       <motion.div
         animate={{ width: isOpen ? "250px" : "90px" }}
-        className="bg-green-700 text-white h-screen p-5 transition-width duration-300 shadow-lg overflow-y-auto"
+        className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white h-screen p-5 transition-width duration-300 shadow-lg overflow-y-auto"
         style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.3)" }}
       >
         <button
@@ -105,6 +105,14 @@ const SidebarAdmin = () => {
           </Link>
           <Link href="/admin/dashboard/user/search" passHref>
             <SidebarItem icon={<FaSearch />} label="Search Users" isOpen={isOpen} selected={selectedItem === 'Search Users'} onClick={() => setSelectedItem('Search Users')} />
+          </Link>
+
+          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-300">Review</h3>}
+          <Link href="/admin/dashboard/review/addReview" passHref>
+            <SidebarItem icon={<FaPlus />} label="Add Review" isOpen={isOpen} />
+          </Link>
+          <Link href="/admin/dashboard/review/addReview" passHref>
+            <SidebarItem icon={<MdOutlineRateReview />} label="Review" isOpen={isOpen} />
           </Link>
 
           {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-400">Policies</h3>}

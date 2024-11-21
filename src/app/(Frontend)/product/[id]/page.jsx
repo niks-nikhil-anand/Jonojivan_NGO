@@ -7,7 +7,6 @@ import Loader from '@/components/loader/loader';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import { FaRegArrowAltCircleRight , FaRegArrowAltCircleLeft  } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
-import { AiOutlineDown } from "react-icons/ai";
 import { useRouter } from 'next/navigation';
 import ReviewProductPage from '@/components/frontend/ui/ReviewProductPage';
 
@@ -260,34 +259,40 @@ const ProductDetail = () => {
 )}
 
 </div>
-          {/* Additional Banner */}
-          <div className="flex flex-col md:flex-row items-center p-4 md:p-8  border-t-2 border-gray-300 bg-[#e0d2ff]">
-<div className="flex w-full flex-col md:flex-row justify-between">
-  {/* Image Section */}
-  <div className="w-full md:w-1/2 mb-6 md:mb-0 md:mr-8">
-    <Image
-      src={featuredImage}
-      alt="Banner Image"
-      className="w-full h-[20rem] md:h-[30rem] object-cover rounded-xl"
-      width={500}
-      height={300}
-    />
+
+
+<div className="flex flex-col md:flex-row items-center p-4 md:p-8 border-t-2 border-gray-300 bg-[#e0d2ff]">
+  <div className="flex w-full flex-col md:flex-row justify-between">
+    {/* Image Section */}
+    <div className="w-full md:w-1/2 mb-6 md:mb-0 md:mr-8">
+      <Image
+        src={featuredImage}
+        alt="Banner Image"
+        className="w-full h-[20rem] md:h-[30rem] object-cover rounded-xl"
+        width={500}
+        height={300}
+      />
+    </div>
+
+    {/* Text Section */}
+    <div className="flex flex-col justify-start w-full md:w-1/2">
+      <h1 className="text-xl md:text-3xl lg:text-4xl text-[#D07021] mb-4">
+        {name}
+      </h1>
+      <p className="text-black-100 text-base md:text-lg lg:text-xl leading-relaxed">
+        {description}
+      </p>
+    </div>
+  </div>
+</div>
+
+{/* Review Section */}
+<div className=" md:mt-0 p-4 md:p-8 border-t-2 border-gray-300 bg-[#e0d2ff]">
+    <ReviewProductPage />
   </div>
 
-  {/* Text Section */}
-  <div className="flex flex-col justify-start w-full md:w-1/2">
-    <h1 className="text-xl md:text-3xl lg:text-4xl text-[#D07021] mb-4">
-      {name}
-    </h1>
-    <p className="text-black-100 text-base md:text-lg lg:text-xl leading-relaxed">
-      {description}
-    </p>
-  </div>
-</div>
-<div>
-            <ReviewProductPage/>
-          </div>
-</div>
+
+
 
 
           {isFullScreen && (
