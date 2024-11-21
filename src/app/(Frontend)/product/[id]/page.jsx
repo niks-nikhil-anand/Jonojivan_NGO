@@ -9,6 +9,7 @@ import { FaRegArrowAltCircleRight , FaRegArrowAltCircleLeft  } from "react-icons
 import { AiOutlineClose } from "react-icons/ai";
 import { AiOutlineDown } from "react-icons/ai";
 import { useRouter } from 'next/navigation';
+import ReviewProductPage from '@/components/frontend/ui/ReviewProductPage';
 
 
 
@@ -283,6 +284,9 @@ const ProductDetail = () => {
     </p>
   </div>
 </div>
+<div>
+            <ReviewProductPage/>
+          </div>
 </div>
 
 
