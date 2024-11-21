@@ -63,32 +63,30 @@ const Navbar = () => {
           BringSmile<span className="text-orange-500">.</span>
         </motion.div>
         <ul className="hidden md:flex space-x-6 font-medium">
+          
           <li>
-            <motion.a
-              whileHover={{ scale: 1.1 }}
-              href="#"
+            <Link
+            href={"/"}
               className="hover:text-orange-500"
             >
               HOME
-            </motion.a>
+            </Link>
           </li>
           <li>
-            <motion.a
-              whileHover={{ scale: 1.1 }}
-              href="#"
+            <Link
+              href={"/aboutUs"}
               className="hover:text-orange-500"
             >
               ABOUT US
-            </motion.a>
+            </Link>
           </li>
           <li>
-            <motion.a
-              whileHover={{ scale: 1.1 }}
-              href="#"
+            <Link
+              href={"/contactUs"}
               className="hover:text-orange-500"
             >
               CONTACT US
-            </motion.a>
+            </Link>
           </li>
           <li>
             <motion.a
