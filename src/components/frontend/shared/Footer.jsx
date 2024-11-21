@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const Footer = () => {
   const images = [
@@ -128,24 +129,24 @@ const Footer = () => {
             © All rights reserved 2024 <span className="font-bold">Smile Foundation</span>
           </p>
           <div className="flex space-x-4 items-center">
-            <a
-              href="#"
+            <Link
+              href={"/privacyPolicy"}
               className="bg-white text-black px-3 py-1 text-xs md:text-sm rounded shadow hover:bg-yellow-500 hover:text-white"
             >
               Privacy Policy
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+             href={"/returnPolicy"}
               className="bg-white text-black px-3 py-1 text-xs md:text-sm rounded shadow hover:bg-yellow-500 hover:text-white"
             >
               Refund and Returns Policy
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              href={"/termsAndConditions"}
               className="bg-white text-black px-3 py-1 text-xs md:text-sm rounded shadow hover:bg-yellow-500 hover:text-white"
             >
               Terms & Condition
-            </a>
+            </Link>
           </div>
         </div>
       </div>

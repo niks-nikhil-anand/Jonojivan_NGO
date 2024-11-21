@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaFacebookF, FaTwitter, FaYoutube, FaInstagram } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
+import Link from "next/link";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -140,8 +141,12 @@ const Navbar = () => {
             </button>
           </div>
           <ul className="flex flex-col space-y-4 text-lg font-medium">
+            <Link href={"/"}>
             <li className="hover:text-orange-500">HOME</li>
+            </Link>
+            <Link href={"/aboutUs"}>
             <li className="hover:text-orange-500">ABOUT US</li>
+            </Link>
             <li className="hover:text-orange-500">UPCOMING EVENTS</li>
             <li className="hover:text-orange-500">DONATION CAMPAIGNS</li>
             <li className="hover:text-orange-500">BECOME A VOLUNTEER</li>
@@ -152,15 +157,15 @@ const Navbar = () => {
             <a href="#" className="hover:text-orange-500">
               Ongoing Events →
             </a>
-            <a href="#" className="hover:text-orange-500">
+            <Link href={"/termsAndConditions"} className="hover:text-orange-500">
               Terms & Conditions →
-            </a>
-            <a href="#" className="hover:text-orange-500">
-              Our Portfolio →
-            </a>
-            <a href="#" className="hover:text-orange-500">
+            </Link>
+            <Link href={"/returnPolicy"} className="hover:text-orange-500">
+              Refund and Returns Policy →
+            </Link>
+            <Link href={"/privacyPolicy"} className="hover:text-orange-500">
               Privacy Policy →
-            </a>
+            </Link>
           </div>
         </motion.div>
       )}

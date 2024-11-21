@@ -49,7 +49,7 @@ const Page = () => {
             transition={{ duration: 0.5 }}
             className="w-full bg-white flex flex-col"
         >
-            <div className='w-full bg-blue-500 h-[60vh] flex justify-center items-center relative'>
+            <div className='w-full bg-[#F4B03E] h-[60vh] flex justify-center items-center relative'>
                 <h1 className='text-white md:text-6xl text-3xl text-center'>Privacy Policy</h1>
             </div>
 
@@ -65,13 +65,12 @@ const Page = () => {
                 />
             </div>
 
-            {/* Content */}
             <div className="md:w-15/20 w-full px-4 md:px-12 mx-auto overflow-x-hidden">
-       <div 
-        className="prose md:prose-base prose-sm max-w-none text-gray-800"
-        dangerouslySetInnerHTML={{ __html: sanitizedContent }}
-    />
-     </div>
+            <div 
+                className="prose md:prose-base prose-sm max-w-none text-gray-800"
+                dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+            />
+            </div>
 
         </motion.div>
     );
