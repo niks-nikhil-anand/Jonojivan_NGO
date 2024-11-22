@@ -32,18 +32,17 @@ const BlogInProductPage = () => {
   };
 
   return (
-    <div className="flex flex-col px-4 md:px-10 mt-10 mb-10 justify-center md:ml-[90px]"
-    >
-    {/* Heading Section */}
-    <div
-      className="relative bg-no-repeat bg-right"
-      style={{ backgroundImage: `url(${bgImage.src})` }}
-    >
-      <h2 className="text-4xl md:text-5xl lg:text-6xl mb-4 font-bold text-center leading-tight">
-        MAKE SOMEONE’S LIFE BY
-        <span className="block w-full text-[#F4B03E]">GIVING OF YOURS.</span>
-      </h2>
-    </div>
+    <div className="flex flex-col px-4 md:px-10 mt-10 mb-10 justify-center md:ml-[90px]">
+  {/* Heading Section */}
+  <div
+    className="relative bg-no-repeat bg-right"
+    style={{ backgroundImage: `url(${bgImage.src})` }}
+  >
+    <h2 className="text-4xl md:text-5xl lg:text-6xl mb-4 font-bold text-left leading-tight">
+      MAKE SOMEONE’S LIFE BY
+      <span className="block w-full text-[#F4B03E]">GIVING OF YOURS.</span>
+    </h2>
+  </div>
 
   
     {loading ? (
