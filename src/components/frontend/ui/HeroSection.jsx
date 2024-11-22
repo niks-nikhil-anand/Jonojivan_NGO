@@ -52,6 +52,19 @@ const HeroSection = () => {
         <h1 className="text-3xl sm:text-5xl font-bold text-yellow-400 mt-2">
           GIVING OF YOURS.
         </h1>
+
+        <motion.button
+            className="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-3 px-6 rounded-md mt-8"
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{
+              duration: 0.3,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
+          >
+            Donate Now
+          </motion.button>
       </motion.div>
 
       {/* Slider Dots */}
