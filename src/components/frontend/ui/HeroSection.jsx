@@ -63,7 +63,7 @@ const HeroSection = () => {
               repeatType: "reverse",
             }}
           >
-            Donate Now
+            Donate Now  <span className="ml-2 text-red-500">❤</span>
           </motion.button>
       </motion.div>
 
