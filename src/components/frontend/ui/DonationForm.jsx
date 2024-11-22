@@ -60,9 +60,10 @@ const DonationForm = () => {
             </button>
           </div>
           <div className="flex flex-col sm:flex-row items-center border border-gray-300 rounded-lg overflow-hidden mb-8 shadow-lg">
+          <span className="bg-blue-800 text-white px-5 py-4 text-lg">₹</span>
             <input
               type="number"
-              className="px-6 py-4 flex-grow focus:outline-none text-lg rounded-l-lg"
+              className="px-6 py-4 flex-grow focus:outline-none text-lg "
               placeholder="Enter amount"
               value={isCustom ? amount : amount === "" ? "" : amount}
               onChange={(e) => setAmount(e.target.value)}
