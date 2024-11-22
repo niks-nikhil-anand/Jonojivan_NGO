@@ -53,7 +53,7 @@ const OrganizationInfo = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            $<CountUp start={0} end={16} duration={2} suffix="M" />
+            ₹<CountUp start={0} end={16} duration={2} suffix="M" />
             <div className="text-lg md:text-xl font-medium text-gray-700 mt-2">
               Funds Collected
             </div>
