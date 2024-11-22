@@ -60,7 +60,9 @@ const Navbar = () => {
       {/* Main Navbar */}
       <nav className="flex justify-between items-center px-6 py-4 bg-white text-black">
         <motion.div whileHover={{ scale: 1.1 }} className="text-2xl font-bold">
+          <Link href={"/"}>
           BringSmile<span className="text-orange-500">.</span>
+          </Link>
         </motion.div>
         <ul className="hidden md:flex space-x-6 font-medium">
           
