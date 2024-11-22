@@ -27,31 +27,32 @@ const Footer = () => {
           </motion.h2>
           <ul className="space-y-2">
             <li>
-              <motion.a
-                href="#"
+              <Link
+                href={"/"}
                 className="hover:text-yellow-500"
                 whileHover={{ scale: 1.1 }}
               >
                 HOME
-              </motion.a>
+              </Link>
             </li>
+            
             <li>
-              <motion.a
-                href="#"
+              <Link
+                href={"/aboutUs"}
                 className="hover:text-yellow-500"
                 whileHover={{ scale: 1.1 }}
               >
                 ABOUT US
-              </motion.a>
+              </Link>
             </li>
             <li>
-              <motion.a
-                href="#"
+              <Link
+                href={"/contactUs"}
                 className="hover:text-yellow-500"
                 whileHover={{ scale: 1.1 }}
               >
                 CONTACT US
-              </motion.a>
+              </Link>
             </li>
             <li>
               <motion.a
