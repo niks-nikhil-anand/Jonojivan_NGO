@@ -1,46 +1,106 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import banner1 from '../../../../../public/frontend/Banner/Banner1.webp';
-import banner2 from '../../../../../public/frontend/Banner/Banner12.webp'; 
-import waveWhite from '../../../../../public/frontend/SvgAssets/wave-white.svg'; 
-import Image from 'next/image';
 
-const Banner1 = () => {
-  const [isMobile, setIsMobile] = useState(false);
+import React from "react";
+import { motion } from "framer-motion";
+import banner1 from "../../../../../public/frontend/CampaignBanner/cause-4.jpg";
+import banner2 from "../../../../../public/frontend/CampaignBanner/cause-5.jpg";
+import banner3 from "../../../../../public/frontend/CampaignBanner/cause-6.jpg";
 
-  const handleResize = () => {
-    setIsMobile(window.innerWidth < 768); 
-  };
+// Data array for the cards
+const cardsData = [
+  {
+    id: 1,
+    image: banner1,
+    title: "Help to Mothers",
+    description:
+      "Support mothers with essential resources to improve their lives and that of their families.",
+    progress: 36,
+    goal: "₹334,000",
+    raised: "$122,200",
+  },
+  {
+    id: 2,
+    image: banner2,
+    title: "Empower Education",
+    description:
+      "Provide education tools and scholarships to children in underserved areas.",
+    progress: 50,
+    goal: "₹200,000",
+    raised: "$100,000",
+  },
+  {
+    id: 3,
+    image: banner3,
+    title: "Support Healthcare",
+    description:
+      "Deliver critical healthcare resources to communities in need.",
+    progress: 75,
+    goal: "₹500,000",
+    raised: "$375,000",
+  },
+];
 
-  useEffect(() => {
-    handleResize(); // Set initial state
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
+const HelpCard = () => {
   return (
-    <div
-      className="relative w-full h-[110vh] overflow-hidden"
-      style={{
-        backgroundImage: `url(${isMobile ? banner2.src : banner1.src})`, 
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
-      
-      <div className="absolute inset-0 opacity-50" />
-      <div className="absolute md:top-1/2 top-[10rem] md:left-[3rem] transform -translate-y-1/2 text-blue-400 p-5">
-      <h1 className="text-3xl md:text-6xl">Quality</h1>
-        <h1 className="text-3xl md:text-4xl ml-5">from Nature</h1>
-        <p className="mt-10 text-lg md:text-xl w-[20rem] md:w-[40rem] lg:w-[50rem]">
-          JonoJivan Grocery was founded with a passion for providing fresh, natural foods to our community. We bring together quality produce and everyday essentials so you can shop confidently, knowing you&apos;re getting the best nature has to offer.
-        </p>
-      </div>
-      <div className="absolute w-full md:bottom-[-4rem]  bottom-[-1.7rem] right-0 left-0 z-0">
-        <Image src={waveWhite} alt="Wave" layout="responsive" priority />
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4 md:p-6">
+      {cardsData.map((card) => (
+        <motion.div
+          key={card.id}
+          className="max-w-sm mx-auto bg-white rounded-lg shadow-md overflow-hidden"
+        >
+          {/* Image Section */}
+          <div className="relative">
+            <img
+              src={card.image.src} // Use the imported image
+              alt={card.title}
+              className="w-full h-48 md:h-56 object-cover"
+            />
+            <motion.button
+              className="absolute top-4 right-4 bg-orange-500 text-white px-3 py-2 md:px-4 md:py-2 text-xs md:text-sm font-semibold rounded-md shadow-lg"
+              whileHover={{ scale: 1.1 }}
+            >
+              {card.goal}
+            </motion.button>
+          </div>
+
+          {/* Content Section */}
+          <div className="p-4 md:p-6">
+            <h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-2">
+              {card.title}
+            </h2>
+            <p className="text-sm md:text-base text-gray-600 mb-4">
+              {card.description}
+            </p>
+
+            {/* Progress Section */}
+            <div className="mb-4">
+              <div className="flex justify-between text-xs md:text-sm font-medium text-gray-600 mb-1">
+                <span>{card.progress}%</span>
+                <span>Goal: {card.goal}</span>
+              </div>
+              <div className="relative w-full h-2 bg-gray-200 rounded-full">
+                <div
+                  className="absolute top-0 left-0 h-2 bg-[#D07021] rounded-full"
+                  style={{ width: `${card.progress}%` }}
+                ></div>
+              </div>
+              <div className="text-xs md:text-sm text-gray-600 mt-1">
+                Raised: {card.raised}
+              </div>
+            </div>
+
+            {/* Button */}
+            <motion.button
+              className="w-full bg-black text-white py-2 md:py-3 rounded-lg text-sm md:text-base font-semibold shadow-md"
+              whileHover={{ y: -3 }}
+            >
+              DONATE NOW
+            </motion.button>
+          </div>
+        </motion.div>
+      ))}
     </div>
   );
-}
+};
 
-export default Banner1;
+export default HelpCard;

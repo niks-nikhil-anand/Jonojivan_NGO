@@ -6,8 +6,6 @@ import Loader from '@/components/loader/loader';
 import bgImage from '../../../../../public/frontend/Banner/worldMapBanner.webp'
 
 const BlogInProductPage = () => {
-  const [idFromURL, setIdFromURL] = useState('');
-
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -30,8 +28,7 @@ const BlogInProductPage = () => {
   }, []);
 
   const handleCardClick = (id) => {
-    // Define your card click logic here
-    console.log(`Redirect to blog article with id: ${id}`);
+    window.location.href = `/blog/${id}`;
   };
 
   return (
