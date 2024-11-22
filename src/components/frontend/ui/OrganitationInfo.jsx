@@ -44,13 +44,13 @@ const OrganizationInfo = () => {
       <div className="absolute inset-0 bg-white bg-opacity-50 backdrop-blur-md rounded-lg"></div>
 
       {/* Content Wrapper */}
-      <div className="relative flex flex-col md:flex-row w-full items-center justify-between z-10 space-y-12 md:space-y-0">
+      <div className="relative flex flex-col md:flex-row w-full items-center justify-center z-10 space-y-12 md:space-y-0">
         {/* Left Section */}
         <div className="flex flex-col w-full md:w-1/3 space-y-10 text-center md:text-left">
           {/* Volunteer Stats */}
           {inView && (
             <motion.div
-              className="text-3xl md:text-4xl font-bold text-blue-900"
+              className="text-3xl md:text-4xl font-bold "
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -65,13 +65,13 @@ const OrganizationInfo = () => {
           {/* People Helped Stats */}
           {inView && (
             <motion.div
-              className="text-3xl md:text-4xl font-bold text-blue-900"
+              className="text-3xl md:text-4xl font-bold "
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
               <CountUp start={0} end={2348195} duration={2.5} separator="," />
-              <div className="text-lg md:text-xl font-medium text-gray-700 mt-2">
+              <div className="text-lg md:text-xl font-medium  mt-2">
                 People Helped in 2020
               </div>
             </motion.div>
@@ -80,13 +80,13 @@ const OrganizationInfo = () => {
           {/* Funds Collected Stats */}
           {inView && (
             <motion.div
-              className="text-3xl md:text-4xl font-bold text-blue-900"
+              className="text-3xl md:text-4xl font-bold "
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
             >
               ₹<CountUp start={0} end={16} duration={2} suffix="M" />
-              <div className="text-lg md:text-xl font-medium text-gray-700 mt-2">
+              <div className="text-lg md:text-xl font-medium  mt-2">
                 Funds Collected
               </div>
             </motion.div>
@@ -96,7 +96,7 @@ const OrganizationInfo = () => {
         {/* Right Section */}
         <div className="w-full md:w-1/2 mt-12 md:mt-0 text-center md:text-left space-y-6">
           <motion.p
-            className="text-xs md:text-sm text-gray-600 uppercase tracking-wide"
+            className="text-xs md:text-sm text-gray-700 uppercase tracking-wide"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
@@ -112,7 +112,7 @@ const OrganizationInfo = () => {
             Empowering Lives Globally
           </motion.h1>
           <motion.p
-            className="text-gray-700 mt-4 leading-relaxed text-sm md:text-lg"
+            className="text-blue-900 mt-4 leading-relaxed text-sm md:text-lg"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
@@ -122,7 +122,7 @@ const OrganizationInfo = () => {
             the globe, reaching millions and changing lives for the better.
           </motion.p>
           <motion.p
-            className="text-gray-700 mt-2 leading-relaxed text-sm md:text-lg"
+            className="text-blue-900  mt-2 leading-relaxed text-sm md:text-lg"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1 }}
