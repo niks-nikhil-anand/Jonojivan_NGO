@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { FaTimes } from "react-icons/fa";
+
 
 const DonationForm = () => {
   const [amount, setAmount] = useState(""); // State to store selected amount
@@ -80,13 +82,12 @@ const DonationForm = () => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-30">
           <div className="bg-white p-6 rounded-lg max-w-md w-full shadow-lg relative">
-            {/* Close Icon */}
-            <button
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-              onClick={closeModal}
-            >
-              &times;
-            </button>
+          <button
+            className="absolute top-4 right-2 bg-gray-200  text-gray-500 hover:bg-gray-300 hover:text-gray-800 rounded-full p-3 shadow-md"
+            onClick={closeModal}
+          >
+            <FaTimes className="w-5 h-5 " />
+          </button>
 
             <h2 className="text-xl font-bold mb-4">Donation Details</h2>
 

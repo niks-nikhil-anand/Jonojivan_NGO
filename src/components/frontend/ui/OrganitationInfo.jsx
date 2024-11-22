@@ -104,7 +104,7 @@ const OrganizationInfo = () => {
             Together We Can Make a Difference
           </motion.p>
           <motion.h1
-            className="text-2xl md:text-3xl font-bold text-blue-900 mt-2 leading-snug"
+            className="text-2xl md:text-3xl font-bold text-black -mt-2 leading-snug"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
