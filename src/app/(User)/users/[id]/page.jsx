@@ -1,5 +1,5 @@
 import Banner1 from '@/components/frontend/ui/(Banners)/Banner1'
-import Banner2 from '@/components/frontend/ui/(Banners)/Banner2'
+import Banner2 from '@/components/frontend/ui/(Banners)/BlogSection'
 import BannerText01 from '@/components/frontend/ui/(Banners)/BannerText01'
 import BannerText02 from '@/components/frontend/ui/(Banners)/BannerText02'
 import CategoriesSection from '@/components/frontend/ui/CategorySection'

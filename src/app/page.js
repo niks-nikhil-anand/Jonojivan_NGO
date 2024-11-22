@@ -6,11 +6,11 @@ import Marquee from "@/components/frontend/ui/Marquee";
 
 // Banner Components
 import Banner1 from "@/components/frontend/ui/(Banners)/Banner1";
-import Banner2 from "@/components/frontend/ui/(Banners)/Banner2";
 import BannerText01 from "@/components/frontend/ui/(Banners)/BannerText01";
 import BannerText02 from "@/components/frontend/ui/(Banners)/BannerText02";
 import DonationForm from "@/components/frontend/ui/DonationForm";
 import OrganizationInfo from "@/components/frontend/ui/OrganitationInfo";
+import BlogSection from "@/components/frontend/ui/(Banners)/BlogSection";
 
 export default function Home() {
   return (
@@ -28,7 +28,7 @@ export default function Home() {
       <Banner1 />
       <OrganizationInfo/>
       <BannerText02 />
-      <Banner2 />
+      <BlogSection />
     </>
   );
 }
