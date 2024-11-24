@@ -5,10 +5,11 @@ import { FaTimes } from "react-icons/fa";
 
 
 const DonationForm = () => {
-  const [amount, setAmount] = useState(""); // State to store selected amount
-  const [isCustom, setIsCustom] = useState(false); // State to track if custom amount is selected
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
-  const [paymentMethod, setPaymentMethod] = useState("Online"); // State for payment method selection
+  const [amount, setAmount] = useState(""); 
+  const [isCustom, setIsCustom] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [paymentMethod, setPaymentMethod] = useState("Online"); 
+
 
   // Handle predefined amount selection
   const handleAmountSelect = (selectedAmount) => {
@@ -59,16 +60,16 @@ const DonationForm = () => {
               Custom Amount
             </button>
           </div>
-          <div className="flex flex-col sm:flex-row items-center border border-gray-300 rounded-lg overflow-hidden mb-8 shadow-lg">
-          <span className="bg-blue-800 text-white px-5 py-4 text-lg">₹</span>
-            <input
-              type="number"
-              className="px-6 py-4 flex-grow focus:outline-none text-lg "
-              placeholder="Enter amount"
-              value={isCustom ? amount : amount === "" ? "" : amount}
-              onChange={(e) => setAmount(e.target.value)}
-              disabled={!isCustom && amount !== ""} // Disable input unless custom amount is selected
-            />
+          <div className="flex items-center   overflow-hidden mb-8 ">
+          <span className="bg-blue-800 text-white px-5 py-4 text-lg flex-shrink-0">₹</span>
+          <input
+            type="number"
+            className="px-6 py-4 flex-grow focus:outline-none text-lg"
+            placeholder="Enter amount"
+            value={isCustom ? amount : amount === "" ? "" : amount}
+            onChange={(e) => setAmount(e.target.value)}
+            disabled={!isCustom && amount !== ""} // Disable input unless custom amount is selected
+          />
             <button
               onClick={openModal}
               className="px-8 py-4 bg-black text-white font-semibold text-lg sm:text-xl hover:bg-gray-800 transition duration-300 rounded-r-lg shadow-md w-full sm:w-auto"
