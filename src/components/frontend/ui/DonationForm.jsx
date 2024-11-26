@@ -41,23 +41,32 @@ const DonationForm = () => {
             Your donation helps us make a real difference in the lives of many.
             Every contribution counts.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center mb-8">
-            {["1000", "2500", "5000"].map((amountValue) => (
-              <button
-                key={amountValue}
-                className="px-6 py-3 bg-white border border-gray-300 rounded-lg font-semibold text-lg sm:text-xl transition duration-300 hover:bg-gray-200 hover:scale-105 shadow-md"
-                onClick={() => handleAmountSelect(amountValue)}
-              >
-                ₹{amountValue}
-              </button>
-            ))}
-            <button
-              className="px-6 py-3 bg-white border border-gray-300 rounded-lg font-semibold text-lg sm:text-xl transition duration-300 hover:bg-gray-200 hover:scale-105 shadow-md"
-              onClick={handleCustomAmountSelect}
-            >
-              Custom Amount
-            </button>
-          </div>
+                <div className="flex flex-wrap gap-4 justify-center mb-8">
+        {["500", "1000", "2500", "5000"].map((amountValue) => (
+          <button
+            key={amountValue}
+            className={`px-6 py-3 border border-gray-300 rounded-lg font-semibold text-lg sm:text-xl transition duration-300 shadow-md ${
+              amount === amountValue
+                ? "bg-blue-600 text-white" // Active button styling
+                : "bg-white text-black hover:bg-gray-200 hover:scale-105"
+            }`}
+            onClick={() => handleAmountSelect(amountValue)}
+          >
+            ₹{amountValue}
+          </button>
+        ))}
+        <button
+          className={`px-6 py-3 border border-gray-300 rounded-lg font-semibold text-lg sm:text-xl transition duration-300 shadow-md ${
+            isCustom
+              ? "bg-blue-600 text-white" // Active button styling for custom amount
+              : "bg-white text-black hover:bg-gray-200 hover:scale-105"
+          }`}
+          onClick={handleCustomAmountSelect}
+        >
+          Custom Amount
+        </button>
+                </div>
+
           {isCustom && (
             <div className="flex justify-center mb-6">
               <span className="bg-blue-800 text-white px-5 py-3 rounded-l-lg">
