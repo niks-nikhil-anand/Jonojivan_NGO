@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 import { MdAttachEmail } from "react-icons/md";
 
+
 export default function AboutPageOne() {
   return (
     <div>
