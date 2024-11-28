@@ -29,7 +29,7 @@ const CausesSection = () => {
     <div className="bg-[#FEF7EC] py-12 px-6 ">
   {/* Title Section */}
   <div className="text-center mb-10">
-    <h3 className="text-sm text-orange-500 font-semibold uppercase mb-2">
+    <h3 className="text-sm text-[#FF0080] font-semibold uppercase mb-2">
       Benefits of Giving
     </h3>
     <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
@@ -48,7 +48,7 @@ const CausesSection = () => {
         <div className="flex justify-center items-center w-16 h-16 rounded-full bg-[#F4B03E] text-white mx-auto mb-6">
           {cause.icon}
         </div>
-        <h4 className="text-xl font-semibold text-[#F4B03E] mb-3">
+        <h4 className="text-xl font-semibold text-[#FF0080] mb-3">
           {cause.title}
         </h4>
         <p className="text-gray-600 text-sm">{cause.description}</p>

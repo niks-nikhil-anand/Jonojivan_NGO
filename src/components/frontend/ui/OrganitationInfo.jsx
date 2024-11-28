@@ -132,18 +132,26 @@ const OrganizationInfo = () => {
             lives and make an everlasting impact.
           </motion.p>
           <Link href={"/aboutUs"}>
-            <motion.button
-              className="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-3 px-8 rounded-lg shadow-lg mt-6"
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              transition={{
-                duration: 0.3,
-                repeat: Infinity,
-                repeatType: "reverse",
-              }}
-            >
-              Learn More About Us
-            </motion.button>
+          <motion.button
+          className="bg-[#FF0080] hover:bg-[#FF66B2] text-white font-semibold py-3 px-8 rounded-lg shadow-lg mt-6 transition-all duration-300"
+          initial={{ scale: 0.9 }}
+          animate={{ scale: 1 }}
+          whileHover={{
+            scale: 1.05, // Slightly scale up on hover
+            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)", // Shadow on hover for more depth
+            backgroundColor: "#FF66B2", // Lighter pink color on hover
+          }}
+          whileTap={{
+            scale: 0.95, // Shrink on tap for a press effect
+          }}
+          transition={{
+            duration: 0.3,
+            repeat: Infinity,
+            repeatType: "reverse", // Make it bounce back to its original state
+          }}
+        >
+          Learn More About Us
+        </motion.button>
           </Link>
         </div>
       </div>

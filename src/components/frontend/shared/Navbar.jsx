@@ -95,9 +95,21 @@ const Navbar = () => {
             ))}
           </ul>
         <div className="flex items-center space-x-4">
-         <button className="hidden sm:flex items-center px-4 py-2 border border-black rounded-full transition hover:bg-[#FF0080] hover:text-white">
-        Donate Now <span className="ml-2 text-red-500">❤</span>
-      </button>
+        <motion.button
+          className="hidden sm:flex items-center px-4 py-2 border border-black rounded-full transition-all duration-300"
+          whileHover={{
+            scale: 1.05, // Scale up on hover
+            backgroundColor: "#FF0080", // Background color change on hover
+            color: "white", // Text color change on hover
+          }}
+          whileTap={{
+            scale: 0.95, // Slight shrink on tap to simulate a press
+          }}
+        >
+          Donate Now 
+          <span className="ml-2 text-red-500">❤</span>
+        </motion.button>
+
 
           <motion.button
             whileHover={{ scale: 1.2 }}

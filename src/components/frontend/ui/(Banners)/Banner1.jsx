@@ -91,7 +91,7 @@ const HelpCard = () => {
 
             {/* Button */}
             <motion.button
-              className="w-full bg-black text-white py-2 md:py-3 rounded-lg text-sm md:text-base font-semibold shadow-md"
+              className="w-full bg-[#FF0080] text-white py-2 md:py-3 rounded-lg text-sm md:text-base font-semibold shadow-md"
               whileHover={{ y: -3 }}
             >
               DONATE NOW

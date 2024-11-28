@@ -23,7 +23,7 @@ const Footer = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Know about <span className="text-yellow-500">Bring Smile Foundation</span>
+            Know about <span className="text-[#FF0080]">Bring Smile Foundation</span>
           </motion.h2>
           <ul className="space-y-2">
             <li>
@@ -127,24 +127,24 @@ const Footer = () => {
       <div className="border-t border-gray-800 mt-8 pt-4 text-center md:text-left">
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-sm md:text-base">
-            © All rights reserved 2024 <span className="font-bold">Smile Foundation</span>
+            © All rights reserved 2024 <span className="font-bold text-[#FF0080]">BringSmile Foundation</span>
           </p>
           <div className="flex space-x-4 items-center">
             <Link
               href={"/privacyPolicy"}
-              className="bg-white text-black px-3 py-1 text-xs md:text-sm rounded shadow hover:bg-yellow-500 hover:text-white"
+              className="bg-white text-black px-3 py-1 text-xs md:text-sm rounded shadow hover:bg-[#FF0080] hover:text-white"
             >
               Privacy Policy
             </Link>
             <Link
              href={"/returnPolicy"}
-              className="bg-white text-black px-3 py-1 text-xs md:text-sm rounded shadow hover:bg-yellow-500 hover:text-white"
+              className="bg-white text-black px-3 py-1 text-xs md:text-sm rounded shadow hover:bg-[#FF0080] hover:text-white"
             >
               Refund and Returns Policy
             </Link>
             <Link
               href={"/termsAndConditions"}
-              className="bg-white text-black px-3 py-1 text-xs md:text-sm rounded shadow hover:bg-yellow-500 hover:text-white"
+              className="bg-white text-black px-3 py-1 text-xs md:text-sm rounded shadow hover:bg-[#FF0080] hover:text-white"
             >
               Terms & Condition
             </Link>
