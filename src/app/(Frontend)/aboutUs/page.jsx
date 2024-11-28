@@ -4,33 +4,32 @@ import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 import { MdAttachEmail } from "react-icons/md";
 
-
 export default function AboutPageOne() {
   return (
-    <div>
-      <div className="flex flex-col gap-10">
+    <div className="bg-gray-50">
+      <div className="flex flex-col gap-8">
         {/* Hero Section */}
-        <div className="w-full bg-gradient-to-r from-[#FEE440] to-[#F4B03E] h-[60vh] flex justify-center items-center relative px-5">
-          <div className="flex flex-col space-y-8 pb-10 pt-12 md:pt-24">
+        <div className="w-full bg-gradient-to-r from-[#FEE440] to-[#F4B03E] h-[60vh] flex justify-center items-center relative px-4">
+          <div className="flex flex-col space-y-6 pb-8 pt-10 md:pt-20">
             <motion.div
-              className="mx-auto max-w-max rounded-full border-2 border-white bg-yellow-50 p-1 px-3 shadow-lg"
+              className="mx-auto max-w-max rounded-full border-2 border-white bg-yellow-50 p-1 px-3 shadow"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <p className="text-center text-xs font-semibold leading-normal text-yellow-800 md:text-sm">
+              <p className="text-center text-xs font-semibold text-yellow-800 md:text-sm">
                 About BringSmile Foundation
               </p>
             </motion.div>
             <motion.p
-              className="text-center text-xl font-bold text-yellow-900 md:text-5xl md:leading-10"
+              className="text-center text-lg font-bold text-yellow-900 md:text-4xl"
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
               Spreading Smiles, Transforming Lives
             </motion.p>
-            <p className="mx-auto max-w-4xl text-sm text-center text-yellow-700 md:text-xl">
+            <p className="mx-auto max-w-2xl text-sm text-center text-yellow-700 md:text-lg">
               The BringSmile Foundation is dedicated to uplifting communities by
               providing essential resources, fostering education, and supporting
               sustainable development. Together, we aim to create a brighter and
@@ -39,27 +38,28 @@ export default function AboutPageOne() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-10 px-6 md:px-20 lg:px-40">
+        {/* Main Content */}
+        <div className="flex flex-col gap-8 px-4 md:px-16 lg:px-32">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="mt-16 flex flex-col md:flex-row gap-10 items-center"
+            className="mt-12 flex flex-col md:flex-row gap-6 items-center"
           >
-            <div className="flex flex-col gap-6 md:w-2/3">
-              <p className="text-xl font-bold text-yellow-800 md:text-4xl">
+            <div className="flex flex-col gap-4 md:w-2/3">
+              <p className="text-lg font-bold text-yellow-800 md:text-2xl">
                 Empowering Communities, One Step at a Time
               </p>
-              <p className="text-base text-yellow-700 md:text-xl">
+              <p className="text-sm text-yellow-700 md:text-base">
                 BringSmile Foundation works tirelessly to bridge the gap between
                 resources and the underprivileged. From education and healthcare
                 initiatives to providing daily essentials, our mission is to bring
                 hope and happiness to those in need.
               </p>
-              <p className="text-xl font-bold text-yellow-800 md:text-4xl">
+              <p className="text-lg font-bold text-yellow-800 md:text-2xl">
                 Supporting Healthier Lifestyles
               </p>
-              <p className="text-base text-yellow-700 md:text-xl">
+              <p className="text-sm text-yellow-700 md:text-base">
                 With the support of our community and partners, we strive to
                 address pressing social challenges through innovative and
                 sustainable solutions. Every smile we bring is a step closer to
@@ -81,59 +81,91 @@ export default function AboutPageOne() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col items-center gap-6 py-8 px-4 md:flex-row md:justify-between md:gap-8"
+            className="flex flex-col items-center gap-6 py-8 md:flex-row md:justify-between md:gap-8"
           >
             {/* Left Section */}
-            <div className="md:w-2/3 space-y-6">
-              <p className="text-sm font-semibold text-yellow-600 md:text-lg">
+            <div className="md:w-2/3 space-y-4">
+              <p className="text-sm font-semibold text-yellow-600 md:text-base">
                 Join the Movement &rarr;
               </p>
-              <h1 className="text-3xl font-bold text-yellow-700 md:text-4xl">
+              <h1 className="text-xl font-bold text-yellow-700 md:text-3xl">
                 Together, We Can Make a Difference
               </h1>
-              <p className="text-base text-yellow-600 md:text-lg">
+              <p className="text-sm text-yellow-600 md:text-base">
                 At BringSmile Foundation, we believe in the power of collective
                 effort. By supporting our cause, you can help transform lives,
                 spread joy, and create lasting change in communities across the
                 globe.
               </p>
-              <div className="w-full md:w-1/2">
+              <div className="w-full md:w-2/3">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuK-0ynvWi2_RiXGxkib-5iWYiDSyjVhNsxg&s"
-                  className="w-full rounded-lg object-cover shadow-md"
+                  className="w-full rounded-lg object-cover shadow"
                   alt="Convenient grocery shopping"
                 />
               </div>
             </div>
 
             {/* Contact Card */}
-            <div className="mt-8 max-w-sm w-full rounded-lg bg-yellow-50 shadow-lg p-6 border border-yellow-200">
-              <h2 className="text-lg font-semibold text-yellow-900 mb-4">
+            <motion.div
+              className="flex-1 bg-white shadow-lg rounded-lg border border-gray-200 p-6"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">
                 Contact Us
               </h2>
-              <div className="space-y-4 text-yellow-800">
-                <div className="flex items-center space-x-3">
-                  <div className="flex items-center justify-center bg-yellow-200 rounded-full p-2">
-                    <FaMapMarkerAlt className="h-5 w-5 text-yellow-700" />
+              <div className="space-y-4">
+                {/* Operation Office */}
+                <div>
+                  <h3 className="text-base font-semibold text-gray-700 mb-1">
+                    Operation Office
+                  </h3>
+                  <div className="flex items-start gap-2">
+                    <FaMapMarkerAlt className="text-yellow-500 mt-1" size={20} />
+                    <p className="text-gray-600 text-sm">
+                      F-13/17, Jogabai Extension, Okhla, New Delhi- 110025.
+                    </p>
                   </div>
-                  <p className="text-base">
-                    F-13/17, Jogabai Extention, Okhla, New Delhi- 110025.
-                  </p>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <div className="flex items-center justify-center bg-yellow-200 rounded-full p-2">
-                    <FaPhoneAlt className="h-5 w-5 text-yellow-700" />
+
+                {/* Email Address */}
+                <div>
+                  <h3 className="text-base font-semibold text-gray-700 mb-1">
+                    Email Address
+                  </h3>
+                  <div className="flex items-start gap-2">
+                    <MdAttachEmail className="text-yellow-500 mt-1" size={20} />
+                    <p className="text-gray-600 text-sm">contact@bringsmile.in</p>
                   </div>
-                  <p className="text-base">+91 9891989151</p>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <div className="flex items-center justify-center bg-yellow-200 rounded-full p-2">
-                    <MdAttachEmail className="h-5 w-5 text-yellow-700" />
+
+                {/* Phone */}
+                <div>
+                  <h3 className="text-base font-semibold text-gray-700 mb-1">
+                    Phone
+                  </h3>
+                  <div className="flex items-start gap-2">
+                    <FaPhoneAlt className="text-yellow-500 mt-1" size={20} />
+                    <p className="text-gray-600 text-sm">+91 9891989151</p>
                   </div>
-                  <p className="text-base">contact@bringsmile.in</p>
+                </div>
+
+                {/* Registered Office */}
+                <div>
+                  <h3 className="text-base font-semibold text-gray-700 mb-1">
+                    Registered Office
+                  </h3>
+                  <div className="flex items-start gap-2">
+                    <FaMapMarkerAlt className="text-yellow-500 mt-1" size={20} />
+                    <p className="text-gray-600 text-sm">
+                      Singhi Kalan, PO- Ara, District- Bhojpur, Bihar, Pin- 802301.
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>
