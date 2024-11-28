@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { FaFacebookF, FaTwitter, FaYoutube, FaInstagram } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import Link from "next/link";
+import logo from '../../../../public/logo/SmileNoBg.png'
+import Image from "next/image";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -58,10 +60,16 @@ const Navbar = () => {
       </div>
 
       {/* Main Navbar */}
-      <nav className="flex justify-between items-center px-6 py-4 bg-white text-black">
-        <motion.div whileHover={{ scale: 1.1 }} className="text-2xl font-bold">
+      <nav className="flex justify-between items-center px-6  bg-white text-black">
+              <motion.div
+          initial={{ opacity: 0, scale: 0.8 }} // Starting state
+          animate={{ opacity: 1, scale: 1 }}  // Final state
+          transition={{ duration: 0.5, ease: "easeInOut" }} // Animation timing
+          whileHover={{ scale: 1.1 }} // Hover effect
+          className="flex items-center space-x-3"
+        >
           <Link href={"/"}>
-          BringSmile<span className="text-orange-500">.</span>
+            <Image src={logo} alt="BringSmile Logo" width={70} height={70} />
           </Link>
         </motion.div>
         <ul className="hidden md:flex space-x-6 font-medium">
