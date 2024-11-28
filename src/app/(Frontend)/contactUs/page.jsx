@@ -16,7 +16,7 @@ export default function Contact() {
             transition={{ duration: 0.5 }}
           >
             <p className="text-sm font-semibold text-yellow-800">
-              We'd love to hear your thoughts
+              We&apos;d love to hear your thoughts
             </p>
           </motion.div>
           <motion.h2
