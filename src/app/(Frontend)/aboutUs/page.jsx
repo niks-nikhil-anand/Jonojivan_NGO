@@ -17,12 +17,12 @@ export default function AboutPageOne() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <p className="text-center text-xs font-semibold text-yellow-800 md:text-sm">
+              <p className="text-center text-xs font-semibold text-[#FF0080] md:text-sm">
                 About BringSmile Foundation
               </p>
             </motion.div>
             <motion.p
-              className="text-center text-lg font-bold text-yellow-900 md:text-4xl"
+              className="text-center text-lg font-bold text-[#FF0080] md:text-4xl"
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5 }}
@@ -47,7 +47,7 @@ export default function AboutPageOne() {
             className="mt-12 flex flex-col md:flex-row gap-6 items-center"
           >
             <div className="flex flex-col gap-4 md:w-2/3">
-              <p className="text-lg font-bold text-yellow-800 md:text-2xl">
+              <p className="text-lg font-bold text-[#FF0080] md:text-2xl">
                 Empowering Communities, One Step at a Time
               </p>
               <p className="text-sm text-yellow-700 md:text-base">
@@ -56,7 +56,7 @@ export default function AboutPageOne() {
                 initiatives to providing daily essentials, our mission is to bring
                 hope and happiness to those in need.
               </p>
-              <p className="text-lg font-bold text-yellow-800 md:text-2xl">
+              <p className="text-lg font-bold text-[#FF0080] md:text-2xl">
                 Supporting Healthier Lifestyles
               </p>
               <p className="text-sm text-yellow-700 md:text-base">
@@ -85,10 +85,10 @@ export default function AboutPageOne() {
           >
             {/* Left Section */}
             <div className="md:w-2/3 space-y-4">
-              <p className="text-sm font-semibold text-yellow-600 md:text-base">
+              <p className="text-sm font-semibold text-[#FF0080] md:text-base">
                 Join the Movement &rarr;
               </p>
-              <h1 className="text-xl font-bold text-yellow-700 md:text-3xl">
+              <h1 className="text-xl font-bold text-[#FF0080]  md:text-3xl">
                 Together, We Can Make a Difference
               </h1>
               <p className="text-sm text-yellow-600 md:text-base">
@@ -113,7 +113,7 @@ export default function AboutPageOne() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">
+              <h2 className="text-xl font-bold text-[#FF0080] mb-4 text-center">
                 Contact Us
               </h2>
               <div className="space-y-4">
