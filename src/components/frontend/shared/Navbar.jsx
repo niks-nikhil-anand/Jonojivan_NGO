@@ -73,54 +73,32 @@ const Navbar = () => {
           </Link>
         </motion.div>
         <ul className="hidden md:flex space-x-6 font-medium">
-          
-          <li>
-            <Link
-            href={"/"}
-              className="hover:text-orange-500"
-            >
-              HOME
-            </Link>
-          </li>
-          <li>
-            <Link
-              href={"/aboutUs"}
-              className="hover:text-orange-500"
-            >
-              ABOUT US
-            </Link>
-          </li>
-          <li>
-            <Link
-              href={"/contactUs"}
-              className="hover:text-orange-500"
-            >
-              CONTACT US
-            </Link>
-          </li>
-          <li>
-            <motion.a
-              whileHover={{ scale: 1.1 }}
-              href="#"
-              className="hover:text-orange-500"
-            >
-              EVENTS
-            </motion.a>
-          </li>
-          <li>
-            <motion.a
-              whileHover={{ scale: 1.1 }}
-              href="#"
-              className="hover:text-orange-500"
-            >
-              CAUSES
-            </motion.a>
-          </li>
-        </ul>
+            {[
+              { href: "/", label: "HOME" },
+              { href: "/aboutUs", label: "ABOUT US" },
+              { href: "/contactUs", label: "CONTACT US" },
+              { href: "#", label: "EVENTS" },
+              { href: "#", label: "CAUSES" },
+            ].map((item, index) => (
+              <motion.li
+                key={index}
+                whileHover={{ scale: 1.1, color: "#FF0080" }} // Framer Motion animation
+                transition={{ duration: 0.3 }} // Smooth transition
+              >
+                <Link
+                  href={item.href}
+                  className="hover:text-[#FF0080] hover:underline transition-colors duration-300"
+                >
+                  {item.label}
+                </Link>
+              </motion.li>
+            ))}
+          </ul>
         <div className="flex items-center space-x-4">
-          <button className="hidden sm:flex items-center px-4 py-2 border border-black rounded-full hover:bg-orange-500 hover:text-white transition">
-            Donate Now <span className="ml-2 text-red-500">❤</span>
-          </button>
+         <button className="hidden sm:flex items-center px-4 py-2 border border-black rounded-full transition hover:bg-[#FF0080] hover:text-white">
+        Donate Now <span className="ml-2 text-red-500">❤</span>
+      </button>
+
           <motion.button
             whileHover={{ scale: 1.2 }}
             className="block md:hidden text-xl"

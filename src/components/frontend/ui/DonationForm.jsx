@@ -47,7 +47,7 @@ const DonationForm = () => {
             key={amountValue}
             className={`px-6 py-3 border border-gray-300 rounded-lg font-semibold text-lg sm:text-xl transition duration-300 shadow-md ${
               amount === amountValue
-                ? "bg-blue-600 text-white" // Active button styling
+                ? "bg-[#FF0080] text-white" // Active button styling
                 : "bg-white text-black hover:bg-gray-200 hover:scale-105"
             }`}
             onClick={() => handleAmountSelect(amountValue)}
@@ -58,7 +58,7 @@ const DonationForm = () => {
         <button
           className={`px-6 py-3 border border-gray-300 rounded-lg font-semibold text-lg sm:text-xl transition duration-300 shadow-md ${
             isCustom
-              ? "bg-blue-600 text-white" // Active button styling for custom amount
+              ? "bg-[#FF0080] text-white" // Active button styling for custom amount
               : "bg-white text-black hover:bg-gray-200 hover:scale-105"
           }`}
           onClick={handleCustomAmountSelect}
@@ -69,7 +69,7 @@ const DonationForm = () => {
 
           {isCustom && (
             <div className="flex justify-center mb-6">
-              <span className="bg-blue-800 text-white px-5 py-3 rounded-l-lg">
+              <span className="bg-[#FF0080] text-white px-5 py-3 rounded-l-lg">
                 ₹
               </span>
               <input
@@ -81,14 +81,20 @@ const DonationForm = () => {
               />
             </div>
           )}
-          <motion.button
-            onClick={openModal}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-10 py-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white font-semibold text-lg sm:text-xl rounded-lg shadow-lg hover:shadow-xl focus:outline-none"
-          >
-            DONATE NOW
-          </motion.button>
+         <motion.button
+        onClick={openModal}
+        whileHover={{
+          scale: 1.05,
+          boxShadow: "0 10px 20px rgba(0, 0, 0, 0.3)", // Cool shadow effect on hover
+          backgroundPosition: "right center", // Smooth gradient transition on hover
+        }}
+        whileTap={{
+          scale: 0.95,
+        }}
+        className="px-10 py-4 bg-gradient-to-r from-[#FF0080] to-[#FF0080] text-white font-semibold text-lg sm:text-xl rounded-lg shadow-lg hover:shadow-xl focus:outline-none transition-all duration-300"
+      >
+        DONATE NOW
+      </motion.button>
         </div>
       </motion.div>
 

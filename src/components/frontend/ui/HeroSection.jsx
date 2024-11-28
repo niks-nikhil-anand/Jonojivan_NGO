@@ -63,18 +63,18 @@ const slides = [slide1, slide2, slide3];
           </h1>
   
           <motion.button
-            className="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-3 px-6 rounded-md mt-8"
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            transition={{
-              duration: 0.3,
-              repeat: Infinity,
-              repeatType: "reverse",
-            }}
-            onClick={openModal} // Open modal directly on click
-          >
-            Donate Now <span className="ml-2 text-red-500">❤</span>
-          </motion.button>
+          className="bg-[#FF0080] text-white font-semibold py-3 px-6 rounded-md mt-8 transition"
+          initial={{ scale: 0.9 }}
+          animate={{ scale: 1 }}
+          transition={{
+            duration: 0.3,
+            repeat: Infinity,
+            repeatType: "reverse",
+          }}
+          onClick={openModal} // Open modal directly on click
+        >
+          Donate Now <span className="ml-2 text-white">❤</span>
+        </motion.button>
         </motion.div>
   
         {/* Modal */}
