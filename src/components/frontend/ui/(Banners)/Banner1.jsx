@@ -16,7 +16,7 @@ const cardsData = [
       "Support mothers with essential resources to improve their lives and that of their families.",
     progress: 36,
     goal: "₹334,000",
-    raised: "$122,200",
+    raised: "₹122,200",
   },
   {
     id: 2,
@@ -26,7 +26,7 @@ const cardsData = [
       "Provide education tools and scholarships to children in underserved areas.",
     progress: 50,
     goal: "₹200,000",
-    raised: "$100,000",
+    raised: "₹100,000",
   },
   {
     id: 3,
@@ -36,7 +36,7 @@ const cardsData = [
       "Deliver critical healthcare resources to communities in need.",
     progress: 75,
     goal: "₹500,000",
-    raised: "$375,000",
+    raised: "₹375,000",
   },
 ];
 
