@@ -1,155 +1,119 @@
+"use client"
 import React from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+import logo from "../../../../public/logo/Smile.png";
+import Image from "next/image";
+
+
+const images = [
+  "/frontend/footerImage/image1.jpg",
+  "/frontend/footerImage/image2.jpg",
+  "/frontend/footerImage/image3.jpg",
+  "/frontend/footerImage/image4.jpg",
+  "/frontend/footerImage/image5.webp",
+  "/frontend/footerImage/image6.jpg",
+];
 
 const Footer = () => {
-  const images = [
-    "/frontend/footerImage/image1.jpg",
-    "/frontend/footerImage/image2.jpg",
-    "/frontend/footerImage/image3.jpg",
-    "/frontend/footerImage/image4.jpg",
-    "/frontend/footerImage/image5.webp",
-    "/frontend/footerImage/image6.jpg",
-  ];
-
   return (
-    <footer className="bg-black text-white py-10 px-5">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Left Section */}
+    <footer className="bg-black text-white py-10 px-4">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* Logo & Address */}
         <div>
-          <motion.h2
-            className="text-2xl md:text-3xl font-bold mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            Know about <span className="text-[#FF0080]">Bring Smile Foundation</span>
-          </motion.h2>
+        <div className="flex items-center space-x-2">
+          <Image src={logo} alt="Logo" width={50} height={50} />
+        </div>
+          <p>Email: support@bringsmile.org</p>
+          <p>Tel: +41 22 345 66 77</p>
+          <p>F-13/17, Jogabai Extension, Okhla</p>
+          <p>New Delhi- 110025.</p>
+          <button className="mt-4 underline">GET DIRECTIONS</button>
+        </div>
+
+        {/* Useful Links */}
+        <div>
+          <h2 className="text-lg font-bold mb-4">Useful Links</h2>
           <ul className="space-y-2">
             <li>
-              <Link
-                href={"/"}
-                className="hover:text-yellow-500"
-                whileHover={{ scale: 1.1 }}
-              >
-                HOME
-              </Link>
-            </li>
-            
-            <li>
-              <Link
-                href={"/aboutUs"}
-                className="hover:text-yellow-500"
-                whileHover={{ scale: 1.1 }}
-              >
-                ABOUT US
-              </Link>
+              <a href="#" className="hover:underline">
+                Our Programs
+              </a>
             </li>
             <li>
-              <Link
-                href={"/contactUs"}
-                className="hover:text-yellow-500"
-                whileHover={{ scale: 1.1 }}
-              >
-                CONTACT US
-              </Link>
+              <a href="#" className="hover:underline">
+                Our Mission
+              </a>
             </li>
             <li>
-              <motion.a
-                href="#"
-                className="hover:text-yellow-500"
-                whileHover={{ scale: 1.1 }}
-              >
-                EVENTS
-              </motion.a>
+              <a href="#" className="hover:underline">
+                Impact Stories
+              </a>
             </li>
             <li>
-              <motion.a
-                href="#"
-                className="hover:text-yellow-500"
-                whileHover={{ scale: 1.1 }}
-              >
-                DONATE
-              </motion.a>
+              <a href="#" className="hover:underline">
+                About Us
+              </a>
             </li>
           </ul>
-          <p className="mt-4 text-sm md:text-base text-gray-400">support@bringsmile.in</p>
         </div>
 
-        {/* Middle Section */}
+        {/* Image Grid */}
         <div>
-          <h3 className="text-lg md:text-xl font-bold mb-4">NEW HIGHLIGHTS</h3>
-          <div className="space-y-4">
-            <div className="flex space-x-3">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWpUocakbrozKWu46pKtUHlv3h9gYOg6HyOA&s"
-                alt="Highlight 1"
-                className="w-14 h-14 md:w-16 md:h-16 object-cover rounded"
-              />
-              <div>
-                <h4 className="font-bold text-sm md:text-base">Sees boom in younger volunteers</h4>
-                <p className="text-xs md:text-sm text-gray-400">September 14, 2024</p>
-              </div>
-            </div>
-            <div className="flex space-x-3">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMyAVcM5573bNCm7iwR-DgTnFLgxD3GMR2JA&s"
-                alt="Highlight 2"
-                className="w-14 h-14 md:w-16 md:h-16 object-cover rounded"
-              />
-              <div>
-                <h4 className="font-bold text-sm md:text-base">
-                  Breaking Barriers: Empowering Women in Sports
-                </h4>
-                <p className="text-xs md:text-sm text-gray-400">June 11, 2024</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Section */}
-        <div>
-          <h3 className="text-lg md:text-xl font-bold mb-4">NEW HIGHLIGHTS</h3>
-          <div className="grid grid-cols-3 gap-2">
+          <h2 className="text-lg font-bold mb-4">Get In Touch</h2>
+          <motion.div
+            className="grid grid-cols-3 gap-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+          >
             {images.map((image, index) => (
               <img
                 key={index}
                 src={image}
-                alt={`Highlight ${index + 1}`}
-                className="w-full h-12 md:h-16 object-cover rounded"
+                alt={`Footer Image ${index + 1}`}
+                className="h-20 w-20 object-cover"
               />
             ))}
-          </div>
+          </motion.div>
+        </div>
+
+        {/* Social Links */}
+        <div className="flex space-x-4">
+          <a href="#" className="hover:text-yellow-500">
+            <FaFacebookF size={24} />
+          </a>
+          <a href="#" className="hover:text-yellow-500">
+            <FaTwitter size={24} />
+          </a>
+          <a href="#" className="hover:text-yellow-500">
+            <FaInstagram size={24} />
+          </a>
+          <a href="#" className="hover:text-yellow-500">
+            <FaLinkedin size={24} />
+          </a>
         </div>
       </div>
 
-      {/* Bottom Section */}
-      <div className="border-t border-gray-800 mt-8 pt-4 text-center md:text-left">
-        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-          <p className="text-sm md:text-base">
-            © All rights reserved 2024 <span className="font-bold text-[#FF0080]">BringSmile Foundation</span>
-          </p>
-          <div className="flex space-x-4 items-center">
-            <Link
-              href={"/privacyPolicy"}
-              className="bg-white text-black px-3 py-1 text-xs md:text-sm rounded shadow hover:bg-[#FF0080] hover:text-white"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-             href={"/returnPolicy"}
-              className="bg-white text-black px-3 py-1 text-xs md:text-sm rounded shadow hover:bg-[#FF0080] hover:text-white"
-            >
-              Refund and Returns Policy
-            </Link>
-            <Link
-              href={"/termsAndConditions"}
-              className="bg-white text-black px-3 py-1 text-xs md:text-sm rounded shadow hover:bg-[#FF0080] hover:text-white"
-            >
-              Terms & Condition
-            </Link>
-          </div>
+      {/* Footer Bottom */}
+      <div className="mt-8 text-center border-t border-gray-700 pt-4">
+        <div className="text-sm space-x-4">
+          <a href="#" className="hover:underline">
+            Blog & News
+          </a>
+          <a href="#" className="hover:underline">
+            FAQs
+          </a>
+          <a href="#" className="hover:underline">
+            Privacy Policy
+          </a>
+          <a href="#" className="hover:underline">
+            Terms of Use
+          </a>
         </div>
+        <p className="text-gray-500 mt-4">
+        BringSmile Foundation © 2024. All Rights Reserved.
+        </p>
       </div>
     </footer>
   );
