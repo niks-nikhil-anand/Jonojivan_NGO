@@ -6,7 +6,7 @@ import { FaDonate, FaChild, FaHandsHelping } from "react-icons/fa";
 const Card = ({ Icon, title, description }) => {
   return (
     <motion.div
-      className="bg-gray-100 rounded-lg p-6 shadow-md hover:shadow-xl transition-shadow duration-300 h-96 flex flex-col justify-between"
+      className="bg-gray-100 rounded-lg p-6 shadow-md hover:shadow-xl transition-shadow duration-300 h-96 flex flex-col justify-between "
     >
       <div className="flex flex-col items-center">
         <div className="bg-white p-6 rounded-full mb-6 shadow-lg">
@@ -50,7 +50,7 @@ const WhoWeAre = () => {
   ];
 
   return (
-    <div className="bg-[#f7f8fc] grid grid-cols-1 md:grid-cols-3 gap-8 px-4 md:px-12">
+    <div className="bg-[#f7f8fc] grid grid-cols-1 md:grid-cols-3 gap-8 px-4 md:px-12 my-5">
       {cardData.map((card, index) => (
         <Card
           key={index}

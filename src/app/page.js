@@ -6,13 +6,14 @@ import FooterBanner from "@/components/frontend/ui/FooterBanner";
 import HeroSection from "@/components/frontend/ui/HeroSection";
 import OrganizationInfo from "@/components/frontend/ui/OrganitationInfo";
 import WhoWeAre from "@/components/frontend/ui/WhoWeAre";
+import CausesSection from "@/components/frontend/ui/(Banners)/BannerText01";
 
 export default function Home() {
   return (
     <>
       <HeroSection />
       <DonationForm/>
-      {/* <BannerText01 /> */}
+      <CausesSection/>
       <WhoWeAre />
       <CampaignCards />
       <OrganizationInfo/>
