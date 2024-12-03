@@ -23,7 +23,7 @@ const CausesSection = () => {
           <Image
             src={main}
             alt="Volunteers serving food"
-            className="rounded-lg shadow-lg"
+            className=""
             layout="responsive"
             width={500}
             height={400}
