@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import banner1 from "../../../../../public/frontend/CampaignBanner/cause-4.jpg";
-import banner2 from "../../../../../public/frontend/CampaignBanner/cause-5.jpg";
-import banner3 from "../../../../../public/frontend/CampaignBanner/cause-6.jpg";
+import banner1 from "../../../../public/frontend/CampaignBanner/cause-4.jpg";
+import banner2 from "../../../../public/frontend/CampaignBanner/cause-5.jpg";
+import banner3 from "../../../../public/frontend/CampaignBanner/cause-6.jpg";
 
 // Data array for the cards
 const cardsData = [
@@ -39,9 +39,9 @@ const cardsData = [
   },
 ];
 
-const HelpCard = () => {
+const CampaignCards = () => {
   return (
-    <div className=" bg-white py-6  px-4 md:px-12">
+    <div className=" bg-white py-6  px-4 md:px-12 mt-5">
       {/* Heading Section */}
       <div className="text-center mb-8">
         <h4 className="text-sm md:text-base text-gray-500 font-medium">
@@ -115,4 +115,4 @@ const HelpCard = () => {
   );
 };
 
-export default HelpCard;
+export default CampaignCards;

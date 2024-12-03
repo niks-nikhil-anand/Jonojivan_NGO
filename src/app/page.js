@@ -1,34 +1,24 @@
-import HeroSection from "@/components/frontend/ui/HeroSection";
-import WhoWeAre from "@/components/frontend/ui/WhoWeAre";
-import ProductCard from "@/components/frontend/ui/ProductForSale";
-import CategoriesSection from "@/components/frontend/ui/CategorySection";
-import Marquee from "@/components/frontend/ui/Marquee";
-
-// Banner Components
-import Banner1 from "@/components/frontend/ui/(Banners)/Banner1";
-import BannerText01 from "@/components/frontend/ui/(Banners)/BannerText01";
-import DonationForm from "@/components/frontend/ui/DonationForm";
-import OrganizationInfo from "@/components/frontend/ui/OrganitationInfo";
 import BlogSection from "@/components/frontend/ui/(Banners)/BlogSection";
-import FAQsSection from "@/components/frontend/ui/(Banners)/FAQsSection";
+import FAQsSection from "@/components/frontend/ui/FAQsSection";
+import CampaignCards from "@/components/frontend/ui/CampaignCards";
+import DonationForm from "@/components/frontend/ui/DonationForm";
+import FooterBanner from "@/components/frontend/ui/FooterBanner";
+import HeroSection from "@/components/frontend/ui/HeroSection";
+import OrganizationInfo from "@/components/frontend/ui/OrganitationInfo";
+import WhoWeAre from "@/components/frontend/ui/WhoWeAre";
 
 export default function Home() {
   return (
     <>
-      {/* Hero and Section components */}
       <HeroSection />
       <DonationForm/>
-      <BannerText01 />
+      {/* <BannerText01 /> */}
       <WhoWeAre />
-      {/* <ProductCard />
-      <CategoriesSection />
-      <Marquee /> */}
-      
-      {/* Banner Components */}
-      <Banner1 />
+      <CampaignCards />
       <OrganizationInfo/>
       <FAQsSection />
       <BlogSection />
+      <FooterBanner/>
     </>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import CompositeImage from "../../../../../public/frontend/Banner/Group_910.webp";
+import CompositeImage from "../../../../public/frontend/Banner/Group_910.webp";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
