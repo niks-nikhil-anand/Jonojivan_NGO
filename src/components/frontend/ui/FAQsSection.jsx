@@ -1,12 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import CompositeImage from "../../../../public/frontend/Banner/Group_910.webp";
-import Image from "next/image";
 import { motion } from "framer-motion";
 
 const FAQsSection = () => {
-  // State to manage the open/close state of each FAQ
   const [openFAQ, setOpenFAQ] = useState(null);
 
   // Toggle FAQ open/close state
@@ -44,61 +41,66 @@ const FAQsSection = () => {
   ];
 
   return (
-    <div className="bg-[#FEF7EC] py-10 px-6 md:px-16">
-      <div className="flex flex-col md:flex-row items-center justify-between">
-        {/* FAQ Section */}
-        <div className="w-full md:w-1/2 text-left mt-8 md:mt-0 md:pr-10">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-6">
-            Frequently Asked Questions
-          </h2>
-          <div className="space-y-4">
-            {faqData.map((faq, index) => (
-              <div
-                key={index}
-                className="border p-4 rounded-lg shadow-md bg-white"
-              >
-                {/* FAQ Question */}
-                <button
-                  className="w-full text-left font-semibold text-lg flex items-center justify-between"
-                  onClick={() => toggleFAQ(index)}
-                >
-                  <span className="text-base sm:text-lg">{faq.question}</span>
-                  {openFAQ === index ? (
-                    <AiOutlineMinus size={20} />
-                  ) : (
-                    <AiOutlinePlus size={20} />
-                  )}
-                </button>
-                {/* FAQ Answer */}
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={
-                    openFAQ === index
-                      ? { height: "auto", opacity: 1 }
-                      : { height: 0, opacity: 0 }
-                  }
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  style={{ overflow: "hidden" }}
-                >
-                  <p className="text-gray-600 mt-2 text-sm sm:text-base">
-                    {faq.answer}
-                  </p>
-                </motion.div>
-              </div>
-            ))}
-          </div>
-        </div>
+    <div className="bg-[#FEF7EC] py-12 px-6">
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-3xl mx-auto text-center"
+      >
+        <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+          Frequently Asked Questions
+        </h2>
+        <p className="text-gray-700 text-base sm:text-lg mb-8">
+          Have questions about contributing or supporting our mission? Explore
+          the answers to our most commonly asked questions below.
+        </p>
+      </motion.div>
 
-        {/* Image Section */}
-        <div className="w-full md:w-1/2 mt-6 md:mt-0">
-          <Image
-            src={CompositeImage}
-            alt="Composite of multiple images"
-            className="rounded-lg object-cover mx-auto"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
-        </div>
-      </div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="space-y-6 max-w-3xl mx-auto"
+      >
+        {faqData.map((faq, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: index * 0.2 }}
+            className="border p-4 rounded-lg shadow-md bg-white"
+          >
+            {/* FAQ Question */}
+            <button
+              className="w-full text-left font-semibold text-lg flex items-center justify-between"
+              onClick={() => toggleFAQ(index)}
+            >
+              <span className="text-base sm:text-lg">{faq.question}</span>
+              {openFAQ === index ? (
+                <AiOutlineMinus size={20} />
+              ) : (
+                <AiOutlinePlus size={20} />
+              )}
+            </button>
+            {/* FAQ Answer */}
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={
+                openFAQ === index
+                  ? { height: "auto", opacity: 1 }
+                  : { height: 0, opacity: 0 }
+              }
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              style={{ overflow: "hidden" }}
+            >
+              <p className="text-gray-600 mt-2 text-sm sm:text-base">
+                {faq.answer}
+              </p>
+            </motion.div>
+          </motion.div>
+        ))}
+      </motion.div>
     </div>
   );
 };
