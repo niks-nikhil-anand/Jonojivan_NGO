@@ -36,12 +36,12 @@ const OrganizationInfo = () => {
       ref={sectionRef}
       className="flex flex-col md:flex-row items-center justify-between px-12 py-8 md:px-20 md:py-16 relative bg-cover bg-no-repeat"
       style={{
-        backgroundImage: `url('/frontend/banner/BlurImage.webp')`,
+        backgroundImage: `url('/frontend/banner/BlurImage.jpg')`,
         backgroundPosition: "center",
       }}
     >
       {/* Background Overlay */}
-      <div className="absolute inset-0 bg-white bg-opacity-50 backdrop-blur-md rounded-lg"></div>
+      <div className="absolute inset-0 bg-white bg-opacity-50 backdrop-blur-sm rounded-lg"></div>
 
       {/* Content Wrapper */}
       <div className="relative flex flex-col md:flex-row w-full items-center justify-center z-10 space-y-12 md:space-y-0">
