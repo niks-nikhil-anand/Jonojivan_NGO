@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 import logo from "../../../../public/logo/Smile.png";
 import Image from "next/image";
+import Link from "next/link";
 
 const images = [
   "/frontend/footerImage/image1.jpg",
@@ -90,10 +91,9 @@ const Footer = () => {
       {/* Footer Bottom */}
       <div className="mt-8 text-center border-t border-gray-700 pt-4">
         <div className="text-sm space-x-4">
-          <a href="#" className="hover:underline">Blog & News</a>
-          <a href="#" className="hover:underline">FAQs</a>
-          <a href="#" className="hover:underline">Privacy Policy</a>
-          <a href="#" className="hover:underline">Terms of Use</a>
+          <Link href={"/returnPolicy"} className="hover:underline">Return Policy</Link>
+          <Link href={"/privacyPolicy"} className="hover:underline">Privacy Policy</Link>
+          <Link href={"/termsAndConditions"} className="hover:underline">Terms of Use</Link>
         </div>
         <p className="text-gray-500 mt-4">BringSmile Foundation © 2024. All Rights Reserved.</p>
       </div>
