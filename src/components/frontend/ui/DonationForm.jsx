@@ -288,18 +288,7 @@ const DonationForm = () => {
             />
             Online
           </label>
-          <label className="flex items-center">
-            <input
-              type="radio"
-              id="offline"
-              name="donationMode"
-              value="Offline"
-              checked={formData.donationMode === 'Offline'}
-              onChange={handleInputChange}
-              className="mr-2"
-            />
-            Offline
-          </label>
+          
         </div>
 
         <div className="mb-6">
