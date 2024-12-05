@@ -18,6 +18,7 @@ const DonationForm = () => {
     email: "",
     panCard: "",
     phone: "",
+    donationMode: "Online", // Add this line to set the initial selection to "Online"
   });
   const [isLoading, setIsLoading] = useState(false); // Add isLoading state
 

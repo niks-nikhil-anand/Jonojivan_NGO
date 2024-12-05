@@ -6,15 +6,17 @@ import { useRouter } from 'next/navigation' // Import useRouter from Next.js
 const Page = () => {
   const router = useRouter() // Initialize useRouter hook
 
+  
   useEffect(() => {
-    // Redirect to homepage after 3 seconds
+    // Redirect to homepage after 2 seconds
     const timer = setTimeout(() => {
       router.push('/') // Redirect to homepage
-    }, 3000)
+    }, 5000)
 
     // Cleanup timeout when the component is unmounted
     return () => clearTimeout(timer)
   }, [router])
+
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
