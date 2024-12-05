@@ -88,6 +88,8 @@ const DonationForm = () => {
         body: JSON.stringify(payload),
       });
 
+      
+
       if (!response.ok) {
         const errorData = await response.json();
         toast.error(`Error: ${errorData.message}`);
@@ -98,7 +100,7 @@ const DonationForm = () => {
       const { order } = await response.json();
 
       const options = {
-        key: "rzp_test_9P5WN79x91PczG",
+        key: "rzp_live_9ZTzDG6fFahGrR",
         amount: order.amount,
         currency: order.currency,
         name: "Donation",
@@ -106,6 +108,8 @@ const DonationForm = () => {
         order_id: order.id,
         handler: async function (response) {
           const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
+
+          router.push("/donation/success");
 
           try {
             const verificationResponse = await fetch("/api/verify-payment", {
@@ -162,7 +166,7 @@ const DonationForm = () => {
               console.log("Donation API response data:", donationResult);
 
               toast.success("Donation successful! Thank you for your support.");
-              router.push("/donation/success");
+             
               setIsLoading(false); // Set loading to false after donation success
             } catch (donationError) {
               console.error("Failed to record donation:", donationError);
