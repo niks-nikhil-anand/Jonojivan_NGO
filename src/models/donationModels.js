@@ -10,20 +10,15 @@ const DonationSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    match: [
-      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-      "Please provide a valid email address",
-    ],
+   
   },
   panCardNumber: {
     type: String,
     trim: true,
-    match: [/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, "Please provide a valid PAN card number"],
   },
   phoneNumber: {
     type: String,
     trim: true,
-    match: [/^\d{10}$/, "Please provide a valid 10-digit phone number"],
   },
   amount: {
     type: Number,
