@@ -231,7 +231,7 @@ const DonationForm = () => {
           Your donation helps us make a real difference in the lives of many.
         </p>
         <div className="flex flex-wrap gap-4 justify-center mb-8">
-          {["500", "1000", "2500", "5000"].map((value) => (
+          {["1" ,"500", "1000", "2500", "5000"].map((value) => (
             <button
               key={value}
               className={`px-6 py-3 border rounded-lg font-semibold text-lg shadow-md ${
