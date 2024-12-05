@@ -3,8 +3,12 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useRouter } from 'next/navigation'; // Import useRouter from next/router
+
 
 const DonationForm = () => {
+  const router = useRouter(); // Initialize router
+
   const [amount, setAmount] = useState("");
   const [isCustom, setIsCustom] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,53 +42,117 @@ const DonationForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Initialize Razorpay payment
   const initiateRazorpayPayment = async () => {
-    // Check if the amount is valid
+    // Validate the donation amount
     if (!amount || isNaN(amount) || amount <= 0) {
+      console.error("Invalid donation amount:", amount);
       toast.error("Please enter a valid donation amount.");
       return;
     }
   
-    // Construct payload for the Razorpay API request
+    // Prepare the payload for creating a Razorpay order
     const payload = {
-      amount: amount * 100,  // Amount in paise
+      amount: amount * 100, // Convert to paise
       currency: "INR",
-      receipt: `receipt_${new Date().getTime()}`,
+      receipt: `receipt_${Date.now()}`, // Unique receipt ID
     };
   
+    console.log("Payload for Razorpay API:", payload);
+  
     try {
-      // Call the backend to create the Razorpay order
+      // Create Razorpay order via backend API
       const response = await fetch("/api/create-razorpay-order", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
   
-      // Handle non-200 status codes
       if (!response.ok) {
         const errorData = await response.json();
+        console.error("Error response from backend:", errorData);
         toast.error(`Error: ${errorData.message}`);
         return;
       }
   
-      // Get the order details from the backend response
       const { order } = await response.json();
-      const { amount, currency, order_id } = order;
+      console.log("Order details from backend:", order);
   
-      // Razorpay options for payment
       const options = {
-        key: "YOUR_RAZORPAY_KEY_ID", // Your Razorpay Key ID
-        amount: amount,              // Amount in paise
-        currency: currency,
+        key: "rzp_test_9P5WN79x91PczG", // Replace with your actual Razorpay Key ID
+        amount: order.amount,
+        currency: order.currency,
         name: "Donation",
         description: "Donation for the cause",
-        order_id: order_id,          // Order ID received from backend
-        handler: function (response) {
-          // Handle successful payment
-          toast.success("Donation successful! Thank you for your support.");
+        order_id: order.id,
+        handler: async function (response) {
+          const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
+  
+          if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+            console.error("Missing payment details in Razorpay response");
+            toast.error("Payment verification failed: Missing payment details.");
+            return;
+          }
+  
+          console.log("Razorpay payment response:", response);
+  
+          try {
+            // Verify payment with backend
+            const verificationResponse = await fetch("/api/verify-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_order_id,
+                razorpay_payment_id,
+                razorpay_signature,
+              }),
+            });
+  
+            if (!verificationResponse.ok) {
+              const errorData = await verificationResponse.json();
+              console.error("Payment verification failed:", errorData);
+              toast.error(`Payment verification failed: ${errorData.message}`);
+              return;
+            }
+  
+            const verificationResult = await verificationResponse.json();
+            console.log("Payment verification successful:", verificationResult);
+  
+            // Record donation after successful verification
+            try {
+              const donationResponse = await fetch("/api/donation", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  amount: payload.amount / 100, // Convert to rupees
+                  fullName: formData.fullName,
+                  emailaddress: formData.email,
+                  panCard: formData.panCard,
+                  phonenumber: formData.phone,
+                  paymentMethod: "Online", // Specify the payment method
+                  razorpay_order_id, // Optional, include only if your API handles it
+                  razorpay_payment_id, // Optional, include only if your API handles it
+                }),
+              });
+              
+  
+              if (!donationResponse.ok) {
+                const errorData = await donationResponse.json();
+                console.error("Error in donation API:", errorData);
+                toast.error(`Error recording donation: ${errorData.message}`);
+                return;
+              }
+  
+              const donationResult = await donationResponse.json();
+              console.log("Donation recorded successfully:", donationResult);
+              toast.success("Donation successful! Thank you for your support.");
+            } catch (donationError) {
+              console.error("Error recording donation:", donationError);
+              toast.error("Failed to record donation. Please contact support.");
+            }
+          } catch (verificationError) {
+            console.error("Error verifying payment:", verificationError);
+            toast.error("Failed to verify payment. Please contact support.");
+          }
         },
         prefill: {
           name: formData.fullName,
@@ -95,59 +163,109 @@ const DonationForm = () => {
           address: "Razorpay Donation",
         },
         theme: {
-          color: "#FF0080", // Customize Razorpay theme color
+          color: "#FF0080",
         },
       };
   
-      // Create Razorpay instance and open payment modal
+      console.log("Razorpay options:", options);
+  
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error) {
-      // Handle network or server errors
       console.error("Error initiating Razorpay payment:", error);
       toast.error("Failed to create Razorpay order. Please try again.");
     }
   };
   
+  
+  
+  
+  
+  
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    if (paymentMethod === "Online") {
-      // If the payment method is online, call the Razorpay payment function
-      initiateRazorpayPayment();
+// Helper function to make the donation API call
+const makeDonationApiCall = async (payload) => {
+  try {
+    const response = await fetch("/api/donation", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      return { success: true };
     } else {
-      // For offline or test donations, proceed with submitting the form
-      const payload = {
-        ...formData,
-        amount,
-        paymentMethod,
-      };
-  
-      try {
-        const response = await fetch("/api/donation", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        });
-  
-        if (response.ok) {
-          toast.success("Donation successful! Thank you for your support.");
-          setFormData({ fullName: "", email: "", panCard: "", phone: "" });
-          setAmount("");
-          setIsModalOpen(false);
-        } else {
-          const errorData = await response.json();
-          toast.error(`Error: ${errorData.message}`);
-        }
-      } catch (error) {
-        toast.error("An error occurred. Please try again later.");
+      const errorData = await response.json();
+      return { success: false, message: errorData.message };
+    }
+  } catch (error) {
+    return { success: false, message: "An error occurred. Please try again later." };
+  }
+};
+
+// Handle form submission
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const payload = {
+    ...formData,
+    amount,
+    paymentMethod,
+  };
+
+  try {
+    if (paymentMethod === "Online") {
+      console.log("Initiating Razorpay payment...");
+
+      const razorpaySuccess = await initiateRazorpayPayment();
+
+      if (razorpaySuccess) {
+        console.log("Razorpay payment result:", razorpaySuccess);
+        // Navigate to success page if payment is successful
+        router.push("/donation/success");
+      } else {
+        toast.error("Payment failed. Please try again.");
+      }
+    } else {
+      console.log("Processing offline donation...");
+
+      const donationResponse = await makeDonationApiCall(payload);
+      console.log("Donation API response:", donationResponse);
+
+      if (donationResponse.success) {
+        toast.success("Donation successful! Thank you for your support.");
+        resetForm(); // Ensure form resets on successful donation
+        router.push("/donation/success");
+      } else {
+        // Handle API error response
+        toast.error(`Error: ${donationResponse.message}`);
       }
     }
-  };
+  } catch (error) {
+    // Unified error handling for both online and offline processes
+    console.error("Error during donation process:", error);
+
+    const errorMessage = paymentMethod === "Online"
+      ? "An error occurred during the payment process. Please try again later."
+      : "An error occurred while processing your donation. Please try again later.";
+
+    toast.error(errorMessage);
+  }
+};
+
+
+
+// Function to reset the form
+const resetForm = () => {
+  setFormData({ fullName: "", email: "", panCard: "", phone: "" });
+  setAmount("");
+  setIsModalOpen(false);
+};
+
+  
+  
   
 
   return (

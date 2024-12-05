@@ -1,3 +1,5 @@
+import typography from '@tailwindcss/typography';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -29,7 +31,6 @@ export default {
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
         cormorant: ['Cormorant', 'serif'],
-
       },
       transitionProperty: {
         borderColor: 'border-color',
@@ -85,7 +86,7 @@ export default {
     },
   },
   plugins: [
-    require('@tailwindcss/typography'),
+    typography, // Using 'import' instead of 'require'
     // other plugins
   ],
 };
