@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Loader from '@/components/loader/loader';
+import Image from 'next/image';
 
 const ITEMS_PER_PAGE = 6; // Adjust this value based on your preference
 
@@ -49,34 +50,50 @@ const News = () => {
       <h1 className="text-3xl font-bold mb-2">Make a Difference with Your Donation</h1>
       <h2 className="text-xl mb-4">Explore the latest stories, campaigns, and causes that need your support</h2>
 
-      
       {loading ? (
         <Loader />  
       ) : (
         <>
-<div className="flex flex-wrap justify-between">
-  {currentArticles.map((article) => (
-    <motion.div
-      key={article._id}
-      className="p-4 bg-white rounded-lg shadow-lg cursor-pointer w-full sm:w-1/2 md:w-[45%] mt-5 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-2 hover:border-gray-300" // 3D effect with scale, shadow, and border
-      onClick={() => handleCardClick(article._id)}
-      initial={{ scale: 1 }} // Initial state: normal size
-      
-      whileTap={{ scale: 0.98 }} // Tap effect: slightly shrink
-    >
-      <img
-        src={article.featuredImage}
-        alt={article.title}
-        className="w-full h-48 object-cover rounded-t-lg mb-4"
-      />
-      <h3 className="text-xl md:text-2xl font-semibold textColor hover:underline">{article.title}</h3>
-      <p className="text-gray-600">{article.subtitle}</p>
-      <div className="text-sm text-gray-500 mt-2">By {article.author} in {article.category}</div>
-      <div className="text-xs text-gray-400 mt-1">Published on {new Date(article.createdAt).toLocaleDateString()}</div>
-    </motion.div>
-  ))}
-</div>
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+    {articles.map((article) => (
+      <div
+        key={article._id}
+        className="flex flex-col md:flex-row bg-gray-100 p-4 shadow-md hover:shadow-lg rounded-lg overflow-hidden cursor-pointer"
+        onClick={() => handleCardClick(article._id)}
+      >
+        {/* Image Section */}
+        <div className="relative w-full md:w-1/3">
+          <img
+            src={article.featuredImage}
+            alt={article.title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute top-2 left-2 bg-[#EF4339] text-white px-3 py-1 text-sm font-bold rounded-md">
+            {new Date(article.createdAt).toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+            })}
+          </div>
+        </div>
 
+        {/* Content Section */}
+        <div className="p-4 flex flex-col justify-between w-full">
+          <h3 className="text-xl font-bold text-gray-800">{article.title}</h3>
+          <p className="text-gray-600 mt-2">
+            {article.subtitle.split(' ').slice(0, 20).join(' ')}
+            {article.subtitle.split(' ').length > 20 ? '...' : ''}
+          </p>
+          <a
+            href={`/blog/${article._id}`}
+            className="text-red-500 hover:underline text-sm font-bold mt-3"
+            onClick={() => handleCardClick(article._id)}
+          >
+            Learn More
+          </a>
+        </div>
+      </div>
+    ))}
+  </div>
 
           {/* Pagination controls */}
           <div className="flex justify-center mt-6 flex-col sm:flex-row">
