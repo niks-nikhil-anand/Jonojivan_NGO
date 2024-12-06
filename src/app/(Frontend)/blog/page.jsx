@@ -46,28 +46,37 @@ const News = () => {
 
   return (
     <div className="flex flex-col px-4 md:px-10 mt-10 mb-10 justify-center md:ml-[90px]">
-      <h1 className="text-3xl font-bold mb-2">Wellness Blog</h1>
-      <h2 className="text-xl mb-4">Explore the latest Grocery Tips & Trends from our curated selection</h2>
+      <h1 className="text-3xl font-bold mb-2">Make a Difference with Your Donation</h1>
+      <h2 className="text-xl mb-4">Explore the latest stories, campaigns, and causes that need your support</h2>
+
       
       {loading ? (
         <Loader />  
       ) : (
         <>
-          <div className="flex flex-wrap justify-between">
-            {currentArticles.map((article) => (
-              <motion.div
-                key={article._id}
-                className="p-4 bg-white rounded-lg shadow-md cursor-pointer w-full sm:w-1/2 md:w-[45%] mt-5" // Responsive width classes
-                onClick={() => handleCardClick(article._id)}
-              >
-                <img src={article.featuredImage} alt={article.title} className="w-full h-48 object-cover rounded-t-lg mb-4"/>
-                <h3 className="text-xl md:text-2xl font-semibold textColor hover:underline">{article.title}</h3>
-                <p className="text-gray-600">{article.subtitle}</p>
-                <div className="text-sm text-gray-500 mt-2">By {article.author} in {article.category}</div>
-                <div className="text-xs text-gray-400 mt-1">Published on {new Date(article.createdAt).toLocaleDateString()}</div>
-              </motion.div>
-            ))}
-          </div>
+<div className="flex flex-wrap justify-between">
+  {currentArticles.map((article) => (
+    <motion.div
+      key={article._id}
+      className="p-4 bg-white rounded-lg shadow-lg cursor-pointer w-full sm:w-1/2 md:w-[45%] mt-5 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-2 hover:border-gray-300" // 3D effect with scale, shadow, and border
+      onClick={() => handleCardClick(article._id)}
+      initial={{ scale: 1 }} // Initial state: normal size
+      
+      whileTap={{ scale: 0.98 }} // Tap effect: slightly shrink
+    >
+      <img
+        src={article.featuredImage}
+        alt={article.title}
+        className="w-full h-48 object-cover rounded-t-lg mb-4"
+      />
+      <h3 className="text-xl md:text-2xl font-semibold textColor hover:underline">{article.title}</h3>
+      <p className="text-gray-600">{article.subtitle}</p>
+      <div className="text-sm text-gray-500 mt-2">By {article.author} in {article.category}</div>
+      <div className="text-xs text-gray-400 mt-1">Published on {new Date(article.createdAt).toLocaleDateString()}</div>
+    </motion.div>
+  ))}
+</div>
+
 
           {/* Pagination controls */}
           <div className="flex justify-center mt-6 flex-col sm:flex-row">
