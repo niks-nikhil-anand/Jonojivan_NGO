@@ -11,7 +11,7 @@ const FooterBanner = () => {
       transition={{ duration: 0.8 }}
       className="text-lg md:text-2xl font-bold text-center md:text-left mb-4 md:mb-0"
     >
-      The joy of giving lasts longer than any material possession.
+      Your Donation Can Transform Lives & Shapes Future.
     </motion.div>
     <motion.button
       initial={{ scale: 0.8, opacity: 0 }}

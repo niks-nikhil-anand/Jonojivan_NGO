@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import CountUp from "react-countup";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 const OrganizationInfo = () => {
   const [inView, setInView] = useState(false);
@@ -16,7 +17,7 @@ const OrganizationInfo = () => {
         }
       },
       {
-        threshold: 0.2, // Trigger when 20% of the section is visible
+        threshold: 0.2,
       }
     );
 
@@ -32,16 +33,20 @@ const OrganizationInfo = () => {
   }, []);
 
   return (
-    <div
-      ref={sectionRef}
-      className="flex flex-col md:flex-row items-center justify-between px-12 py-8 md:px-20 md:py-16 relative bg-cover bg-no-repeat"
-      style={{
-        backgroundImage: `url('/frontend/banner/BlurImage.jpg')`,
-        backgroundPosition: "center",
-      }}
-    >
-      {/* Background Overlay */}
-      <div className="absolute inset-0 bg-white bg-opacity-50 backdrop-blur-sm rounded-lg"></div>
+    <div ref={sectionRef} className="relative flex flex-col md:flex-row items-center justify-between px-12 py-8 md:px-20 md:py-16">
+      <div className="absolute inset-0">
+        <Image
+          src="/frontend/Banners/OrganizationInfo.jpg"
+          alt="Organization Banner"
+          layout="fill"
+          objectFit="cover"
+          quality={75}
+          className="z-0"
+          priority
+        />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-white bg-opacity-50 backdrop-blur-sm rounded-lg"></div>
+      </div>
 
       {/* Content Wrapper */}
       <div className="relative flex flex-col md:flex-row w-full items-center justify-center z-10 space-y-12 md:space-y-0">
@@ -50,7 +55,7 @@ const OrganizationInfo = () => {
           {/* Volunteer Stats */}
           {inView && (
             <motion.div
-              className="text-3xl md:text-4xl font-bold "
+              className="text-3xl md:text-4xl font-bold"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -61,35 +66,32 @@ const OrganizationInfo = () => {
               </div>
             </motion.div>
           )}
-
-          {/* People Helped Stats */}
+          {/* Other stats */}
           {inView && (
-            <motion.div
-              className="text-3xl md:text-4xl font-bold "
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <CountUp start={0} end={2348195} duration={2.5} separator="," />
-              <div className="text-lg md:text-xl font-medium  mt-2">
-                People Helped in 2020
-              </div>
-            </motion.div>
-          )}
-
-          {/* Funds Collected Stats */}
-          {inView && (
-            <motion.div
-              className="text-3xl md:text-4xl font-bold "
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
-            >
-              ₹<CountUp start={0} end={16} duration={2} suffix="M" />
-              <div className="text-lg md:text-xl font-medium  mt-2">
-                Funds Collected
-              </div>
-            </motion.div>
+            <>
+              <motion.div
+                className="text-3xl md:text-4xl font-bold"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <CountUp start={0} end={2348195} duration={2.5} separator="," />
+                <div className="text-lg md:text-xl font-medium mt-2">
+                  People Helped in 2020
+                </div>
+              </motion.div>
+              <motion.div
+                className="text-3xl md:text-4xl font-bold"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1 }}
+              >
+                ₹<CountUp start={0} end={16} duration={2} suffix="M" />
+                <div className="text-lg md:text-xl font-medium mt-2">
+                  Funds Collected
+                </div>
+              </motion.div>
+            </>
           )}
         </div>
 
@@ -101,57 +103,41 @@ const OrganizationInfo = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            Together We Can Make a Difference
-          </motion.p>
+          Empowering Lives Through Quality Education
+        </motion.p>
           <motion.h1
             className="text-2xl md:text-3xl font-bold text-black -mt-2 leading-snug"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            Empowering Lives Globally
-          </motion.h1>
+        Bring Smiles, Build Futures
+
+      </motion.h1>
           <motion.p
             className="text-blue-900 mt-4 leading-relaxed text-sm md:text-lg"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            Join hands with us in transforming communities and bringing hope to
-            those in need. Together, we have made a significant impact across
-            the globe, reaching millions and changing lives for the better.
+            Bring Smile Foundation is a movement of hope and empowerment, transforming lives through education in Bihar’s underprivileged regions, where poverty and discrimination often overshadow dreams.
           </motion.p>
-          <motion.p
-            className="text-blue-900  mt-2 leading-relaxed text-sm md:text-lg"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1 }}
-          >
-            Be a part of the movement that uplifts humanity and creates a
-            brighter future for all. Your support helps us reach even more
-            lives and make an everlasting impact.
-          </motion.p>
-          <Link href={"/aboutUs"}>
-          <motion.button
-          className="bg-[#FF0080] hover:bg-[#FF66B2] text-white font-semibold py-3 px-8 rounded-lg shadow-lg mt-6 transition-all duration-300"
-          initial={{ scale: 0.9 }}
-          animate={{ scale: 1 }}
-          whileHover={{
-            scale: 1.05, // Slightly scale up on hover
-            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)", // Shadow on hover for more depth
-            backgroundColor: "#FF66B2", // Lighter pink color on hover
-          }}
-          whileTap={{
-            scale: 0.95, // Shrink on tap for a press effect
-          }}
-          transition={{
-            duration: 0.3,
-            repeat: Infinity,
-            repeatType: "reverse", // Make it bounce back to its original state
-          }}
-        >
-          Learn More About Us
-        </motion.button>
+          <Link href="/aboutUs">
+            <motion.button
+              className="bg-[#FF0080] hover:bg-[#FF66B2] text-white font-semibold py-3 px-8 rounded-lg shadow-lg mt-6 transition-all duration-300"
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+                backgroundColor: "#FF66B2",
+              }}
+              whileTap={{
+                scale: 0.95,
+              }}
+            >
+              Learn More About Us
+            </motion.button>
           </Link>
         </div>
       </div>
