@@ -36,7 +36,7 @@ const OrganizationInfo = () => {
     <div ref={sectionRef} className="relative flex flex-col md:flex-row items-center justify-between px-12 py-8 md:px-20 md:py-16">
       <div className="absolute inset-0">
         <Image
-          src="/frontend/Banners/OrganizationInfo.jpg"
+          src="/frontend/Banners/childInSchool.jpg"
           alt="Organization Banner"
           layout="fill"
           objectFit="cover"

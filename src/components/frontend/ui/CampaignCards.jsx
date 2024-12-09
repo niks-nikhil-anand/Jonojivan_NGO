@@ -41,7 +41,7 @@ const cardsData = [
 
 const CampaignCards = () => {
   return (
-    <div className=" bg-white py-6  px-4 md:px-12 mt-5">
+    <div className=" bg-[#f7f8fc] py-6  px-4 md:px-12 mt-5">
       {/* Heading Section */}
       <div className="text-center mb-8">
         <h4 className="text-sm md:text-base text-gray-500 font-medium">

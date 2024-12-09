@@ -59,77 +59,71 @@ const CausesSection = () => {
 
         {/* Right Section */}
         <motion.div
-          className="w-full md:w-1/2 px-4"
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-3xl font-bold text-[#1d1d1f] mb-6 leading-tight">
-            Mission in Motion: Discover{" "}
-            <span className="text-[#ff5a5f]">Our Charitable Purpose</span>
-          </h2>
-          <p className="text-lg text-[#3d3d3f] mb-4">
-            This future is within your reach. Donate today, and be the force that transforms lives.
-          </p>
+  className="w-full md:w-1/2 px-4 flex flex-col justify-center items-start"
+  initial={{ opacity: 0, x: 50 }}
+  animate={{ opacity: 1, x: 0 }}
+  transition={{ duration: 0.6 }}
+>
+  <h2 className="text-3xl font-bold text-[#1d1d1f] mb-6 leading-tight">
+    Mission in Motion: Discover{" "}
+    <span className="text-[#ff5a5f]">Our Charitable Purpose</span>
+  </h2>
+  <p className="text-lg text-[#3d3d3f] mb-8">
+    This future is within your reach. Donate today, and be the force that
+    transforms lives.
+  </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {[
-              {
-                icon: student,
-                title: "Girl Child Education",
-                description:
-                  "Your donation empowers girls to dream, rise above circumstances, and build a life filled with possibilities.",
-              },
-              {
-                icon: woman,
-                title: "Skill Development for Women",
-                description:
-                  "Equip women with skills to achieve financial independence and break cycles of poverty.",
-              },
-              {
-                icon: tuition,
-                title: "Tuition Classes for Quality Education",
-                description:
-                  "Help underprivileged children excel in their studies with personalized academic support.",
-              },
-              {
-                icon: school,
-                title: "Building a School",
-                description:
-                  "Create safe, inspiring spaces where children can learn, grow, and dream big.",
-              },
-              {
-                icon: GenderEquality,
-                title: "Women Empowerment & Gender Equality",
-                description:
-                  "Support women and girls to fight for their rights and unlock their full potential.",
-              },
-            ].map((cause, index) => (
-              <div key={index} className="flex items-start space-x-4">
-                <Image src={cause.icon} alt={cause.title} width={50} height={50} />
-                <div>
-                  <h4 className="text-lg font-semibold text-[#1d1d1f] mb-2">
-                    {cause.title}
-                  </h4>
-                  <p className="text-sm text-[#6c757d]">{cause.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 ">
+    {[
+      {
+        icon: student,
+        title: "Girl Child Education",
+        description:
+          "Your donation empowers girls to dream, rise above circumstances, and build a life filled with possibilities.",
+      },
+      {
+        icon: woman,
+        title: "Skill Development for Women",
+        description:
+          "Equip women with skills to achieve financial independence and break cycles of poverty.",
+      },
+      {
+        icon: tuition,
+        title: "Tuition Classes for Quality Education",
+        description:
+          "Help underprivileged children excel in their studies with personalized academic support.",
+      },
+      {
+        icon: school,
+        title: "Building a School",
+        description:
+          "Create safe, inspiring spaces where children can learn, grow, and dream big.",
+      },
+      {
+        icon: GenderEquality,
+        title: "Women Empowerment & Gender Equality",
+        description:
+          "Support women and girls to fight for their rights and unlock their full potential.",
+      },
+    ].map((cause, index) => (
+      <div
+        key={index}
+        className="flex items-start space-x-4 p-4 border rounded-lg shadow-lg bg-white hover:shadow-xl transition"
+      >
+        <Image src={cause.icon} alt={cause.title} width={50} height={50}/>
+        <div>
+          <h4 className="text-lg font-semibold text-[#1d1d1f] mb-2">
+            {cause.title}
+          </h4>
+          <p className="text-sm text-[#6c757d]">{cause.description}</p>
+        </div>
+      </div>
+    ))}
+  </div>
 
-          {/* Animated Button */}
-          <motion.button
-            className="mt-8 bg-[#28a745] text-white py-3 px-6 text-lg font-semibold rounded-md shadow-md hover:bg-[#218838] transition transform"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            animate={{
-              scale: [1, 1.1, 1],
-              transition: { duration: 0.5, repeat: Infinity, repeatType: "reverse" },
-            }}
-          >
-            Know More About Us
-          </motion.button>
-        </motion.div>
+
+</motion.div>
+
       </div>
     </div>
   );

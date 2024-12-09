@@ -5,8 +5,8 @@ import DonationForm from "@/components/frontend/ui/DonationForm";
 import FooterBanner from "@/components/frontend/ui/FooterBanner";
 import HeroSection from "@/components/frontend/ui/HeroSection";
 import OrganizationInfo from "@/components/frontend/ui/OrganitationInfo";
-import WhoWeAre from "@/components/frontend/ui/WhoWeAre";
 import CausesSection from "@/components/frontend/ui/(Banners)/BannerText01";
+import ChildSponsorshipSection from "@/components/frontend/ui/ChildSponsorshipSection";
 
 export default function Home() {
   return (
@@ -14,7 +14,7 @@ export default function Home() {
       <HeroSection />
       <DonationForm/>
       <CausesSection/>
-      <WhoWeAre />
+      <ChildSponsorshipSection/>
       <CampaignCards />
       <OrganizationInfo/>
       <FAQsSection />
