@@ -14,29 +14,29 @@ const FAQsSection = () => {
   // FAQ data array
   const faqData = [
     {
-      question: "What is the impact of my donation?",
+      question: "What is Bring Smile?",
       answer:
-        "Your donation helps provide education, healthcare, and protection for marginalized children in India.",
+        "Bring Smile is a non-profit organization dedicated to improving the lives of children, women, and communities through education, skill development, and empowerment. We focus on creating lasting change by providing access to education and equal opportunities for all.",
     },
     {
-      question: "How can I contribute?",
+      question: "How can I donate to Bring Smile?",
       answer:
-        "You can contribute online via our donation portal or by contacting our team for offline donation methods.",
+        "You can easily donate through our website’s Donate Now page. Simply choose your donation amount and proceed with a secure online payment using your preferred method.",
     },
     {
-      question: "Can I choose which project my donation supports?",
+      question: "What programs does Bring Smile support?",
       answer:
-        "Yes, you can specify the project you would like to support, and we will ensure your donation is allocated accordingly.",
+        "Bring Smile supports various programs, including:\n• Girl Child Education\n• Skill Development for Women\n• Tuition Classes for Quality Education\n• School Building Projects\n• Women Empowerment & Gender Equality",
     },
     {
-      question: "Are my donations tax-deductible?",
+      question: "How does my donation help?",
       answer:
-        "Yes, your donations are tax-deductible under section 80G of the Income Tax Act in India.",
+        "Your donation directly supports our programs, providing education, skill development, mentorship, and the creation of infrastructure, ultimately improving the lives of children and women in underserved communities.",
     },
     {
-      question: "How do I receive confirmation of my donation?",
+      question: "How much does it cost to sponsor a child?",
       answer:
-        "After donating, you will receive an email confirmation and receipt for your records.",
+        "Sponsoring a child costs ₹26,000 per year, which covers their school fees, books, uniforms, and other essential resources for a full year of education.",
     },
   ];
 
@@ -101,6 +101,15 @@ const FAQsSection = () => {
           </motion.div>
         ))}
       </motion.div>
+      <div className="mt-8 text-center md:mt-16 md:order-3">
+            <a
+              href="#"
+              title=""
+              className="pb-2 text-base font-bold leading-7 text-gray-900 transition-all duration-200 border-b-2 border-gray-900 hover:border-gray-600 font-pj focus:outline-none focus:ring-1 focus:ring-gray-900 focus:ring-offset-2 hover:text-gray-600"
+            >
+              Read all 2,157 FAQs
+            </a>
+          </div>
     </div>
   );
 };
