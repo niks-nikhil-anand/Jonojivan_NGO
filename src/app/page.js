@@ -7,6 +7,7 @@ import HeroSection from "@/components/frontend/ui/HeroSection";
 import OrganizationInfo from "@/components/frontend/ui/OrganitationInfo";
 import CausesSection from "@/components/frontend/ui/(Banners)/BannerText01";
 import ChildSponsorshipSection from "@/components/frontend/ui/ChildSponsorshipSection";
+import Testimonials from "@/components/frontend/ui/Testimonials";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
       <OrganizationInfo/>
       <FAQsSection />
       <BlogSection />
+      <Testimonials/>
       <FooterBanner/>
     </>
   );
