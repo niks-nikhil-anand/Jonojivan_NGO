@@ -220,7 +220,7 @@ const DonationForm = () => {
 
   return (
     <motion.div
-      className="w-full p-8 bg-[#DEB841] rounded-b-2xl shadow-2xl text-black mb-8 mx-auto max-w-7xl z-20"
+      className="w-full p-8 bg-[#DEB841] rounded-b-2xl shadow-2xl text-black  mx-auto max-w-7xl z-20"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}

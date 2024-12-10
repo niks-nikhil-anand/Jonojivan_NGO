@@ -37,7 +37,7 @@ const CharityPhotos = () => {
           {imagesLoop.map((image, index) => (
             <motion.div
               key={index}
-              className="flex-none relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-lg shadow-lg"
+              className="flex-none relative w-48 h-48 sm:w-64 sm:h-64 md:w-56 md:h-80 rounded-lg shadow-lg"
             >
               <Image
                 src={image}
