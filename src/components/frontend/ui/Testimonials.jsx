@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from "../../../../public/logo/Smile.png";
 import Image from 'next/image';
+import Link from 'next/link';
 
 
 const TestimonialCard = ({ avatar, name, job, quote }) => {
@@ -62,13 +63,13 @@ const Testimonials = () => {
           </div>
 
           <div className="mt-8 text-center md:mt-16 md:order-3">
-            <a
-              href="#"
+            <Link
+              href={"/Testimonials"}
               title=""
               className="pb-2 text-base font-bold leading-7 text-gray-900 transition-all duration-200 border-b-2 border-gray-900 hover:border-gray-600 font-pj focus:outline-none focus:ring-1 focus:ring-gray-900 focus:ring-offset-2 hover:text-gray-600"
             >
               Check all 2,157 reviews
-            </a>
+            </Link>
           </div>
 
           <div className="relative mt-10 md:mt-24 md:order-2">

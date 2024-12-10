@@ -8,6 +8,7 @@ import OrganizationInfo from "@/components/frontend/ui/OrganitationInfo";
 import CausesSection from "@/components/frontend/ui/(Banners)/BannerText01";
 import ChildSponsorshipSection from "@/components/frontend/ui/ChildSponsorshipSection";
 import Testimonials from "@/components/frontend/ui/Testimonials";
+import CharityPhotos from "@/components/frontend/ui/CharityPhotos";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
       <FAQsSection />
       <BlogSection />
       <Testimonials/>
+      <CharityPhotos/>
       <FooterBanner/>
     </>
   );

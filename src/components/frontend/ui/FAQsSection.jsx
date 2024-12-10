@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const FAQsSection = () => {
   const [openFAQ, setOpenFAQ] = useState(null);
@@ -102,13 +103,13 @@ const FAQsSection = () => {
         ))}
       </motion.div>
       <div className="mt-8 text-center md:mt-16 md:order-3">
-            <a
-              href="#"
+            <Link
+              href={"/Faqs"}
               title=""
               className="pb-2 text-base font-bold leading-7 text-gray-900 transition-all duration-200 border-b-2 border-gray-900 hover:border-gray-600 font-pj focus:outline-none focus:ring-1 focus:ring-gray-900 focus:ring-offset-2 hover:text-gray-600"
             >
               Read all 2,157 FAQs
-            </a>
+            </Link>
           </div>
     </div>
   );
