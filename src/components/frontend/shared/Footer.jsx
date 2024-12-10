@@ -11,7 +11,7 @@ const images = [
   "/frontend/footerImage/image2.jpg",
   "/frontend/footerImage/image3.jpg",
   "/frontend/footerImage/image4.jpg",
-  "/frontend/footerImage/image5.webp",
+  "/frontend/footerImage/image5.jpg",
   "/frontend/footerImage/image6.jpg",
 ];
 
@@ -27,8 +27,8 @@ const Footer = () => {
             <h1 className="text-xl font-semibold">BringSmile Foundation</h1>
           </div>
           <p>Email: <a href="mailto:support@bringsmile.org" className="hover:underline">support@bringsmile.org</a></p>
-          <p>Tel: <a href="tel:+41223456677" className="hover:underline">+41 22 345 66 77</a></p>
-          <p>F-13/17, Jogabai Extension, Okhla, New Delhi-110025.</p>
+          <p>Tel: <a href="tel:+9195993 22679" className="hover:underline">+91 95993 22679</a></p>
+          <p>Singhi Kalan, PO- Ara, District- Bhojpur, Bihar, Pin- 802301.</p>
           <button className="mt-4 bg-yellow-500 text-black py-2 px-4 rounded hover:bg-yellow-600 transition">GET DIRECTIONS</button>
         </div>
 
@@ -55,20 +55,23 @@ const Footer = () => {
         <div className="space-y-4">
           <h2 className="text-lg font-bold">Get In Touch</h2>
           <motion.div
-            className="grid grid-cols-3 gap-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-          >
-            {images.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`Footer Image ${index + 1}`}
-                className="h-20 w-20 object-cover rounded-lg shadow-md"
-              />
-            ))}
-          </motion.div>
+        className="grid grid-cols-3 gap-4  sm:grid-cols-2 xs:grid-cols-1 "
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      >
+        {images.map((image, index) => (
+          <Image
+            key={index}
+            src={image}
+            alt={`Footer Image ${index + 1}`}
+            width={200}
+            height={200}
+            className="rounded-lg shadow-lg object-cover"
+          />
+        ))}
+      </motion.div>
+
         </div>
 
         {/* Social Links */}
