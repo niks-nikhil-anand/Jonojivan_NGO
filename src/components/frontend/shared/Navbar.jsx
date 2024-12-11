@@ -12,9 +12,17 @@ import {
 import logo from "../../../../public/logo/Smile.png";
 import Image from "next/image";
 import Link from "next/link";
+import CustomDonationForm from "../ui/CustomDonationForm";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+
+  // Functions to open and close the modal
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const handleMobileMenuToggle = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -97,10 +105,21 @@ const Navbar = () => {
             className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-6 rounded shadow-lg"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={openModal}
           >
             DONATE NOW
           </motion.button>
         </div>
+
+        {isModalOpen && (
+        <motion.div
+          className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <CustomDonationForm setIsModalOpen={setIsModalOpen} />
+        </motion.div>
+      )}
 
         {/* Mobile Menu Icon */}
         <div
