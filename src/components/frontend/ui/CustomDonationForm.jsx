@@ -209,7 +209,7 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
           <FaTimes className="w-5 h-5" />
         </button>
   
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4">Donation Details</h2>
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-black">Donation Details</h2>
   
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -255,19 +255,20 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
             >
               Phone Number
             </label>
-            <div className="flex items-center border rounded-lg shadow-sm">
-              <span className="px-2 sm:px-4 py-2 bg-gray-100 border-r text-gray-700">+91</span>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                className="w-full px-2 sm:px-4 py-2 border-gray-300 rounded-lg"
-                placeholder="Enter your phone number"
-                required
-              />
-            </div>
+            <div className="flex items-center border rounded-lg shadow-sm text-black">
+          <span className="px-2 sm:px-4 py-2 bg-gray-100 border-r text-gray-700">+91</span>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleInputChange}
+            className="w-full px-2 sm:px-4 py-2 border-gray-300 rounded-lg text-black"
+            placeholder="Enter your phone number"
+            required
+          />
+        </div>
+
           </div>
   
           {/* Donation Amount Section */}
@@ -309,7 +310,7 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
               type="text"
               value={`₹${amount}`}
               readOnly
-              className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg"
+              className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg text-black"
             />
           </div>
   
