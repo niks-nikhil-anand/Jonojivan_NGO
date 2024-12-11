@@ -37,7 +37,7 @@ const Footer = () => {
           <h2 className="text-lg font-bold">Useful Links</h2>
           <ul className="space-y-2">
             <li>
-              <a href="#" className="hover:underline">Our Programs</a>
+              <Link href={"/ourProgram"} className="hover:underline">Our Programs</Link>
             </li>
             <li>
               <Link href={"/ourMission"} className="hover:underline">Our Mission</Link>

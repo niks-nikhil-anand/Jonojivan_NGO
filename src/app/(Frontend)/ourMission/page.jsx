@@ -5,6 +5,7 @@ import { FaGraduationCap, FaChalkboardTeacher, FaBookOpen, FaHeart } from "react
 
 
 
+
 const DonateNow = () => {
   return (
     <div className="bg-gray-50 ">
