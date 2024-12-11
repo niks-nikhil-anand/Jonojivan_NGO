@@ -252,21 +252,29 @@ const DonationForm = () => {
             Custom Amount
           </button>
         </div>
-        {isCustom && (
-          <input
-            type="number"
-            className="px-4 py-2 w-full max-w-md border rounded-lg focus:outline-none"
-            placeholder="Enter custom amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
-        )}
-        <motion.button
-          onClick={openModal}
-          className="px-10 py-4 bg-gradient-to-r from-[#FF0080] to-[#FF0080] text-white font-semibold rounded-lg"
-        >
-          DONATE NOW
-        </motion.button>
+              {isCustom && (
+       <motion.input
+       type="number"
+       className="px-4 py-3 w-full max-w-md border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0080] focus:border-[#FF0080] bg-gray-100 transition-all duration-300 shadow-sm"
+       placeholder="₹ Enter custom amount"
+       value={amount}
+       onChange={(e) => setAmount(e.target.value)}
+       initial={{ opacity: 0 }}
+       animate={{ opacity: 1 }}
+       transition={{ duration: 0.5 }}
+     />
+     
+      )}
+
+      <motion.button
+        onClick={openModal}
+        className="px-10 py-4 bg-gradient-to-r from-[#FF0080] to-[#FF0080] text-white font-semibold rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 m-2"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        DONATE NOW
+      </motion.button>
+
       </div>
 
             {isModalOpen && (
