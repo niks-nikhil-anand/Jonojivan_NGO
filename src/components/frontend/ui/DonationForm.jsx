@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const DonationForm = () => {
   const router = useRouter();
@@ -228,8 +229,8 @@ const DonationForm = () => {
       <div className="max-w-4xl mx-auto text-center">
         <h3 className="text-2xl sm:text-3xl font-bold mb-6 text-white">MAKE A DONATION</h3>
         <p className="text-sm sm:text-base mb-6 text-gray-800">
-          Your donation helps us make a real difference in the lives of many.
-        </p>
+        Your Donation Can Transform Lives and Shape Futures      
+          </p>
         <div className="flex flex-wrap gap-4 justify-center mb-8">
           {["1" ,"500", "1000", "2500", "5000"].map((value) => (
             <button
@@ -268,132 +269,145 @@ const DonationForm = () => {
         </motion.button>
       </div>
 
-      {isModalOpen && (
-  <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-30">
-    <div className="bg-white p-6 rounded-lg max-w-md w-full shadow-lg relative">
-      <button
-        className="absolute top-4 right-4 bg-gray-200 p-2 rounded-full"
-        onClick={closeModal}
-      >
-        <FaTimes />
-      </button>
-      <h2 className="text-xl font-bold mb-6 text-center text-[#FF0080]">Donation Details</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="flex items-center space-x-6 mb-6">
-          <label className="flex items-center">
-            <input
-              type="radio"
-              id="online"
-              name="donationMode"
-              value="Online"
-              checked={formData.donationMode === 'Online'}
-              onChange={handleInputChange}
-              className="mr-2"
-            />
-            Online
-          </label>
-          
-        </div>
+            {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-30">
+          <div className="bg-white p-6 rounded-lg max-w-md w-full shadow-lg relative max-h-[100vh] overflow-y-auto">
+                <button
+              className="absolute top-2 right-2 bg-gray-200 p-2 rounded-full hover:bg-gray-300 focus:outline-none"
+              onClick={closeModal}
+            >
+              <FaTimes className="text-gray-600" />
+            </button>
+            <div className="text-center mb-6">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#FF0080] mb-2">
+                Make a Difference with Your Donation
+              </h2>
+              <p className="text-sm sm:text-base text-gray-600">
+                Your generosity supports impactful initiatives and helps us make a change.
+              </p>
+                </div>
+            <form onSubmit={handleSubmit}>
+            
 
-        <div className="mb-6">
-          <label
-            htmlFor="donationAmount"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            Selected Amount
-          </label>
-          <input
-            type="text"
-            id="donationAmount"
-            name="donationAmount"
-            value={`₹${amount}`}
-            readOnly
-            className="w-full px-4 py-2 border rounded-lg shadow-sm bg-gray-100"
-          />
-        </div>
+              <div className="mb-6">
+                <label
+                  htmlFor="donationAmount"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Selected Amount
+                </label>
+                <input
+                  type="text"
+                  id="donationAmount"
+                  name="donationAmount"
+                  value={`₹${amount}`}
+                  readOnly
+                  className="w-full px-4 py-2 border rounded-lg shadow-sm bg-gray-100"
+                />
+              </div>
 
-        <div className="mb-6">
-          <label
-            htmlFor="fullName"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            Full Name
-          </label>
-          <input
-            type="text"
-            id="fullName"
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleInputChange}
-            className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-[#FF0080] focus:border-[#FF0080]"
-            required
-          />
-        </div>
+              <div className="mb-6">
+                <label
+                  htmlFor="fullName"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-[#FF0080] focus:border-[#FF0080]"
+                  required
+                />
+              </div>
 
-        <div className="mb-6">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            Email Address
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-[#FF0080] focus:border-[#FF0080]"
-            required
-          />
-        </div>
+              <div className="mb-6">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-[#FF0080] focus:border-[#FF0080]"
+                  required
+                />
+              </div>
 
-        <div className="mb-6">
-          <label
-            htmlFor="panCard"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            PAN Card (optional)
-          </label>
-          <input
-            type="text"
-            id="panCard"
-            name="panCard"
-            value={formData.panCard}
-            onChange={handleInputChange}
-            className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-[#FF0080] focus:border-[#FF0080]"
-          />
-        </div>
+              <div className="mb-6">
+                <label
+                  htmlFor="panCard"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  PAN Card (optional)
+                </label>
+                <input
+                  type="text"
+                  id="panCard"
+                  name="panCard"
+                  value={formData.panCard}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-[#FF0080] focus:border-[#FF0080]"
+                />
+              </div>
 
-        <div className="mb-6">
-          <label
-            htmlFor="phone"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            Phone Number
-          </label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleInputChange}
-            className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-[#FF0080] focus:border-[#FF0080]"
-            required
-          />
-        </div>
+              <div className="mb-6">
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Phone Number
+                  </label>
+                  <div className="flex items-center border rounded-lg shadow-sm focus-within:ring-[#FF0080] focus-within:border-[#FF0080]">
+                    <span className="px-4 py-2 bg-gray-100 border-r text-gray-700">+91</span>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 focus:outline-none"
+                      placeholder="Enter your phone number"
+                      required
+                    />
+                  </div>
+                </div>
 
-        <button
-          type="submit"
-          className={`w-full py-3 text-white font-bold bg-[#FF0080] rounded-lg shadow-md ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-          disabled={isLoading}
-        >
-          {isLoading ? "Processing..." : "Donate Now"}
-        </button>
-      </form>
-    </div>
-  </div>
-)}
+              <div className="flex items-center mb-6">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  name="terms"
+                  checked={formData.terms || true}
+                  onChange={handleInputChange}
+                  className="mr-2"
+                />
+                <label htmlFor="terms" className="text-sm text-gray-700">
+                  I agree to the <Link href={"/termsAndConditions"} className="text-[#FF0080] underline">Terms and Conditions</Link>.
+                </label>
+              </div>
+
+              <button
+                type="submit"
+                className={`w-full py-3 text-white font-bold bg-[#FF0080] rounded-lg shadow-md ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                disabled={isLoading}
+              >
+                {isLoading ? "Processing..." : "Donate Now"}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+
 
 
 

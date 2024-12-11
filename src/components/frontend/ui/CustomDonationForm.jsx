@@ -40,26 +40,6 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
                   />
                   Online
                 </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="Offline"
-                    checked={paymentMethod === "Offline"}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                  />
-                  Offline
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="TestDonation"
-                    checked={paymentMethod === "TestDonation"}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                  />
-                  Test Donation
-                </label>
               </div>
             </div>
   
