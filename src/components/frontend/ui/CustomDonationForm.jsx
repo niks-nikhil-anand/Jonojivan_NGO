@@ -200,134 +200,136 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
 
   return (
     <div>
-      <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-30">
-        <div className="bg-white p-6 rounded-lg max-w-md w-full shadow-lg relative">
-          <button
-            className="absolute top-4 right-2 bg-gray-200 text-gray-500 hover:bg-gray-300 hover:text-gray-800 rounded-full p-3 shadow-md"
-            onClick={closeModal}
-          >
-            <FaTimes className="w-5 h-5" />
-          </button>
-
-          <h2 className="text-xl font-bold mb-4">Donation Details</h2>
-
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Full Name</label>
-              <input
-                type="text"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleInputChange}
-                className="w-full p-3 border border-gray-300 rounded-lg"
-                placeholder="Enter full name"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Email Address</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="w-full p-3 border border-gray-300 rounded-lg"
-                placeholder="Enter email address"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">PAN Card Number</label>
-              <input
-                type="text"
-                name="panCard"
-                value={formData.panCard}
-                onChange={handleInputChange}
-                className="w-full p-3 border border-gray-300 rounded-lg"
-                placeholder="Enter PAN card number"
-                required
-              />
-            </div>
-            <div className="mb-6">
-                  <label
-                    htmlFor="phone"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Phone Number
-                  </label>
-                  <div className="flex items-center border rounded-lg shadow-sm ">
-                    <span className="px-4 py-2 bg-gray-100 border-r text-gray-700">+91</span>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-2 border-gray-300 rounded-lg"
-                      placeholder="Enter your phone number"
-                      required
-                    />
-                  </div>
-                </div>
-
-            {/* Donation Amount Section */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">
-                Donation Amount (₹{amount})
-              </label>
-              <div className="flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={decrementAmount}
-                  className="px-4 py-2 bg-gray-300 text-black rounded-lg"
-                >
-                  -
-                </button>
-
-                <input
-                  type="range"
-                  min="1000"
-                  max="10000"
-                  value={amount}
-                  onChange={handleAmountChange}
-                  className="w-full mx-4"
-                />
-
-                <button
-                  type="button"
-                  onClick={incrementAmount}
-                  className="px-4 py-2 bg-gray-300 text-black rounded-lg"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Amount</label>
-              <input
-                type="text"
-                value={`₹${amount}`}
-                readOnly
-                className="w-full p-3 border border-gray-300 rounded-lg"
-              />
-            </div>
-
-           
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className={`w-full py-3 mt-4 text-white font-semibold rounded-lg ${
-                isLoading ? "bg-gray-500" : "bg-blue-600 hover:bg-blue-700"
-              }`}
+    <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-30">
+      <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg w-full sm:w-11/12 md:w-8/12 lg:w-6/12 max-w-md shadow-lg relative max-h-[97vh] overflow-y-auto">
+        <button
+          className="absolute top-4 right-2 bg-gray-200 text-gray-500 hover:bg-gray-300 hover:text-gray-800 rounded-full p-2 sm:p-3 shadow-md"
+          onClick={closeModal}
+        >
+          <FaTimes className="w-5 h-5" />
+        </button>
+  
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4">Donation Details</h2>
+  
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-sm sm:text-base font-medium text-gray-700">Full Name</label>
+            <input
+              type="text"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleInputChange}
+              className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg"
+              placeholder="Enter full name"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm sm:text-base font-medium text-gray-700">Email Address</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg"
+              placeholder="Enter email address"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm sm:text-base font-medium text-gray-700">PAN Card Number</label>
+            <input
+              type="text"
+              name="panCard"
+              value={formData.panCard}
+              onChange={handleInputChange}
+              className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg"
+              placeholder="Enter PAN card number"
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="phone"
+              className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
             >
-              {isLoading ? "Processing..." : "Donate Now"}
-            </button>
-          </form>
-        </div>
+              Phone Number
+            </label>
+            <div className="flex items-center border rounded-lg shadow-sm">
+              <span className="px-2 sm:px-4 py-2 bg-gray-100 border-r text-gray-700">+91</span>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                className="w-full px-2 sm:px-4 py-2 border-gray-300 rounded-lg"
+                placeholder="Enter your phone number"
+                required
+              />
+            </div>
+          </div>
+  
+          {/* Donation Amount Section */}
+          <div className="mb-4">
+            <label className="block text-sm sm:text-base font-medium text-gray-700">
+              Donation Amount (₹{amount})
+            </label>
+            <div className="flex items-center justify-between">
+              <button
+                type="button"
+                onClick={decrementAmount}
+                className="px-3 sm:px-4 py-2 bg-gray-300 text-black rounded-lg"
+              >
+                -
+              </button>
+  
+              <input
+                type="range"
+                min="1000"
+                max="10000"
+                value={amount}
+                onChange={handleAmountChange}
+                className="w-full mx-3 sm:mx-4"
+              />
+  
+              <button
+                type="button"
+                onClick={incrementAmount}
+                className="px-3 sm:px-4 py-2 bg-gray-300 text-black rounded-lg"
+              >
+                +
+              </button>
+            </div>
+          </div>
+  
+          <div className="mb-4">
+            <label className="block text-sm sm:text-base font-medium text-gray-700">Amount</label>
+            <input
+              type="text"
+              value={`₹${amount}`}
+              readOnly
+              className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg"
+            />
+          </div>
+  
+          <button
+            type="submit"
+            disabled={isLoading}
+            className={`w-full py-3 mt-4 text-white font-semibold rounded-lg ${
+              isLoading ? "bg-gray-500" : "bg-blue-600 hover:bg-blue-700"
+            }`}
+          >
+            {isLoading ? "Processing..." : "Donate Now"}
+          </button>
+        </form>
       </div>
     </div>
+  </div>
+  
+  
+  
+
   );
 };
 
