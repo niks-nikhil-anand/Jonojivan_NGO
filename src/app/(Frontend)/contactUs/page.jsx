@@ -154,46 +154,40 @@ export default function Contact() {
 
       {/* Stay Connected */}
 
-<div className="relative bg-gray-100 py-12 text-center my-5">
-  {/* Background Image with blur effect */}
-  <div className="absolute inset-0 z-0">
-    <Image
-      src={banner.src} // Assuming 'banner' is an image object with a 'src' property
-      alt="Background Image"
-      layout="fill"
-      objectFit="cover"
-      objectPosition="center"
-      className="" // Applying blur effect
-    />
-  </div>
+      <div className="mt-10 relative bg-blue-500 text-white rounded-lg overflow-hidden p-6 min-h-[200px] md:min-h-[200px] lg:min-h-[300px] m-5">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <Image
+          src={banner}
+          alt="Our Mission Banner"
+          layout="fill"
+          objectFit="cover"
+          className="opacity-60"
+          priority
+        />
+      </div>
 
-  <div className="relative z-10 bg-opacity-75">
-    <h3 className="text-2xl font-bold text-black mb-6">Stay Connected</h3>
-    <p className="text-lg text-black mb-6">
-      Follow us on social media to see how your support is making a difference.
-    </p>
-    <div className="flex justify-center gap-8 mb-6">
-      <a href="[Link]" className="text-yellow-500 hover:text-yellow-600">
-        <FaFacebook size={24} />
-      </a>
-      <a href="[Link]" className="text-yellow-500 hover:text-yellow-600">
-        <FaInstagram size={24} />
-      </a>
-      <a href="[Link]" className="text-yellow-500 hover:text-yellow-600">
-        <FaTwitter size={24} />
-      </a>
+      {/* Content */}
+      <div className="relative z-10 flex flex-col justify-center items-center h-full text-center">
+        <h3 className="text-xl md:text-2xl font-semibold mb-4">
+          Join Us in Making a Lasting Impact in Bihar
+        </h3>
+        <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6">
+          <a
+            href="#"
+            className="bg-white text-blue-500 py-2 px-6 text-sm md:text-base rounded-lg shadow hover:bg-gray-100 transition"
+          >
+            💖 Donate Now
+          </a>
+          <a
+            href="#"
+            className="bg-white text-blue-500 py-2 px-6 text-sm md:text-base rounded-lg shadow hover:bg-gray-100 transition"
+          >
+            💖 Partner With Us
+          </a>
+        </div>
+      </div>
     </div>
-    <div>
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="h-12 px-8 py-3 rounded-full bg-yellow-500 text-white font-semibold shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-      >
-        Donate Now
-      </motion.button>
-    </div>
-  </div>
-</div>
 
       
     </div>
