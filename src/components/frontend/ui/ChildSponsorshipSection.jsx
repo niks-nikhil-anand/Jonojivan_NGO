@@ -1,10 +1,35 @@
+"use client"
 import React from 'react';
 import banner from '../../../../public/frontend/Banners/OrganizationInfo.jpg';
 import Image from 'next/image';
+import SponsorshipForm from './SponsorshipForm';
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+
+
 
 const ChildSponsorshipSection = () => {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Functions to open and close the modal
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+
+
   return (
     <section className="flex flex-col md:flex-row items-center justify-between py-8 md:py-10 px-6 md:px-16 bg-white">
+
+      {isModalOpen && (
+        <motion.div
+          className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <SponsorshipForm setIsModalOpen={setIsModalOpen} />
+        </motion.div>
+      )}
       <div className="flex flex-col justify-center items-start w-full md:w-1/2 pr-6 md:pr-10 mb-8 md:mb-0">
   <p className="text-xs sm:text-sm md:text-lg font-semibold text-[#28a745] mb-2  md:text-left">
     GIFT A SMILE
@@ -41,11 +66,15 @@ const ChildSponsorshipSection = () => {
   </div>
   
   <div className="flex justify-center md:justify-start mt-6 md:mt-8">
-    <button className="px-6 py-3 bg-[#ff5a5f] text-white text-sm sm:text-lg font-semibold rounded-lg shadow-md hover:bg-[#e14a4e] transition duration-300 ease-in-out">
+    <button className="px-6 py-3 bg-[#ff5a5f] text-white text-sm sm:text-lg font-semibold rounded-lg shadow-md hover:bg-[#e14a4e] transition duration-300 ease-in-out"
+     onClick={openModal}
+    >
       Sponsor a Child Now
     </button>
   </div>
 </div>
+
+
 
 
       <div className="w-full md:w-1/2 relative">

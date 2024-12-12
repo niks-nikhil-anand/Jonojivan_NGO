@@ -152,8 +152,6 @@ export default function Contact() {
         </motion.div>
       </div>
 
-      {/* Stay Connected */}
-
       <div className="mt-10 relative bg-blue-500 text-white rounded-lg overflow-hidden p-6 min-h-[200px] md:min-h-[200px] lg:min-h-[300px] m-5">
       {/* Background Image */}
       <div className="absolute inset-0">
