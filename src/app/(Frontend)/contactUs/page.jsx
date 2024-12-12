@@ -2,6 +2,11 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
+import banner from '../../../../public/frontend/Banners/ourMissionBanner.jpg'
+import Image from "next/image";
+import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
+
+
 
 export default function Contact() {
   return (
@@ -96,6 +101,19 @@ export default function Contact() {
             Contact Us
           </h2>
           <div className="space-y-6">
+            {/* Registered Office */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                Registered Office
+              </h3>
+              <div className="flex items-start gap-4">
+                <FaMapMarkerAlt className="text-yellow-500 mt-1" size={24} />
+                <p className="text-gray-600">
+                  Singhi Kalan, PO- Ara, District- Bhojpur, Bihar, Pin- 802301.
+                </p>
+              </div>
+            </div>
+
             {/* Operation Office */}
             <div>
               <h3 className="text-lg font-semibold text-gray-700 mb-2">
@@ -116,7 +134,7 @@ export default function Contact() {
               </h3>
               <div className="flex items-start gap-4">
                 <FaEnvelope className="text-yellow-500 mt-1" size={24} />
-                <p className="text-gray-600">contact@bringsmile.in</p>
+                <p className="text-gray-600">support@bringsmile.org</p>
               </div>
             </div>
 
@@ -127,25 +145,57 @@ export default function Contact() {
               </h3>
               <div className="flex items-start gap-4">
                 <FaPhoneAlt className="text-yellow-500 mt-1" size={24} />
-                <p className="text-gray-600">+91 9891989151</p>
-              </div>
-            </div>
-
-            {/* Registered Office */}
-            <div>
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">
-                Registered Office
-              </h3>
-              <div className="flex items-start gap-4">
-                <FaMapMarkerAlt className="text-yellow-500 mt-1" size={24} />
-                <p className="text-gray-600">
-                  Singhi Kalan, PO- Ara, District- Bhojpur, Bihar, Pin- 802301.
-                </p>
+                <p className="text-gray-600">+91 95993 22679</p>
               </div>
             </div>
           </div>
         </motion.div>
       </div>
+
+      {/* Stay Connected */}
+
+<div className="relative bg-gray-100 py-12 text-center my-5">
+  {/* Background Image with blur effect */}
+  <div className="absolute inset-0 z-0">
+    <Image
+      src={banner.src} // Assuming 'banner' is an image object with a 'src' property
+      alt="Background Image"
+      layout="fill"
+      objectFit="cover"
+      objectPosition="center"
+      className="" // Applying blur effect
+    />
+  </div>
+
+  <div className="relative z-10 bg-opacity-75">
+    <h3 className="text-2xl font-bold text-black mb-6">Stay Connected</h3>
+    <p className="text-lg text-black mb-6">
+      Follow us on social media to see how your support is making a difference.
+    </p>
+    <div className="flex justify-center gap-8 mb-6">
+      <a href="[Link]" className="text-yellow-500 hover:text-yellow-600">
+        <FaFacebook size={24} />
+      </a>
+      <a href="[Link]" className="text-yellow-500 hover:text-yellow-600">
+        <FaInstagram size={24} />
+      </a>
+      <a href="[Link]" className="text-yellow-500 hover:text-yellow-600">
+        <FaTwitter size={24} />
+      </a>
+    </div>
+    <div>
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="h-12 px-8 py-3 rounded-full bg-yellow-500 text-white font-semibold shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+      >
+        Donate Now
+      </motion.button>
+    </div>
+  </div>
+</div>
+
+      
     </div>
   );
 }
