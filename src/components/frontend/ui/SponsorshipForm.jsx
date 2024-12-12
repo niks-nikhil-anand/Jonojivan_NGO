@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify"; // Make sure you have the react-toastify package installed
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const SponsorshipForm = ({ setIsModalOpen }) => {  
   const [formData, setFormData] = useState({
@@ -335,7 +336,23 @@ const SponsorshipForm = ({ setIsModalOpen }) => {
           />
         </div>
 
+
+
           </div>
+
+          <div className="flex items-center mb-6">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  name="terms"
+                  checked={formData.terms || true}
+                  onChange={handleInputChange}
+                  className="mr-2"
+                />
+                <label htmlFor="terms" className="text-sm text-gray-700">
+                  I agree to the <Link href={"/termsAndConditions"} className="text-[#FF0080] underline">Terms and Conditions</Link>.
+                </label>
+              </div>
   
          
   
