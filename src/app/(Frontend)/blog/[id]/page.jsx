@@ -1,6 +1,9 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import banner from '../../../../../public/frontend/Banners/ourMissionBanner.jpg'
+import Image from 'next/image';
+
 
 const Page = () => {
     const [idFromURL, setIdFromURL] = useState('');
@@ -46,29 +49,69 @@ const Page = () => {
 
     return (
         <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="p-4 md:p-8 max-w-3xl md:max-w-4xl mx-auto bg-white rounded-lg shadow-lg"
-        >
-            <motion.div
-                initial={{ y: 50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5 }}
-            >
-                <h2 className="text-xl md:text-2xl font-semibold mb-4">{data.title}</h2>
-                <img src={data.featuredImage} alt={data.title} className="w-full h-auto rounded-lg mb-6"/>
-                <div
-                    className="prose prose-sm md:prose-lg mx-auto"
-                    dangerouslySetInnerHTML={{ __html: data.subtitle }}
-                />
-                <div
-                    className="prose prose-sm md:prose-lg mx-auto"
-                    dangerouslySetInnerHTML={{ __html: data.content }}
-                />
-            </motion.div>
-        </motion.div>
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.5 }}
+    className="p-4 md:p-6 max-w-3xl md:max-w-4xl mx-auto "
+>
+    <motion.div
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="space-y-4"
+    >
+        <h2 className="text-lg md:text-2xl font-semibold">
+            {data.title}
+        </h2>
+        {data.featuredImage && (
+            <img
+                src={data.featuredImage}
+                alt={data.title}
+                className="w-full h-auto rounded-md max-h-64 object-contain"
+            />
+        )}
+        {data.subtitle && (
+            <div
+                className="prose prose-sm md:prose-md "
+                dangerouslySetInnerHTML={{ __html: data.subtitle }}
+            />
+        )}
+        {data.content && (
+            <div
+                className="prose prose-sm md:prose-md "
+                dangerouslySetInnerHTML={{ __html: data.content }}
+            />
+        )}
+    </motion.div>
+
+    <div className="relative mt-12 text-center rounded-lg shadow-md">
+          {/* Banner Image */}
+          <Image
+            src={banner}
+            alt="Our Mission Banner"
+            layout="fill"
+            objectFit="cover"
+            className="rounded-lg"
+            priority
+          />
+          {/* Content Overlay */}
+          <div className="relative bg-blue-600 bg-opacity-75 p-8 rounded-lg text-white">
+            <h2 className="text-2xl font-bold">
+              Your Donation Can Change Everything
+            </h2>
+            <p className="mt-4">
+              When you donate to Bring Smile, you are not just contributing to a
+              cause—you are changing the course of lives.
+            </p>
+            <button className="mt-6 bg-white text-blue-600 py-3 px-6 rounded-lg shadow hover:bg-gray-200 transition duration-300">
+              Donate Now
+            </button>
+          </div>
+        </div>
+</motion.div>
+
+
     );
 };
 
