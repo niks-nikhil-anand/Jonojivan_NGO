@@ -211,9 +211,9 @@ const SponsorshipForm = ({ setIsModalOpen }) => {
           <FaTimes className="w-5 h-5" />
         </button>
   
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-black">Sponsor a Child's Education</h2>
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-black">Sponsor a Child&apos;s Education</h2>
         <p className="text-sm sm:text-base text-gray-700 mb-6">
-        Sponsoring a child costs ₹26,000 per year, covering their school fees, books, uniforms, and other essential resources for a full year of education. Your generous donation helps make a lasting impact on a child's future.
+        Sponsoring a child costs ₹26,000 per year, covering their school fees, books, uniforms, and other essential resources for a full year of education. Your generous donation helps make a lasting impact on a child&apos;s future.
       </p>
 
 
