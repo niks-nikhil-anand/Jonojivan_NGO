@@ -6,18 +6,15 @@ import CustomDonationForm from "./CustomDonationForm";
 
 const slides = [
   {
-    src: "/frontend/heroSection/slide1.jpg", // Use relative path from public directory
     heading: "One act of kindness can ignite a spark of hope, changing a girl's world forever.",
     buttonText: "Donate Now",
   },
   {
-    src: "/frontend/heroSection/slide2.jpg",
     heading:
       "Your generosity today is the key that unlocks a future full of possibility and promise.",
     buttonText: "Donate Now",
   },
   {
-    src: "/frontend/heroSection/slide3.jpg",
     heading:
       "Together, we have the power to break barriers and build a new generation of unstoppable leaders.",
     buttonText: "Donate Now",
@@ -35,34 +32,29 @@ const HeroSection = () => {
   // Auto-slide logic
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length); // Change slide every 5 seconds
+      setCurrentSlide((prev) => (prev + 1) % slides.length); // Change content every 5 seconds
     }, 5000);
     return () => clearInterval(interval); // Clear interval on component unmount
   }, []);
 
   return (
     <div className="relative h-screen overflow-hidden">
-      {/* Slide transition */}
-      <motion.div
-        key={currentSlide}
-        className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000"
-        style={{
-          backgroundImage: `url(${slides[currentSlide].src})`,
-        }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 1 }}
-      />
+      {/* Static Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url(/frontend/heroSection/slide1.jpg)" }}
+      ></div>
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
-      {/* Content */}
+      {/* Sliding Content */}
       <motion.div
+        key={currentSlide}
         className="relative flex flex-col items-start justify-center h-full text-white px-8 sm:px-16"
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: 50 }}
         transition={{ duration: 1 }}
       >
         <h2 className="text-sm sm:text-lg uppercase tracking-widest font-medium">
