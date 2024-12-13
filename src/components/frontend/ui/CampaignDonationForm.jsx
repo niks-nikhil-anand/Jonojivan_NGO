@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify"; // Make sure you have the react-toastify package installed
 import { useRouter } from "next/navigation";
@@ -15,6 +15,32 @@ const CampaignDonationForm = ({  setIsModalOpen, cardId }) => {
   const [amount, setAmount] = useState(1000); // Initialize donation amount
   const [isLoading, setIsLoading] = useState(false); // Loading state for async operations
   const router = useRouter(); // Assuming you use Next.js for routing
+  const [blogData, setBlogData] = useState(null); // To store the full blog response
+
+
+
+
+  useEffect(() => {
+    const fetchBlogData = async () => {
+      try {
+        const response = await fetch(`/api/admin/dashboard/campaign/${cardId}`);
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data)
+          setBlogData(data); // Store the fetched data
+        } else {
+          toast.error("Failed to fetch blog data.");
+        }
+      } catch (error) {
+        toast.error("An error occurred while fetching blog data.");
+      }
+    };
+
+    if (cardId) {
+      fetchBlogData();
+    }
+  }, [cardId]);
+
 
   const closeModal = () => {
     setIsModalOpen(false); // Close the modal
@@ -209,9 +235,20 @@ const CampaignDonationForm = ({  setIsModalOpen, cardId }) => {
           <FaTimes className="w-5 h-5" />
         </button>
   
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-black">
-            Donation Details for Card ID: {cardId}
-          </h2>  
+        {blogData ? (
+      <>
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-black">
+          {blogData.title}
+        </h2>
+        <p className="text-base sm:text-lg text-gray-700 mb-6">
+          {blogData.description.split(" ").slice(0, 20).join(" ")}...
+          </p>
+      </>
+    ) : (
+      <h2 className="text-xl sm:text-2xl font-bold mb-4 text-black">
+        Loading Blog...
+      </h2>
+    )}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-sm sm:text-base font-medium text-gray-700">Full Name</label>

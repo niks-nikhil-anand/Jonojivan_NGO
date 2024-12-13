@@ -2,61 +2,66 @@ import connectDB from "@/lib/dbConnect";
 import { NextResponse } from "next/server";
 import Campaign from "@/models/campaign"; // Capitalize model name for consistency
 
-
 // GET request to fetch a campaign by its ID
 export const GET = async (request, { params }) => {
-  const { id } = params; // Destructure 'id' directly from params
-  console.log('Request Params:', params); // Log all request params
-  console.log('Campaign ID:', id); // Log the ID parameter
+  console.log("GET Request Initiated: Fetch Campaign by ID");
+
+  const { id } = params; 
+  if (!id) {
+    console.warn("GET Request Warning: Missing 'id' parameter");
+    return NextResponse.json({ msg: "Missing campaign ID" }, { status: 400 });
+  }
+
+  console.log("GET Request Params:", params);
+  console.log("GET Request Campaign ID:", id);
 
   try {
-    // Establish a connection to the database
+    console.log("Connecting to database...");
     await connectDB();
+    console.log("Database connection successful");
 
-    // Fetch campaign by ID
-    const campaignData = await Campaign.findById(id); // Use 'Campaign' instead of lowercase 'campaign'
-
-    // Check if campaign exists
+    const campaignData = await Campaign.findById(id);
     if (!campaignData) {
+      console.warn("GET Request: Campaign not found for ID:", id);
       return NextResponse.json({ msg: "Campaign not found" }, { status: 404 });
     }
 
-    // Return the campaign data with a successful response
-    return NextResponse.json(campaignData, {
-      status: 200
-    });
+    console.log("GET Request: Campaign found:", campaignData);
+    return NextResponse.json(campaignData, { status: 200 });
   } catch (error) {
-    console.error('Error fetching campaign:', error);
-    return NextResponse.json({ msg: "Error fetching campaign", error: error.message }, {
-      status: 500
-    });
+    console.error("GET Request Error:", error);
+    return NextResponse.json({ msg: "Error fetching campaign", error: error.message }, { status: 500 });
   }
 };
 
 // DELETE request to delete a campaign by its ID
 export const DELETE = async (request, { params }) => {
-  const { id } = params;
+  console.log("DELETE Request Initiated: Delete Campaign by ID");
+
+  const { id } = params; 
+  if (!id) {
+    console.warn("DELETE Request Warning: Missing 'id' parameter");
+    return NextResponse.json({ msg: "Missing campaign ID" }, { status: 400 });
+  }
+
+  console.log("DELETE Request Params:", params);
+  console.log("DELETE Request Campaign ID:", id);
 
   try {
-    // Establish a connection to the database
+    console.log("Connecting to database...");
     await connectDB();
+    console.log("Database connection successful");
 
-    // Delete the campaign by ID
     const campaignData = await Campaign.findByIdAndDelete(id);
-
-    // Check if campaign was found and deleted
     if (!campaignData) {
+      console.warn("DELETE Request: Campaign not found for ID:", id);
       return NextResponse.json({ msg: "Campaign not found" }, { status: 404 });
     }
 
-    // Return success message
-    return NextResponse.json({ msg: "Campaign deleted successfully" }, {
-      status: 200
-    });
+    console.log("DELETE Request: Campaign deleted successfully for ID:", id);
+    return NextResponse.json({ msg: "Campaign deleted successfully" }, { status: 200 });
   } catch (error) {
-    console.error('Error deleting campaign:', error);
-    return NextResponse.json({ msg: "Error deleting campaign", error: error.message }, {
-      status: 500
-    });
+    console.error("DELETE Request Error:", error);
+    return NextResponse.json({ msg: "Error deleting campaign", error: error.message }, { status: 500 });
   }
 };
