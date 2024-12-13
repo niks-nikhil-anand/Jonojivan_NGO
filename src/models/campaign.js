@@ -1,13 +1,8 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const CampaignSchema = new mongoose.Schema(
   {
     title: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    subTitle: {
       type: String,
       required: true,
       trim: true,
@@ -17,6 +12,10 @@ const CampaignSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    image:{
+      type: String,
+    },
+
     goal: {
       type: Number,
       required: true,
@@ -35,7 +34,7 @@ const CampaignSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, // Adds `createdAt` and `updatedAt` fields
+    timestamps: true, 
   }
 );
 

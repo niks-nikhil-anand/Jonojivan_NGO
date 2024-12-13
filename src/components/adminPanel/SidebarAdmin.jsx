@@ -107,6 +107,18 @@ const SidebarAdmin = () => {
             <SidebarItem icon={<FaSearch />} label="Search Users" isOpen={isOpen} selected={selectedItem === 'Search Users'} onClick={() => setSelectedItem('Search Users')} />
           </Link>
 
+
+          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-400">Campaign</h3>}
+          <Link href="/admin/dashboard/campaign/addCampaign" passHref>
+            <SidebarItem icon={<FaTable />} label="Add Campaign " isOpen={isOpen} selected={selectedItem === 'Add Campaign'} onClick={() => setSelectedItem('Add Campaign')} />
+          </Link>
+          <Link href="/admin/dashboard/user/cardView" passHref>
+            <SidebarItem icon={<FaIdCard />} label="Card View" isOpen={isOpen} selected={selectedItem === 'Card View'} onClick={() => setSelectedItem('Card View')} />
+          </Link>
+          <Link href="/admin/dashboard/user/search" passHref>
+            <SidebarItem icon={<FaSearch />} label="Search Users" isOpen={isOpen} selected={selectedItem === 'Search Users'} onClick={() => setSelectedItem('Search Users')} />
+          </Link>
+
           {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-300">Review</h3>}
           <Link href="/admin/dashboard/review/addReview" passHref>
             <SidebarItem icon={<FaPlus />} label="Add Review" isOpen={isOpen} />
