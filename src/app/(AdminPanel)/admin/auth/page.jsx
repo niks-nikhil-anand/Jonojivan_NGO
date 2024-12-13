@@ -12,30 +12,26 @@ const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [role, setRole] = useState('vendor'); 
+  const [role, setRole] = useState('admin'); 
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const loginUrl = role === 'vendor' ? '/api/vendor/auth' : '/api/admin/auth';
+      const loginUrl = '/api/admin/auth';
 
       const response = await axios.post(loginUrl, {
         email,
         password,
-        rememberMe,
       });
 
       if (response.status === 200) {
         setEmail('');
         setPassword('');
-        setRememberMe(false);
         toast.success("Login successful! Redirecting...");
-        const redirectUrl = role === 'vendor' ? '/vendor/dashboard' : '/admin/dashboard';
-        router.push(redirectUrl);
+        router.push('/admin/dashboard');
       }
     } catch (error) {
       console.error(error);
@@ -49,28 +45,15 @@ const LoginForm = () => {
     <div className="flex justify-center items-center bg-green-50 px-6 md:px-4 w-full flex-col">
   <div className="w-full md:w-2/3 lg:w-1/2 md:pl-6 my-5">
     <motion.h2
-      className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 text-center md:text-left text-green-800 mt-8 tracking-wide"
+      className="text-2xl sm:text-3xl md:text-3xl lg:text-3xl font-extrabold mb-6 text-center md:text-left text-green-800 mt-8 tracking-wide"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
     >
-      Welcome Back to JonoJivan Grocery
+      Welcome Back to BringSmile Foundation...
     </motion.h2>
 
-        <div className="flex justify-center mb-6">
-          <button
-            onClick={() => setRole('vendor')}
-            className={`px-4 py-2 ${role === 'vendor' ? 'bg-green-700 text-white' : 'bg-gray-200 text-gray-800'} rounded-l-2xl text-sm md:text-base`}
-          >
-            Sign In as Vendor
-          </button>
-          <button
-            onClick={() => setRole('admin')}
-            className={`px-4 py-2 ${role === 'admin' ? 'bg-green-700 text-white' : 'bg-gray-200 text-gray-800'} rounded-r-2xl text-sm md:text-base`}
-          >
-            Sign In as Admin
-          </button>
-        </div>
+        
 
         <form onSubmit={handleLogin}>
           <div className="mb-4">
@@ -114,12 +97,11 @@ const LoginForm = () => {
 
         <div className="flex justify-between mt-4 text-sm md:text-base">
           <a href="#" className="text-green-700 hover:underline">Forgot password?</a>
-          <Link href={"/auth/register"} className="text-green-700 hover:underline">Create an account</Link>
         </div>
 
         <div className="flex items-center justify-between my-6">
           <span className="border-t border-gray-300 flex-grow"></span>
-          <span className="mx-4 text-gray-600">JonoJivan Grocery</span>
+          <span className="mx-4 text-gray-600">BringSmile Foundation</span>
           <span className="border-t border-gray-300 flex-grow"></span>
         </div>
       </div>
