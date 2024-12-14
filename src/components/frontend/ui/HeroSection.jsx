@@ -23,8 +23,14 @@ const HeroSection = () => {
     fetch("/api/sharpen-image")
       .then((response) => response.json())
       .then((data) => {
-        if (data.imageUrl) {
-          setSharpenedImage(data.imageUrl);
+        if (data.images && data.images[0]) {
+          let imageUrl = data.images[0];
+          
+          // Replace backslashes with forward slashes and fix extension if necessary
+          imageUrl = imageUrl.replace(/\\/g, "/").replace(/\.jp$/, ".jpg");
+          
+          console.log("Normalized Image URL:", imageUrl);
+          setSharpenedImage(imageUrl);
         }
       })
       .catch((error) => console.error("Error fetching sharpened image:", error));
@@ -35,13 +41,13 @@ const HeroSection = () => {
     <div className="relative h-screen overflow-hidden">
       {/* Static Background Image */}
       <div className="absolute inset-0">
-        <Image
-          src={sharpenedImage}
+      <Image
+          src={sharpenedImage } // Replace with a valid fallback image path
           alt="Hero Background"
           layout="fill"
           objectFit="cover"
-          className="blur-[0.7px] scale-110"
-          priority // Ensures the image is loaded as a priority for performance
+          className="blur-[0.3x] scale-110"
+          priority
         />
       </div>
 
@@ -63,7 +69,7 @@ const HeroSection = () => {
         </h1>
         <h1 className="text-lg sm:text-2xl font-bold mt-4">
           Your generosity today is the key that unlocks a future full of{" "}
-          <span className="ml-2 text-[#ff5a5f]">
+          <span className="ml-2 text-[#28a745]">
             <TypingEffect
               text={phrases}
               speed={100}

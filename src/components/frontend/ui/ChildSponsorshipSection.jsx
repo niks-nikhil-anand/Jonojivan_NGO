@@ -9,12 +9,34 @@ import { motion } from "framer-motion";
 
 
 const ChildSponsorshipSection = () => {
+  const [sharpenedImage, setSharpenedImage] = useState("");
+
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Functions to open and close the modal
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  useEffect(() => {
+    // Fetch the sharpened image URL from the API
+    fetch("/api/sharpen-image")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.images && data.images[1]) {
+          let imageUrl = data.images[1];
+          
+          // Replace backslashes with forward slashes and fix extension if necessary
+          imageUrl = imageUrl.replace(/\\/g, "/").replace(/\.jp$/, ".jpg");
+          
+          console.log("Normalized Image URL:", imageUrl);
+          setSharpenedImage(imageUrl);
+        }
+      })
+      .catch((error) => console.error("Error fetching sharpened image:", error));
+  }, []);
+
+
 
 
 
@@ -83,7 +105,7 @@ const ChildSponsorshipSection = () => {
         </div>
 
         <Image 
-          src={banner} 
+          src={sharpenedImage } // Replace with a valid fallback image path
           alt="Organization Banner" 
           className="w-full h-full object-cover shadow-lg" 
           layout="responsive" 
