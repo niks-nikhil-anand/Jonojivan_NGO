@@ -95,18 +95,18 @@ const Footer = () => {
 
         {/* Social Links */}
         <div className="flex space-x-6 mt-4 md:mt-0">
-          <a href="#" className="text-xl hover:text-yellow-500 transition">
+          <Link href={"https://www.facebook.com/BringSmileNow"} className="text-xl hover:text-yellow-500 transition">
             <FaFacebookF />
-          </a>
-          <a href="#" className="text-xl hover:text-yellow-500 transition">
+          </Link>
+          <Link href={"https://x.com/bringsmilenow"} className="text-xl hover:text-yellow-500 transition">
             <FaTwitter />
-          </a>
-          <a href="#" className="text-xl hover:text-yellow-500 transition">
+          </Link>
+          <Link href={"https://www.instagram.com/BringSmileNow"} className="text-xl hover:text-yellow-500 transition">
             <FaInstagram />
-          </a>
-          <a href="#" className="text-xl hover:text-yellow-500 transition">
+          </Link>
+          <Link href={"https://www.linkedin.com/in/bringsmileindia/"} className="text-xl hover:text-yellow-500 transition">
             <FaLinkedin />
-          </a>
+          </Link>
         </div>
       </div>
 
