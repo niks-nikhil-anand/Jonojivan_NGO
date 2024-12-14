@@ -1,21 +1,40 @@
 "use client";
-import React from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 import logo from "../../../../public/logo/Smile.png";
 import Image from "next/image";
 import Link from "next/link";
 
-const images = [
-  "/frontend/footerImage/image1.jpg",
-  "/frontend/footerImage/image2.jpg",
-  "/frontend/footerImage/image3.jpg",
-  "/frontend/footerImage/image4.jpg",
-  "/frontend/footerImage/image5.jpg",
-  "/frontend/footerImage/image6.jpg",
-];
+
 
 const Footer = () => {
+  const [sharpenedImage, setSharpenedImage] = useState([]);
+
+  useEffect(() => {
+    // Fetch the sharpened image URLs from the API
+    fetch("/api/sharpen-footer-image")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.images && Array.isArray(data.images)) {
+          // Normalize all image URLs in the array
+          const normalizedImages = data.images.map((image) =>
+            image.replace(/\\/g, "/").replace(/\.jp$/, ".jpg")
+          );
+  
+          console.log("Normalized Image URLs:", normalizedImages);
+  
+          // Optionally, set the first normalized image
+          if (normalizedImages.length > 0) {
+            setSharpenedImage(normalizedImages);
+          }
+        }
+      })
+      .catch((error) => console.error("Error fetching sharpened images:", error));
+  }, []);
+  
+
+
   return (
     <footer className="bg-black text-white py-10 px-4 sm:px-6 md:px-12 lg:px-16">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -60,7 +79,7 @@ const Footer = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
       >
-        {images.map((image, index) => (
+        {sharpenedImage.map((image, index) => (
           <Image
             key={index}
             src={image}

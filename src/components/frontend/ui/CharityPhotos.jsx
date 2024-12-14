@@ -1,18 +1,37 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-import image1 from "../../../../public/frontend/CharityPhotos/image1.jpg";
-import image2 from "../../../../public/frontend/CharityPhotos/image2.jpg";
-import image3 from "../../../../public/frontend/CharityPhotos/image3.jpg";
-import image4 from "../../../../public/frontend/CharityPhotos/image4.jpg";
-import image5 from "../../../../public/frontend/CharityPhotos/image5.jpg";
-import image6 from "../../../../public/frontend/CharityPhotos/image6.jpg";
+
 
 const CharityPhotos = () => {
-  const images = [image1, image2, image3, image4, image5, image6];
-  const imagesLoop = [...images, ...images]; // Duplicate array for infinite scroll effect
+  const [sharpenedImage, setSharpenedImage] = useState([]);
+
+  useEffect(() => {
+    // Fetch the sharpened image URLs from the API
+    fetch("/api/sharpen-charity-image")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.images && Array.isArray(data.images)) {
+          // Normalize all image URLs in the array
+          const normalizedImages = data.images.map((image) =>
+            image.replace(/\\/g, "/").replace(/\.jp$/, ".jpg")
+          );
+  
+          console.log("Normalized Image URLs:", normalizedImages);
+  
+          // Optionally, set the first normalized image
+          if (normalizedImages.length > 0) {
+            setSharpenedImage(normalizedImages);
+          }
+        }
+      })
+      .catch((error) => console.error("Error fetching sharpened images:", error));
+  }, []);
+
+
+  const duplicatedImages = [...sharpenedImage, ...sharpenedImage];
 
   return (
     <div className="py-6 px-2">
@@ -34,7 +53,7 @@ const CharityPhotos = () => {
             ease: "linear",
           }}
         >
-          {imagesLoop.map((image, index) => (
+           {duplicatedImages.map((image, index) => (
             <motion.div
               key={index}
               className="flex-none relative w-48 h-48 sm:w-64 sm:h-64 md:w-56 md:h-80 rounded-lg shadow-lg"
