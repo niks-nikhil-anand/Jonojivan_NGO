@@ -4,6 +4,13 @@ import crypto from "crypto";
 import connectDB from "@/lib/dbConnect";
 import paymentModels from "@/models/paymentModels";
 
+import { Resend } from "resend";
+import ThankYouEmail from "@/emails/ThankYouEmail";
+
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+
 // Initialize Razorpay instance
 const razorpayInstance = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -54,6 +61,18 @@ export async function POST(req) {
         razorpay_payment_id,
         razorpay_signature,
       });
+
+
+      const emailResponse = await resend.emails.send({
+        from: "no-reply@JonoJivan.com",
+        to: email,
+        subject: "Your Generosity Has Changed a Life - Thank You",
+        react: <ThankYouEmail donorName={fullName} />,
+      });
+      console.log("Thank-you email sent successfully:", emailResponse);
+      console.log("Welcome email sent to:", email);
+
+
 
       // Respond with success
       return NextResponse.json(

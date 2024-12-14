@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { Resend } from "resend";
-import WelcomeEmail from "@/emails/welcomeEmail";
+import WelcomeEmail from "@/emails/ThankYouEmail";
 import userModels from "@/models/userModels";
 import connectDB from "@/lib/dbConnect";
 
