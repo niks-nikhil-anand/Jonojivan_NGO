@@ -64,7 +64,7 @@ export async function POST(req) {
 
 
       const emailResponse = await resend.emails.send({
-        from: "no-reply@JonoJivan.com",
+        from: "no-reply@bringsmile.org",
         to: email,
         subject: "Your Generosity Has Changed a Life - Thank You",
         react: <ThankYouEmail donorName={fullName} />,
