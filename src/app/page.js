@@ -22,7 +22,6 @@ export default function Home() {
       <FAQsSection />
       <BlogSection />
       <Testimonials/>
-      <CharityPhotos/>
       <FooterBanner/>
     </>
   );
