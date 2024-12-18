@@ -4,7 +4,7 @@ import { FaUserCircle, FaHome, FaCog, FaUser } from 'react-icons/fa';
 import { IoIosMenu } from 'react-icons/io';
 import { HiMoon, HiSun } from 'react-icons/hi'; 
 import Image from 'next/image';
-import logo from '../../../public/logo/logo.png';
+import logo from '../../../public/logo/smile.png';
 import { motion } from 'framer-motion';
 
 
