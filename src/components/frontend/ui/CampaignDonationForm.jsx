@@ -107,7 +107,7 @@ const CampaignDonationForm = ({  setIsModalOpen, cardId }) => {
          const { order } = await response.json();
    
          const options = {
-           key: "rzp_test_YyfNhFl02BDQxW",
+           key: "rzp_live_9ZTzDG6fFahGrR",
            amount: order.amount,
            currency: order.currency,
            name: "Donation",
@@ -277,7 +277,7 @@ const CampaignDonationForm = ({  setIsModalOpen, cardId }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm sm:text-base font-medium text-gray-700">PAN Card Number</label>
+            <label className="block text-sm sm:text-base font-medium text-gray-700">PAN Card Number(Optional)</label>
             <input
               type="text"
               name="panCard"
@@ -285,7 +285,6 @@ const CampaignDonationForm = ({  setIsModalOpen, cardId }) => {
               onChange={handleInputChange}
               className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg"
               placeholder="Enter PAN card number"
-              required
             />
           </div>
           <div className="mb-6">

@@ -80,7 +80,7 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
        const { order } = await response.json();
  
        const options = {
-         key: "rzp_test_YyfNhFl02BDQxW",
+         key: "rzp_live_9ZTzDG6fFahGrR",
          amount: order.amount,
          currency: order.currency,
          name: "Donation",

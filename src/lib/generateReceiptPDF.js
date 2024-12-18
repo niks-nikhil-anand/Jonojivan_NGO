@@ -179,7 +179,7 @@ function numberToWords(num) {
     });
   
     // Amount Text - Positioned Lower
-    page.drawText(`${amount}`, { x: 415, y: 290, size: fontSize, font: robotoRegularFont });
+    page.drawText(`${amount}/-`, { x: 415, y: 290, size: fontSize, font: robotoRegularFont });
   
   
   
