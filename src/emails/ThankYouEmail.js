@@ -50,7 +50,7 @@ function ThankYouEmail({ donorName }) {
             We promise to keep you updated on the impact your support creates. Your generosity makes you a vital part of our mission to uplift lives and bring smiles to countless faces.
           </Text>
           <Text style={{ fontSize: '16px', color: '#555' }}>
-            Thank you for believing in the power of education and for being a part of this transformative journey. If you'd like to connect further, meet the children you’ve helped, or know more about how your contribution is making a difference, we’d be delighted to share.
+            Thank you for believing in the power of education and for being a part of this transformative journey. If you&apos;d like to connect further, meet the children you’ve helped, or know more about how your contribution is making a difference, we’d be delighted to share.
           </Text>
           <Text style={{ fontSize: '16px', color: '#555' }}>
             With heartfelt gratitude,
