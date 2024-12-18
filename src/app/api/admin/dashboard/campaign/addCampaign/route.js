@@ -1,6 +1,6 @@
 import connectDB from "@/lib/dbConnect";
 import uploadImage from "@/lib/uploadImages";
-import campaign from "@/models/campaign";
+import campaign from "@/models/campaignModels";
 import { NextResponse } from "next/server";
 
 export const POST = async (req) => {

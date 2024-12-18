@@ -24,7 +24,7 @@ const DonationSchema = new mongoose.Schema({
     type: Number,
     required: true,
     min: [1, "Amount must be greater than 0"],
-    default: 1000, // Default donation amount
+    default: 1000, 
   },
   paymentMethod: {
     type: String,
@@ -40,6 +40,10 @@ const DonationSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  Campaign:{
+     type: mongoose.Schema.Types.ObjectId,
+    ref: 'Campaign',
+  }
 },{
   timestamps:true
 });

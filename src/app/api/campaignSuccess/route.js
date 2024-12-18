@@ -26,11 +26,27 @@ export async function POST(req) {
       razorpay_order_id,
       razorpay_payment_id,
       bankName = 'Online Payment',
+      cardId
     } = body;
 
     const donationAmount = amount || 1000;
     const receiptNo = `BRSM-${Date.now()}`;
     const date = new Date().toLocaleDateString();
+
+
+    let campaign = null;
+    if (cardId) {
+      campaign = await campaignmodels.findOne({ cardId });
+      if (!campaign) {
+        return NextResponse.json(
+          { message: 'Campaign not found for the given cardId' },
+          { status: 404 }
+        );
+      }
+    }
+
+
+
 
     // Create a new donation entry in the database
     const donation = await Donation.create({
@@ -43,8 +59,6 @@ export async function POST(req) {
       razorpay_order_id,
       razorpay_payment_id,
     });
-
-    
 
     // Generate PDF receipt
     console.log('Generating PDF receipt...');

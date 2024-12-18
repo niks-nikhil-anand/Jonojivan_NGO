@@ -1,6 +1,6 @@
 import connectDB from "@/lib/dbConnect";
 import { NextResponse } from "next/server";
-import Campaign from "@/models/campaign"; // Capitalize model name for consistency
+import Campaign from "@/models/campaignModels"; // Capitalize model name for consistency
 
 // GET request to fetch a campaign by its ID
 export const GET = async (request, { params }) => {
