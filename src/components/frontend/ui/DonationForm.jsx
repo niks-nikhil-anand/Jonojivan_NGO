@@ -205,6 +205,7 @@ const DonationForm = () => {
 
     if (paymentMethod === "Online") {
       await initiateRazorpayPayment();
+      closeModal();
     } else {
       setIsLoading(true); // Set loading to true when processing offline donation
       if (donationResponse.success) {

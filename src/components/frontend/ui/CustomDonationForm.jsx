@@ -186,6 +186,7 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
   
       if (formData.donationMode === "Online") {
         await initiateRazorpayPayment();
+        closeModal();
       } else {
         setIsLoading(true); // Set loading to true when processing offline donation
         if (donationResponse.success) {
@@ -240,7 +241,7 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm sm:text-base font-medium text-gray-700">PAN Card Number</label>
+            <label className="block text-sm sm:text-base font-medium text-gray-700">PAN Card Number(Optional)</label>
             <input
               type="text"
               name="panCard"
@@ -248,7 +249,7 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
               onChange={handleInputChange}
               className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg"
               placeholder="Enter PAN card number"
-              required
+              
             />
           </div>
           <div className="mb-6">
