@@ -124,7 +124,7 @@ const CampaignDonationForm = ({  setIsModalOpen, cardId }) => {
       const { order } = await response.json();
 
       const options = {
-        key: "rzp_live_9ZTzDG6fFahGrR",
+        key: "rzp_test_YyfNhFl02BDQxW",
         amount: order.amount,
         currency: order.currency,
         name: "Donation",

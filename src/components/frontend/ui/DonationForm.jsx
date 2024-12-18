@@ -101,7 +101,7 @@ const DonationForm = () => {
       const { order } = await response.json();
 
       const options = {
-        key: "rzp_live_9ZTzDG6fFahGrR",
+        key: "rzp_test_YyfNhFl02BDQxW",
         amount: order.amount,
         currency: order.currency,
         name: "Donation",
@@ -147,7 +147,7 @@ const DonationForm = () => {
 
               console.log("Request data:", requestData);
 
-              const donationResponse = await fetch("/api/donation", {
+              const donationResponse = await fetch("/api/donationSuccess", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(requestData),
@@ -207,7 +207,6 @@ const DonationForm = () => {
       await initiateRazorpayPayment();
     } else {
       setIsLoading(true); // Set loading to true when processing offline donation
-      const donationResponse = await makeDonationApiCall(payload);
       if (donationResponse.success) {
         toast.success("Donation successful! Thank you for your support.");
         resetForm();

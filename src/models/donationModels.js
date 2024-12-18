@@ -32,10 +32,16 @@ const DonationSchema = new mongoose.Schema({
     enum: ["Online", "Offline", "TestDonation"], // Allowed payment methods
     default: "Online",
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
+  razorpay_order_id: {
+    type: String,
+    trim: true,
   },
+  razorpay_payment_id: {
+    type: String,
+    trim: true,
+  },
+},{
+  timestamps:true
 });
 
 const Donation = mongoose.models.Donation || mongoose.model('Donation', DonationSchema);

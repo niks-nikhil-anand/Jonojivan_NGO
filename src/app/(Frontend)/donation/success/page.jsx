@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"; // Import useRouter from Next.js
 
 const Page = () => {
   const router = useRouter(); // Initialize useRouter hook
-  const [countdown, setCountdown] = useState(5); // State to track the countdown
+  const [countdown, setCountdown] = useState(8); // State to track the countdown
 
   useEffect(() => {
     // Set up the countdown timer
