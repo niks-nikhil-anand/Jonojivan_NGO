@@ -4,6 +4,7 @@ import { generateReceiptPDF } from '@/lib/generateReceiptPDF';
 import Donation from '@/models/donationModels';
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import Campaign from '@/models/campaignModels';
 
 export async function POST(req) {
   const resend = new Resend(process.env.RESEND_API_KEY);
@@ -26,27 +27,46 @@ export async function POST(req) {
       razorpay_order_id,
       razorpay_payment_id,
       bankName = 'Online Payment',
-      cardId
+      cardId,
     } = body;
+
+    if (!fullName || !emailaddress || !phonenumber || !amount || !paymentMethod) {
+      return NextResponse.json(
+        { message: 'Missing required fields.' },
+        { status: 400 }
+      );
+    }
 
     const donationAmount = amount || 1000;
     const receiptNo = `BRSM-${Date.now()}`;
     const date = new Date().toLocaleDateString();
 
-
     let campaign = null;
+
     if (cardId) {
-      campaign = await campaignmodels.findOne({ cardId });
+      // Find the campaign by cardId
+      campaign = await Campaign.findOne({ _id: cardId });
+
       if (!campaign) {
         return NextResponse.json(
-          { message: 'Campaign not found for the given cardId' },
+          { message: 'Campaign not found for the given cardId.' },
           { status: 404 }
         );
       }
+
+      // Update the campaign's raised amount
+      campaign.raised += donationAmount;
+
+      if (campaign.raised > campaign.goal) {
+        return NextResponse.json(
+          { message: 'Donation exceeds campaign goal.' },
+          { status: 400 }
+        );
+      }
+
+      // Save the updated campaign
+      await campaign.save();
     }
-
-
-
 
     // Create a new donation entry in the database
     const donation = await Donation.create({
@@ -58,6 +78,7 @@ export async function POST(req) {
       paymentMethod,
       razorpay_order_id,
       razorpay_payment_id,
+      campaign: campaign ? campaign._id : null, // Link donation to campaign if exists
     });
 
     // Generate PDF receipt
@@ -73,6 +94,7 @@ export async function POST(req) {
     });
 
     // Send thank-you email with PDF receipt
+    console.log('Sending thank-you email...');
     const emailResponse = await resend.emails.send({
       from: 'no-reply@bringsmile.org',
       to: emailaddress,
@@ -80,7 +102,7 @@ export async function POST(req) {
       react: <ThankYouEmail donorName={fullName} />,
       attachments: [
         {
-          filename: `Donation_Receipt_${razorpay_order_id}.pdf`,
+          filename: `Donation_Receipt_${razorpay_order_id || receiptNo}.pdf`,
           content: Buffer.from(pdfBytes).toString('base64'),
           type: 'application/pdf',
           disposition: 'attachment',
