@@ -4,7 +4,6 @@ import { FaUserCircle, FaHome, FaCog, FaUser } from 'react-icons/fa';
 import { IoIosMenu } from 'react-icons/io';
 import { HiMoon, HiSun } from 'react-icons/hi'; 
 import Image from 'next/image';
-import logo from '../../../public/logo/smile.png';
 import { motion } from 'framer-motion';
 
 
@@ -25,7 +24,6 @@ const Navbar = () => {
   <div className="container mx-auto flex justify-between items-center p-4">
     {/* Logo */}
     <div className="flex items-center space-x-2">
-      <Image src={logo} alt="Logo" className="w-[45px]" />
       <span className="text-lg font-bold text-black">Admin Panel</span>
     </div>
 
