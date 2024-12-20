@@ -5,6 +5,7 @@ import ogImage from '../../public/logo/og-image.jpg'; // Local image import
 import EgoisticNavbar from "@/components/utils/EgosticNavbar";
 import EgoisticFooter from "@/components/utils/EgosticFooter";
 import Script from 'next/script'
+import UnderMaintenance from "@/components/frontend/ui/UnderMaintenance";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -34,6 +35,9 @@ export const metadata = {
   },
 };
 
+// Toggle this flag to enable/disable the maintenance mode
+const isUnderMaintenance = true;
+
 
 
 export default function RootLayout({ children }) {
@@ -52,11 +56,17 @@ export default function RootLayout({ children }) {
         <meta property="og:image" content={metadata.openGraph.images[0].url} />
       </head>
       <body className={inter.className}>
-        <EgoisticNavbar />
-        {children}
-        <EgoisticFooter />
-        <Toaster />
-        <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
+      {isUnderMaintenance ? (
+          <UnderMaintenance />
+        ) : (
+          <>
+            <EgoisticNavbar />
+            {children}
+            <EgoisticFooter />
+            <Toaster />
+            <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
+          </>
+        )}
       </body>
     </html>
   );
