@@ -12,7 +12,7 @@ const UnderMaintenance = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          We'll Be Back Soon!
+          We&apos;ll Be Back Soon!
         </motion.h1>
         <motion.p
           className="text-lg text-gray-600 mb-6"
