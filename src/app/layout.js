@@ -36,7 +36,7 @@ export const metadata = {
 };
 
 // Toggle this flag to enable/disable the maintenance mode
-const isUnderMaintenance = true;
+const isUnderMaintenance = false;
 
 
 
