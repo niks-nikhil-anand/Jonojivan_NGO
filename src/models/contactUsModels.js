@@ -3,10 +3,6 @@ const { Schema } = mongoose;
 
 // Define the PendingOrder schema
 const contactUsSchema = new Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-    },
     firstName:{
         type: String
     },

@@ -1,14 +1,57 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
-import banner from '../../../../public/frontend/Banners/ourMissionBanner.jpg'
+import banner from "../../../../public/frontend/Banners/ourMissionBanner.jpg";
 import Image from "next/image";
-import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { toast } from "react-hot-toast";
+
+
 
 
 
 export default function Contact() {
+
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone_number: "",
+    message: "",
+  });
+  const [loading, setLoading] = useState(false);
+
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/admin/dashboard/contactUs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) throw new Error("Failed to send message.");
+
+      toast.success("Your message has been sent successfully!");
+      setFormData({ first_name: "", last_name: "", email: "", phone_number: "", message: "" });
+    } catch (error) {
+      toast.error("Error sending message. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };  
+
+ 
+  
   return (
     <div className="flex flex-col bg-gray-50">
       {/* Feedback Section */}
@@ -47,45 +90,61 @@ export default function Contact() {
             Our friendly team is here to assist you.
           </p>
 
-          <form className="w-full space-y-6">
+          <form onSubmit={handleSubmit} className="w-full space-y-6">
             <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
               <input
                 className="w-full h-14 px-6 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
                 type="text"
                 id="first_name"
+                value={formData.first_name}
+                onChange={handleChange}
                 placeholder="First Name"
+                required
               />
               <input
                 className="w-full h-14 px-6 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
                 type="text"
                 id="last_name"
+                value={formData.last_name}
+                onChange={handleChange}
                 placeholder="Last Name"
+                required
               />
             </div>
             <input
               className="w-full h-14 px-6 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
               type="email"
               id="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="Email Address"
+              required
             />
             <input
               className="w-full h-14 px-6 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
               type="tel"
               id="phone_number"
+              value={formData.phone_number}
+              onChange={handleChange}
               placeholder="Phone Number"
+              required
             />
             <textarea
               className="w-full h-32 px-6 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
               id="message"
+              value={formData.message}
+              onChange={handleChange}
               placeholder="Your Message"
+              required
             />
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
               className="w-full h-12 rounded-full bg-yellow-500 text-white font-semibold shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              disabled={loading}
             >
-              Send Message
+              {loading ? "Sending..." : "Send Message"}
             </motion.button>
           </form>
         </div>
