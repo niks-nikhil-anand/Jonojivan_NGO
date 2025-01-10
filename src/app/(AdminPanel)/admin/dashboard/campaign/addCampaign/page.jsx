@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from 'react-hot-toast';
 
 const AddCampaignPage = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ const AddCampaignPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+  
     const formDataToSubmit = new FormData();
     formDataToSubmit.append("title", formData.title);
     formDataToSubmit.append("subTitle", formData.subTitle);
@@ -33,13 +33,13 @@ const AddCampaignPage = () => {
     if (formData.image) {
       formDataToSubmit.append("image", formData.image);
     }
-
+  
     try {
       const response = await fetch("/api/admin/dashboard/campaign/addCampaign", {
         method: "POST",
         body: formDataToSubmit,
       });
-
+  
       const data = await response.json();
       if (response.ok) {
         toast.success("Campaign added successfully!");
@@ -101,22 +101,26 @@ const AddCampaignPage = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-5">
-          <div>
+          <div className="relative">
             <label htmlFor="goal" className="block text-sm font-medium text-gray-800">
               Goal Amount
             </label>
-            <input
-              type="number"
-              id="goal"
-              name="goal"
-              value={formData.goal}
-              onChange={handleChange}
-              required
-              min="0"
-              className="mt-2 block w-full rounded-lg border border-gray-300 shadow-md focus:border-indigo-600 focus:ring-indigo-500 p-3"
-            />
+            <div className="mt-2 flex items-center border border-gray-300 rounded-lg shadow-md">
+              <span className="absolute left-3 text-gray-600">₹</span>
+              <input
+                type="number"
+                id="goal"
+                name="goal"
+                value={formData.goal}
+                onChange={handleChange}
+                required
+                min="0"
+                className="pl-8 w-full rounded-lg border-gray-300 shadow-md focus:border-indigo-600 focus:ring-indigo-500 p-3"
+              />
+            </div>
           </div>
         </div>
+
 
         {/* Image Upload Field */}
         <div className="mb-5">
