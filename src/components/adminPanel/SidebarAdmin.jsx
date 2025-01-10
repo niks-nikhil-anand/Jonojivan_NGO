@@ -4,13 +4,11 @@ import { motion } from 'framer-motion';
 import { RiDashboardHorizontalFill } from "react-icons/ri";
 import { FaHome, FaShoppingCart, FaPlusCircle, FaBook } from "react-icons/fa";
 import { MdPendingActions, MdOutlineLogout } from "react-icons/md";
-
-
-
-import { ImProfile } from "react-icons/im";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { MdAdd } from "react-icons/md";
+import { toast } from 'react-hot-toast';
+
+
 
 const SidebarAdmin = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,21 +20,22 @@ const SidebarAdmin = () => {
   };
 
   const handleLogout = async () => {
+    toast.loading('Logging out...', { id: 'logout' });
     try {
       const response = await fetch('/api/admin/auth/logout', {
         method: 'POST',
       });
       const data = await response.json();
       if (response.ok) {
+        toast.success('Logged out successfully!', { id: 'logout' });
         router.push('/');
       } else {
-        alert(`Logout failed: ${data.message}`);
+        toast.error(`Logout failed: ${data.message}`, { id: 'logout' });
       }
     } catch (error) {
-      alert(`Logout failed: ${error.message}`);
+      toast.error(`Logout failed: ${error.message}`, { id: 'logout' });
     }
   };
-
   return (
     <div className="flex">
   <motion.div
@@ -74,6 +73,29 @@ const SidebarAdmin = () => {
         />
       </Link>
 
+      {isOpen && (
+        <h3 className="text-sm  mt-4 mb-2 text-green-700 font-bold">
+          Donation
+        </h3>
+      )}
+      <Link href="/admin/dashboard/orders/allOrders" passHref>
+        <SidebarItem
+          icon={<FaShoppingCart />}
+          label="All Donation"
+          isOpen={isOpen}
+          selected={selectedItem === "All Orders"}
+          onClick={() => setSelectedItem("All Orders")}
+        />
+      </Link>
+      <Link href="/admin/dashboard/orders/pendingOrders" passHref>
+        <SidebarItem
+          icon={<MdPendingActions />}
+          label="Razorpay Payments"
+          isOpen={isOpen}
+          selected={selectedItem === "Pending Orders"}
+          onClick={() => setSelectedItem("Pending Orders")}
+        />
+      </Link>
       {isOpen && (
         <h3 className="text-sm  mt-4 mb-2 text-green-700 font-bold">
           Campaigns
