@@ -1,12 +1,9 @@
 "use client";
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaAppleAlt, FaCarrot, FaPlus , FaShoppingCart, FaListUl, FaCog , FaSearch , FaHome } from "react-icons/fa";
-import { FaTable , FaIdCard , FaProductHunt } from "react-icons/fa6";
-import { GiTruck, GiOpenBook } from "react-icons/gi";
-import { MdOutlineLogout , MdPendingActions , MdOutlineRateReview } from "react-icons/md";
 import { RiDashboardHorizontalFill } from "react-icons/ri";
-import { IoDocumentAttach , IoDocuments , IoDocumentText } from "react-icons/io5";
+import { FaHome, FaShoppingCart, FaPlusCircle, FaBook } from "react-icons/fa";
+import { MdPendingActions, MdOutlineLogout } from "react-icons/md";
 
 
 
@@ -42,133 +39,113 @@ const SidebarAdmin = () => {
 
   return (
     <div className="flex">
-      <motion.div
-        animate={{ width: isOpen ? "250px" : "90px" }}
-        className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white h-screen p-5 transition-width duration-300 shadow-lg overflow-y-auto"
-        style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.3)" }}
+  <motion.div
+    animate={{ width: isOpen ? "250px" : "90px" }}
+    className="bg-gradient-to-r from-gray-100 to-teal-50 dark:bg-gray-800 text-gray-900 dark:text-white h-screen p-5 shadow-lg overflow-y-auto transition-all duration-300"
+    style={{
+      scrollbarWidth: "thin",
+      scrollbarColor: "rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.3)",
+    }}
+  >
+    <button
+      onClick={toggleSidebar}
+      className="bg-white text-green-700 p-2 rounded mb-4 shadow-md transition-transform transform hover:scale-110"
+    >
+      <RiDashboardHorizontalFill className="w-6 h-6" />
+    </button>
+
+    <div className="flex flex-col space-y-4">
+      <h2
+        className={`text-lg font-semibold mb-4 transition-opacity duration-300 ${
+          isOpen ? "opacity-100" : "opacity-0"
+        }`}
       >
-        <button
-          onClick={toggleSidebar}
-          className="bg-white text-green-700 p-2 rounded mb-4 shadow-md transition-transform transform hover:scale-110"
-        >
-          <RiDashboardHorizontalFill />
-        </button>
-        <div className="flex flex-col space-y-4">
-          <h2 className={`text-lg font-semibold mb-4 ${isOpen ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}>
-            {isOpen ? "Dashboard" : ""}
-          </h2>
-          <Link href="/admin/dashboard/property/AddProperty" passHref>
-            <SidebarItem icon={<FaHome />} label="Home" isOpen={isOpen} selected={selectedItem === 'Home'} onClick={() => setSelectedItem('Home')} />
-          </Link>
+        {isOpen ? "Dashboard" : ""}
+      </h2>
 
-          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-500">Orders</h3>}
-          <Link href="/admin/dashboard/orders/allOrders" passHref>
-            <SidebarItem icon={<FaShoppingCart />} label="All Orders" isOpen={isOpen} selected={selectedItem === 'All Orders'} onClick={() => setSelectedItem('All Orders')} />
-          </Link>
-          <Link href="/admin/dashboard/orders/pendingOrders" passHref>
-            <SidebarItem icon={<MdPendingActions />} label="Pending Orders" isOpen={isOpen} selected={selectedItem === 'Pending Orders'} onClick={() => setSelectedItem('Pending Orders')} />
-          </Link>
+      {/* Sidebar Items */}
+      <Link href="/admin/dashboard/property/AddProperty" passHref>
+        <SidebarItem
+          icon={<FaHome />}
+          label="Dashboard"
+          isOpen={isOpen}
+          selected={selectedItem === "Home"}
+          onClick={() => setSelectedItem("Home")}
+        />
+      </Link>
 
-          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-400">Products</h3>}
-          <Link href="/admin/dashboard/product/addProduct" passHref>
-            <SidebarItem icon={<MdAdd />} label="Add Product" isOpen={isOpen} selected={selectedItem === 'Add Product'} onClick={() => setSelectedItem('Add Product')} />
-          </Link>
-          <Link href="/admin/dashboard/product/allProduct" passHref>
-            <SidebarItem icon={<FaProductHunt />} label="Products" isOpen={isOpen} selected={selectedItem === 'Products'} onClick={() => setSelectedItem('Products')} />
-          </Link>
+      {isOpen && (
+        <h3 className="text-sm  mt-4 mb-2 text-green-700 font-bold">
+          Campaigns
+        </h3>
+      )}
+      <Link href="/admin/dashboard/orders/allOrders" passHref>
+        <SidebarItem
+          icon={<FaShoppingCart />}
+          label="Add Campaign"
+          isOpen={isOpen}
+          selected={selectedItem === "All Orders"}
+          onClick={() => setSelectedItem("All Orders")}
+        />
+      </Link>
+      <Link href="/admin/dashboard/orders/pendingOrders" passHref>
+        <SidebarItem
+          icon={<MdPendingActions />}
+          label="Campaigns"
+          isOpen={isOpen}
+          selected={selectedItem === "Pending Orders"}
+          onClick={() => setSelectedItem("Pending Orders")}
+        />
+      </Link>
 
-          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-400">Categories</h3>}
-          <Link href="/admin/dashboard/category/addCategory" passHref>
-            <SidebarItem icon={<MdAdd />} label="Add Categories" isOpen={isOpen} selected={selectedItem === 'Add Categories'} onClick={() => setSelectedItem('Add Categories')} />
-          </Link>
-          <Link href="/admin/dashboard/category/addSubCategory" passHref>
-            <SidebarItem icon={<MdAdd />} label="Add SubCategories" isOpen={isOpen} selected={selectedItem === 'Add SubCategories'} onClick={() => setSelectedItem('Add SubCategories')} />
-          </Link>
-          <Link href="/admin/dashboard/category/allCategory" passHref>
-            <SidebarItem icon={<FaListUl />} label="All Categories" isOpen={isOpen} selected={selectedItem === 'All Categories'} onClick={() => setSelectedItem('All Categories')} />
-          </Link>
+      {isOpen && (
+        <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-500">
+          Blogs
+        </h3>
+      )}
+      <Link href="/admin/dashboard/blogs/addBlog" passHref>
+        <SidebarItem
+          icon={<FaPlusCircle />}
+          label="Add Blogs"
+          isOpen={isOpen}
+          selected={selectedItem === "Add Blogs"}
+          onClick={() => setSelectedItem("Add Blogs")}
+        />
+      </Link>
+      <Link href="/admin/dashboard/blogs" passHref>
+        <SidebarItem
+          icon={<FaBook />}
+          label="Blogs"
+          isOpen={isOpen}
+          selected={selectedItem === "Blogs"}
+          onClick={() => setSelectedItem("Blogs")}
+        />
+      </Link>
 
-          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-400">Blog</h3>}
-          <Link href="/admin/dashboard/blog/addBlog" passHref>
-            <SidebarItem icon={<MdAdd />} label="Add Blog" isOpen={isOpen} selected={selectedItem === 'Add Blog'} onClick={() => setSelectedItem('Add Blog')} />
-          </Link>
-          <Link href="/admin/dashboard/blog/allBlog" passHref>
-            <SidebarItem icon={<GiOpenBook />} label="Blogs" isOpen={isOpen} selected={selectedItem === 'Blogs'} onClick={() => setSelectedItem('Blogs')} />
-          </Link>
-
-          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-400">Users</h3>}
-          <Link href="/admin/dashboard/user/tableView" passHref>
-            <SidebarItem icon={<FaTable />} label="Table View" isOpen={isOpen} selected={selectedItem === 'Table View'} onClick={() => setSelectedItem('Table View')} />
-          </Link>
-          <Link href="/admin/dashboard/user/cardView" passHref>
-            <SidebarItem icon={<FaIdCard />} label="Card View" isOpen={isOpen} selected={selectedItem === 'Card View'} onClick={() => setSelectedItem('Card View')} />
-          </Link>
-          <Link href="/admin/dashboard/user/search" passHref>
-            <SidebarItem icon={<FaSearch />} label="Search Users" isOpen={isOpen} selected={selectedItem === 'Search Users'} onClick={() => setSelectedItem('Search Users')} />
-          </Link>
-
-
-          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-400">Campaign</h3>}
-          <Link href="/admin/dashboard/campaign/addCampaign" passHref>
-            <SidebarItem icon={<FaTable />} label="Add Campaign " isOpen={isOpen} selected={selectedItem === 'Add Campaign'} onClick={() => setSelectedItem('Add Campaign')} />
-          </Link>
-          <Link href="/admin/dashboard/user/cardView" passHref>
-            <SidebarItem icon={<FaIdCard />} label="Card View" isOpen={isOpen} selected={selectedItem === 'Card View'} onClick={() => setSelectedItem('Card View')} />
-          </Link>
-          <Link href="/admin/dashboard/user/search" passHref>
-            <SidebarItem icon={<FaSearch />} label="Search Users" isOpen={isOpen} selected={selectedItem === 'Search Users'} onClick={() => setSelectedItem('Search Users')} />
-          </Link>
-
-          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-300">Review</h3>}
-          <Link href="/admin/dashboard/review/addReview" passHref>
-            <SidebarItem icon={<FaPlus />} label="Add Review" isOpen={isOpen} />
-          </Link>
-          <Link href="/admin/dashboard/review/addReview" passHref>
-            <SidebarItem icon={<MdOutlineRateReview />} label="Review" isOpen={isOpen} />
-          </Link>
-
-          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-400">Policies</h3>}
-          <Link href="/admin/dashboard/policy/termsAndCondition" passHref>
-            <SidebarItem icon={<IoDocumentAttach />} label="Terms & Conditions" isOpen={isOpen} selected={selectedItem === 'Terms & Conditions'} onClick={() => setSelectedItem('Terms & Conditions')} />
-          </Link>
-          <Link href="/admin/dashboard/policy/privacyPolicy" passHref>
-            <SidebarItem icon={<IoDocuments />} label="Privacy Policy" isOpen={isOpen} selected={selectedItem === 'Privacy Policy'} onClick={() => setSelectedItem('Privacy Policy')} />
-          </Link>
-          <Link href="/admin/dashboard/policy/returnPolicy" passHref>
-            <SidebarItem icon={<IoDocumentText />} label="Return Policy" isOpen={isOpen} selected={selectedItem === 'Return Policy'} onClick={() => setSelectedItem('Return Policy')} />
-          </Link>
-          <Link href="/admin/dashboard/policy/shippingPolicy" passHref>
-            <SidebarItem icon={<GiTruck />} label="Shipping Policy" isOpen={isOpen} selected={selectedItem === 'Shipping Policy'} onClick={() => setSelectedItem('Shipping Policy')} />
-          </Link>
-
-          {isOpen && <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-400">Account</h3>}
-          <Link href="/admin/dashboard/profile" passHref>
-            <SidebarItem icon={<ImProfile />} label="Profile" isOpen={isOpen} selected={selectedItem === 'Profile'} onClick={() => setSelectedItem('Profile')} />
-          </Link>
-          <Link href="/settings" passHref>
-            <SidebarItem icon={<FaCog />} label="Settings" isOpen={isOpen} selected={selectedItem === 'Settings'} onClick={() => setSelectedItem('Settings')} />
-          </Link>
-
-          <button
-            className="mt-6 flex items-center rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-red-700 shadow-md"
-            onClick={handleLogout}
-          >
-            <MdOutlineLogout className="h-5 w-5" aria-hidden="true" />
-            {isOpen && <span className="ml-2">Logout</span>}
-          </button>
-        </div>
-      </motion.div>
+      {/* Logout Button */}
+      <button
+        className="mt-6 flex items-center rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-red-700 shadow-md"
+        onClick={handleLogout}
+      >
+        <MdOutlineLogout className="h-5 w-5" aria-hidden="true" />
+        {isOpen && <span className="ml-2">Logout</span>}
+      </button>
     </div>
+  </motion.div>
+</div>
+
   );
 };
-
+  
 const SidebarItem = ({ icon, label, isOpen, selected, onClick }) => {
   return (
     <motion.div
       onClick={onClick}
       whileHover={{ scale: 1.1 }}
       className={`flex items-center space-x-4 p-2 rounded-lg transition-colors duration-300 ${
-        selected ? "bg-gray-800" : "hover:bg-gray-800"
+        selected
+        ? "bg-gray-800 text-white"
+        : "bg-transparent hover:bg-gray-700 hover:text-white"
       }`}
     >
       <div className="text-xl">{icon}</div>
