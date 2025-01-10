@@ -131,7 +131,7 @@ const SidebarAdmin = () => {
               Blogs
             </h3>
           )}
-          <Link href="/admin/dashboard/blogs/addBlog" passHref>
+          <Link href="/admin/dashboard/blog/addBlog" passHref>
             <SidebarItem
               icon={<FaPlusCircle />}
               label="Add Blogs"
@@ -140,7 +140,7 @@ const SidebarAdmin = () => {
               onClick={() => setSelectedItem("Add Blogs")}
             />
           </Link>
-          <Link href="/admin/dashboard/blogs" passHref>
+          <Link href="/admin/dashboard/blog/allBlog" passHref>
             <SidebarItem
               icon={<FaBook />}
               label="Blogs"
