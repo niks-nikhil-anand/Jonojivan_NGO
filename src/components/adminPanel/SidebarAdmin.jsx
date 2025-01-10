@@ -99,7 +99,7 @@ const SidebarAdmin = () => {
       </Link>
 
       {isOpen && (
-        <h3 className="text-sm font-medium mt-4 mb-2 text-yellow-500">
+        <h3 className="text-sm  mt-4 mb-2 text-green-700 font-bold">
           Blogs
         </h3>
       )}
@@ -116,6 +116,30 @@ const SidebarAdmin = () => {
         <SidebarItem
           icon={<FaBook />}
           label="Blogs"
+          isOpen={isOpen}
+          selected={selectedItem === "Blogs"}
+          onClick={() => setSelectedItem("Blogs")}
+        />
+      </Link>
+
+      {isOpen && (
+        <h3 className="text-sm  mt-4 mb-2 text-green-700 font-bold">
+          Messages
+        </h3>
+      )}
+      <Link href="/admin/dashboard/blogs/addBlog" passHref>
+        <SidebarItem
+          icon={<FaPlusCircle />}
+          label="Newsletters"
+          isOpen={isOpen}
+          selected={selectedItem === "Add Blogs"}
+          onClick={() => setSelectedItem("Add Blogs")}
+        />
+      </Link>
+      <Link href="/admin/dashboard/blogs" passHref>
+        <SidebarItem
+          icon={<FaBook />}
+          label="Contact Us"
           isOpen={isOpen}
           selected={selectedItem === "Blogs"}
           onClick={() => setSelectedItem("Blogs")}
