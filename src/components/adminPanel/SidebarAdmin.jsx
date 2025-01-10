@@ -107,7 +107,7 @@ const SidebarAdmin = () => {
               Campaigns
             </h3>
           )}
-          <Link href="/admin/dashboard/orders/allOrders" passHref>
+          <Link href="/admin/dashboard/campaign/addCampaign" passHref>
             <SidebarItem
               icon={<FaPlusCircle />}
               label="Add Campaign"

@@ -60,12 +60,14 @@ const AddCampaignPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex ">
       <form
-        className="w-full bg-white p-10"
+        className="w-full bg-white px-10 py-4 max-h-[80vh] overflow-y-auto shadow-lg rounded-lg custom-scrollbar"
         onSubmit={handleSubmit}
       >
-        <h2 className="text-2xl font-medium mb-6 text-indigo-400 underline">Add Campaign</h2>
+          <h2 className="text-xl font-semibold mb-6 text-teal-600 dark:text-teal-300 underline decoration-teal-400 hover:decoration-teal-500 transition-all duration-300">
+          Add Campaign
+        </h2>
         
         <div className=" mb-5">
           <div>
