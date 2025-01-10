@@ -15,11 +15,15 @@ const CampaignSchema = new mongoose.Schema(
     image:{
       type: String,
     },
-
     goal: {
       type: Number,
       required: true,
       min: 0,
+    },
+    status:{
+      type: String,
+      enum: ["Active", "Inactive"],
+      default: "Inactive",
     },
     raised: {
       type: Number,

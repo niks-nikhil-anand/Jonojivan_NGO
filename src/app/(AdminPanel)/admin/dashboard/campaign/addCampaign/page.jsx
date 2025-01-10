@@ -27,7 +27,6 @@ const AddCampaignPage = () => {
   
     const formDataToSubmit = new FormData();
     formDataToSubmit.append("title", formData.title);
-    formDataToSubmit.append("subTitle", formData.subTitle);
     formDataToSubmit.append("description", formData.description);
     formDataToSubmit.append("goal", formData.goal);
     if (formData.image) {
@@ -141,7 +140,7 @@ const AddCampaignPage = () => {
               <img
                 src={URL.createObjectURL(formData.image)}
                 alt="Campaign preview"
-                className="mt-2 max-w-xs rounded-lg shadow-md"
+                className="mt-2 max-w-[5rem] rounded-lg shadow-md"
               />
             </div>
           )}

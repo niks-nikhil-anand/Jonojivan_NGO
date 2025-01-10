@@ -116,7 +116,7 @@ const SidebarAdmin = () => {
               onClick={() => setSelectedItem("Add Campaign")}
             />
           </Link>
-          <Link href="/admin/dashboard/orders/pendingOrders" passHref>
+          <Link href="/admin/dashboard/campaign/campaigns" passHref>
           <SidebarItem
             icon={<MdOutlineCampaign />}
             label="Campaigns"

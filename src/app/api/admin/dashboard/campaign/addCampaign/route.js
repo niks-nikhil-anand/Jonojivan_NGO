@@ -60,7 +60,7 @@ export const GET = async (req) => {
     console.log("Connected to the database.");
 
     const campaigns = await campaign.find(); // Assuming you're fetching campaigns from the database
-    console.log("Fetched campaigns:");
+    console.log("Fetched campaigns:", campaigns);
     return NextResponse.json(campaigns, { status: 200 });
   } catch (error) {
     console.error("Error fetching campaigns:", error);
