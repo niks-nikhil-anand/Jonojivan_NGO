@@ -100,8 +100,7 @@ export async function GET(req) {
     if (donations.length === 0) {
       return NextResponse.json({ message: 'No donations found' }, { status: 404 });
     }
-
-    console.log('Fetched donations successfully');
+    console.log(donations)
     return NextResponse.json({ donations }, { status: 200 });
   } catch (error) {
     console.error('Error fetching donations:', error);
