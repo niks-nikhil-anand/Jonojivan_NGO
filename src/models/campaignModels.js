@@ -12,19 +12,20 @@ const CampaignSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    image:{
+    image: {
       type: String,
+      required: true,
     },
     goal: {
       type: Number,
       required: true,
       min: 0,
     },
-    status:{
+    status: {
       type: String,
-      enum: ["Active", "Inactive"],
-      default: "Inactive",
-    },
+      required: true,
+      enum: ['Blocked', 'Pending', 'inReview', 'Active'],
+  },
     raised: {
       type: Number,
       default: 0,
@@ -38,7 +39,7 @@ const CampaignSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, 
+    timestamps: true,
   }
 );
 
@@ -47,4 +48,4 @@ CampaignSchema.virtual("progress").get(function () {
   return this.goal > 0 ? (this.raised / this.goal) * 100 : 0;
 });
 
-module.exports = mongoose.models.Campaign || mongoose.model("Campaign", CampaignSchema);
+export default mongoose.models.Campaign || mongoose.model("Campaign", CampaignSchema);

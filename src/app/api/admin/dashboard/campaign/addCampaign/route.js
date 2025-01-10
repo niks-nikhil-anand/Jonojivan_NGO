@@ -1,6 +1,6 @@
 import connectDB from "@/lib/dbConnect";
 import uploadImage from "@/lib/uploadImages";
-import campaign from "@/models/campaignModels";
+import campaignModels from "@/models/campaignModels";
 import { NextResponse } from "next/server";
 
 export const POST = async (req) => {
@@ -10,8 +10,7 @@ export const POST = async (req) => {
     console.log("Connected to the database.");
 
     const formData = await req.formData();
-    console.log("Form data received.");
-
+    console.log("Received form data:", formData);
     const title = formData.get("title");
     const description = formData.get("description");
     const goal = formData.get("goal");
@@ -40,11 +39,12 @@ export const POST = async (req) => {
       description,
       goal,
       image: imageUrl,
+      status: "Pending",
     };
 
     console.log("Campaign data to be saved:", campaignData);
 
-    await campaign.create(campaignData); 
+    await campaignModels.create(campaignData); 
     console.log("Campaign added successfully.");
     return NextResponse.json({ msg: "Campaign added successfully" }, { status: 200 });
   } catch (error) {
@@ -59,7 +59,7 @@ export const GET = async (req) => {
     await connectDB();
     console.log("Connected to the database.");
 
-    const campaigns = await campaign.find(); // Assuming you're fetching campaigns from the database
+    const campaigns = await campaignModels.find(); // Assuming you're fetching campaigns from the database
     console.log("Fetched campaigns:", campaigns);
     return NextResponse.json(campaigns, { status: 200 });
   } catch (error) {

@@ -1,6 +1,6 @@
-"use client";
+"use client"
 import React, { useState } from "react";
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 
 const AddCampaignPage = () => {
   const [formData, setFormData] = useState({
@@ -15,30 +15,35 @@ const AddCampaignPage = () => {
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
     if (type === "file") {
-      setFormData({ ...formData, [name]: files[0] });
+      setFormData((prevData) => ({ ...prevData, [name]: files[0] }));
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-  
+
     const formDataToSubmit = new FormData();
     formDataToSubmit.append("title", formData.title);
     formDataToSubmit.append("description", formData.description);
     formDataToSubmit.append("goal", formData.goal);
+
+    // Append the image if present
     if (formData.image) {
       formDataToSubmit.append("image", formData.image);
     }
-  
+
     try {
-      const response = await fetch("/api/admin/dashboard/campaign/addCampaign", {
-        method: "POST",
-        body: formDataToSubmit,
-      });
-  
+      const response = await fetch(
+        "/api/admin/dashboard/campaign/addCampaign",
+        {
+          method: "POST",
+          body: formDataToSubmit,
+        }
+      );
+
       const data = await response.json();
       if (response.ok) {
         toast.success("Campaign added successfully!");
@@ -64,10 +69,10 @@ const AddCampaignPage = () => {
         className="w-full bg-white px-10 py-4 max-h-[80vh] overflow-y-auto shadow-lg rounded-lg custom-scrollbar"
         onSubmit={handleSubmit}
       >
-          <h2 className="text-xl font-semibold mb-6 text-teal-600 dark:text-teal-300 underline decoration-teal-400 hover:decoration-teal-500 transition-all duration-300">
+        <h2 className="text-xl font-semibold mb-6 text-teal-600 dark:text-teal-300 underline decoration-teal-400 hover:decoration-teal-500 transition-all duration-300">
           Add Campaign
         </h2>
-        
+
         <div className=" mb-5">
           <div>
             <label htmlFor="title" className="block text-sm font-medium text-gray-800">
@@ -119,7 +124,6 @@ const AddCampaignPage = () => {
             </div>
           </div>
         </div>
-
 
         {/* Image Upload Field */}
         <div className="mb-5">
