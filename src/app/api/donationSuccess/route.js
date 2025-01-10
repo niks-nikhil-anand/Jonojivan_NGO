@@ -87,3 +87,27 @@ export async function POST(req) {
     );
   }
 }
+
+
+export async function GET(req) {
+  try {
+    console.log('Incoming GET request to donation endpoint...');
+
+    // Fetch all donation entries from the database
+    const donations = await Donation.find();
+
+    // If no donations found, return an empty array
+    if (donations.length === 0) {
+      return NextResponse.json({ message: 'No donations found' }, { status: 404 });
+    }
+
+    console.log('Fetched donations successfully');
+    return NextResponse.json({ donations }, { status: 200 });
+  } catch (error) {
+    console.error('Error fetching donations:', error);
+    return NextResponse.json(
+      { message: 'Failed to fetch donations', error: 'Internal server error.' },
+      { status: 500 }
+    );
+  }
+}

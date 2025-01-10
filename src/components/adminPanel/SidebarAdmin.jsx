@@ -82,23 +82,23 @@ const SidebarAdmin = () => {
               Donation
             </h3>
           )}
-          <Link href="/admin/dashboard/orders/allOrders" passHref>
+          <Link href="/admin/dashboard/donation/AllDonation" passHref>
             <SidebarItem
               icon={<FaDonate />}
               label="All Donation"
               isOpen={isOpen}
-              selected={selectedItem === "All Orders"}
-              onClick={() => setSelectedItem("All Orders")}
+              selected={selectedItem === "All Donation"}
+              onClick={() => setSelectedItem("All Donation")}
             />
           </Link>
 
-          <Link href="/admin/dashboard/orders/pendingOrders" passHref>
+          <Link href="/admin/dashboard/donation/payments" passHref>
             <SidebarItem
               icon={<FaCreditCard />}
               label="Razorpay Payments"
               isOpen={isOpen}
-              selected={selectedItem === "Pending Orders"}
-              onClick={() => setSelectedItem("Pending Orders")}
+              selected={selectedItem === "Razorpay Payments"}
+              onClick={() => setSelectedItem("Razorpay Payments")}
             />
           </Link>
 
