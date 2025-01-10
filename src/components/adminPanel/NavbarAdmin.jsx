@@ -1,31 +1,50 @@
 "use client";
 import React, { useState } from 'react';
-import { FaUserCircle, FaHome, FaCog, FaUser } from 'react-icons/fa';
+import {  FaHome } from 'react-icons/fa';
 import { IoIosMenu } from 'react-icons/io';
 import { HiMoon, HiSun } from 'react-icons/hi'; 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import logo from '../../../public/logo/Smile.png';
+import { toast } from 'react-hot-toast';
+import { MdOutlineLogout } from "react-icons/md";  // Import the logout icon
+import { useRouter } from 'next/navigation';
+
 
 
 
 const Navbar = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const router = useRouter();
+
   
-    const toggleDarkMode = () => {
-      setDarkMode(!darkMode);
-      document.documentElement.classList.toggle("dark", !darkMode);
+
+    const handleLogout = async () => {
+      toast.loading('Logging out...', { id: 'logout' });
+      try {
+        const response = await fetch('/api/admin/auth/logout', {
+          method: 'POST',
+        });
+        const data = await response.json();
+        if (response.ok) {
+          toast.success('Logged out successfully!', { id: 'logout' });
+          router.push('/');
+        } else {
+          toast.error(`Logout failed: ${data.message}`, { id: 'logout' });
+        }
+      } catch (error) {
+        toast.error(`Logout failed: ${error.message}`, { id: 'logout' });
+      }
     };
 
 
-
-
   return (
-    <nav className="bg-white dark:bg-gray-800 text-white transition-colors duration-300 shadow-lg">
+    <nav className="bg-gray-50 dark:bg-gray-800 text-white transition-colors duration-300 shadow-lg">
   <div className="container mx-auto flex justify-between items-center p-4">
-    {/* Logo */}
-    <div className="flex items-center space-x-2">
-      <span className="text-lg font-bold text-black">Admin Panel</span>
-    </div>
+        {/* Logo and Heading */}
+        <div className="flex items-center space-x-3">
+          <Image src={logo} alt="Logo" width={40} height={40} className="rounded-full shadow-md" />
+          <h1 className="text-xl font-bold text-black">Bring Smile Admin Panel</h1>
+        </div>
 
     {/* Hamburger Menu for Mobile View */}
     <div className="block lg:hidden">
@@ -34,55 +53,15 @@ const Navbar = () => {
       </button>
     </div>
 
-    {/* Navigation Links */}
-    <div className="hidden lg:flex space-x-6">
-      <a
-        href="#"
-        className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors duration-300 shadow-md"
-      >
-        <FaHome className="text-lg" />
-        <span>Dashboard</span>
-      </a>
-      <a
-        href="#"
-        className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors duration-300 shadow-md"
-      >
-        <FaCog className="text-lg" />
-        <span>Settings</span>
-      </a>
-      <a
-        href="#"
-        className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors duration-300 shadow-md"
-      >
-        <FaUser className="text-lg" />
-        <span>Profile</span>
-      </a>
-    </div>
-
     <div className="flex items-center space-x-4">
-          <button
-            onClick={toggleDarkMode}
-            className={`flex items-center w-16 h-8 p-1 rounded-full transition-colors duration-300 ${
-              darkMode ? "bg-blue-600" : "bg-gray-200"
-            }`}
-            aria-label="Toggle dark mode"
-          >
-            <motion.div
-              layout
-              className={`w-6 h-6 rounded-full bg-white shadow-md flex items-center justify-center ${
-                darkMode ? "translate-x-0" : "translate-x-7"
-              }`}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            >
-              {darkMode ? (
-                <HiMoon className="text-gray-500" />
-              ) : (
-                <HiSun className="text-yellow-400" />
-              )}
-            </motion.div>
-          </button>
           
-          <FaUserCircle className="text-2xl text-gray-800 dark:text-white transition-transform transform hover:scale-110 duration-200" />
+          <button
+            onClick={handleLogout}
+            className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 transition-colors duration-300 shadow-md"
+          >
+            <MdOutlineLogout className="text-lg text-white" aria-hidden="true" />
+            <span className="text-lg text-white">Logout</span>
+          </button>
         </div>
       </div>
     </nav>
