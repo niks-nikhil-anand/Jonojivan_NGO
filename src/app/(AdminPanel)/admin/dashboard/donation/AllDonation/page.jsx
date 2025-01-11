@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { MdDownload, MdDelete, MdArrowUpward, MdArrowDownward , MdSwapVert } from 'react-icons/md'; // Import necessary icons
 import Loader from "@/components/loader/loader";
+import toast from 'react-hot-toast';
+
 
 
 
@@ -51,11 +53,22 @@ const DonationTable = () => {
     try {
       const confirmed = confirm("Are you sure you want to delete this donation?");
       if (!confirmed) return;
-
+  
+      // Show a loading toast
+      const toastId = toast.loading("Deleting donation...");
+  
       await axios.delete(`/api/admin/dashboard/donation/${id}`);
+      
+      // Update state to remove the deleted donation
       setDonations(donations.filter((donation) => donation._id !== id));
+  
+      // Show success toast
+      toast.success("Donation deleted successfully!", { id: toastId });
     } catch (error) {
       console.error("Error deleting donation:", error);
+  
+      // Show error toast
+      toast.error("Failed to delete the donation. Please try again.");
     }
   };
 

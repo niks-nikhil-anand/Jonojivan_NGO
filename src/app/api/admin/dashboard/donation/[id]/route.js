@@ -1,4 +1,6 @@
+import connectDB from "@/lib/dbConnect";
 import Donation from "@/models/donationModels";
+import { NextResponse } from "next/server";
 
 
 export const GET = async (request, { params }) => {
@@ -25,9 +27,6 @@ export const GET = async (request, { params }) => {
     );
   }
 };
-import { NextResponse } from 'next/server';
-import connectDB from '@/utils/connectDB';
-import Donation from '@/models/Donation';
 
 export const DELETE = async (request, { params }) => {
   const id = params.id; // Extract the donation ID from parameters
