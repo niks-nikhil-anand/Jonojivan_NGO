@@ -72,11 +72,13 @@ const News = () => {
     <div className="overflow-x-auto overflow-y-auto max-h-[70vh] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
       <table className="border-collapse border border-gray-300 min-w-[70vh] text-sm">
         <thead>
-          <tr className="bg-gray-400">
+          <tr className="bg-gradient-to-r from-gray-400 to-teal-500">
             <th className="border border-gray-300 px-2 py-1 text-left">Full Name</th>
             <th className="border border-gray-300 px-2 py-1 text-left">Email</th>
+            <th className="border border-gray-300 px-2 py-1 text-left">Pan Card No.</th>
             <th className="border border-gray-300 px-2 py-1 text-left">Amount</th>
             <th className="border border-gray-300 px-2 py-1 text-left">Payment Method</th>
+            <th className="border border-gray-300 px-2 py-1 text-left">RazorPay Payment Id</th>
             <th className="border border-gray-300 px-2 py-1 text-left">Created At</th>
             <th className="border border-gray-300 px-2 py-1 text-center">Actions</th>
           </tr>
@@ -86,8 +88,12 @@ const News = () => {
             <tr key={donation._id} className="hover:bg-gray-200 cursor-pointer">
               <td className="border border-gray-300 px-2 py-1 truncate">{donation.fullName}</td>
               <td className="border border-gray-300 px-2 py-1 truncate">{donation.email}</td>
+              <td className="border border-gray-300 px-2 py-1 truncate">
+            {donation.panCardNumber ? donation.panCardNumber : 'Not Available'}
+               </td>
               <td className="border border-gray-300 px-2 py-1 font-semibold">₹{donation.amount}/-</td>
               <td className="border border-gray-300 px-2 py-1 truncate">{donation.paymentMethod}</td>
+              <td className="border border-gray-300 px-2 py-1 truncate">{donation.razorpay_payment_id}</td>
               <td className="border border-gray-300 px-2 py-1 truncate">
                 {new Date(donation.createdAt).toLocaleDateString()}
               </td>
