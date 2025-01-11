@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { MdDownload, MdDelete } from 'react-icons/md'; // Import necessary icons
+import { MdDownload, MdDelete, MdArrowUpward, MdArrowDownward , MdSwapVert } from 'react-icons/md'; // Import necessary icons
+import Loader from "@/components/loader/loader";
+
 
 
 const DonationTable = () => {
@@ -10,6 +12,8 @@ const DonationTable = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const donationsPerPage = 12;
+  const [sortField, setSortField] = useState(null); // State for tracking the field being sorted
+  const [sortOrder, setSortOrder] = useState("asc"); // State for tracking the sort order
   const router = useRouter();
 
   useEffect(() => {
@@ -56,8 +60,21 @@ const DonationTable = () => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loader/>;
   }
+
+  const sortDonations = (field) => {
+    const order = sortField === field && sortOrder === "asc" ? "desc" : "asc";
+    setSortField(field);
+    setSortOrder(order);
+    const sortedDonations = [...donations].sort((a, b) => {
+      if (a[field] < b[field]) return order === "asc" ? -1 : 1;
+      if (a[field] > b[field]) return order === "asc" ? 1 : -1;
+      return 0;
+    });
+    setDonations(sortedDonations);
+  };
+
 
   
 
@@ -67,10 +84,25 @@ const DonationTable = () => {
       <table className="border-collapse border border-gray-300 min-w-[70vh] text-sm">
         <thead>
           <tr className="bg-gradient-to-r from-gray-400 to-teal-500">
+          
             <th className="border border-gray-300 px-2 py-1 text-left">Full Name</th>
             <th className="border border-gray-300 px-2 py-1 text-left">Email</th>
             <th className="border border-gray-300 px-2 py-1 text-left">Pan Card No.</th>
-            <th className="border border-gray-300 px-2 py-1 text-left">Amount</th>
+            <th
+                className=" px-2 py-1 text-left cursor-pointer flex  items-center gap-2"
+                onClick={() => sortDonations('amount')}
+              >
+                <span>Amount</span>
+                {sortField === 'amount' ? (
+                  sortOrder === 'asc' ? (
+                    <MdArrowUpward size={16} />
+                  ) : (
+                    <MdArrowDownward size={16} />
+                  )
+                ) : (
+                  <MdSwapVert size={16} /> // Sort icon when the column isn't actively sorted
+                )}
+              </th>
             <th className="border border-gray-300 px-2 py-1 text-left">Payment Method</th>
             <th className="border border-gray-300 px-2 py-1 text-left">RazorPay Payment Id</th>
             <th className="border border-gray-300 px-2 py-1 text-left">Donation's Date-Time</th>
