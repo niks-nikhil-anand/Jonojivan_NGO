@@ -5,11 +5,11 @@ import axios from "axios";
 import { MdDownload, MdDelete } from 'react-icons/md'; // Import necessary icons
 
 
-const News = () => {
+const DonationTable = () => {
   const [donations, setDonations] = useState([]); // Rename to donations
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const donationsPerPage = 10;
+  const donationsPerPage = 12;
   const router = useRouter();
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const News = () => {
       try {
         const response = await axios.get("/api/donationSuccess"); // Adjust the API URL as per your API endpoint
         console.log(response)
-        setDonations(Array.isArray(response.data.donations) ? response.data.donations : []); // Ensure donations is an array
+        setDonations(Array.isArray(response.data.donations) ? response.data.donations.reverse() : []); // Reverse the array after fetching
       } catch (error) {
         console.error("Error fetching donations:", error);
       } finally {
@@ -62,7 +62,7 @@ const News = () => {
   
 
   return (
-    <div className="w-full p-4 bg-white shadow-lg rounded-lg h-[80vh] min-w-[100%] mx-auto">
+    <div className="w-full p-4 bg-white shadow-lg  h-[80vh] min-w-[100%] mx-auto mt-4 ">
     <div className="overflow-x-auto overflow-y-auto max-h-[70vh] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
       <table className="border-collapse border border-gray-300 min-w-[70vh] text-sm">
         <thead>
@@ -139,4 +139,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default DonationTable;
