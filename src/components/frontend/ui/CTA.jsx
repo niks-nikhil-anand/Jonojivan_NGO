@@ -12,7 +12,7 @@ const CTA = () => {
           Fundraise for a Great Cause
         </h1>
         <p className="text-lg text-gray-200 mb-4">
-          Join us in supporting meaningful causes. Your donation helps create real change in people's lives.
+          Join us in supporting meaningful causes. Your donation helps create real change in people&apos;s lives.
         </p>
         <p className="text-lg text-gray-200 mb-6">
           By contributing, you become a part of a global movement that makes a difference.

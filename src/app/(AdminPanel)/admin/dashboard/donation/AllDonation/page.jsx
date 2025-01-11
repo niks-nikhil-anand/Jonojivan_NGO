@@ -126,7 +126,7 @@ const DonationTable = () => {
               </th>
             <th className="border border-gray-300 px-2 py-1 text-left">Payment Method</th>
             <th className="border border-gray-300 px-2 py-1 text-left">RazorPay Payment Id</th>
-            <th className="border border-gray-300 px-2 py-1 text-left">Donation's Date-Time</th>
+            <th className="border border-gray-300 px-2 py-1 text-left">Donation&apos;s Date-Time</th>
             <th className="border border-gray-300 px-2 py-1 text-center">Actions</th>
           </tr>
         </thead>

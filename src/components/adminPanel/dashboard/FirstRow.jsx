@@ -44,20 +44,20 @@ const FirstRow = () => {
       {/* Today's Donation */}
       <div className="flex flex-col items-center justify-center bg-blue-500 text-white p-4 rounded-lg shadow-lg">
         <FaCalendarDay size={40} />
-        <h3 className="text-lg mt-2">Today's Donation</h3>
+        <h3 className="text-lg mt-2">Today&apos;s Donation</h3>
         <p className="text-xl mt-1">{loading ? 'Loading...' : `₹${getDonationsByTime('today')}`}</p>
       </div>
 
       {/* This Week's Donation */}
       <div className="flex flex-col items-center justify-center bg-green-500 text-white p-4 rounded-lg shadow-lg">
         <FaCalendarWeek size={40} />
-        <h3 className="text-lg mt-2">This Week's Donation</h3>
+        <h3 className="text-lg mt-2">This Week&apos;s Donation</h3>
         <p className="text-xl mt-1">{loading ? 'Loading...' : `₹${getDonationsByTime('week')}`}</p>
       </div>
        {/* This Month's Donation */}
        <div className="flex flex-col items-center justify-center bg-yellow-500 text-white p-4 rounded-lg shadow-lg">
         <FaRegChartBar size={40} />
-        <h3 className="text-lg mt-2">This Month's Donation</h3>
+        <h3 className="text-lg mt-2">This Month&apos;s Donation</h3>
         <p className="text-xl mt-1">{loading ? 'Loading...' : `₹${getDonationsByTime('month')}`}</p>
       </div>
       {/* All Time Donation */}
