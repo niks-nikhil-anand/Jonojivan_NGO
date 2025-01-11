@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { MdDownload, MdDelete } from 'react-icons/md'; // Import necessary icons
+
 
 const News = () => {
   const [donations, setDonations] = useState([]); // Rename to donations
@@ -66,11 +68,11 @@ const News = () => {
   };
 
   return (
-    <div className="w-full p-4 bg-gray-100 shadow-lg rounded-lg h-[80vh] min-w-[100%] mx-auto">
+    <div className="w-full p-4 bg-white shadow-lg rounded-lg h-[80vh] min-w-[100%] mx-auto">
     <div className="overflow-x-auto overflow-y-auto max-h-[70vh] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
       <table className="border-collapse border border-gray-300 min-w-[70vh] text-sm">
         <thead>
-          <tr className="bg-gray-200">
+          <tr className="bg-gray-400">
             <th className="border border-gray-300 px-2 py-1 text-left">Full Name</th>
             <th className="border border-gray-300 px-2 py-1 text-left">Email</th>
             <th className="border border-gray-300 px-2 py-1 text-left">Amount</th>
@@ -81,7 +83,7 @@ const News = () => {
         </thead>
         <tbody>
           {currentDonations.map((donation) => (
-            <tr key={donation._id} className="hover:bg-gray-100">
+            <tr key={donation._id} className="hover:bg-gray-200 cursor-pointer">
               <td className="border border-gray-300 px-2 py-1 truncate">{donation.fullName}</td>
               <td className="border border-gray-300 px-2 py-1 truncate">{donation.email}</td>
               <td className="border border-gray-300 px-2 py-1 font-semibold">₹{donation.amount}/-</td>
@@ -90,21 +92,24 @@ const News = () => {
                 {new Date(donation.createdAt).toLocaleDateString()}
               </td>
               <td className="border border-gray-300 px-2 py-1 text-center">
-                <div className="flex justify-center space-x-2">
-                  <button
-                    onClick={() => handleView(donation._id)}
-                    className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs"
-                  >
-                    View
-                  </button>
-                  <button
-                    onClick={() => handleDelete(donation._id)}
-                    className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </td>
+            <div className="flex justify-center space-x-2">
+              {/* View Button */}
+              <button
+                onClick={() => handleView(donation._id)}
+                className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs"
+              >
+                <MdDownload className="text-white" size={16} /> {/* Download icon */}
+              </button>
+              
+              {/* Delete Button */}
+              <button
+                onClick={() => handleDelete(donation._id)}
+                className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
+              >
+                <MdDelete className="text-white" size={16} /> {/* Delete icon */}
+              </button>
+            </div>
+          </td>
             </tr>
           ))}
         </tbody>
