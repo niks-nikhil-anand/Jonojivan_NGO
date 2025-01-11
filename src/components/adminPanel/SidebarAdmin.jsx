@@ -56,7 +56,7 @@ const SidebarAdmin = () => {
           <h2 className="text-lg font-semibold mb-4">Dashboard</h2>
 
           {/* Sidebar Items */}
-          <Link href="/admin/dashboard/property/AddProperty" passHref>
+          <Link href="/admin/dashboard" passHref>
             <SidebarItem
               icon={<FaHome />}
               label="Dashboard"
