@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaRegMoneyBillAlt, FaCalendarDay, FaCalendarWeek, FaCalendarMonth } from 'react-icons/fa';
@@ -22,7 +23,6 @@ const FirstRow = () => {
     fetchDonations();
   }, []);
 
-  // Calculate donation statistics
   const getDonationsByTime = (timeframe) => {
     const now = new Date();
     return donations.filter((donation) => {
@@ -35,7 +35,7 @@ const FirstRow = () => {
       } else if (timeframe === 'month') {
         return donationDate.getMonth() === now.getMonth() && donationDate.getFullYear() === now.getFullYear();
       }
-      return true; // All-time donation
+      return true;
     }).reduce((total, donation) => total + donation.amount, 0);
   };
 
@@ -54,21 +54,19 @@ const FirstRow = () => {
         <h3 className="text-lg mt-2">This Week's Donation</h3>
         <p className="text-xl mt-1">{loading ? 'Loading...' : `₹${getDonationsByTime('week')}`}</p>
       </div>
-
-      {/* This Month's Donation */}
-      <div className="flex flex-col items-center justify-center bg-yellow-500 text-white p-4 rounded-lg shadow-lg">
-        <FaCalendarMonth size={40} />
+       {/* This Month's Donation */}
+       <div className="flex flex-col items-center justify-center bg-yellow-500 text-white p-4 rounded-lg shadow-lg">
+        <FaRegMoneyBillAlt size={40} />
         <h3 className="text-lg mt-2">This Month's Donation</h3>
         <p className="text-xl mt-1">{loading ? 'Loading...' : `₹${getDonationsByTime('month')}`}</p>
       </div>
-
       {/* All Time Donation */}
       <div className="flex flex-col items-center justify-center bg-purple-500 text-white p-4 rounded-lg shadow-lg">
         <FaRegMoneyBillAlt size={40} />
         <h3 className="text-lg mt-2">All Time Donation</h3>
         <p className="text-xl mt-1">{loading ? 'Loading...' : `₹${getDonationsByTime('all')}`}</p>
       </div>
-    </div>
+      </div>
   );
 };
 
