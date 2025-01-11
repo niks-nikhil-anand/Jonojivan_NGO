@@ -15,7 +15,7 @@ ChartJS.register(
   Legend
 );
 
-const SecondRow = () => {
+const ThirdRow = () => {
   const [donations, setDonations] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -103,4 +103,4 @@ const SecondRow = () => {
   );
 };
 
-export default SecondRow;
+export default ThirdRow;
