@@ -18,6 +18,10 @@ const DonationTable = () => {
   const [sortOrder, setSortOrder] = useState("asc"); // State for tracking the sort order
   const router = useRouter();
 
+
+  const [showModal, setShowModal] = useState(false); // Modal state
+  const [deleteId, setDeleteId] = useState(null); // Track the ID for deletionx
+
   useEffect(() => {
     const fetchDonations = async () => {
       try {
@@ -49,24 +53,29 @@ const DonationTable = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+
+  const confirmDelete = (id) => {
+    setDeleteId(id);
+    setShowModal(true);
+  };
+
+  const handleDelete = async () => {
     try {
-      const confirmed = confirm("Are you sure you want to delete this donation?");
-      if (!confirmed) return;
-  
       // Show a loading toast
       const toastId = toast.loading("Deleting donation...");
-  
-      await axios.delete(`/api/admin/dashboard/donation/${id}`);
-      
+
+      await axios.delete(`/api/admin/dashboard/donation/${deleteId}`);
+
       // Update state to remove the deleted donation
-      setDonations(donations.filter((donation) => donation._id !== id));
-  
+      setDonations(donations.filter((donation) => donation._id !== deleteId));
+      setShowModal(false); // Close the modal
+      setDeleteId(null);
+
       // Show success toast
       toast.success("Donation deleted successfully!", { id: toastId });
     } catch (error) {
       console.error("Error deleting donation:", error);
-  
+
       // Show error toast
       toast.error("Failed to delete the donation. Please try again.");
     }
@@ -157,11 +166,11 @@ const DonationTable = () => {
               
               {/* Delete Button */}
               <button
-                onClick={() => handleDelete(donation._id)}
-                className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
-              >
-                <MdDelete className="text-white" size={16} /> {/* Delete icon */}
-              </button>
+                      onClick={() => confirmDelete(donation._id)}
+                      className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
+                    >
+                      <MdDelete className="text-white" size={16} />
+                    </button>
             </div>
           </td>
             </tr>
@@ -184,6 +193,28 @@ const DonationTable = () => {
         </button>
       ))}
     </div>
+    {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white rounded-lg p-6 shadow-lg w-[300px]">
+            <h3 className="text-lg font-semibold mb-4">Confirm Deletion</h3>
+            <p className="text-sm mb-4">Are you sure you want to delete this donation?</p>
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+              >
+                No
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
   </div>
   
   );
