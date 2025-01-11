@@ -59,13 +59,7 @@ const News = () => {
     return <p>Loading...</p>;
   }
 
-  const truncateWords = (text, wordLimit) => {
-    if (!text) return "";
-    const words = text.split(" ");
-    return words.length > wordLimit
-      ? words.slice(0, wordLimit).join(" ") + "..."
-      : text;
-  };
+  
 
   return (
     <div className="w-full p-4 bg-white shadow-lg rounded-lg h-[80vh] min-w-[100%] mx-auto">
@@ -95,7 +89,11 @@ const News = () => {
               <td className="border border-gray-300 px-2 py-1 truncate">{donation.paymentMethod}</td>
               <td className="border border-gray-300 px-2 py-1 truncate">{donation.razorpay_payment_id}</td>
               <td className="border border-gray-300 px-2 py-1 truncate">
-                {new Date(donation.createdAt).toLocaleDateString()}
+                {new Date(donation.createdAt).toLocaleDateString('en-GB', {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric'
+                })}
               </td>
               <td className="border border-gray-300 px-2 py-1 text-center">
             <div className="flex justify-center space-x-2">
