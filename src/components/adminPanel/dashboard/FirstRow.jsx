@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaRegMoneyBillAlt, FaCalendarDay, FaCalendarWeek, FaCalendarMonth } from 'react-icons/fa';
+import { FaRegMoneyBillAlt, FaCalendarDay, FaCalendarWeek, FaRegChartBar } from 'react-icons/fa';
 
 const FirstRow = () => {
   const [donations, setDonations] = useState([]);
@@ -56,7 +56,7 @@ const FirstRow = () => {
       </div>
        {/* This Month's Donation */}
        <div className="flex flex-col items-center justify-center bg-yellow-500 text-white p-4 rounded-lg shadow-lg">
-        <FaRegMoneyBillAlt size={40} />
+        <FaRegChartBar size={40} />
         <h3 className="text-lg mt-2">This Month's Donation</h3>
         <p className="text-xl mt-1">{loading ? 'Loading...' : `₹${getDonationsByTime('month')}`}</p>
       </div>
