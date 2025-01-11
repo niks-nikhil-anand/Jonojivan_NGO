@@ -101,12 +101,11 @@ const DonationTable = () => {
   
 
   return (
-    <div className="w-full p-4 bg-white shadow-lg  h-[80vh] min-w-[100%] mx-auto mt-4 ">
-    <div className="overflow-x-auto overflow-y-auto max-h-[70vh] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-      <table className="border-collapse border border-gray-300 min-w-[70vh] text-sm">
+    <div className="w-full p-4 bg-white shadow-lg  h-[80vh] min-w-[100%] mx-auto mt-4  ">
+  <div className="overflow-x-auto overflow-y-auto max-h-[70vh] custom-scrollbar">
+  <table className="border-collapse border border-gray-300 min-w-[70vh] text-sm">
         <thead>
           <tr className="bg-gradient-to-r from-gray-400 to-teal-500">
-          
             <th className="border border-gray-300 px-2 py-1 text-left">Full Name</th>
             <th className="border border-gray-300 px-2 py-1 text-left">Email</th>
             <th className="border border-gray-300 px-2 py-1 text-left">Pan Card No.</th>
