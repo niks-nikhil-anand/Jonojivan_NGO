@@ -59,10 +59,21 @@ const SecondRow = () => {
         backgroundColor: 'rgba(76, 175, 80, 0.2)', // Line background color (fill area under the line)
         fill: true, // Filling the area under the line
         tension: 0.4, // For smooth line
-        borderWidth: 2, // Line width
+        borderWidth: 3, // Line width
+        pointRadius: 5, // Point size for data points
+        pointBackgroundColor: '#4CAF50', // Point color
+        pointBorderWidth: 2, // Border around the points
+        pointHoverRadius: 7, // Enlarging point on hover
+        pointHoverBackgroundColor: '#388E3C', // Point color on hover
+        pointHoverBorderColor: '#2C6A2F', // Point border color on hover
+        borderCapStyle: 'round', // Rounded line corners
+        borderJoinStyle: 'round', // Rounded join of the lines
+        hoverBorderWidth: 3, // Line width on hover
+        hoverBackgroundColor: 'rgba(76, 175, 80, 0.4)', // Background color on hover
       },
     ],
   };
+  
 
   const chartOptions = {
     responsive: true,
