@@ -73,7 +73,7 @@ const DonationTable = () => {
             <th className="border border-gray-300 px-2 py-1 text-left">Amount</th>
             <th className="border border-gray-300 px-2 py-1 text-left">Payment Method</th>
             <th className="border border-gray-300 px-2 py-1 text-left">RazorPay Payment Id</th>
-            <th className="border border-gray-300 px-2 py-1 text-left">Created At</th>
+            <th className="border border-gray-300 px-2 py-1 text-left">Donation's Date-Time</th>
             <th className="border border-gray-300 px-2 py-1 text-center">Actions</th>
           </tr>
         </thead>
@@ -92,7 +92,12 @@ const DonationTable = () => {
                 {new Date(donation.createdAt).toLocaleDateString('en-GB', {
                   day: '2-digit',
                   month: 'short',
-                  year: 'numeric'
+                  year: 'numeric',
+                })}{" "}
+                {new Date(donation.createdAt).toLocaleTimeString('en-GB', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: true, // To display AM/PM
                 })}
               </td>
               <td className="border border-gray-300 px-2 py-1 text-center">
