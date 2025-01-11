@@ -38,7 +38,7 @@ const Navbar = () => {
 
 
   return (
-    <nav className="bg-gray-50 dark:bg-gray-800 text-white transition-colors duration-300 shadow-lg max-w-[100%]">
+    <nav className="bg-gray-200 dark:bg-gray-800 text-black transition-colors duration-300 shadow-xl rounded-b-xl  max-w-[100%] ">
   <div className="container mx-auto flex justify-between items-center p-4">
         {/* Logo and Heading */}
         <div className="flex items-center space-x-3">
