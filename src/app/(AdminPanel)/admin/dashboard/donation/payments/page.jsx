@@ -7,7 +7,7 @@ const News = () => {
   const [donations, setDonations] = useState([]); // Rename to donations
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const donationsPerPage = 5;
+  const donationsPerPage = 15;
   const router = useRouter();
 
   useEffect(() => {

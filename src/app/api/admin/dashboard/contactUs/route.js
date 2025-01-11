@@ -48,3 +48,26 @@ export const POST = async (req) => {
     );
   }
 };
+
+export const GET = async () => {
+  try {
+    console.log("Connecting to the database...");
+    await connectDB();
+    console.log("Connected to the database.");
+
+    // Fetch all contact data from the database
+    const contacts = await contactUsModels.find();
+    console.log("Fetched contact data:", contacts);
+
+    return NextResponse.json(
+      { msg: "Contact data fetched successfully", data: contacts },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error fetching contact data:", error);
+    return NextResponse.json(
+      { msg: "Error fetching contact data", error: error.message },
+      { status: 500 }
+    );
+  }
+};
