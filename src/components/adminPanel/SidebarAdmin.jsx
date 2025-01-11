@@ -134,7 +134,7 @@ const SidebarAdmin = () => {
               onClick={() => setSelectedItem("Newsletters")}
             />
           </Link>
-          <Link href="/admin/dashboard/messages/contactUs" passHref>
+          <Link href="/admin/dashboard/message/contactUs" passHref>
             <SidebarItem
               icon={<FaRegEnvelope />}
               label="Contact Us"

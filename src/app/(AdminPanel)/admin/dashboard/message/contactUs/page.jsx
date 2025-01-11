@@ -4,51 +4,53 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 const News = () => {
-  const [campaigns, setCampaigns] = useState([]);
+  const [contacts, setContacts] = useState([]); // Make sure it's an array
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const campaignsPerPage = 5;
+  const contactsPerPage = 5;
   const router = useRouter();
 
   useEffect(() => {
-    const fetchCampaigns = async () => {
+    const fetchContacts = async () => {
       try {
-        const response = await axios.get("/api/admin/dashboard/campaign/addCampaign");
-        setCampaigns(response.data);
+        const response = await axios.get("/api/admin/dashboard/contactUs");
+        console.log(response.data.data); // Debug the API response
+        // Ensure the data is an array before setting the state
+        setContacts(Array.isArray(response.data.data) ? response.data.data : []);
       } catch (error) {
-        console.error("Error fetching campaigns:", error);
+        console.error("Error fetching contacts:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCampaigns();
+    fetchContacts();
   }, []);
 
-  const indexOfLastCampaign = currentPage * campaignsPerPage;
-  const indexOfFirstCampaign = indexOfLastCampaign - campaignsPerPage;
-  const currentCampaigns = campaigns.slice(indexOfFirstCampaign, indexOfLastCampaign);
+  const indexOfLastContact = currentPage * contactsPerPage;
+  const indexOfFirstContact = indexOfLastContact - contactsPerPage;
+  const currentContacts = contacts.slice(indexOfFirstContact, indexOfLastContact);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleView = async (id) => {
     try {
-      const response = await axios.get(`/api/admin/dashboard/blog/${id}`);
-      alert(`Blog Title: ${response.data.title}`);
+      const response = await axios.get(`/api/admin/dashboard/contactUs/${id}`);
+      alert(`Contact: ${response.data.firstName} ${response.data.lastName}`);
     } catch (error) {
-      console.error("Error fetching blog details:", error);
+      console.error("Error fetching contact details:", error);
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      const confirmed = confirm("Are you sure you want to delete this campaign?");
+      const confirmed = confirm("Are you sure you want to delete this contact?");
       if (!confirmed) return;
 
-      await axios.delete(`/api/admin/dashboard/blog/${id}`);
-      setCampaigns(campaigns.filter((campaign) => campaign._id !== id));
+      await axios.delete(`/api/admin/dashboard/contactUs/${id}`);
+      setContacts(contacts.filter((contact) => contact._id !== id));
     } catch (error) {
-      console.error("Error deleting campaign:", error);
+      console.error("Error deleting contact:", error);
     }
   };
 
@@ -70,44 +72,36 @@ const News = () => {
         <table className="border-collapse border border-gray-300 min-w-[1200px] text-sm">
           <thead>
             <tr className="bg-gray-200">
-              <th className="border border-gray-300 px-2 py-1 text-left">Featured Image</th>
-              <th className="border border-gray-300 px-2 py-1 text-left">Title</th>
-              <th className="border border-gray-300 px-2 py-1 text-left">Description</th>
-              <th className="border border-gray-300 px-2 py-1 text-left">Goal</th>
-              <th className="border border-gray-300 px-2 py-1 text-left">Raised</th>
-              <th className="border border-gray-300 px-2 py-1 text-left">Status</th>
+              <th className="border border-gray-300 px-2 py-1 text-left">First Name</th>
+              <th className="border border-gray-300 px-2 py-1 text-left">Last Name</th>
+              <th className="border border-gray-300 px-2 py-1 text-left">Email</th>
+              <th className="border border-gray-300 px-2 py-1 text-left">Phone Number</th>
+              <th className="border border-gray-300 px-2 py-1 text-left">Message</th>
               <th className="border border-gray-300 px-2 py-1 text-left">Created At</th>
               <th className="border border-gray-300 px-2 py-1 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {currentCampaigns.map((campaign) => (
-              <tr key={campaign._id} className="hover:bg-gray-100">
-                <td className="border border-gray-300 px-2 py-1 text-center flex justify-center">
-                  <img
-                    src={campaign.image}
-                    alt={campaign.title}
-                    className="w-12 h-12 object-cover rounded-2xl"
-                  />
-                </td>
-                <td className="border border-gray-300 px-2 py-1 truncate">{campaign.title}</td>
-                <td className="border border-gray-300 px-2 py-1 truncate">{truncateWords(campaign.description, 10)}</td>
-                <td className="border border-gray-300 px-2 py-1 font-semibold">₹{campaign.goal}/-</td>
-                <td className="border border-gray-300 px-2 py-1 font-semibold">₹{campaign.raised}/-</td>
-                <td className="border border-gray-300 px-2 py-1 truncate">{campaign.status}</td>
-                <td className="border border-gray-300 px-2 py-1 truncate">
-                {new Date(campaign.createdAt).toLocaleDateString()}
+            {currentContacts.map((contact) => (
+              <tr key={contact._id} className="hover:bg-gray-100">
+                <td className="border border-gray-300 px-2 py-1">{contact.firstName}</td>
+                <td className="border border-gray-300 px-2 py-1">{contact.lastName}</td>
+                <td className="border border-gray-300 px-2 py-1">{contact.email}</td>
+                <td className="border border-gray-300 px-2 py-1">{contact.mobileNumber}</td>
+                <td className="border border-gray-300 px-2 py-1">{truncateWords(contact.message, 10)}</td>
+                <td className="border border-gray-300 px-2 py-1">
+                  {new Date(contact.createdAt).toLocaleDateString()}
                 </td>
                 <td className="border border-gray-300 px-2 py-1 text-center">
                   <div className="flex justify-center space-x-2">
                     <button
-                      onClick={() => handleView(campaign._id)}
+                      onClick={() => handleView(contact._id)}
                       className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs"
                     >
                       View
                     </button>
                     <button
-                      onClick={() => handleDelete(campaign._id)}
+                      onClick={() => handleDelete(contact._id)}
                       className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
                     >
                       Delete
@@ -120,7 +114,7 @@ const News = () => {
         </table>
       </div>
       <div className="mt-4 flex justify-center space-x-2">
-        {[...Array(Math.ceil(campaigns.length / campaignsPerPage)).keys()].map((number) => (
+        {[...Array(Math.ceil(contacts.length / contactsPerPage)).keys()].map((number) => (
           <button
             key={number}
             className={`px-2 py-1 rounded-md text-xs ${
