@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Loader from "@/components/loader/loader";
 
-const News = () => {
+const CampaignTable = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,7 +15,7 @@ const News = () => {
     const fetchCampaigns = async () => {
       try {
         const response = await axios.get("/api/admin/dashboard/campaign/addCampaign");
-        setCampaigns(response.data);
+        setCampaigns(response.data.reverse());
       } catch (error) {
         console.error("Error fetching campaigns:", error);
       } finally {
@@ -53,7 +54,11 @@ const News = () => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return 
+    <div>
+      <Loader/>
+    </div>
+    ;
   }
 
   const truncateWords = (text, wordLimit) => {
@@ -66,10 +71,10 @@ const News = () => {
 
   return (
     <div className="w-full p-4 pr-[5rem] bg-gray-100 shadow-lg rounded-lg h-[80vh]">
-      <div className="overflow-x-auto overflow-y-auto max-h-[70vh] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+      <div className="overflow-x-auto overflow-y-auto max-h-[70vh] custom-scrollbar">
         <table className="border-collapse border border-gray-300 min-w-[1200px] text-sm">
           <thead>
-            <tr className="bg-gray-200">
+            <tr className="bg-gradient-to-r from-gray-400 to-teal-500">
               <th className="border border-gray-300 px-2 py-1 text-left">Featured Image</th>
               <th className="border border-gray-300 px-2 py-1 text-left">Title</th>
               <th className="border border-gray-300 px-2 py-1 text-left">Description</th>
@@ -138,4 +143,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default CampaignTable;

@@ -13,8 +13,8 @@ const News = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedArticle, setSelectedArticle] = useState(null); // State to hold the selected article content
-  const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
+  const [selectedArticle, setSelectedArticle] = useState(null); 
+  const [showPopup, setShowPopup] = useState(false); 
   const articlesPerPage = 5;
   const router = useRouter();
 
@@ -76,105 +76,112 @@ const News = () => {
 
   return (
     <div className="flex flex-col mb-10 mt-5 px-10">
-      <h1 className="text-3xl font-bold mb-2 text-center underline"> ALL BLOGS</h1>
-      {loading ? (
-        <motion.div
-          className="flex justify-center items-center h-64"
-        >
-          <div className="loader"></div>
-        </motion.div>
-      ) : (
-        <>
-          <div className="space-y-4">
+  <h1 className="text-3xl font-bold mb-2 text-center underline">ALL BLOGS</h1>
+  {loading ? (
+    <motion.div className="flex justify-center items-center h-64">
+      <div className="loader"></div>
+    </motion.div>
+  ) : (
+    <>
+      {/* Blog Table */}
+      <div className="overflow-x-auto">
+        <table className="table-auto w-full border-collapse border border-gray-200">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="border border-gray-300 px-4 py-2">Featured Image</th>
+              <th className="border border-gray-300 px-4 py-2">Title</th>
+              <th className="border border-gray-300 px-4 py-2">Subtitle</th>
+              <th className="border border-gray-300 px-4 py-2">Author</th>
+              <th className="border border-gray-300 px-4 py-2">Category</th>
+              <th className="border border-gray-300 px-4 py-2">Published Date</th>
+              <th className="border border-gray-300 px-4 py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
             {currentArticles.map((article) => (
-              <motion.div
-                key={article._id}
-                className="flex bg-white rounded-lg shadow-md cursor-pointer p-4 relative"
-              >
-                <img
-                  src={article.featuredImage}
-                  alt={article.title}
-                  className="w-24 h-24 object-cover rounded-lg mr-4"
-                />
-                <div className="flex flex-col justify-between flex-grow">
-                  <h3 className="text-xl font-semibold mb-1">{article.title}</h3>
-                  <p className="text-gray-600 mb-1">{article.subtitle}</p>
-                  <div className="text-sm text-gray-500">
-                    By {article.author} in {article.category}
-                  </div>
-                  <div className="text-xs text-gray-400 mt-1">
-                    Published on {new Date(article.createdAt).toLocaleDateString()}
-                  </div>
-                  <div className="flex justify-end space-x-2 absolute bottom-4 right-4">
-                    {/* View Button */}
-                    <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleViewClick(article._id);
-                  }}
-                  className="bg-blue-500 text-white px-2 py-1 text-sm rounded-md shadow-md hover:bg-blue-600 flex items-center"
-                >
-                  <FaEye className="mr-1" /> {/* View icon */}
-                  View
-                </button>
-
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteClick(article._id);
-                  }}
-                  className="bg-red-500 text-white px-2 py-1 text-sm rounded-md shadow-md hover:bg-red-600 flex items-center"
-                >
-                  <FaTrash className="mr-1" /> {/* Delete icon */}
-                  Delete
-                </button>
-                  </div>
-                </div>
-              </motion.div>
+              <tr key={article._id} className="bg-white hover:bg-gray-50">
+                <td className="border border-gray-300 px-4 py-2">
+                  <img
+                    src={article.featuredImage}
+                    alt={article.title}
+                    className="w-16 h-16 object-cover rounded"
+                  />
+                </td>
+                <td className="border border-gray-300 px-4 py-2">{article.title}</td>
+                <td className="border border-gray-300 px-4 py-2">{article.subtitle}</td>
+                <td className="border border-gray-300 px-4 py-2">{article.author}</td>
+                <td className="border border-gray-300 px-4 py-2">{article.category}</td>
+                <td className="border border-gray-300 px-4 py-2">
+                  {new Date(article.createdAt).toLocaleDateString()}
+                </td>
+                <td className="border border-gray-300 px-4 py-2 space-x-2">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleViewClick(article._id);
+                    }}
+                    className="bg-blue-500 text-white px-2 py-1 text-sm rounded-md shadow-md hover:bg-blue-600 flex items-center"
+                  >
+                    <FaEye className="mr-1" /> View
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteClick(article._id);
+                    }}
+                    className="bg-red-500 text-white px-2 py-1 text-sm rounded-md shadow-md hover:bg-red-600 flex items-center"
+                  >
+                    <FaTrash className="mr-1" /> Delete
+                  </button>
+                </td>
+              </tr>
             ))}
-          </div>
+          </tbody>
+        </table>
+      </div>
 
-          {/* Pagination Controls */}
-          <div className="flex justify-center mt-6">
-            {Array.from({ length: Math.ceil(articles.length / articlesPerPage) }, (_, i) => (
-              <button
-                key={i + 1}
-                onClick={() => paginate(i + 1)}
-                className={`mx-1 px-3 py-1 border rounded ${
-                  currentPage === i + 1 ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
-                }`}
-              >
-                {i + 1}
-              </button>
-            ))}
-          </div>
-        </>
-      )}
+      {/* Pagination Controls */}
+      <div className="flex justify-center mt-6">
+        {Array.from({ length: Math.ceil(articles.length / articlesPerPage) }, (_, i) => (
+          <button
+            key={i + 1}
+            onClick={() => paginate(i + 1)}
+            className={`mx-1 px-3 py-1 border rounded ${
+              currentPage === i + 1 ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
+    </>
+  )}
 
-      {/* Popup for Full Blog Content */}
-      {showPopup && selectedArticle && (
-        <motion.div
-          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
+  {/* Popup for Full Blog Content */}
+  {showPopup && selectedArticle && (
+    <motion.div
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full h-96 overflow-y-auto relative">
+        <h2 className="text-2xl font-bold mb-4">{selectedArticle.title}</h2>
+        <div
+          className="prose prose-sm md:prose-lg mx-auto"
+          dangerouslySetInnerHTML={{ __html: selectedArticle.content }}
+        />
+        <button
+          onClick={closePopup}
+          className="absolute top-2 right-2 text-red-500 hover:text-red-700"
         >
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full h-96 overflow-y-auto relative">
-            <h2 className="text-2xl font-bold mb-4">{selectedArticle.title}</h2>
-            <div
-              className="prose prose-sm md:prose-lg mx-auto"
-              dangerouslySetInnerHTML={{ __html: selectedArticle.content }}
-            />
-            <button
-              onClick={closePopup}
-              className="absolute top-2 right-2 text-red-500 hover:text-red-700"
-            >
-              <AiOutlineClose size={24} /> {/* Close icon from React Icons */}
-            </button>
-          </div>
-        </motion.div>
-      )}
-    </div>
+          <AiOutlineClose size={24} />
+        </button>
+      </div>
+    </motion.div>
+  )}
+</div>
+
   );
 };
 
