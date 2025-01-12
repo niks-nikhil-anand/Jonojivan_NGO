@@ -74,9 +74,16 @@ const News = () => {
     setSelectedArticle(null);
   };
 
+  const truncateWords = (text, wordLimit) => {
+    if (!text) return "";
+    const words = text.split(" ");
+    return words.length > wordLimit
+      ? words.slice(0, wordLimit).join(" ") + "..."
+      : text;
+  };
+
   return (
-    <div className="flex flex-col mb-10 mt-5 px-10">
-  <h1 className="text-3xl font-bold mb-2 text-center underline">ALL BLOGS</h1>
+    <div className="w-full p-4 pr-[5rem] bg-gray-100 shadow-lg rounded-lg h-[80vh]">
   {loading ? (
     <motion.div className="flex justify-center items-center h-64">
       <div className="loader"></div>
@@ -84,7 +91,7 @@ const News = () => {
   ) : (
     <>
       {/* Blog Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto overflow-y-auto max-h-[70vh] custom-scrollbar">
         <table className="table-auto w-full border-collapse border border-gray-200">
           <thead className="bg-gray-100">
             <tr>
@@ -109,12 +116,16 @@ const News = () => {
                 </td>
                 <td className="border border-gray-300 px-4 py-2">{article.title}</td>
                 <td className="border border-gray-300 px-4 py-2">{article.subtitle}</td>
-                <td className="border border-gray-300 px-4 py-2">{article.author}</td>
+                <td className="border border-gray-300 px-4 py-2">
+              {truncateWords(article.author, 15 )}
+                   </td>
+
                 <td className="border border-gray-300 px-4 py-2">{article.category}</td>
                 <td className="border border-gray-300 px-4 py-2">
                   {new Date(article.createdAt).toLocaleDateString()}
                 </td>
                 <td className="border border-gray-300 px-4 py-2 space-x-2">
+                  <div className='flex gap-5 flex-col'>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -133,6 +144,8 @@ const News = () => {
                   >
                     <FaTrash className="mr-1" /> Delete
                   </button>
+                  </div>
+                  
                 </td>
               </tr>
             ))}
