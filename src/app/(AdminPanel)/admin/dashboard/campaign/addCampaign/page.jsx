@@ -33,24 +33,24 @@ const AddCampaignPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+  
     const formDataToSubmit = new FormData();
     formDataToSubmit.append("title", formData.title);
     formDataToSubmit.append("description", formData.description);
     formDataToSubmit.append("goal", formData.goal);
     formDataToSubmit.append("content", formData.content); // Include content in form data
-
+  
     // Append the image if present
     if (formData.image) {
       formDataToSubmit.append("image", formData.image);
     }
-
+  
     try {
       const response = await fetch("/api/admin/dashboard/campaign/addCampaign", {
         method: "POST",
         body: formDataToSubmit,
       });
-
+  
       const data = await response.json();
       if (response.ok) {
         toast.success("Campaign added successfully!");
@@ -59,8 +59,10 @@ const AddCampaignPage = () => {
           description: "",
           goal: "",
           image: null,
-          content: "", // Reset content
+          content: "", 
         });
+        // Reload the page after clearing the form
+        window.location.reload();
       } else {
         toast.error(data.message || "Failed to add campaign.");
       }
@@ -70,6 +72,7 @@ const AddCampaignPage = () => {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="flex">
