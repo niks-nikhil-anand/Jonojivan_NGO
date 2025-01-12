@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Loader from "@/components/loader/loader";
+import toast from 'react-hot-toast';
+import {  MdDelete,} from 'react-icons/md'; // Import necessary icons
+
 
 const CampaignTable = () => {
   const [campaigns, setCampaigns] = useState([]);
@@ -30,28 +33,41 @@ const CampaignTable = () => {
   const indexOfFirstCampaign = indexOfLastCampaign - campaignsPerPage;
   const currentCampaigns = campaigns.slice(indexOfFirstCampaign, indexOfLastCampaign);
 
+   const [showModal, setShowModal] = useState(false); // Modal state
+    const [deleteId, setDeleteId] = useState(null); // Track the ID for deletionx
+
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const handleView = async (id) => {
-    try {
-      const response = await axios.get(`/api/admin/dashboard/blog/${id}`);
-      alert(`Blog Title: ${response.data.title}`);
-    } catch (error) {
-      console.error("Error fetching blog details:", error);
-    }
+
+
+  const confirmDelete = (id) => {
+    setDeleteId(id);
+    setShowModal(true);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     try {
-      const confirmed = confirm("Are you sure you want to delete this campaign?");
-      if (!confirmed) return;
-
-      await axios.delete(`/api/admin/dashboard/blog/${id}`);
-      setCampaigns(campaigns.filter((campaign) => campaign._id !== id));
+      // Show a loading toast
+      const toastId = toast.loading("Deleting campaign...");
+  
+      // Send a delete request to the backend to remove the campaign
+      await axios.delete(`/api/admin/dashboard/campaign/${deleteId}`);
+  
+      // Update the state by filtering out the deleted campaign
+      setCampaigns(campaigns.filter((campaign) => campaign._id !== deleteId));
+      setShowModal(false); // Close the modal
+      setDeleteId(null); // Reset the delete ID
+  
+      // Show success toast
+      toast.success("Campaign deleted successfully!", { id: toastId });
     } catch (error) {
       console.error("Error deleting campaign:", error);
+  
+      // Show error toast
+      toast.error("Failed to delete the campaign. Please try again.");
     }
   };
+  
 
   if (loading) {
     return 
@@ -112,10 +128,10 @@ const CampaignTable = () => {
                       View
                     </button> */}
                     <button
-                      onClick={() => handleDelete(campaign._id)}
+                      onClick={() => confirmDelete(campaigns._id)}
                       className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
                     >
-                      Delete
+                      <MdDelete className="text-white" size={16} />
                     </button>
                   </div>
                 </td>
@@ -139,6 +155,28 @@ const CampaignTable = () => {
           </button>
         ))}
       </div>
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white rounded-lg p-6 shadow-lg w-[300px]">
+            <h3 className="text-lg font-semibold mb-4">Confirm Deletion</h3>
+            <p className="text-sm mb-4">Are you sure you want to delete this donation?</p>
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+              >
+                No
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

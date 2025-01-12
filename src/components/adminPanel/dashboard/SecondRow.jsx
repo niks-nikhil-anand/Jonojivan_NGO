@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2'; // Importing Line chart from react-chartjs-2
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'; // Importing necessary Chart.js components
+import Loader from '@/components/loader/loader';
 
 // Registering chart components
 ChartJS.register(
@@ -95,7 +96,9 @@ const ThirdRow = () => {
   return (
     <div className="w-full p-4 bg-white rounded-lg shadow-lg" style={{ height: '350px' }}> {/* Reduced height */}
       {loading ? (
-        <p>Loading...</p>
+        <div>
+          <Loader/>
+          </div>
       ) : (
         <Line data={chartData} options={chartOptions} />
       )}
