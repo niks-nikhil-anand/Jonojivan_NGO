@@ -25,19 +25,34 @@ const FirstRow = () => {
 
   const getDonationsByTime = (timeframe) => {
     const now = new Date();
-    return donations.filter((donation) => {
+    const donationsByTime = donations.filter((donation) => {
       const donationDate = new Date(donation.createdAt);
+      
       if (timeframe === 'today') {
+        // Today's donations
         return donationDate.toDateString() === now.toDateString();
       } else if (timeframe === 'week') {
-        const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+        // Start of the current week (Sunday)
+        const startOfWeek = new Date(now);
+        startOfWeek.setDate(now.getDate() - now.getDay()); // Adjust to the start of the week (Sunday)
+        startOfWeek.setHours(0, 0, 0, 0); // Ensure time is at the start of the day
+        // Compare the donation date with the start of the week
         return donationDate >= startOfWeek;
       } else if (timeframe === 'month') {
-        return donationDate.getMonth() === now.getMonth() && donationDate.getFullYear() === now.getFullYear();
+        // Start of the current month
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1); // First day of the current month
+        startOfMonth.setHours(0, 0, 0, 0); // Ensure time is at the start of the day
+        // Compare the donation date with the start of the month
+        return donationDate >= startOfMonth;
       }
-      return true;
-    }).reduce((total, donation) => total + donation.amount, 0);
+      
+      return true; // Default return, in case no timeframe matches
+    });
+  
+    // Sum the donation amounts for the filtered donations
+    return donationsByTime.reduce((total, donation) => total + donation.amount, 0);
   };
+  
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
