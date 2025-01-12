@@ -105,12 +105,12 @@ const CampaignTable = () => {
                 </td>
                 <td className="border border-gray-300 px-2 py-1 text-center">
                   <div className="flex justify-center space-x-2">
-                    <button
+                    {/* <button
                       onClick={() => handleView(campaign._id)}
                       className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs"
                     >
                       View
-                    </button>
+                    </button> */}
                     <button
                       onClick={() => handleDelete(campaign._id)}
                       className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"

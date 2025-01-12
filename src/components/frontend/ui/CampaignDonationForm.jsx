@@ -107,7 +107,7 @@ const CampaignDonationForm = ({  setIsModalOpen, cardId }) => {
          const { order } = await response.json();
    
          const options = {
-           key: "rzp_live_9ZTzDG6fFahGrR",
+           key: process.env.RAZORPAY_KEY_ID,
            amount: order.amount,
            currency: order.currency,
            name: "Donation",

@@ -5,6 +5,7 @@ import axios from "axios";
 import { MdDownload, MdDelete, MdArrowUpward, MdArrowDownward , MdSwapVert } from 'react-icons/md'; // Import necessary icons
 import Loader from "@/components/loader/loader";
 import toast from 'react-hot-toast';
+// import { generateReceiptPDF } from "@/lib/generateReceiptPDF";
 
 
 
@@ -44,12 +45,15 @@ const DonationTable = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const handleView = async (id) => {
+  const handleDownload = async (id) => {
     try {
       const response = await axios.get(`/api/admin/dashboard/donation/${id}`);
-      alert(`Donation Details: ${response.data.fullName}`);
+      const donation = response.data;
+      console.log(donation)
+      generateReceiptPDF(donation);
     } catch (error) {
       console.error("Error fetching donation details:", error);
+      toast.error("Failed to fetch donation details.");
     }
   };
 
@@ -157,10 +161,10 @@ const DonationTable = () => {
             <div className="flex justify-center space-x-2">
               {/* View Button */}
               <button
-                onClick={() => handleView(donation._id)}
+                onClick={() => handleDownload(donation._id)}
                 className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs"
               >
-                <MdDownload className="text-white" size={16} /> {/* Download icon */}
+                <MdDownload className="text-white" size={16} />
               </button>
               
               {/* Delete Button */}
