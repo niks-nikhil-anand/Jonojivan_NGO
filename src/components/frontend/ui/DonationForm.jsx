@@ -362,6 +362,7 @@ const DonationForm = () => {
                   id="panCard"
                   name="panCard"
                   value={formData.panCard}
+                  maxLength={10}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-[#FF0080] focus:border-[#FF0080]"
                 />
@@ -382,6 +383,8 @@ const DonationForm = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
+                      maxLength={10} // Limit phone number to 10 digits
+                       pattern="[0-9]{10}" // Only allow numeric input for 10 digits
                       className="w-full px-4 py-2 focus:outline-none"
                       placeholder="Enter your phone number"
                       required

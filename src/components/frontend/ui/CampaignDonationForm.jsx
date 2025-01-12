@@ -282,6 +282,7 @@ const CampaignDonationForm = ({  setIsModalOpen, cardId }) => {
               type="text"
               name="panCard"
               value={formData.panCard}
+              maxLength={10}
               onChange={handleInputChange}
               className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg"
               placeholder="Enter PAN card number"
@@ -301,6 +302,8 @@ const CampaignDonationForm = ({  setIsModalOpen, cardId }) => {
             id="phone"
             name="phone"
             value={formData.phone}
+            maxLength={10} // Limit phone number to 10 digits
+            pattern="[0-9]{10}" // Only allow numeric input for 10 digits
             onChange={handleInputChange}
             className="w-full px-2 sm:px-4 py-2 border-gray-300 rounded-lg text-black"
             placeholder="Enter your phone number"

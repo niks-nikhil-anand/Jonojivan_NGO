@@ -58,8 +58,11 @@ function numberToWords(num) {
     const greatVibesFont = await pdfDoc.embedFont(fontBytesGreatVibes); // Embedding GreatVibes font
   
     const logoPath = path.join(process.cwd(), 'public', 'logo', 'Smile.png'); // Logo path
+    const NoBglogoPath = path.join(process.cwd(), 'public', 'logo', 'SmileNoBg.png'); // Logo path
     const logoBytes = fs.readFileSync(logoPath);
     const logoImage = await pdfDoc.embedPng(logoBytes);
+    const NoBgLogoBytes = fs.readFileSync(NoBglogoPath); // Read the NoBg logo file
+    const NoBgLogoImage = await pdfDoc.embedPng(NoBgLogoBytes); // Embed the NoBg logo
   
     const page = pdfDoc.addPage([500, 700]);
     const fontSize = 12;
@@ -182,23 +185,21 @@ function numberToWords(num) {
     // Amount Text - Positioned Lower
     page.drawText(`${amount}/-`, { x: 415, y: 290, size: fontSize, font: robotoRegularFont });
   
+    // Authorised Signature (Amrita Singh) Below the Name
+    page.drawText(' Amrita Singh', {
+      x: 50,
+      y: 270,  // Adjusted below the name
+      size: 12,
+      font: greatVibesFont,  // Use GreatVibes font for signature
+    });
   
-  
-  // Authorised Signature (Amrita Singh) Below the Name
-  page.drawText(' Amrita Singh', {
-    x: 50,
-    y: 270,  // Adjusted below the name
-    size: 12,
-    font: greatVibesFont,  // Use GreatVibes font for signature
-  });
-   // Amrita Singh (Normal Font - Roboto Regular)
+    // Amrita Singh (Normal Font - Roboto Regular)
     page.drawText('Authorised Signature', {
-    x: 50,
-    y: 250,  // Adjusted below the amount box
-    size: 12,
-    font: robotoRegularFont,  // Use Roboto Regular font for name
-  });
-  
+      x: 50,
+      y: 250,  // Adjusted below the amount box
+      size: 12,
+      font: robotoRegularFont,  // Use Roboto Regular font for name
+    });
   
     // Footer - Address and Donation Exemption Note
     page.drawText('Singhi Kalan\nAra, Bhojpur, Pin: 802301\nwww.bringsmile.org\nContact No. 95993 22679', {
@@ -222,7 +223,17 @@ function numberToWords(num) {
       color: rgb(0, 0, 0)
     });
   
+    // Add the No Background Logo below the Amount Box
+    page.drawImage(NoBgLogoImage, {
+      x: 350, // Shifted to the right side
+      y: 80, // Way below the amount box
+      width: 100, // Adjust width as needed
+      height: 100, // Adjust height as needed
+    });
+    
+  
     return await pdfDoc.save();
   }
+  
   
   
