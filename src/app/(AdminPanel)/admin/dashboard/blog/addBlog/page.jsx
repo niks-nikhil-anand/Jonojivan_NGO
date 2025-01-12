@@ -82,8 +82,8 @@ const BlogFormComponent = () => {
   };
 
   return (
-    <div className="w-full p-6 max-w-[70rem] mx-auto bg-white rounded-lg shadow-lg">
-      <h1 className="text-2xl font-bold mb-6">Add Blog</h1>
+    <div className="overflow-x-auto overflow-y-auto max-h-[85vh] custom-scrollbar bg-white rounded-lg shadow-lg px-7 py-10">
+      <h1 className="text-2xl font-bold mb-6 underline">Add Blog</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div
           className="flex flex-col space-y-4"
