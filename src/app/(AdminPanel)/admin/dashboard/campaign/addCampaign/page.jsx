@@ -1,6 +1,10 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
+import dynamic from "next/dynamic";
+import "react-quill/dist/quill.snow.css";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false }); // Dynamically import ReactQuill for client-side rendering
 
 const AddCampaignPage = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +12,7 @@ const AddCampaignPage = () => {
     description: "",
     goal: "",
     image: null, // To store the uploaded image
+    content: "", // To store the rich text content
   });
 
   const [loading, setLoading] = useState(false);
@@ -21,6 +26,10 @@ const AddCampaignPage = () => {
     }
   };
 
+  const handleQuillChange = (content) => {
+    setFormData({ ...formData, content });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -29,6 +38,7 @@ const AddCampaignPage = () => {
     formDataToSubmit.append("title", formData.title);
     formDataToSubmit.append("description", formData.description);
     formDataToSubmit.append("goal", formData.goal);
+    formDataToSubmit.append("content", formData.content); // Include content in form data
 
     // Append the image if present
     if (formData.image) {
@@ -36,13 +46,10 @@ const AddCampaignPage = () => {
     }
 
     try {
-      const response = await fetch(
-        "/api/admin/dashboard/campaign/addCampaign",
-        {
-          method: "POST",
-          body: formDataToSubmit,
-        }
-      );
+      const response = await fetch("/api/admin/dashboard/campaign/addCampaign", {
+        method: "POST",
+        body: formDataToSubmit,
+      });
 
       const data = await response.json();
       if (response.ok) {
@@ -52,6 +59,7 @@ const AddCampaignPage = () => {
           description: "",
           goal: "",
           image: null,
+          content: "", // Reset content
         });
       } else {
         toast.error(data.message || "Failed to add campaign.");
@@ -64,7 +72,7 @@ const AddCampaignPage = () => {
   };
 
   return (
-    <div className="flex ">
+    <div className="flex">
       <form
         className="w-full bg-white px-10 py-4 max-h-[80vh] overflow-y-auto shadow-lg rounded-lg custom-scrollbar"
         onSubmit={handleSubmit}
@@ -73,7 +81,7 @@ const AddCampaignPage = () => {
           Add Campaign
         </h2>
 
-        <div className=" mb-5">
+        <div className="mb-5">
           <div>
             <label htmlFor="title" className="block text-sm font-medium text-gray-800">
               Title
@@ -123,6 +131,15 @@ const AddCampaignPage = () => {
               />
             </div>
           </div>
+        </div>
+
+        <div className="mb-14">
+          <label className="block mb-3 text-gray-700 font-bold">Content</label>
+          <ReactQuill
+            value={formData.content}
+            onChange={handleQuillChange}
+            className="w-full h-80 rounded"
+          />
         </div>
 
         {/* Image Upload Field */}

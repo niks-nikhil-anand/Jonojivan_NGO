@@ -15,10 +15,11 @@ export const POST = async (req) => {
     const description = formData.get("description");
     const goal = formData.get("goal");
     const image = formData.get("image");
+    const content = formData.get("content");
 
-    console.log("Parsed form data:", { title, description, goal });
+    console.log("Parsed form data:", { title, description, goal, content });
 
-    if (!title || !description || !goal || !image) {
+    if (!title || !description || !goal || !image || !content) {
       console.error("Missing required fields.");
       return NextResponse.json({ msg: "Please provide all the required fields." }, { status: 400 });
     }
@@ -40,11 +41,13 @@ export const POST = async (req) => {
       goal,
       image: imageUrl,
       status: "Pending",
+      content // Ensure that content is included in the campaignData
     };
 
     console.log("Campaign data to be saved:", campaignData);
 
-    await campaignModels.create(campaignData); 
+    // Save the campaign data to the database
+    await campaignModels.create(campaignData);
     console.log("Campaign added successfully.");
     return NextResponse.json({ msg: "Campaign added successfully" }, { status: 200 });
   } catch (error) {

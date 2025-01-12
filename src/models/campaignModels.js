@@ -12,6 +12,10 @@ const CampaignSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    content:{
+       type: mongoose.Schema.Types.Mixed,
+       required: true
+    },
     image: {
       type: String,
       required: true,
