@@ -37,7 +37,7 @@ export const GET = async (request, { params }) => {
 // DELETE request to delete a campaign by its ID
 export const DELETE = async (request, { params }) => {
   console.log("DELETE Request Initiated: Delete Campaign by ID");
-
+  console.log(params);
   const { id } = params; 
   if (!id) {
     console.warn("DELETE Request Warning: Missing 'id' parameter");

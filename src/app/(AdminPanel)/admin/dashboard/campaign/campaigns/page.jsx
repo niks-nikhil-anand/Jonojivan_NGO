@@ -127,12 +127,12 @@ const CampaignTable = () => {
                     >
                       View
                     </button> */}
-                    <button
-                      onClick={() => confirmDelete(campaigns._id)}
-                      className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
-                    >
-                      <MdDelete className="text-white" size={16} />
-                    </button>
+                   <button
+                  onClick={() => confirmDelete(campaign._id)}  // Pass campaign._id instead of donation._id
+                  className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
+                >
+                  <MdDelete className="text-white" size={16} />
+                </button> 
                   </div>
                 </td>
               </tr>
