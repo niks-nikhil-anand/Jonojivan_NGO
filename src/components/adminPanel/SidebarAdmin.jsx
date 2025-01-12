@@ -126,14 +126,6 @@ const SidebarAdmin = () => {
           <h3 className="text-sm mt-4 mb-2 text-green-700 font-bold">
             Messages
           </h3>
-          <Link href="/admin/dashboard/messages/newsletters" passHref>
-            <SidebarItem
-              icon={<MdEmail />}
-              label="Newsletters"
-              selected={selectedItem === "Newsletters"}
-              onClick={() => setSelectedItem("Newsletters")}
-            />
-          </Link>
           <Link href="/admin/dashboard/message/contactUs" passHref>
             <SidebarItem
               icon={<FaRegEnvelope />}
