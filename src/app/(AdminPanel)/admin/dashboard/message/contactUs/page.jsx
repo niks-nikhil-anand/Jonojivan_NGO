@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Loader from "@/components/loader/loader";
 
 const News = () => {
   const [contacts, setContacts] = useState([]); // Make sure it's an array
@@ -16,7 +17,7 @@ const News = () => {
         const response = await axios.get("/api/admin/dashboard/contactUs");
         console.log(response.data.data); // Debug the API response
         // Ensure the data is an array before setting the state
-        setContacts(Array.isArray(response.data.data) ? response.data.data : []);
+        setContacts(Array.isArray(response.data.data) ? response.data.data.reverse() : []);
       } catch (error) {
         console.error("Error fetching contacts:", error);
       } finally {
@@ -55,7 +56,11 @@ const News = () => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return 
+    <div>
+      <Loader/>
+    </div>
+    ;
   }
 
   const truncateWords = (text, wordLimit) => {
@@ -68,10 +73,10 @@ const News = () => {
 
   return (
     <div className="w-full p-4 pr-[5rem] bg-gray-100 shadow-lg rounded-lg h-[80vh]">
-      <div className="overflow-x-auto overflow-y-auto max-h-[70vh] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+      <div className="overflow-x-auto overflow-y-auto max-h-[70vh] custom-scrollbar">
         <table className="border-collapse border border-gray-300 min-w-[1200px] text-sm">
           <thead>
-            <tr className="bg-gray-200">
+            <tr className="bg-gradient-to-r from-gray-400 to-teal-500">
               <th className="border border-gray-300 px-2 py-1 text-left">First Name</th>
               <th className="border border-gray-300 px-2 py-1 text-left">Last Name</th>
               <th className="border border-gray-300 px-2 py-1 text-left">Email</th>
@@ -94,12 +99,6 @@ const News = () => {
                 </td>
                 <td className="border border-gray-300 px-2 py-1 text-center">
                   <div className="flex justify-center space-x-2">
-                    <button
-                      onClick={() => handleView(contact._id)}
-                      className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs"
-                    >
-                      View
-                    </button>
                     <button
                       onClick={() => handleDelete(contact._id)}
                       className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"

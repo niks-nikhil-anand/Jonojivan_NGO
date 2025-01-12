@@ -83,7 +83,7 @@ const News = () => {
   };
 
   return (
-    <div className="w-full p-4 pr-[5rem] bg-gray-100 shadow-lg rounded-lg h-[80vh]">
+    <div className="w-full p-4  pr-[5rem] bg-gray-100 shadow-lg rounded-lg h-[80vh]">
   {loading ? (
     <motion.div className="flex justify-center items-center h-64">
       <div className="loader"></div>
@@ -93,7 +93,7 @@ const News = () => {
       {/* Blog Table */}
       <div className="overflow-x-auto overflow-y-auto max-h-[70vh] custom-scrollbar">
         <table className="table-auto w-full border-collapse border border-gray-200">
-          <thead className="bg-gray-100">
+          <thead className="bg-gradient-to-r from-gray-400 to-teal-500">
             <tr>
               <th className="border border-gray-300 px-4 py-2">Featured Image</th>
               <th className="border border-gray-300 px-4 py-2">Title</th>
@@ -154,7 +154,7 @@ const News = () => {
       </div>
 
       {/* Pagination Controls */}
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-center mt-2">
         {Array.from({ length: Math.ceil(articles.length / articlesPerPage) }, (_, i) => (
           <button
             key={i + 1}
