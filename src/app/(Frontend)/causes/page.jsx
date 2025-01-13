@@ -3,11 +3,15 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import CampaignDonationForm from "@/components/frontend/ui/CampaignDonationForm";
+import { useRouter } from "next/navigation";
+
 
 const CampaignCards = () => {
   const [cardsData, setCardsData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
+  const router = useRouter();
+
 
 
   const openModal = (cardId) => {
@@ -50,7 +54,8 @@ const CampaignCards = () => {
         {cardsData.map((card) => (
           <motion.div
             key={card._id}
-            className="max-w-sm mx-auto bg-white rounded-lg shadow-md overflow-hidden"
+            className="max-w-sm mx-auto bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
+            onClick={() => router.push(`/causes/${card._id}`)}
           >
             {/* Image Section */}
             <div className="relative">

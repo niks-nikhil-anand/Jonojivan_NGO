@@ -14,7 +14,7 @@ const DonationTable = () => {
   const [donations, setDonations] = useState([]); // Rename to donations
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const donationsPerPage = 12;
+  const donationsPerPage = 15;
   const [sortField, setSortField] = useState(null); // State for tracking the field being sorted
   const [sortOrder, setSortOrder] = useState("asc"); // State for tracking the sort order
   const router = useRouter();

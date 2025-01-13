@@ -50,67 +50,49 @@ const Page = () => {
 
     return (
         <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.5 }}
-    className="p-4 md:p-6 max-w-3xl md:max-w-4xl mx-auto "
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  exit={{ opacity: 0 }}
+  transition={{ duration: 0.5 }}
+  className="p-4 md:p-8 mx-auto max-w-7xl bg-gray-50"
 >
-    <motion.div
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="space-y-4"
-    >
-        <h2 className="text-lg md:text-2xl font-semibold">
-            {data.title}
-        </h2>
-        {data.image && (
-            <img
-                src={data.image}
-                alt={data.title}
-                className="w-full h-auto rounded-md max-h-64 object-contain"
-            />
-        )}
-        {data.description && (
-            <div
-                className="prose prose-sm md:prose-md "
-                dangerouslySetInnerHTML={{ __html: data.description }}
-            />
-        )}
-        {data.content && (
-            <div
-                className="prose prose-sm md:prose-md "
-                dangerouslySetInnerHTML={{ __html: data.content }}
-            />
-        )}
-    </motion.div>
+  {/* Content Section */}
+  <motion.div
+    initial={{ y: 50, opacity: 0 }}
+    animate={{ y: 0, opacity: 1 }}
+    transition={{ duration: 0.5 }}
+    className="space-y-6 bg-white shadow-lg rounded-lg p-6 md:p-8"
+  >
+    <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+      {data.title}
+    </h2>
 
-    <div className="relative mt-12 text-center rounded-lg shadow-md">
-          {/* Banner Image */}
-          <Image
-            src={banner}
-            alt="Our Mission Banner"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-lg"
-            priority
-          />
-          {/* Content Overlay */}
-          <div className="relative bg-blue-600 bg-opacity-75 p-8 rounded-lg text-white">
-            <h2 className="text-2xl font-bold">
-              Your Donation Can Change Everything
-            </h2>
-            <p className="mt-4">
-              When you donate to Bring Smile, you are not just contributing to a
-              cause—you are changing the course of lives.
-            </p>
-            <button className="mt-6 bg-white text-blue-600 py-3 px-6 rounded-lg shadow hover:bg-gray-200 transition duration-300">
-              Donate Now
-            </button>
-          </div>
-        </div>
+    {data.image && (
+      <img
+        src={data.image}
+        alt={data.title}
+        className="w-full h-auto rounded-lg max-h-96 object-cover shadow-md"
+      />
+    )}
+    
+    {data.description && (
+      <div
+        className="prose prose-sm md:prose-lg text-gray-700"
+        dangerouslySetInnerHTML={{ __html: data.description }}
+      />
+    )}
+
+    {data.content && (
+      <div
+        className="prose prose-sm md:prose-lg text-gray-700"
+        dangerouslySetInnerHTML={{ __html: data.content }}
+      />
+    )}
+  </motion.div>
+
+ 
 </motion.div>
+
     );
 };
 

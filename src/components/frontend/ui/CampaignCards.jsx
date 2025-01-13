@@ -3,11 +3,15 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import CampaignDonationForm from "./CampaignDonationForm";
+import { useRouter } from "next/navigation";
+
 
 const CampaignCards = () => {
   const [cardsData, setCardsData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
+  const router = useRouter();
+  
 
 
   const openModal = (cardId) => {
@@ -69,7 +73,10 @@ const CampaignCards = () => {
 
             {/* Content Section */}
             <div className="p-4 md:p-6">
-              <h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-2">
+              <h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-2 hover:underline cursor-pointer"
+             onClick={() => router.push(`/causes/${card._id}`)}
+
+              >
                 {card.title}
               </h2>
               <p className="text-sm md:text-base text-gray-600 my-4">
