@@ -49,13 +49,26 @@ const DonationTable = () => {
     try {
       const response = await axios.get(`/api/admin/dashboard/donation/${id}`);
       const donation = response.data;
-      console.log(donation)
-      generateReceiptPDF(donation);
+  
+      // Map donation data to the parameters required by the PDF generator
+      const pdfParams = {
+        fullName: donation.fullName || "Unknown", // Use default values if properties are missing
+        panCard: donation.panCard || "N/A",
+        amount: donation.amount || 0,
+        bankName: donation.bankName || "Unknown Bank",
+        receiptNo: donation.receiptNo || "000",
+        date: donation.date || new Date().toLocaleDateString(),
+        transactionId: donation.transactionId || "N/A",
+      };
+  
+      console.log("PDF Parameters:", pdfParams);
+      await generateReceiptPDF(pdfParams);
     } catch (error) {
       console.error("Error fetching donation details:", error);
       toast.error("Failed to fetch donation details.");
     }
   };
+  
 
 
   const confirmDelete = (id) => {

@@ -1,7 +1,6 @@
 import connectDB from "@/lib/dbConnect";
-import Donation from "@/models/donationModels";
+import DonationModel from "@/models/donationModels"; // Use a different name to avoid conflicts
 import { NextResponse } from "next/server";
-
 
 export const GET = async (request, { params }) => {
   const id = params.id; // Use the correct parameter key
@@ -9,20 +8,21 @@ export const GET = async (request, { params }) => {
   console.log("ID:", id);
 
   try {
+    // Connect to the database
     await connectDB();
 
-    // Find the category by ID and populate subcategories
-    const category = await categoryModels.findById(id);
+    // Find the donation by ID
+    const donation = await DonationModel.findById(id);
 
-    if (!category) {
-      return NextResponse.json({ msg: "Category not found" }, { status: 404 });
+    if (!donation) {
+      return NextResponse.json({ msg: "Donation not found" }, { status: 404 });
     }
 
-    return NextResponse.json(category, { status: 200 });
+    return NextResponse.json(donation, { status: 200 });
   } catch (error) {
-    console.error("Error fetching category:", error);
+    console.error("Error fetching donation:", error);
     return NextResponse.json(
-      { msg: "Error fetching category", error: error.message },
+      { msg: "Error fetching donation", error: error.message },
       { status: 500 }
     );
   }
