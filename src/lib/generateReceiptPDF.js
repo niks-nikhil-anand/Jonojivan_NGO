@@ -226,7 +226,7 @@ function numberToWords(num) {
     // Add the No Background Logo below the Amount Box
     page.drawImage(NoBgLogoImage, {
       x: 350, // Shifted to the right side
-      y: 80, // Way below the amount box
+      y: 50, // Way below the amount box
       width: 100, // Adjust width as needed
       height: 100, // Adjust height as needed
     });

@@ -5,6 +5,7 @@ import axios from "axios";
 import { MdDownload, MdDelete, MdArrowUpward, MdArrowDownward , MdSwapVert } from 'react-icons/md'; // Import necessary icons
 import Loader from "@/components/loader/loader";
 import toast from 'react-hot-toast';
+import { generatePdfReceiptClient } from "@/lib/generatePdfReceiptClient";
 // import { generateReceiptPDF } from "@/lib/generateReceiptPDF";
 
 
@@ -62,7 +63,7 @@ const DonationTable = () => {
       };
   
       console.log("PDF Parameters:", pdfParams);
-      await generateReceiptPDF(pdfParams);
+      await generatePdfReceiptClient(pdfParams);
     } catch (error) {
       console.error("Error fetching donation details:", error);
       toast.error("Failed to fetch donation details.");

@@ -1,5 +1,5 @@
 import connectDB from "@/lib/dbConnect";
-import DonationModel from "@/models/donationModels"; // Use a different name to avoid conflicts
+import Donation from "@/models/donationModels";
 import { NextResponse } from "next/server";
 
 export const GET = async (request, { params }) => {
@@ -12,7 +12,7 @@ export const GET = async (request, { params }) => {
     await connectDB();
 
     // Find the donation by ID
-    const donation = await DonationModel.findById(id);
+    const donation = await Donation.findById(id);
 
     if (!donation) {
       return NextResponse.json({ msg: "Donation not found" }, { status: 404 });
