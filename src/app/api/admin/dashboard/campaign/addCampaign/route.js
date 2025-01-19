@@ -62,7 +62,7 @@ export const GET = async (req) => {
     await connectDB();
     console.log("Connected to the database.");
 
-    const campaigns = await campaignModels.find(); // Assuming you're fetching campaigns from the database
+    const campaigns = await campaignModels.find({ status: 'Active' }); // Assuming you're fetching campaigns from the database
     console.log("Fetched campaigns:", campaigns);
     return NextResponse.json(campaigns, { status: 200 });
   } catch (error) {
