@@ -71,50 +71,77 @@ const DonationExport = () => {
       setPdfLoading(false);
       return;
     }
-
-    const doc = new jsPDF();
-    doc.text("Donations Report", 20, 20);
-
-    // Include all the required fields in the table
-    const tableData = donations.map((donation, index) => [
-      index + 1,
-      donation._id, // Include the donation ID
+  
+    // Create a new jsPDF document in portrait orientation (default)
+    const doc = new jsPDF('p');  // 'p' stands for portrait orientation
+  
+    doc.text("Donations Report BringSmile.org", 20, 20);
+  
+    // Function to format the date as "24 Feb 2028"
+    const formatDate = (date) => {
+      const options = { day: '2-digit', month: 'short', year: 'numeric' };
+      return new Date(date).toLocaleDateString('en-GB', options); // British English format for "24 Feb 2028"
+    };
+  
+    // Include all the required fields in the table as columns
+    const tableData = donations.map((donation) => [
+      donation._id, // Donation ID
+      formatDate(donation.createdAt), // Format the date
       donation.fullName,
       donation.email,
       donation.panCardNumber || "N/A", // Handling missing panCardNumber
       donation.phoneNumber,
       donation.amount,
-      donation.paymentMethod,
       donation.razorpay_order_id,
       donation.razorpay_payment_id,
-      donation.createdAt, // Date when donation was created
     ]);
-
-    // Define the table headers based on the new fields
+  
+    // Define the table headers based on the new fields (rotating text for vertical header)
+    const header = [
+      "ID",
+      "Date",
+      "Name",
+      "Email",
+      "Pan Card",
+      "Phone Number",
+      "Amount",
+      "Razorpay Order ID",
+      "Razorpay Payment ID",
+    ];
+  
+    // Set the font size smaller to make sure everything fits
+    doc.setFontSize(8);
+  
+    // Create a vertical table by rotating the headers to be vertical
     doc.autoTable({
-      head: [
-        [
-          "#",
-          "ID",
-          "Name",
-          "Email",
-          "Pan Card",
-          "Phone Number",
-          "Amount",
-          "Payment Method",
-          "Razorpay Order ID",
-          "Razorpay Payment ID",
-          "Date",
-        ],
-      ],
+      head: [header],
       body: tableData,
+      startY: 30, // Position the table after the title
+      columnStyles: {
+        0: { cellWidth: 20 },
+        1: { cellWidth: 30 },
+        2: { cellWidth: 30 },
+        3: { cellWidth: 30 },
+        4: { cellWidth: 30 },
+        5: { cellWidth: 30 },
+        6: { cellWidth: 30 },
+        7: { cellWidth: 30 },
+        8: { cellWidth: 30 },
+      },
+      theme: 'grid', // Optional grid theme for better readability
+      headStyles: {
+        fillColor: [255, 0, 0], // Optional header background color
+      },
     });
-
+  
     // Save the PDF
     doc.save("donations.pdf");
     toast.success("PDF downloaded successfully!");
     setPdfLoading(false); // Reset loading state for PDF export
   };
+  
+  
+  
 
   return (
     <div className="p-8 w-full max-w-4xl mx-auto mt-10 bg-white shadow-lg rounded-lg">
