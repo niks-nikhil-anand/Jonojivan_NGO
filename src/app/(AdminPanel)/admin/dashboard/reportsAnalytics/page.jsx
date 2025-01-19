@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import jsPDF from "jspdf";
+import "jspdf-autotable";  // Import the jsPDF autotable plugin
 import Papa from "papaparse";
 import { toast } from "react-hot-toast";
 
@@ -69,9 +70,9 @@ const DonationExport = () => {
 
     const tableData = donations.map((donation, index) => [
       index + 1,
-      donation.name,
+      donation.fullName,  // Adjust field names to match your data
       donation.amount,
-      donation.date,
+      donation.createdAt,  // Adjust the date field if necessary
     ]);
 
     doc.autoTable({
