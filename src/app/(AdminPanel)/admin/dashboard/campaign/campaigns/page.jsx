@@ -141,21 +141,20 @@ const CampaignTable = () => {
                   <td className="border border-gray-300 px-2 py-1 font-semibold">₹{campaign.goal}/-</td>
                   <td className="border border-gray-300 px-2 py-1 font-semibold">₹{campaign.raised}/-</td>
                   <td className="border border-gray-300 px-2 py-1 truncate">
-  <div className="relative inline-block w-11 h-6">
-    <input
-      type="checkbox"
-      id={`switch-${campaign._id}`}
-      checked={isActive}
-      onChange={() => toggleStatus(campaign._id, campaign.status)}
-      className="peer appearance-none w-11 h-6 bg-gray-300 rounded-full cursor-pointer transition-colors duration-300"
-    />
-    <label
-      htmlFor={`switch-${campaign._id}`}
-      className="absolute top-0 left-0 w-5 h-5 bg-white rounded-full border border-gray-300 shadow-sm transition-transform duration-300 peer-checked:translate-x-5 peer-checked:border-green-500"
-    ></label>
-  </div>
-</td>
-
+                          <div className="relative inline-block w-11 h-6">
+                            <input
+                              type="checkbox"
+                              id={`switch-${campaign._id}`}
+                              checked={isActive}
+                              onChange={() => toggleStatus(campaign._id, campaign.status)}
+                              className="peer appearance-none w-11 h-6 bg-gray-300 rounded-full cursor-pointer transition-colors duration-300"
+                            />
+                            <label
+                              htmlFor={`switch-${campaign._id}`}
+                              className="absolute top-0 left-0 w-5 h-5 bg-white rounded-full border border-gray-300 shadow-sm transition-transform duration-300 peer-checked:translate-x-5 peer-checked:border-green-500"
+                            ></label>
+                          </div>
+                        </td>
                   <td className="border border-gray-300 px-2 py-1 truncate">
                     {new Date(campaign.createdAt).toLocaleDateString()}
                   </td>
