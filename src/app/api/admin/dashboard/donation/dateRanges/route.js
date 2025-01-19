@@ -10,8 +10,11 @@ export async function GET(req) {
 
     console.log('Incoming GET request to donation endpoint...');
 
-    // Extract startDate and endDate from query parameters
-    const { startDate, endDate } = req.query;
+    // Extract query parameters using URL API
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    const startDate = url.searchParams.get('startDate');
+    const endDate = url.searchParams.get('endDate');
+    console.log(startDate, endDate);
 
     // Check if both dates are provided and are valid
     if (!startDate || !endDate) {
@@ -19,7 +22,7 @@ export async function GET(req) {
       return NextResponse.json({ message: 'Start Date and End Date are required.' }, { status: 400 });
     }
 
-    // Parse the dates from query parameters
+    // Parse the dates from query parameters (ensuring they're in UTC)
     const parsedStartDate = new Date(startDate);
     const parsedEndDate = new Date(endDate);
 
@@ -31,9 +34,9 @@ export async function GET(req) {
 
     // Build the filter object based on the date range
     const filter = {
-      date: {
-        $gte: parsedStartDate, // Greater than or equal to startDate
-        $lte: parsedEndDate,   // Less than or equal to endDate
+      createdAt: {
+        $gte: parsedStartDate.toISOString(), // Convert to ISO string to ensure UTC comparison
+        $lte: parsedEndDate.toISOString(),   // Convert to ISO string to ensure UTC comparison
       },
     };
 
