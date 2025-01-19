@@ -38,12 +38,12 @@ const Navbar = () => {
 
 
   return (
-    <nav className="bg-gray-200 dark:bg-gray-800 text-black transition-colors duration-300 shadow-xl rounded-b-xl  max-w-[100%] ">
+    <nav className="bg-gray-200 dark:bg-gray-800 text-black transition-colors duration-300 shadow-xl  max-w-[100%] ">
   <div className="container mx-auto flex justify-between items-center p-4">
         {/* Logo and Heading */}
         <div className="flex items-center space-x-3">
           <Image src={logo} alt="Logo" width={40} height={40} className="rounded-full shadow-md" />
-          <h1 className="text-xl font-bold text-black">Bring Smile Admin Panel</h1>
+          <h1 className="text-xl font-bold text-black dark:text-white">Bring Smile Admin Panel</h1>
         </div>
 
     {/* Hamburger Menu for Mobile View */}
