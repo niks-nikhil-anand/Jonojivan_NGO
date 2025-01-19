@@ -9,17 +9,18 @@ import {
   FaHome,
   FaPlusCircle,
   FaBook,
-  FaNewspaper,
   FaDonate,
   FaCreditCard,
   FaRegEnvelope,
 } from "react-icons/fa";
+
+
 import {
-  MdPendingActions,
-  MdOutlineLogout,
+    MdOutlineLogout,
   MdOutlineCampaign,
-  MdEmail,
 } from "react-icons/md";
+import { AiOutlineFileExcel } from "react-icons/ai"; // For Export Report
+
 
 const SidebarAdmin = () => {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -153,6 +154,17 @@ const SidebarAdmin = () => {
               label="Contact Us"
               selected={selectedItem === "Contact Us"}
               onClick={() => setSelectedItem("Contact Us")}
+            />
+          </Link>
+          <h3 className="text-sm mt-4 mb-2 text-green-700 font-bold">
+          Reports & Analytics
+          </h3>
+          <Link href="/admin/dashboard/reportsAnalytics" passHref>
+            <SidebarItem
+              icon={<AiOutlineFileExcel />}
+              label="Export Report"
+              selected={selectedItem === "Export Report"}
+              onClick={() => setSelectedItem("Export Report")}
             />
           </Link>
 
