@@ -28,7 +28,7 @@ const CampaignSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: ['Blocked', 'Pending', 'inReview', 'Active'],
+      enum: ['Pending', 'Active'],
   },
     raised: {
       type: Number,
