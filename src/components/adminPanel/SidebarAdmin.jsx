@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,7 +23,21 @@ import {
 
 const SidebarAdmin = () => {
   const [selectedItem, setSelectedItem] = useState(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const darkMode = localStorage.getItem("darkMode") === "true";
+    setIsDarkMode(darkMode);
+    document.documentElement.classList.toggle("dark", darkMode);
+  }, []);
+
+  const toggleDarkMode = () => {
+    const newDarkMode = !isDarkMode;
+    setIsDarkMode(newDarkMode);
+    localStorage.setItem("darkMode", newDarkMode.toString());
+    document.documentElement.classList.toggle("dark", newDarkMode);
+  };
 
   const handleLogout = async () => {
     toast.loading("Logging out...", { id: "logout" });
@@ -46,15 +60,22 @@ const SidebarAdmin = () => {
   return (
     <div className="flex">
       <motion.div
-        className="w-[250px] bg-gradient-to-r from-gray-100 to-teal-50 dark:bg-gray-800 text-gray-900 dark:text-white h-screen p-5 shadow-lg overflow-y-auto transition-all duration-300"
+        className="w-[250px] bg-gradient-to-r from-gray-100 to-teal-50 dark:from-gray-800 dark:to-gray-900 text-gray-900 dark:text-white h-screen p-5 shadow-lg overflow-y-auto transition-all duration-300"
         style={{
           scrollbarWidth: "thin",
           scrollbarColor: "rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.3)",
         }}
       >
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-lg font-semibold">Dashboard</h2>
+          <button
+            className="p-2 rounded-full bg-gray-300 dark:bg-gray-700"
+            onClick={toggleDarkMode}
+          >
+            {isDarkMode ? "🌙" : "☀️"}
+          </button>
+        </div>
         <div className="flex flex-col space-y-4">
-          <h2 className="text-lg font-semibold mb-4">Dashboard</h2>
-
           {/* Sidebar Items */}
           <Link href="/admin/dashboard" passHref>
             <SidebarItem
@@ -157,7 +178,7 @@ const SidebarItem = ({ icon, label, selected, onClick }) => {
       whileHover={{ scale: 1.1 }}
       className={`flex items-center space-x-4 p-2 rounded-lg transition-colors duration-300 ${
         selected
-          ? "bg-gray-800 text-white"
+          ? "bg-gray-800 text-white dark:bg-teal-600"
           : "bg-transparent hover:bg-gray-700 hover:text-white"
       }`}
     >
