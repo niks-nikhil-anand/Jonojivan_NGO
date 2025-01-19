@@ -10,7 +10,8 @@ import { toast } from "react-hot-toast";
 const DonationExport = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [csvLoading, setCsvLoading] = useState(false); // Loading state for CSV export
+  const [pdfLoading, setPdfLoading] = useState(false); // Loading state for PDF export
 
   const fetchDonations = async () => {
     if (!startDate || !endDate) {
@@ -19,7 +20,6 @@ const DonationExport = () => {
     }
 
     try {
-      setLoading(true);
       const response = await fetch(`/api/admin/dashboard/donation/dateRanges?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`, {
         method: "GET",
         headers: {
@@ -28,24 +28,26 @@ const DonationExport = () => {
       });
 
       const data = await response.json();
-      setLoading(false);
 
       if (response.ok) {
-        return data.donations || []; // Ensure it always returns an empty array if donations are missing
+        return data.donations || [];
       } else {
         toast.error(`Error: ${data.message || "Unknown error"}`);
         return [];
       }
     } catch (error) {
-      setLoading(false);
       toast.error("Failed to fetch donations.");
       return [];
     }
   };
 
   const exportAsCSV = async () => {
+    setCsvLoading(true); // Set loading state for CSV export
     const donations = await fetchDonations();
-    if (donations.length === 0) return;
+    if (donations.length === 0) {
+      setCsvLoading(false);
+      return;
+    }
 
     const csv = Papa.unparse(donations);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -59,29 +61,59 @@ const DonationExport = () => {
     document.body.removeChild(link);
 
     toast.success("CSV downloaded successfully!");
+    setCsvLoading(false); // Reset loading state for CSV export
   };
 
   const exportAsPDF = async () => {
+    setPdfLoading(true); // Set loading state for PDF export
     const donations = await fetchDonations();
-    if (donations.length === 0) return;
+    if (donations.length === 0) {
+      setPdfLoading(false);
+      return;
+    }
 
     const doc = new jsPDF();
     doc.text("Donations Report", 20, 20);
 
+    // Include all the required fields in the table
     const tableData = donations.map((donation, index) => [
       index + 1,
-      donation.fullName,  // Adjust field names to match your data
+      donation._id, // Include the donation ID
+      donation.fullName,
+      donation.email,
+      donation.panCardNumber || "N/A", // Handling missing panCardNumber
+      donation.phoneNumber,
       donation.amount,
-      donation.createdAt,  // Adjust the date field if necessary
+      donation.paymentMethod,
+      donation.razorpay_order_id,
+      donation.razorpay_payment_id,
+      donation.createdAt, // Date when donation was created
     ]);
 
+    // Define the table headers based on the new fields
     doc.autoTable({
-      head: [["#", "Name", "Amount", "Date"]],
+      head: [
+        [
+          "#",
+          "ID",
+          "Name",
+          "Email",
+          "Pan Card",
+          "Phone Number",
+          "Amount",
+          "Payment Method",
+          "Razorpay Order ID",
+          "Razorpay Payment ID",
+          "Date",
+        ],
+      ],
       body: tableData,
     });
 
+    // Save the PDF
     doc.save("donations.pdf");
     toast.success("PDF downloaded successfully!");
+    setPdfLoading(false); // Reset loading state for PDF export
   };
 
   return (
@@ -118,17 +150,17 @@ const DonationExport = () => {
       <div className="flex flex-col md:flex-row justify-center gap-4 mb-6">
         <button
           onClick={exportAsCSV}
-          disabled={loading}
-          className={`px-6 py-3 font-semibold rounded-lg shadow-md transition transform hover:scale-105 ${loading ? "bg-blue-300 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
+          disabled={csvLoading}
+          className={`px-6 py-3 font-semibold rounded-lg shadow-md transition transform hover:scale-105 ${csvLoading ? "bg-blue-300 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
         >
-          {loading ? "Loading..." : "Export as CSV"}
+          {csvLoading ? "Loading..." : "Export as CSV"}
         </button>
         <button
           onClick={exportAsPDF}
-          disabled={loading}
-          className={`px-6 py-3 font-semibold rounded-lg shadow-md transition transform hover:scale-105 ${loading ? "bg-green-300 cursor-not-allowed" : "bg-green-500 text-white hover:bg-green-600"}`}
+          disabled={pdfLoading}
+          className={`px-6 py-3 font-semibold rounded-lg shadow-md transition transform hover:scale-105 ${pdfLoading ? "bg-green-300 cursor-not-allowed" : "bg-green-500 text-white hover:bg-green-600"}`}
         >
-          {loading ? "Loading..." : "Export as PDF"}
+          {pdfLoading ? "Loading..." : "Export as PDF"}
         </button>
       </div>
 
