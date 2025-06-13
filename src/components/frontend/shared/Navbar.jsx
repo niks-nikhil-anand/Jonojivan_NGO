@@ -65,10 +65,10 @@ const Navbar = () => {
 
   const menuItems = [
     { href: "/", label: "Home" },
-    { href: "/about-us", label: "About Us" },
+    { href: "/aboutUs", label: "About Us" },
     { href: "/how-we-work", label: "How We Work" },
-    { href: "/posts-grid", label: "News & Updates" },
-    { href: "/contact", label: "Contact" },
+    { href: "/Campaign", label: "News & Updates" },
+    { href: "/contact", label: "Contact Us" },
   ];
 
   const ListItem = React.forwardRef(

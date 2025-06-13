@@ -43,7 +43,7 @@ const Navbar = () => {
         {/* Logo and Heading */}
         <div className="flex items-center space-x-3">
           <Image src={logo} alt="Logo" width={40} height={40} className="rounded-full shadow-md" />
-          <h1 className="text-xl font-bold text-black dark:text-white">Bring Smile Admin Panel</h1>
+          <h1 className="text-xl font-bold text-black dark:text-white">Plan to Empower Admin Panel</h1>
         </div>
 
     {/* Hamburger Menu for Mobile View */}
