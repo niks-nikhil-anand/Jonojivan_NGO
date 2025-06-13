@@ -5,13 +5,17 @@ import Image from 'next/image';
 import SponsorshipForm from './SponsorshipForm';
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-
-
+import { 
+  BookOpenCheck, 
+  Heart, 
+  Shirt, 
+  Shield,
+  Sparkles,
+  ArrowRight
+} from "lucide-react";
 
 const ChildSponsorshipSection = () => {
   const [sharpenedImage, setSharpenedImage] = useState("");
-
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Functions to open and close the modal
@@ -36,82 +40,225 @@ const ChildSponsorshipSection = () => {
       .catch((error) => console.error("Error fetching sharpened image:", error));
   }, []);
 
+  const sponsorshipBenefits = [
+    {
+      title: "Tuition Fees",
+      description: "Complete educational support",
+      icon: <BookOpenCheck className="w-6 h-6" />,
+      color: "from-blue-500 to-sky-500",
+      bgColor: "bg-blue-50"
+    },
+    {
+      title: "Books and Learning Materials",
+      description: "Essential learning resources",
+      icon: <BookOpenCheck className="w-6 h-6" />,
+      color: "from-purple-500 to-violet-500",
+      bgColor: "bg-purple-50"
+    },
+    {
+      title: "Uniforms and School Supplies",
+      description: "Proper school preparation",
+      icon: <Shirt className="w-6 h-6" />,
+      color: "from-pink-500 to-rose-500",
+      bgColor: "bg-pink-50"
+    },
+    {
+      title: "Health and Well-being Support",
+      description: "Comprehensive care",
+      icon: <Shield className="w-6 h-6" />,
+      color: "from-emerald-500 to-teal-500",
+      bgColor: "bg-emerald-50"
+    }
+  ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
 
+  const cardVariants = {
+    hidden: { opacity: 0, x: -50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
 
+  const imageVariants = {
+    hidden: { opacity: 0, x: 50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut"
+      }
+    }
+  };
 
   return (
-    <section className="flex flex-col md:flex-row items-center justify-between py-8 md:py-10 px-6 md:px-16 bg-white">
-
+    <section className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-16 px-4">
       {isModalOpen && (
         <motion.div
-          className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20"
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
           <SponsorshipForm setIsModalOpen={setIsModalOpen} />
         </motion.div>
       )}
-      <div className="flex flex-col justify-center items-start w-full md:w-1/2 pr-6 md:pr-10 mb-8 md:mb-0">
-  <p className="text-xs sm:text-sm md:text-lg font-semibold text-[#28a745] mb-2  md:text-left">
-    GIFT A SMILE
-  </p>
-  <h2 className="text-xl sm:text-xl md:text-4xl font-bold text-[#ff5a5f] mb-4 sm:mb-6 leading-tight r md:text-left">
-    What is the Child Sponsorship Program of Bring Smile Foundation?
-  </h2>
-  <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4 sm:mb-6 leading-relaxed  md:text-left">
-  Every child deserves the chance to learn, grow, and dream—yet millions, especially in underserved communities, face barriers to education. At Bring Smile, we are committed to breaking these barriers by providing children with access to quality education and the tools they need to succeed.
-  </p>
-  <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4 sm:mb-6 leading-relaxed  md:text-left">
-  By sponsoring a child, you don’t just provide education—you open the door to a brighter future.
-  </p>
-  <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-[#ff5a5f] mb-4 md:text-left">
-  Why Sponsor a Child?
-</h3>
-  <div className="space-y-3 sm:space-y-4 text-sm sm:text-base md:text-lg text-gray-700 text-center md:text-left">
-    <p className="flex items-center justify-start md:justify-start">
-      <span className="text-[#ff5a5f] mr-3">✔</span>
-      Tuition Fees
-    </p>
-    <p className="flex items-center justify-center md:justify-start">
-      <span className="text-[#ff5a5f] mr-3">✔</span>
-      Books and Learning Materials
-    </p>
-    <p className="flex items-center justify-center md:justify-start">
-      <span className="text-[#ff5a5f] mr-3">✔</span>
-      Uniforms and School Supplies.
-    </p>
-    <p className="flex items-center justify-center md:justify-start">
-      <span className="text-[#ff5a5f] mr-3">✔</span>
-      Health and Well-being Support
-    </p>
-  </div>
-  
-  <div className="flex justify-center md:justify-start mt-6 md:mt-8">
-    <button className="px-6 py-3 bg-[#ff5a5f] text-white text-sm sm:text-lg font-semibold rounded-lg shadow-md hover:bg-[#e14a4e] transition duration-300 ease-in-out"
-     onClick={openModal}
-    >
-      Sponsor a Child Now
-    </button>
-  </div>
-</div>
 
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+          
+          {/* Content Section */}
+          <motion.div 
+            className="flex flex-col justify-center items-start w-full lg:w-1/2"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {/* Header Badge */}
+            <motion.div 
+              className="inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full mb-6"
+              variants={cardVariants}
+            >
+              <Sparkles className="w-4 h-4 text-white mr-2" />
+              <span className="text-white font-semibold text-sm uppercase tracking-wide">
+                Gift a Smile
+              </span>
+            </motion.div>
 
+            {/* Main Title */}
+            <motion.h2 
+              className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-6 leading-tight"
+              variants={cardVariants}
+            >
+              What is the Child Sponsorship Program of Bring Smile Foundation?
+            </motion.h2>
 
+            {/* Description */}
+            <motion.div 
+              className="space-y-4 mb-8"
+              variants={cardVariants}
+            >
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Every child deserves the chance to learn, grow, and dream—yet millions, especially in underserved communities, face barriers to education. At Bring Smile, we are committed to breaking these barriers by providing children with access to quality education and the tools they need to succeed.
+              </p>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                By sponsoring a child, you don't just provide education—you open the door to a brighter future.
+              </p>
+            </motion.div>
 
-      <div className="w-full md:w-1/2 relative">
-        <div className="absolute bg-black bg-opacity-75 p-4 sm:p-6 text-white bottom-[-2rem] sm:bottom-[-2.5rem] left-[-2rem] z-10 rounded-lg shadow-lg w-[14rem] sm:w-[15rem] flex items-center justify-center">
-          <span className="text-center text-sm sm:text-lg font-semibold">Be the Spark That Ignites a Future.</span>
+            {/* Why Sponsor Section */}
+            <motion.h3 
+              className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent mb-6"
+              variants={cardVariants}
+            >
+              Why Sponsor a Child?
+            </motion.h3>
+
+            {/* Benefits Grid */}
+            <motion.div 
+              className="grid md:grid-cols-2 gap-4 mb-8 w-full"
+              variants={containerVariants}
+            >
+              {sponsorshipBenefits.map((benefit, index) => (
+                <motion.div
+                  key={index}
+                  variants={cardVariants}
+                  whileHover={{ 
+                    scale: 1.02,
+                    boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)"
+                  }}
+                  className={`${benefit.bgColor} rounded-2xl p-4 border border-opacity-20 hover:border-opacity-40 transition-all duration-300 group`}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div className={`inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r ${benefit.color} rounded-xl text-white shadow-lg`}>
+                      {benefit.icon}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-800 mb-1">
+                        {benefit.title}
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        {benefit.description}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* CTA Button */}
+            <motion.div 
+              className="flex justify-center lg:justify-start"
+              variants={cardVariants}
+            >
+              <motion.button 
+                className="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-8 py-4 rounded-2xl font-bold shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center space-x-2 group"
+                onClick={openModal}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Heart className="w-5 h-5" />
+                <span>Sponsor a Child Now</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+              </motion.button>
+            </motion.div>
+          </motion.div>
+
+          {/* Image Section */}
+          <motion.div 
+            className="w-full lg:w-1/2 relative"
+            variants={imageVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {/* Floating Quote Card */}
+            <motion.div 
+              className="absolute bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 p-6 text-white bottom-[-2rem] left-[-2rem] z-10 rounded-2xl shadow-2xl max-w-xs"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="flex items-center space-x-2 mb-2">
+                <Sparkles className="w-5 h-5" />
+                <span className="font-semibold text-sm uppercase tracking-wide">Inspiration</span>
+              </div>
+              <p className="text-lg font-bold leading-tight">
+                Be the Spark That Ignites a Future.
+              </p>
+            </motion.div>
+
+            {/* Main Image */}
+            <motion.div 
+              className="relative rounded-3xl overflow-hidden shadow-2xl"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
+              <Image 
+                src={sharpenedImage || banner}
+                alt="Child Sponsorship Program" 
+                className="w-full h-full object-cover" 
+                layout="responsive" 
+                width={1200} 
+                height={800} 
+              />
+            </motion.div>
+          </motion.div>
         </div>
-
-        <Image 
-          src={sharpenedImage } // Replace with a valid fallback image path
-          alt="Organization Banner" 
-          className="w-full h-full object-cover shadow-lg" 
-          layout="responsive" 
-          width={1200} 
-          height={800} 
-        />
       </div>
     </section>
   );

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
-import logo from "../../../../public/logo/Smile.png";
+import logo from "../../../../public/logo/logo.jpg";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -43,8 +43,7 @@ const Footer = () => {
         {/* Logo & Address */}
         <div className="space-y-4">
           <div className="flex items-center space-x-2">
-            <Image src={logo} alt="Logo" width={50} height={50} />
-            <h1 className="text-xl font-semibold">BringSmile Foundation</h1>
+            <Image src={logo} alt="Logo" width={300} height={150} />
           </div>
           <p>Email: <a href="mailto:support@bringsmile.org" className="hover:underline">support@bringsmile.org</a></p>
           <p>Tel: <a href="tel:+9195993 22679" className="hover:underline">+91 95993 22679</a></p>
