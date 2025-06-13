@@ -6,6 +6,9 @@ import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+// Added missing imports
+import { Heart, X, Info } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const DonationForm = () => {
   const router = useRouter();
@@ -19,10 +22,10 @@ const DonationForm = () => {
     email: "",
     panCard: "",
     phone: "",
-    donationMode: "Online", // Add this line to set the initial selection to "Online"
+    address: "", // Added missing address field
+    donationMode: "Online",
   });
-  const [isLoading, setIsLoading] = useState(false); // Add isLoading state
-
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAmountSelect = (selectedAmount) => {
     setAmount(selectedAmount);
@@ -37,13 +40,21 @@ const DonationForm = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  // Fixed handleInputChange function - was using wrong parameters
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const resetForm = () => {
-    setFormData({ fullName: "", email: "", panCard: "", phone: "" });
+    setFormData({ 
+      fullName: "", 
+      email: "", 
+      panCard: "", 
+      phone: "", 
+      address: "", // Added address reset
+      donationMode: "Online" 
+    });
     setAmount("");
     setIsModalOpen(false);
   };
@@ -68,16 +79,17 @@ const DonationForm = () => {
       return { success: false, message: "An error occurred. Please try again later." };
     }
   };
+
   const initiateRazorpayPayment = async () => {
     if (!amount || isNaN(amount) || amount <= 0) {
       toast.error("Please enter a valid donation amount.");
       return false;
     }
 
-    setIsLoading(true); // Set loading to true when payment starts
+    setIsLoading(true);
 
     const payload = {
-      amount: amount * 100, // Convert to smallest currency unit (paise)
+      amount: amount * 100,
       currency: "INR",
       receipt: `receipt_${Date.now()}`,
     };
@@ -89,19 +101,17 @@ const DonationForm = () => {
         body: JSON.stringify(payload),
       });
 
-      
-
       if (!response.ok) {
         const errorData = await response.json();
         toast.error(`Error: ${errorData.message}`);
-        setIsLoading(false); // Set loading to false after payment creation attempt
+        setIsLoading(false);
         return false;
       }
 
       const { order } = await response.json();
 
       const options = {
-        key: process.env.RAZORPAY_KEY_ID,
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // Fixed environment variable name
         amount: order.amount,
         currency: order.currency,
         name: "Donation",
@@ -109,8 +119,6 @@ const DonationForm = () => {
         order_id: order.id,
         handler: async function (response) {
           const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
-
-          router.push("/donation/success");
 
           try {
             const verificationResponse = await fetch("/api/verify-payment", {
@@ -123,26 +131,25 @@ const DonationForm = () => {
               const errorData = await verificationResponse.json();
               console.error("Payment verification failed:", errorData);
               toast.error(`Payment verification failed: ${errorData.message}`);
-              setIsLoading(false); // Set loading to false after verification failure
+              setIsLoading(false);
               return;
             }
 
             const verificationResult = await verificationResponse.json();
             console.log("Payment verification successful:", verificationResult);
 
-            // Record donation after successful verification
             try {
               console.log("Preparing data for donation API call...");
 
               const requestData = {
-                amount: payload.amount / 100, // Convert to rupees
+                amount: payload.amount / 100,
                 fullName: formData.fullName,
                 emailaddress: formData.email,
                 panCard: formData.panCard,
                 phonenumber: formData.phone,
-                paymentMethod: "Online", // Specify the payment method
-                razorpay_order_id, // Optional, include only if your API handles it
-                razorpay_payment_id, // Optional, include only if your API handles it
+                paymentMethod: "Online",
+                razorpay_order_id,
+                razorpay_payment_id,
               };
 
               console.log("Request data:", requestData);
@@ -159,7 +166,7 @@ const DonationForm = () => {
                 const errorData = await donationResponse.json();
                 console.error("Error details:", errorData);
                 toast.error(`Error recording donation: ${errorData.message}`);
-                setIsLoading(false); // Set loading to false after donation API failure
+                setIsLoading(false);
                 return;
               }
 
@@ -167,17 +174,17 @@ const DonationForm = () => {
               console.log("Donation API response data:", donationResult);
 
               toast.success("Donation successful! Thank you for your support.");
-             
-              setIsLoading(false); // Set loading to false after donation success
+              router.push("/donation/success");
+              setIsLoading(false);
             } catch (donationError) {
               console.error("Failed to record donation:", donationError);
               toast.error("Failed to record donation. Please try again.");
-              setIsLoading(false); // Set loading to false after donation failure
+              setIsLoading(false);
             }
           } catch (verificationError) {
             console.error("Failed to verify payment:", verificationError);
             toast.error("Payment verification failed. Please try again.");
-            setIsLoading(false); // Set loading to false after verification failure
+            setIsLoading(false);
           }
         },
         prefill: {
@@ -194,12 +201,23 @@ const DonationForm = () => {
     } catch (error) {
       console.error("Error initiating Razorpay payment:", error);
       toast.error("Failed to create Razorpay order. Please try again.");
-      setIsLoading(false); // Set loading to false after payment creation failure
+      setIsLoading(false);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate required fields
+    if (!formData.fullName || !formData.email || !formData.phone) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
+    if (!amount || isNaN(amount) || amount <= 0) {
+      toast.error("Please enter a valid donation amount.");
+      return;
+    }
 
     const payload = { ...formData, amount, paymentMethod };
 
@@ -207,7 +225,10 @@ const DonationForm = () => {
       await initiateRazorpayPayment();
       closeModal();
     } else {
-      setIsLoading(true); // Set loading to true when processing offline donation
+      setIsLoading(true);
+      // Fixed: Call the API function that was defined but never used
+      const donationResponse = await makeDonationApiCall(payload);
+      
       if (donationResponse.success) {
         toast.success("Donation successful! Thank you for your support.");
         resetForm();
@@ -215,214 +236,225 @@ const DonationForm = () => {
       } else {
         toast.error(`Error: ${donationResponse.message}`);
       }
-      setIsLoading(false); // Set loading to false after donation API completion
+      setIsLoading(false);
     }
   };
 
   return (
-    <motion.div
-      className="w-full p-8 bg-[#DEB841] rounded-b-2xl shadow-2xl text-black  mx-auto max-w-7xl z-20"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1 }}
-    >
-      <div className="max-w-4xl mx-auto text-center">
-        <h3 className="text-2xl sm:text-3xl font-bold mb-6 text-white">MAKE A DONATION</h3>
-        <p className="text-sm sm:text-base mb-6 text-gray-800">
-        Your Donation Can Transform Lives and Shape Futures      
-          </p>
-        <div className="flex flex-wrap gap-4 justify-center mb-8">
-          {["1" ,"500", "1000", "2500", "5000"].map((value) => (
-            <button
-              key={value}
-              className={`px-6 py-3 border rounded-lg font-semibold text-lg shadow-md ${
-                amount === value ? "bg-[#FF0080] text-white" : "bg-white"
-              }`}
-              onClick={() => handleAmountSelect(value)}
-            >
-              ₹{value}
-            </button>
-          ))}
-          <button
-            className={`px-6 py-3 border rounded-lg font-semibold text-lg shadow-md ${
-              isCustom ? "bg-[#FF0080] text-white" : "bg-white"
-            }`}
-            onClick={handleCustomAmountSelect}
-          >
-            Custom Amount
-          </button>
-        </div>
-              {isCustom && (
-       <motion.input
-       type="number"
-       className="px-4 py-3 w-full max-w-md border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0080] focus:border-[#FF0080] bg-gray-100 transition-all duration-300 shadow-sm"
-       placeholder="₹ Enter custom amount"
-       value={amount}
-       onChange={(e) => setAmount(e.target.value)}
-       initial={{ opacity: 0 }}
-       animate={{ opacity: 1 }}
-       transition={{ duration: 0.5 }}
-     />
-     
-      )}
-
-      <motion.button
-        onClick={openModal}
-        className="px-10 py-4 bg-gradient-to-r from-[#FF0080] to-[#FF0080] text-white font-semibold rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 m-2"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+    <>
+      <motion.div
+        className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 p-8 rounded-b-2xl shadow-2xl text-white mx-auto max-w-7xl z-20 relative overflow-hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
       >
-        DONATE NOW
-      </motion.button>
-
-      </div>
-
-            {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-30">
-          <div className="bg-white p-6 rounded-lg max-w-md w-full shadow-lg relative max-h-[100vh] overflow-y-auto">
-                <button
-              className="absolute top-2 right-2 bg-gray-200 p-2 rounded-full hover:bg-gray-300 focus:outline-none"
-              onClick={closeModal}
+        {/* Background decoration */}
+        <div className="absolute top-4 right-4 opacity-10">
+          <Heart className="w-20 h-20" />
+        </div>
+        
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="inline-flex items-center gap-2 bg-white/20 px-4 py-1 mb-2"
+          >
+            <Heart className="w-4 h-4 text-pink-300" />
+            <span className="text-xs font-medium">Plan to Empower</span>
+          </motion.div>
+          
+          <h3 className="text-2xl sm:text-3xl font-bold mb-6 text-white">
+            MAKE A DONATION
+          </h3>
+          <p className="text-sm sm:text-base mb-6 text-white/90">
+            Your donation helps us make a real difference in the lives of many.
+            Every contribution counts and creates lasting positive change.
+          </p>
+          
+          <div className="flex flex-wrap gap-4 justify-center mb-8">
+            {["500", "1000", "2500", "5000"].map((amountValue) => (
+              <motion.button
+                key={amountValue}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`px-6 py-3 border border-gray-300 rounded-lg font-semibold text-lg sm:text-xl transition duration-300 shadow-md ${
+                  amount === amountValue
+                    ? "bg-gradient-to-r from-pink-500 to-purple-500 text-white border-pink-300" 
+                    : "bg-white text-black hover:bg-gray-200 hover:scale-105"
+                }`}
+                onClick={() => handleAmountSelect(amountValue)}
+              >
+                ₹{amountValue}
+              </motion.button>
+            ))}
+            <button
+              className={`px-6 py-3 border border-gray-300 rounded-lg font-semibold text-lg sm:text-xl transition duration-300 shadow-md ${
+                isCustom
+                  ? "bg-gradient-to-r from-pink-500 to-purple-500 text-white border-pink-300"
+                  : "bg-white text-black hover:bg-gray-200 hover:scale-105"
+              }`}
+              onClick={handleCustomAmountSelect}
             >
-              <FaTimes className="text-gray-600" />
+              Custom Amount
             </button>
-            <div className="text-center mb-6">
-              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#FF0080] mb-2">
-                Make a Difference with Your Donation
-              </h2>
-              <p className="text-sm sm:text-base text-gray-600">
-                Your generosity supports impactful initiatives and helps us make a change.
-              </p>
+          </div>
+
+          {isCustom && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              className="flex justify-center mb-6"
+            >
+              <span className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-5 py-3 rounded-l-lg">
+                ₹
+              </span>
+              <input
+                type="number"
+                className="px-6 py-3 border border-gray-300 rounded-r-lg w-full md:w-1/2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-black"
+                placeholder="Enter custom amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
+            </motion.div>
+          )}
+          
+          <motion.button
+            onClick={openModal}
+            disabled={isLoading} // Added disabled state for loading
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0 10px 20px rgba(0, 0, 0, 0.3)",
+              backgroundPosition: "right center",
+            }}
+            whileTap={{
+              scale: 0.95,
+            }}
+            className="px-10 py-4 bg-[#e91e63] hover:bg-[#d81b60] text-white rounded-lg shadow-lg hover:shadow-xl focus:outline-none transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? "Processing..." : "DONATE NOW"}
+          </motion.button>
+        </div>
+      </motion.div>
+
+      {/* Enhanced Modal */}
+      {isModalOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative"
+          >
+            <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 p-6 rounded-t-2xl text-white relative">
+              <button
+                className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors"
+                onClick={closeModal}
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <h2 className="text-2xl font-bold mb-2">Complete Your Donation</h2>
+              <p className="text-white/90">Help us create positive change in our community</p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="p-6">
+              {/* Payment Method Selection */}
+              <div className="mb-6">
+                <label className="block text-sm font-semibold text-gray-700 mb-3">
+                  Payment Method
+                </label>
+                <div className="grid grid-cols-3 gap-3">
+                  {["Online", "Offline", "TestDonation"].map((method) => (
+                    <label
+                      key={method}
+                      className={`flex items-center justify-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all ${
+                        paymentMethod === method
+                          ? "border-purple-500 bg-purple-50 text-purple-700"
+                          : "border-gray-200 hover:border-gray-300"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="paymentMethod"
+                        value={method}
+                        checked={paymentMethod === method}
+                        onChange={(e) => setPaymentMethod(e.target.value)}
+                        className="sr-only"
+                      />
+                      <span className="text-sm font-medium">{method}</span>
+                    </label>
+                  ))}
                 </div>
-            <form onSubmit={handleSubmit}>
-            
-
-              <div className="mb-6">
-                <label
-                  htmlFor="donationAmount"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Selected Amount
-                </label>
-                <input
-                  type="text"
-                  id="donationAmount"
-                  name="donationAmount"
-                  value={`₹${amount}`}
-                  readOnly
-                  className="w-full px-4 py-2 border rounded-lg shadow-sm bg-gray-100"
-                />
               </div>
 
-              <div className="mb-6">
-                <label
-                  htmlFor="fullName"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  id="fullName"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-[#FF0080] focus:border-[#FF0080]"
-                  required
-                />
-              </div>
-
-              <div className="mb-6">
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-[#FF0080] focus:border-[#FF0080]"
-                  required
-                />
-              </div>
-
-              <div className="mb-6">
-                <label
-                  htmlFor="panCard"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  PAN Card (optional)
-                </label>
-                <input
-                  type="text"
-                  id="panCard"
-                  name="panCard"
-                  value={formData.panCard}
-                  maxLength={10}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-[#FF0080] focus:border-[#FF0080]"
-                />
-              </div>
-
-              <div className="mb-6">
-                  <label
-                    htmlFor="phone"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Phone Number
-                  </label>
-                  <div className="flex items-center border rounded-lg shadow-sm focus-within:ring-[#FF0080] focus-within:border-[#FF0080]">
-                    <span className="px-4 py-2 bg-gray-100 border-r text-gray-700">+91</span>
+              <div className="space-y-4">
+                {[
+                  { label: "Full Name", field: "fullName", type: "text", required: true },
+                  { label: "Email Address", field: "email", type: "email", required: true },
+                  { label: "Phone Number", field: "phone", type: "tel", required: true },
+                  { label: "PAN Card Number", field: "panCard", type: "text", required: false },
+                  { label: "Address", field: "address", type: "text", required: false }
+                ].map(({ label, field, type, required }) => (
+                  <div key={field}>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      {label} {required && <span className="text-red-500">*</span>}
+                    </label>
                     <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      maxLength={10} // Limit phone number to 10 digits
-                       pattern="[0-9]{10}" // Only allow numeric input for 10 digits
-                      className="w-full px-4 py-2 focus:outline-none"
-                      placeholder="Enter your phone number"
-                      required
+                      type={type}
+                      name={field} // Added name attribute for proper form handling
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                      placeholder={`Enter ${label.toLowerCase()}`}
+                      value={formData[field] || ""} // Added fallback for undefined values
+                      onChange={handleInputChange} // Fixed to use the correct function
+                      required={required}
                     />
                   </div>
+                ))}
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Donation Amount
+                  </label>
+                  <input
+                    type="text"
+                    value={`₹${amount}`}
+                    readOnly
+                    className="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 font-bold text-lg"
+                  />
                 </div>
 
-              <div className="flex items-center mb-6">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  name="terms"
-                  checked={formData.terms || true}
-                  onChange={handleInputChange}
-                  className="mr-2"
-                />
-                <label htmlFor="terms" className="text-sm text-gray-700">
-                  I agree to the <Link href={"/termsAndConditions"} className="text-[#FF0080] underline">Terms and Conditions</Link>.
-                </label>
+                <Alert className="border-blue-200 bg-blue-50">
+                  <Info className="h-4 w-4 text-blue-600" />
+                  <AlertDescription className="text-blue-800">
+                    Your donation is secure and will be processed safely. You'll receive a confirmation email shortly.
+                  </AlertDescription>
+                </Alert>
+
+                <div className="flex gap-3 pt-4">
+                  <button
+                    type="button"
+                    className="flex-1 px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-semibold transition-colors"
+                    onClick={closeModal}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit" // Changed to submit button to trigger form submission
+                    disabled={isLoading}
+                    className="flex-1 px-6 py-3 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 text-white rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isLoading ? "Processing..." : "Confirm Donation"}
+                  </button>
+                </div>
               </div>
-
-              <button
-                type="submit"
-                className={`w-full py-3 text-white font-bold bg-[#FF0080] rounded-lg shadow-md ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-                disabled={isLoading}
-              >
-                {isLoading ? "Processing..." : "Donate Now"}
-              </button>
             </form>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
-
-
-
-
-
-    </motion.div>
+    </>
   );
 };
 

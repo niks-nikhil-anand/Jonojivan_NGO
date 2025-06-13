@@ -5,10 +5,10 @@ import DonationForm from "@/components/frontend/ui/DonationForm";
 import FooterBanner from "@/components/frontend/ui/FooterBanner";
 import HeroSection from "@/components/frontend/ui/HeroSection";
 import OrganizationInfo from "@/components/frontend/ui/OrganitationInfo";
-import CausesSection from "@/components/frontend/ui/(Banners)/BannerText01";
 import ChildSponsorshipSection from "@/components/frontend/ui/ChildSponsorshipSection";
 import Testimonials from "@/components/frontend/ui/Testimonials";
 import CTA from "@/components/frontend/ui/CTA";
+import CausesSection from "@/components/frontend/ui/(Banners)/CausesSection";
 
 export default function Home() {
   return (
