@@ -37,6 +37,7 @@ const CampaignCards = () => {
       try {
         setLoading(true);
         const response = await axios.get("/api/admin/dashboard/campaign/addCampaign");
+        console.log(response)
         setCardsData(response.data || []);
         setError(null);
       } catch (error) {

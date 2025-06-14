@@ -1,8 +1,7 @@
 import connectDB from "@/lib/dbConnect";
+import uploadImage from "@/lib/uploadImages";
 import Program from "@/models/programModels";
-import { writeFile, mkdir } from "fs/promises";
 import { NextResponse } from "next/server";
-import path from "path";
 
 export const POST = async (req) => {
   try {
@@ -12,14 +11,19 @@ export const POST = async (req) => {
 
     // Parse the incoming FormData
     const formData = await req.formData();
+    console.log("Received form data:", formData);
+    
     const title = formData.get("title");
     const slug = formData.get("slug");
     const whatWeDo = formData.get("whatWeDo");
     const description = formData.get("description");
     const image = formData.get("image");
 
+    console.log("Parsed form data:", { title, slug, description });
+
     // Validate required fields
     if (!title || !slug || !whatWeDo || !image) {
+      console.error("Missing required fields.");
       return NextResponse.json(
         { message: "Title, slug, content (What We Do), and image are required" },
         { status: 400 }
@@ -38,34 +42,20 @@ export const POST = async (req) => {
       );
     }
 
-    let imagePath = "";
+    // Upload image using uploadImage function
+    const imageUploadResult = await uploadImage(image, "programImages");
+    console.log("Image upload result:", imageUploadResult);
 
-    // Handle image upload if provided
-    if (image && image.size > 0) {
-      const bytes = await image.arrayBuffer();
-      const buffer = Buffer.from(bytes);
-
-      // Create unique filename
-      const timestamp = Date.now();
-      const fileExtension = path.extname(image.name);
-      const fileName = `program_${timestamp}${fileExtension}`;
-      
-      // Ensure uploads directory exists
-      const uploadsDir = path.join(process.cwd(), "public", "uploads", "programs");
-      try {
-        await mkdir(uploadsDir, { recursive: true });
-      } catch (error) {
-        console.log("Directory already exists or error creating:", error.message);
-      }
-
-      // Save file
-      const filePath = path.join(uploadsDir, fileName);
-      await writeFile(filePath, buffer);
-      
-      // Store relative path for database
-      imagePath = `/uploads/programs/${fileName}`;
-      console.log("Image saved successfully:", imagePath);
+    if (!imageUploadResult.secure_url) {
+      console.error("Image upload failed.");
+      return NextResponse.json(
+        { message: "Image upload failed." },
+        { status: 500 }
+      );
     }
+
+    const imageUrl = imageUploadResult.secure_url;
+    console.log("Image URL:", imageUrl);
 
     // Create program data object
     const programData = {
@@ -73,7 +63,7 @@ export const POST = async (req) => {
       slug: slug.trim().toLowerCase(),
       whatWeDo: whatWeDo.trim(),
       description: description?.trim() || "",
-      image: imagePath,
+      image: imageUrl,
     };
 
     console.log("Program data to be saved:", {

@@ -7,14 +7,15 @@ import HeroSection from "@/components/frontend/ui/HeroSection";
 import OrganizationInfo from "@/components/frontend/ui/OrganitationInfo";
 import ChildSponsorshipSection from "@/components/frontend/ui/ChildSponsorshipSection";
 import Testimonials from "@/components/frontend/ui/Testimonials";
-import CTA from "@/components/frontend/ui/CTA";
 import CausesSection from "@/components/frontend/ui/(Banners)/CausesSection";
+import ProgramsSections from "@/components/frontend/ui/ProgramsSections";
 
 export default function Home() {
   return (
     <>
       <HeroSection />
       <DonationForm/>
+      <ProgramsSections/>
       <CausesSection/>
       <ChildSponsorshipSection/>
       <CampaignCards />
