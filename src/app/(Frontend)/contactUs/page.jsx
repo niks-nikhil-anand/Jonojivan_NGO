@@ -131,7 +131,7 @@ export default function Contact() {
               Get in Touch
             </h1>
             <p className="text-xl md:text-2xl mb-8 max-w-4xl mx-auto leading-relaxed">
-              We'd love to hear your thoughts. Your opinions and experiences matter to us. Share your thoughts and let's improve together.
+              We&apos;d love to hear your thoughts. Your opinions and experiences matter to us. Share your thoughts and let&apos;s improve together.
             </p>
             <motion.div
               className="inline-block px-6 py-3 bg-white/20 rounded-full shadow-lg backdrop-blur-sm"
@@ -166,7 +166,7 @@ export default function Contact() {
                 Send us a Message
               </h2>
               <p className="text-gray-600">
-                Fill out the form below and we'll get back to you as soon as possible.
+                Fill out the form below and we&apos;ll get back to you as soon as possible.
               </p>
             </div>
 
@@ -174,7 +174,7 @@ export default function Contact() {
               <Alert className="mb-6 border-green-200 bg-green-50">
                 <CheckCircle className="h-4 w-4 text-green-600" />
                 <AlertDescription className="text-green-800">
-                  Your message has been sent successfully! We'll get back to you soon.
+                  Your message has been sent successfully! We&apos;ll get back to you soon.
                 </AlertDescription>
               </Alert>
             )}

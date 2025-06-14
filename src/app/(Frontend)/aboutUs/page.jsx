@@ -162,7 +162,7 @@ const AboutPage = () => {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  Plan to Empower is a non-profit organization dedicated to promoting child welfare and women's rights in India. We work to ensure that families thrive in environments that are safe, healthy, nurturing, and productive.
+                  Plan to Empower is a non-profit organization dedicated to promoting child welfare and women&apos;s rights in India. We work to ensure that families thrive in environments that are safe, healthy, nurturing, and productive.
                 </p>
                 <p className="text-lg text-gray-700 leading-relaxed">
                   We at Plan to Empower work to make a world of happiness, tolerance, social equality, dignity and security where poverty and illiteracy has no role to play. We work to educate children, empower women by educating them and making them financially independent, eradicate poverty and achieve a socially balanced lifeline.

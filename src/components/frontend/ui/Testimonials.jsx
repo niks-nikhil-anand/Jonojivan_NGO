@@ -62,7 +62,7 @@ const TestimonialCard = ({ avatar, name, job, quote, index }) => {
         {/* Quote */}
         <blockquote className="mb-8">
           <p className="text-lg leading-relaxed text-gray-700 font-medium">
-            "{quote}"
+            {quote}
           </p>
         </blockquote>
 

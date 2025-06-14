@@ -1,4 +1,3 @@
-
 import connectDB from "@/lib/dbConnect";
 import Program from "@/models/programModels";
 import { writeFile, mkdir } from "fs/promises";
@@ -14,7 +13,6 @@ export const POST = async (req) => {
     // Parse the incoming FormData
     const formData = await req.formData();
     const title = formData.get("title");
-    const subtitle = formData.get("subtitle");
     const slug = formData.get("slug");
     const whatWeDo = formData.get("whatWeDo");
     const description = formData.get("description");
@@ -72,7 +70,6 @@ export const POST = async (req) => {
     // Create program data object
     const programData = {
       title: title.trim(),
-      subtitle: subtitle?.trim() || "",
       slug: slug.trim().toLowerCase(),
       whatWeDo: whatWeDo.trim(),
       description: description?.trim() || "",

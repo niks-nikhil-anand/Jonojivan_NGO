@@ -9,30 +9,12 @@ const blogSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  subtitle: {
-    type: String,
-    required: true
-  },
-  category: {
-    type: String,
-    required: true
-  },
-  author: {
-    type: String,
-    required: true
-  },
   content: {
     type: mongoose.Schema.Types.Mixed,
     required: true
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  }
+}, {
+  timestamps: true
 });
 
 

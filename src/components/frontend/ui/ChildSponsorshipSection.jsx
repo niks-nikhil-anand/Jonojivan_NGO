@@ -155,7 +155,7 @@ const ChildSponsorshipSection = () => {
                 Every child deserves the chance to learn, grow, and dream—yet millions, especially in underserved communities, face barriers to education. At Bring Smile, we are committed to breaking these barriers by providing children with access to quality education and the tools they need to succeed.
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
-                By sponsoring a child, you don't just provide education—you open the door to a brighter future.
+                By sponsoring a child, you don&apos;t just provide education—you open the door to a brighter future.
               </p>
             </motion.div>
 

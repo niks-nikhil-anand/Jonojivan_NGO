@@ -245,7 +245,7 @@ const OrganizationInfo = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <p className="text-xl text-gray-700 leading-relaxed mb-4">
-                Bring Smile Foundation is a movement of hope and empowerment, transforming lives through education in Bihar's underprivileged regions, where poverty and discrimination often overshadow dreams.
+                Bring Smile Foundation is a movement of hope and empowerment, transforming lives through education in Bihar&apos;s underprivileged regions, where poverty and discrimination often overshadow dreams.
               </p>
               
               {/* Additional Context */}
@@ -257,7 +257,7 @@ const OrganizationInfo = () => {
                   <div>
                     <h4 className="font-bold text-gray-800 mb-2">Our Mission</h4>
                     <p className="text-gray-700 leading-relaxed">
-                      We believe every child deserves access to quality education, regardless of their background. Through innovative programs and community partnerships, we're breaking barriers and creating pathways to success.
+                      We believe every child deserves access to quality education, regardless of their background. Through innovative programs and community partnerships, we&apos;re breaking barriers and creating pathways to success.
                     </p>
                   </div>
                 </div>

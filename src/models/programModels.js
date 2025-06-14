@@ -10,10 +10,6 @@ const programSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  subtitle: {
-    type: String,
-    required: false,
-  },
   slug: {
     type: String,
     required: true,

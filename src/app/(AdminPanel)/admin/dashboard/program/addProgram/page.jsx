@@ -43,13 +43,11 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription }
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const AddProgramPage = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     title: "",
-    subtitle: "",
     slug: "",
     image: null,
     whatWeDo: "",
@@ -157,7 +155,6 @@ const AddProgramPage = () => {
 
     const formDataToSubmit = new FormData();
     formDataToSubmit.append("title", formData.title);
-    formDataToSubmit.append("subtitle", formData.subtitle);
     formDataToSubmit.append("slug", formData.slug);
     formDataToSubmit.append("whatWeDo", formData.whatWeDo);
     formDataToSubmit.append("description", formData.description);
@@ -167,7 +164,7 @@ const AddProgramPage = () => {
     }
 
     try {
-      const response = await fetch("/api/admin/dashboard/program/addProgram", {
+      const response = await fetch("/api/admin/dashboard/program", {
         method: "POST",
         body: formDataToSubmit,
       });
@@ -177,7 +174,6 @@ const AddProgramPage = () => {
         toast.success("Program added successfully!");
         setFormData({
           title: "",
-          subtitle: "",
           slug: "",
           image: null,
           whatWeDo: "",
@@ -477,7 +473,7 @@ const AddProgramPage = () => {
           <div className="flex justify-between items-center">
             <div>
               <CardTitle className="text-2xl font-bold text-green-800">Create New Program</CardTitle>
-              <CardDescription className="text-green-600 mt-1">Add a new program to showcase your organization's work</CardDescription>
+              <CardDescription className="text-green-600 mt-1">Add a new program to showcase your organization&apos;s work</CardDescription>
             </div>
             <div className="flex items-center space-x-2">
               {steps.map((s, i) => (
@@ -533,21 +529,6 @@ const AddProgramPage = () => {
                         {errors.title}
                       </div>
                     )}
-                  </div>
-
-                  <div className="mb-6">
-                    <Label htmlFor="subtitle" className="text-base font-medium text-gray-700 mb-3 block">
-                      Program Subtitle
-                    </Label>
-                    <Input
-                      id="subtitle"
-                      name="subtitle"
-                      value={formData.subtitle}
-                      onChange={handleChange}
-                      placeholder="Enter program subtitle (optional)"
-                      className="mt-2 h-12"
-                      disabled={loading}
-                    />
                   </div>
 
                   <div className="mb-6">

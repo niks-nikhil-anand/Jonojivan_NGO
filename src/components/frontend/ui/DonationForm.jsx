@@ -429,7 +429,7 @@ const DonationForm = () => {
                 <Alert className="border-blue-200 bg-blue-50">
                   <Info className="h-4 w-4 text-blue-600" />
                   <AlertDescription className="text-blue-800">
-                    Your donation is secure and will be processed safely. You'll receive a confirmation email shortly.
+                    Your donation is secure and will be processed safely. You&apos;ll receive a confirmation email shortly.
                   </AlertDescription>
                 </Alert>
 

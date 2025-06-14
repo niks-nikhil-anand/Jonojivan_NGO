@@ -1,11 +1,10 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import toast, { Toaster } from 'react-hot-toast';
-import ogImage from '../../public/logo/og-image.jpg'; // Local image import
 import EgoisticNavbar from "@/components/utils/EgosticNavbar";
 import EgoisticFooter from "@/components/utils/EgosticFooter";
 import Script from 'next/script'
 import UnderMaintenance from "@/components/frontend/ui/UnderMaintenance";
+import { Toaster } from "sonner";
 
 
 const inter = Inter({ subsets: ["latin"] });

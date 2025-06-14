@@ -1,21 +1,30 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import axios from "axios";
+import {
+  Eye,
+  EyeOff,
+  Heart,
+  Shield,
+  ArrowRight,
+  Mail,
+  Lock,
+  User,
+  Phone,
+  UserPlus,
+} from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
+import Image from "next/image";
 import googleIcon from "../../../../public/IconHub/GoogleIcons.png";
 import facebookIcon from "../../../../public/IconHub/facebookIcon.png";
-import Image from "next/image";
-import { signIn } from "next-auth/react";
-import { useRouter } from 'next/navigation';
-import toast from "react-hot-toast";
-
-
-
 
 const CreateAccountForm = () => {
-  const router = useRouter(); 
+  const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
@@ -23,14 +32,16 @@ const CreateAccountForm = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [acceptedTerms, setAcceptedTerms] = useState(false); 
-  
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
   const handleProviderSignIn = async (provider) => {
     try {
       console.log("Attempting to sign in with provider:", provider);
       const result = await signIn(provider);
       console.log("Sign-in result:", result);
-  
+
       if (result?.error) {
         console.error("Sign-in error:", result.error);
         throw new Error(result.error);
@@ -39,31 +50,34 @@ const CreateAccountForm = () => {
       }
     } catch (error) {
       console.error("Error during sign-in:", error.message);
+      toast.error("Error during sign-in");
     }
   };
-  
-  
-  
-  
-  
 
   const handleCreateAccount = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
+    setSuccess("");
+
+    // Validation
+    if (!fullName || !email || !mobileNumber || !password || !confirmPassword) {
+      setError("Please fill in all fields");
+      setLoading(false);
+      return;
+    }
 
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match!");
+      setError("Passwords do not match!");
       setLoading(false);
       return;
     }
 
     if (!acceptedTerms) {
-      toast.error("You must accept the terms and conditions!");
+      setError("You must accept the terms and conditions!");
       setLoading(false);
       return;
     }
-
-
 
     const formData = new FormData();
     formData.append("fullName", fullName);
@@ -85,169 +99,302 @@ const CreateAccountForm = () => {
         setPassword("");
         setConfirmPassword("");
         setAcceptedTerms(false);
+        setSuccess("Account created successfully! Redirecting...");
         toast.success("Account created successfully!");
 
         setTimeout(() => {
           router.push("/auth/signIn");
-        }, 1000); 
-      
+        }, 1000);
       }
     } catch (error) {
-      toast.error("Error creating account. Please try again.");
+      const errorMessage = error.response?.data?.message || "Error creating account. Please try again.";
+      setError(errorMessage);
+      toast.error(errorMessage);
       console.error(error);
-      // Handle error
     } finally {
       setLoading(false);
     }
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const formVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        delay: 0.2,
+      },
+    },
+  };
+
   return (
-    <div className="flex justify-center items-center bg-white px-4 md:px-0 w-full flex-col my-10">
-  <div>
-    <h1 className="text-3xl md:text-4xl text-green-800 my-5 text-center">Create Account</h1>
-  </div>
-  
-  <div className="w-full md:w-1/2 px-2 md:px-0">          
-    <form onSubmit={handleCreateAccount}>
-      <div className="mb-4">
-        <input
-          type="text"
-          value={fullName}
-          placeholder="Full Name"
-          onChange={(e) => setFullName(e.target.value)}
-          className="w-full px-4 py-2 border border-green-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500"
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <input
-          type="email"
-          value={email}
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-2 border border-green-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500"
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <div className="flex items-center">
-          <span className="bg-green-200 border border-r-0 border-green-600 rounded-l-xl px-3 py-2 text-green-700">+91</span>
-          <input
-            type="tel"
-            value={mobileNumber}
-            onChange={(e) => {
-              const value = e.target.value.replace(/\D/g, "");
-              if (value.length <= 10) {
-                setMobileNumber(value);
-              }
-            }}
-            placeholder="Mobile Number"
-            className="w-full px-4 py-2 border border-l-0 rounded-r-xl focus:outline-none focus:ring-2 focus:ring-green-500 border-green-600"
-            maxLength={10}
-            required
-          />
-        </div>
-      </div>
-
-      <div className="mb-4 relative">
-        <input
-          type={showPassword ? "text" : "password"}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 border-green-600"
-          required
-          placeholder="Password"
-        />
-        <div
-          className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer"
-          onClick={() => setShowPassword(!showPassword)}
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center py-12 px-4">
+      <div className="max-w-lg w-full">
+        {/* Header Section */}
+        <motion.div
+          className="text-center mb-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
         >
-          {showPassword ? <FaEye /> : <FaEyeSlash />}
-        </div>
-      </div>
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-teal-500 rounded-full mb-6 shadow-lg">
+            <UserPlus className="w-8 h-8 text-white" />
+          </div>
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-2">
+            Create Account
+          </h2>
+          <p className="text-gray-600 text-lg">
+            Join the BringSmile Foundation community
+          </p>
+        </motion.div>
 
-      <div className="mb-4 relative">
-        <input
-          type={showPassword ? "text" : "password"}
-          value={confirmPassword}
-          placeholder="Confirm Password"
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          className="w-full px-4 py-2 border rounded-xl border-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-          required
-        />
-        <div
-          className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer"
-          onClick={() => setShowPassword(!showPassword)}
+        {/* Register Form Card */}
+        <motion.div
+          variants={formVariants}
+          initial="hidden"
+          animate="visible"
+          whileHover={{
+            scale: 1.01,
+            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
+          }}
+          className="bg-white rounded-3xl p-8 shadow-xl border-2 border-green-100 relative overflow-hidden group"
         >
-          {showPassword ? <FaEye /> : <FaEyeSlash />}
-        </div>
-      </div>
+          {/* Background Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-teal-500 opacity-0 group-hover:opacity-3 transition-opacity duration-500"></div>
 
-      <div className="mb-4">
-        <label className="flex items-center text-gray-700">
-          <input
-            type="checkbox"
-            checked={acceptedTerms}
-            onChange={(e) => setAcceptedTerms(e.target.checked)}
-            className="mr-2"
-            required
-          />
-          <Link href={"/termsAndConditions"}  className="text-green-700 hover:underline">
-            I accept the terms & conditions
-          </Link>
-        </label>
-      </div>
+          <div className="relative z-10">
+            {/* Success/Error Alerts */}
+            {success && (
+              <Alert className="mb-6 border-green-200 bg-green-50">
+                <AlertDescription className="text-green-700">
+                  {success}
+                </AlertDescription>
+              </Alert>
+            )}
 
-      <div className="w-full flex justify-center">
-        <motion.button
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.95, y: 1 }}
-          type="submit"
-          disabled={loading}
-          className={`w-3/4 md:w-1/2 py-3 px-5 text-white font-semibold rounded-2xl transition-all duration-300 ${
-            loading
-            ? "bg-gradient-to-r from-gray-400 to-gray-500"
-            : "bg-gradient-to-r from-green-600 to-green-800 hover:from-green-500 hover:to-green-700 shadow-lg"
-          } ${loading ? "cursor-not-allowed" : ""} shadow-lg shadow-green-400/50 active:shadow-md`}
+            {error && (
+              <Alert className="mb-6 border-red-200 bg-red-50">
+                <AlertDescription className="text-red-700">
+                  {error}
+                </AlertDescription>
+              </Alert>
+            )}
+
+            <form onSubmit={handleCreateAccount} className="space-y-6">
+              {/* Full Name Field */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
+                  <User className="w-4 h-4" />
+                  <span>Full Name</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Enter your full name"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-gray-50 hover:bg-white"
+                    required
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+
+              {/* Email Field */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
+                  <Mail className="w-4 h-4" />
+                  <span>Email Address</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-gray-50 hover:bg-white"
+                    required
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+
+              {/* Mobile Number Field */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
+                  <Phone className="w-4 h-4" />
+                  <span>Mobile Number</span>
+                </label>
+                <div className="flex">
+                  <span className="bg-green-100 border-2 border-r-0 border-gray-200 rounded-l-xl px-3 py-3 text-green-700 font-medium">
+                    +91
+                  </span>
+                  <input
+                    type="tel"
+                    value={mobileNumber}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, "");
+                      if (value.length <= 10) {
+                        setMobileNumber(value);
+                      }
+                    }}
+                    placeholder="Enter mobile number"
+                    className="w-full px-4 py-3 border-2 border-l-0 border-gray-200 rounded-r-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-gray-50 hover:bg-white"
+                    maxLength={10}
+                    required
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+
+              {/* Password Field */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
+                  <Lock className="w-4 h-4" />
+                  <span>Password</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    placeholder="Enter your password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-gray-50 hover:bg-white pr-12"
+                    required
+                    disabled={loading}
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700 transition-colors"
+                    onClick={() => setShowPassword(!showPassword)}
+                    disabled={loading}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Confirm Password Field */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
+                  <Lock className="w-4 h-4" />
+                  <span>Confirm Password</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={confirmPassword}
+                    placeholder="Confirm your password"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-gray-50 hover:bg-white pr-12"
+                    required
+                    disabled={loading}
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700 transition-colors"
+                    onClick={() => setShowPassword(!showPassword)}
+                    disabled={loading}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Terms and Conditions */}
+              <div className="flex items-start space-x-3">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  checked={acceptedTerms}
+                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                  className="mt-1 w-4 h-4 text-green-600 border-2 border-gray-300 rounded focus:ring-green-500"
+                  required
+                  disabled={loading}
+                />
+                <label htmlFor="terms" className="text-sm text-gray-700">
+                  I accept the{" "}
+                  <Link
+                    href="/termsAndConditions"
+                    className="text-green-600 hover:text-green-700 font-medium transition-colors underline"
+                  >
+                    terms & conditions
+                  </Link>
+                </label>
+              </div>
+
+              {/* Create Account Button */}
+              <motion.button
+                whileHover={{ scale: loading ? 1 : 1.02 }}
+                whileTap={{ scale: loading ? 1 : 0.98 }}
+                type="submit"
+                disabled={loading}
+                className={`w-full py-4 rounded-xl font-bold text-white shadow-lg transition-all duration-300 flex items-center justify-center space-x-2 ${
+                  loading
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 hover:shadow-xl"
+                }`}
+              >
+                {loading ? (
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <>
+                    <UserPlus className="w-5 h-5" />
+                    <span>Create Account</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </>
+                )}
+              </motion.button>
+            </form>
+
+            {/* Sign In Link */}
+            <div className="mt-6 text-center">
+              <Link
+                href="/auth/signIn"
+                className="text-green-600 hover:text-green-700 font-medium transition-colors inline-flex items-center space-x-1"
+              >
+                <span>Already have an account? Sign in</span>
+              </Link>
+            </div>
+          
+          </div>
+        </motion.div>
+
+        {/* Additional Info */}
+        <motion.div
+          className="mt-8 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 0.6 }}
         >
-          {loading ? "Creating Account..." : "Create Account"}
-        </motion.button>
+          <div className="flex items-center justify-center space-x-2 text-gray-500 text-sm">
+            <Shield className="w-4 h-4" />
+            <span>Your data is protected with enterprise-grade security</span>
+          </div>
+        </motion.div>
       </div>
-
-      <div className="flex justify-between mt-4">
-        <Link href={"/auth/register"} className="text-green-700">
-          Already have an account? <span className="text-blue-500 hover:underline">Sign in</span>
-        </Link>
-      </div>
-    </form>
-
-    <div className="flex items-center justify-between mt-6">
-      <span className="border-t border-gray-300 flex-grow"></span>
-      <span className="mx-4 text-gray-600">Or</span>
-      <span className="border-t border-gray-300 flex-grow"></span>
     </div>
-
-    <div className="flex flex-col sm:flex-row sm:justify-around space-y-4 sm:space-y-0 sm:space-x-4">
-  <button
-    onClick={() => handleProviderSignIn("google")}
-    className="flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-r from-white to-gray-100 hover:from-gray-100 hover:to-white transition-all transform hover:-translate-y-1 hover:shadow-xl active:shadow-md active:translate-y-0"
-  >
-    <Image src={googleIcon} alt="Google Icon" width={24} height={24} />
-    <span className="ml-2 text-gray-700 font-medium">Sign in with Google</span>
-  </button>
-  <button
-    onClick={() => signIn("facebook")}
-    className="flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-r from-white to-gray-100 hover:from-gray-100 hover:to-white transition-all transform hover:-translate-y-1 hover:shadow-xl active:shadow-md active:translate-y-0"
-  >
-    <Image src={facebookIcon} alt="Facebook Icon" width={24} height={24} />
-    <span className="ml-2 text-gray-700 font-medium">Sign in with Facebook</span>
-  </button>
-</div>
-
-
-  </div>
-</div>
-
   );
 };
 

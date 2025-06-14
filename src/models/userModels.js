@@ -58,14 +58,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    orderHistory: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Order',
-    }],
-    wishlist: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Wishlist',
-    }]
 }, {
     timestamps: true
 });
