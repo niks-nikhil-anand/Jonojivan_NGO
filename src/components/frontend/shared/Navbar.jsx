@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Menu, X, ChevronDown, Heart } from "lucide-react";
+import { Menu, X, Heart } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -15,86 +15,25 @@ import {
 } from "@/components/ui/sheet";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import logo from "../../../../public/logo/logo.jpg";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const programItems = [
-    {
-      href: "/gender-equality-project-being-a-girl",
-      title: "Gender Equality - Being a Girl",
-      description: "Empowering girls through education and awareness programs",
-    },
-    {
-      href: "/fight-against-poverty",
-      title: "Fight Against Poverty",
-      description: "Creating sustainable solutions to break the poverty cycle",
-    },
-    {
-      href: "/health-and-nutrition",
-      title: "Health and Nutrition",
-      description: "Ensuring access to healthcare and proper nutrition",
-    },
-    {
-      href: "/non-formal-education-gyanoday",
-      title: "Non-Formal Education - Gyanoday",
-      description: "Providing quality education through innovative methods",
-    },
-    {
-      href: "/child-rights-and-education",
-      title: "Child Rights and Education",
-      description:
-        "Protecting children's rights and ensuring quality education",
-    },
-  ];
-
   const menuItems = [
     { href: "/", label: "Home" },
     { href: "/aboutUs", label: "About Us" },
     { href: "/how-we-work", label: "How We Work" },
-    { href: "/Campaign", label: "News & Updates" },
-    { href: "/contact", label: "Contact Us" },
+    { href: "/Campaign", label: "Campaign" },
+    { href: "/Campaign", label: "Programs" },
+    { href: "/contactUs", label: "Contact Us" },
   ];
-
-  const ListItem = React.forwardRef(
-    ({ className, title, children, ...props }, ref) => {
-      return (
-        <li>
-          <NavigationMenuLink asChild>
-            <a
-              ref={ref}
-              className={cn(
-                "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                className
-              )}
-              {...props}
-            >
-              <div className="text-sm font-medium leading-none">{title}</div>
-              <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                {children}
-              </p>
-            </a>
-          </NavigationMenuLink>
-        </li>
-      );
-    }
-  );
-  ListItem.displayName = "ListItem";
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white shadow-sm">
@@ -132,24 +71,6 @@ const Navbar = () => {
                   </Link>
                 </NavigationMenuItem>
               ))}
-
-              {/* Programs Dropdown */}
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Programs</NavigationMenuTrigger>
-                <NavigationMenuContent className="bg-white border border-border shadow-lg rounded-md">
-                  <ul className="grid w-[600px] gap-3 p-4 md:grid-cols-2">
-                    {programItems.map((item) => (
-                      <ListItem
-                        key={item.href}
-                        title={item.title}
-                        href={item.href}
-                      >
-                        {item.description}
-                      </ListItem>
-                    ))}
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
         </div>
@@ -202,11 +123,9 @@ const Navbar = () => {
                 </Button>
               </div>
               <SheetHeader className="pt-8">
-                <SheetTitle className="flex items-center space-x-2">
-                  <Image src={logo} alt="Logo" width={40} height={40} />
-                  <span className="text-green-600 font-bold">
-                    Plan to Empower
-                  </span>
+                <SheetTitle className="flex items-center ">
+                  <Image src={logo} alt="Logo" width={140} height={140} />
+                 
                 </SheetTitle>
                 <SheetDescription>
                   Empowering communities through sustainable development
@@ -230,39 +149,6 @@ const Navbar = () => {
                     </Link>
                   </motion.div>
                 ))}
-
-                {/* Mobile Programs Dropdown */}
-                <div className="bg-gray-50 rounded-lg p-2">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        className="w-full justify-between p-3 h-auto hover:bg-gray-100 transition-colors"
-                      >
-                        <span className="text-lg font-medium">Programs</span>
-                        <ChevronDown className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-80 bg-white border border-border shadow-xl rounded-lg">
-                      {programItems.map((item) => (
-                        <DropdownMenuItem key={item.href} asChild>
-                          <Link
-                            href={item.href}
-                            className="flex flex-col items-start space-y-1 p-4 hover:bg-gray-50 transition-colors rounded-md m-1"
-                            onClick={() => setIsMenuOpen(false)}
-                          >
-                            <span className="font-medium text-foreground">
-                              {item.title}
-                            </span>
-                            <span className="text-sm text-muted-foreground">
-                              {item.description}
-                            </span>
-                          </Link>
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
 
                 {/* Mobile Donate Button */}
                 <motion.div whileTap={{ scale: 0.95 }} className="pt-4">
