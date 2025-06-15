@@ -173,8 +173,7 @@ const ProgramsSection = () => {
 
   const handleProgramClick = (slug) => {
     console.log(`Navigating to: /program/${slug}`);
-    // Uncomment the line below for actual navigation
-    // window.location.href = `/program/${slug}`;
+    window.location.href = `/program/${slug}`;
   };
 
   const getVisiblePrograms = () => {
