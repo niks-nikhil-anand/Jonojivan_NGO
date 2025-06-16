@@ -1,30 +1,84 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import Loader from "@/components/loader/loader";
-import toast from 'react-hot-toast';
-import { MdDelete } from 'react-icons/md'; // Import necessary icons
-import { motion } from 'framer-motion';
+import { toast } from "sonner";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Trash2,
+  Search,
+  Filter,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+  Eye,
+  Calendar,
+  DollarSign,
+  Target,
+  TrendingUp
+} from "lucide-react";
+
+// Import shadcn components
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const CampaignTable = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const campaignsPerPage = 5;
-  const router = useRouter();
-  
-  // Modal state and deleteId tracking
-  const [showModal, setShowModal] = useState(false);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [sortField, setSortField] = useState("createdAt");
+  const [sortDirection, setSortDirection] = useState("desc");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
         const response = await axios.get("/api/admin/dashboard/campaign/addCampaign");
-        setCampaigns(response.data.reverse());
+        setCampaigns(response.data);
       } catch (error) {
         console.error("Error fetching campaigns:", error);
+        toast.error("Failed to fetch campaigns");
       } finally {
         setLoading(false);
       }
@@ -33,72 +87,98 @@ const CampaignTable = () => {
     fetchCampaigns();
   }, []);
 
-  const indexOfLastCampaign = currentPage * campaignsPerPage;
-  const indexOfFirstCampaign = indexOfLastCampaign - campaignsPerPage;
-  const currentCampaigns = campaigns.slice(indexOfFirstCampaign, indexOfLastCampaign);
+  // Filter and sort campaigns
+  const filteredAndSortedCampaigns = useMemo(() => {
+    let filtered = campaigns.filter((campaign) => {
+      const matchesSearch = campaign.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           campaign.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesStatus = statusFilter === "all" || 
+                           campaign.status.toLowerCase() === statusFilter.toLowerCase();
+      return matchesSearch && matchesStatus;
+    });
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    // Sort campaigns
+    filtered.sort((a, b) => {
+      let aValue = a[sortField];
+      let bValue = b[sortField];
+
+      if (sortField === "createdAt") {
+        aValue = new Date(aValue);
+        bValue = new Date(bValue);
+      } else if (sortField === "goal" || sortField === "raised") {
+        aValue = parseFloat(aValue) || 0;
+        bValue = parseFloat(bValue) || 0;
+      }
+
+      if (sortDirection === "asc") {
+        return aValue > bValue ? 1 : -1;
+      } else {
+        return aValue < bValue ? 1 : -1;
+      }
+    });
+
+    return filtered;
+  }, [campaigns, searchTerm, statusFilter, sortField, sortDirection]);
+
+  // Pagination
+  const totalPages = Math.ceil(filteredAndSortedCampaigns.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentCampaigns = filteredAndSortedCampaigns.slice(startIndex, startIndex + itemsPerPage);
+
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortDirection("asc");
+    }
+  };
+
+  const getSortIcon = (field) => {
+    if (sortField !== field) return <ArrowUpDown className="h-4 w-4" />;
+    return sortDirection === "asc" ? <ArrowUp className="h-4 w-4" /> : <ArrowDown className="h-4 w-4" />;
+  };
 
   const confirmDelete = (id) => {
     setDeleteId(id);
-    setShowModal(true);
+    setShowDeleteModal(true);
   };
 
   const handleDelete = async () => {
     try {
-      // Show a loading toast
-      const toastId = toast.loading("Deleting campaign...");
-  
-      // Send a delete request to the backend to remove the campaign
+      toast.loading("Deleting campaign...", { id: "delete-campaign" });
+      
       await axios.delete(`/api/admin/dashboard/campaign/${deleteId}`);
-  
-      // Update the state by filtering out the deleted campaign
+      
       setCampaigns(campaigns.filter((campaign) => campaign._id !== deleteId));
-      setShowModal(false); // Close the modal
-      setDeleteId(null); // Reset the delete ID
-  
-      // Show success toast
-      toast.success("Campaign deleted successfully!", { id: toastId });
+      setShowDeleteModal(false);
+      setDeleteId(null);
+      
+      toast.success("Campaign deleted successfully!", { id: "delete-campaign" });
     } catch (error) {
       console.error("Error deleting campaign:", error);
-  
-      // Show error toast
-      toast.error("Failed to delete the campaign. Please try again.");
+      toast.error("Failed to delete campaign", { id: "delete-campaign" });
     }
   };
 
   const toggleStatus = async (id, currentStatus) => {
     try {
       const newStatus = currentStatus === 'Active' ? 'Pending' : 'Active';
-
-      // Show a loading toast
-      const toastId = toast.loading("Updating campaign status...");
-
-      // Send the updated status to the backend
+      
+      toast.loading("Updating status...", { id: "status-update" });
+      
       await axios.put(`/api/admin/dashboard/campaign/updateStatus/${id}`, { status: newStatus });
-
-      // Update the status locally
+      
       setCampaigns(campaigns.map((campaign) =>
         campaign._id === id ? { ...campaign, status: newStatus } : campaign
       ));
-
-      // Show success toast
-      toast.success(`Campaign status updated to ${newStatus}!`, { id: toastId });
+      
+      toast.success(`Status updated to ${newStatus}!`, { id: "status-update" });
     } catch (error) {
-      console.error("Error updating campaign status:", error);
-
-      // Show error toast
-      toast.error("Failed to update campaign status. Please try again.");
+      console.error("Error updating status:", error);
+      toast.error("Failed to update status", { id: "status-update" });
     }
   };
-
-  if (loading) {
-    return (
-      <div>
-        <Loader />
-      </div>
-    );
-  }
 
   const truncateWords = (text, wordLimit) => {
     if (!text) return "";
@@ -108,109 +188,359 @@ const CampaignTable = () => {
       : text;
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full p-4 pr-[5rem] bg-gray-100 shadow-lg rounded-lg h-[80vh]">
-      <div className="overflow-x-auto overflow-y-auto max-h-[70vh] custom-scrollbar">
-        <table className="border-collapse border border-gray-300 min-w-[1200px] text-sm">
-          <thead>
-            <tr className="bg-gradient-to-r from-gray-400 to-teal-500">
-              <th className="border border-gray-300 px-2 py-1 text-left">Featured Image</th>
-              <th className="border border-gray-300 px-2 py-1 text-left">Title</th>
-              <th className="border border-gray-300 px-2 py-1 text-left">Description</th>
-              <th className="border border-gray-300 px-2 py-1 text-left">Goal</th>
-              <th className="border border-gray-300 px-2 py-1 text-left">Raised</th>
-              <th className="border border-gray-300 px-2 py-1 text-left">Status</th>
-              <th className="border border-gray-300 px-2 py-1 text-left">Created At</th>
-              <th className="border border-gray-300 px-2 py-1 text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentCampaigns.map((campaign) => {
-              const isActive = campaign.status === 'Active'; // Define isActive
-              return (
-                <tr key={campaign._id} className="hover:bg-gray-100">
-                  <td className="border border-gray-300 px-2 py-1 text-center flex justify-center">
-                    <img
-                      src={campaign.image}
-                      alt={campaign.title}
-                      className="w-12 h-12 object-cover rounded-2xl"
-                    />
-                  </td>
-                  <td className="border border-gray-300 px-2 py-1 truncate">{campaign.title}</td>
-                  <td className="border border-gray-300 px-2 py-1 truncate">{truncateWords(campaign.description, 10)}</td>
-                  <td className="border border-gray-300 px-2 py-1 font-semibold">₹{campaign.goal}/-</td>
-                  <td className="border border-gray-300 px-2 py-1 font-semibold">₹{campaign.raised}/-</td>
-                  <td className="border border-gray-300 px-2 py-1 truncate">
-                          <div className="relative inline-block w-11 h-6 ">
-                            <input
-                              type="checkbox"
-                              id={`switch-${campaign._id}`}
-                              checked={isActive}
-                              onChange={() => toggleStatus(campaign._id, campaign.status)}
-                              className="peer appearance-none w-11 h-6 bg-gray-300 rounded-full cursor-pointer transition-colors duration-300 "
-                            />
-                            <label
-                              htmlFor={`switch-${campaign._id}`}
-                              className="absolute top-0 left-0 w-5 h-5 bg-white rounded-full border border-gray-300 shadow-sm transition-transform duration-300 peer-checked:translate-x-5 peer-checked:border-green-500 mt-[0.10rem] cursor-pointer peer-checked:bg-teal-500"
-                            ></label>
-                          </div>
-                        </td>
-                  <td className="border border-gray-300 px-2 py-1 truncate">
-                    {new Date(campaign.createdAt).toLocaleDateString()}
-                  </td>
-                  <td className="border border-gray-300 px-2 py-1 text-center">
-                    <div className="flex justify-center space-x-2">
-                      <button
-                        onClick={() => confirmDelete(campaign._id)}
-                        className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
-                      >
-                        <MdDelete className="text-white" size={16} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+    <div className="space-y-6 p-6 bg-gradient-to-br from-gray-50 to-white min-h-screen">
+      {/* Header Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <Card className="border-0 shadow-lg bg-gradient-to-r from-gray-900 to-gray-800 text-white">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-300 text-sm">Total Campaigns</p>
+                <p className="text-2xl font-bold">{campaigns.length}</p>
+              </div>
+              <Target className="h-8 w-8 text-gray-400" />
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card className="border-0 shadow-lg bg-gradient-to-r from-green-600 to-green-700 text-white">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-green-100 text-sm">Active</p>
+                <p className="text-2xl font-bold">
+                  {campaigns.filter(c => c.status === 'Active').length}
+                </p>
+              </div>
+              <TrendingUp className="h-8 w-8 text-green-200" />
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card className="border-0 shadow-lg bg-gradient-to-r from-yellow-500 to-yellow-600 text-white">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-yellow-100 text-sm">Pending</p>
+                <p className="text-2xl font-bold">
+                  {campaigns.filter(c => c.status === 'Pending').length}
+                </p>
+              </div>
+              <Calendar className="h-8 w-8 text-yellow-200" />
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card className="border-0 shadow-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-blue-100 text-sm">Total Raised</p>
+                <p className="text-2xl font-bold">
+                  ₹{campaigns.reduce((sum, c) => sum + (parseFloat(c.raised) || 0), 0).toLocaleString()}
+                </p>
+              </div>
+              <DollarSign className="h-8 w-8 text-blue-200" />
+            </div>
+          </CardContent>
+        </Card>
       </div>
-      <div className="mt-4 flex justify-center space-x-2">
-        {[...Array(Math.ceil(campaigns.length / campaignsPerPage)).keys()].map((number) => (
-          <button
-            key={number}
-            className={`px-2 py-1 rounded-md text-xs ${
-              currentPage === number + 1
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 hover:bg-gray-300"
-            }`}
-            onClick={() => paginate(number + 1)}
-          >
-            {number + 1}
-          </button>
-        ))}
-      </div>
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 shadow-lg w-[300px]">
-            <h3 className="text-lg font-semibold mb-4">Confirm Deletion</h3>
-            <p className="text-sm mb-4">Are you sure you want to delete this campaign?</p>
-            <div className="flex justify-end space-x-4">
-              <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-              >
-                No
-              </button>
-              <button
-                onClick={handleDelete}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-              >
-                Yes
-              </button>
+
+      {/* Main Table Card */}
+      <Card className="border-0 shadow-xl bg-white">
+        <CardHeader className="bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-t-lg">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <CardTitle className="text-xl font-bold">Campaign Management</CardTitle>
+            
+            {/* Search and Filters */}
+            <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  placeholder="Search campaigns..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 w-full md:w-64 bg-white"
+                />
+              </div>
+              
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-full md:w-32 bg-white">
+                  <Filter className="h-4 w-4 mr-2" />
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="pending">Pending</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
-        </div>
+        </CardHeader>
+        
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-gray-50 border-b-2">
+                  <TableHead className="text-center font-semibold">Image</TableHead>
+                  <TableHead className="font-semibold">
+                    <Button
+                      variant="ghost"
+                      onClick={() => handleSort("title")}
+                      className="h-auto p-0 font-semibold hover:bg-transparent"
+                    >
+                      Title {getSortIcon("title")}
+                    </Button>
+                  </TableHead>
+                  <TableHead className="font-semibold">Description</TableHead>
+                  <TableHead className="font-semibold">
+                    <Button
+                      variant="ghost"
+                      onClick={() => handleSort("goal")}
+                      className="h-auto p-0 font-semibold hover:bg-transparent"
+                    >
+                      Goal {getSortIcon("goal")}
+                    </Button>
+                  </TableHead>
+                  <TableHead className="font-semibold">
+                    <Button
+                      variant="ghost"
+                      onClick={() => handleSort("raised")}
+                      className="h-auto p-0 font-semibold hover:bg-transparent"
+                    >
+                      Raised {getSortIcon("raised")}
+                    </Button>
+                  </TableHead>
+                  <TableHead className="font-semibold text-center">Status</TableHead>
+                  <TableHead className="font-semibold">
+                    <Button
+                      variant="ghost"
+                      onClick={() => handleSort("createdAt")}
+                      className="h-auto p-0 font-semibold hover:bg-transparent"
+                    >
+                      Created {getSortIcon("createdAt")}
+                    </Button>
+                  </TableHead>
+                  <TableHead className="font-semibold text-center">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <AnimatePresence>
+                  {currentCampaigns.map((campaign) => (
+                    <motion.tr
+                      key={campaign._id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.2 }}
+                      className="hover:bg-gray-50 transition-colors"
+                    >
+                      <TableCell className="text-center">
+                        <div className="flex justify-center">
+                          <img
+                            src={campaign.image}
+                            alt={campaign.title}
+                            className="w-12 h-12 object-cover rounded-lg shadow-md"
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell className="font-medium max-w-48">
+                        <div className="truncate">{campaign.title}</div>
+                      </TableCell>
+                      <TableCell className="max-w-64">
+                        <div className="text-sm text-gray-600">
+                          {truncateWords(campaign.description, 8)}
+                        </div>
+                      </TableCell>
+                      <TableCell className="font-semibold text-green-600">
+                        ₹{parseFloat(campaign.goal).toLocaleString()}
+                      </TableCell>
+                      <TableCell className="font-semibold text-blue-600">
+                        ₹{parseFloat(campaign.raised || 0).toLocaleString()}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <div className="flex items-center justify-center space-x-2">
+                          <Switch
+                            checked={campaign.status === 'Active'}
+                            onCheckedChange={() => toggleStatus(campaign._id, campaign.status)}
+                            className="data-[state=checked]:bg-green-500"
+                          />
+                          <Badge 
+                            variant={campaign.status === 'Active' ? 'default' : 'secondary'}
+                            className={campaign.status === 'Active' ? 'bg-green-500' : 'bg-yellow-500'}
+                          >
+                            {campaign.status}
+                          </Badge>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-sm text-gray-600">
+                          {new Date(campaign.createdAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric'
+                          })}
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <div className="flex justify-center space-x-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => router.push(`/campaign/${campaign._id}`)}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => confirmDelete(campaign._id)}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </motion.tr>
+                  ))}
+                </AnimatePresence>
+              </TableBody>
+            </Table>
+          </div>
+          
+          {currentCampaigns.length === 0 && (
+            <div className="text-center py-12">
+              <div className="text-gray-400 mb-2">
+                <Search className="h-12 w-12 mx-auto mb-4" />
+              </div>
+              <p className="text-gray-500">No campaigns found matching your criteria.</p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <Card className="border-0 shadow-lg">
+          <CardContent className="p-4">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-gray-700">Rows per page:</span>
+                <Select value={itemsPerPage.toString()} onValueChange={(value) => setItemsPerPage(Number(value))}>
+                  <SelectTrigger className="w-20">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="5">5</SelectItem>
+                    <SelectItem value="10">10</SelectItem>
+                    <SelectItem value="20">20</SelectItem>
+                    <SelectItem value="50">50</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-gray-700">
+                  {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredAndSortedCampaigns.length)} of {filteredAndSortedCampaigns.length}
+                </span>
+              </div>
+              
+              <div className="flex items-center space-x-1">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentPage(1)}
+                  disabled={currentPage === 1}
+                  className="h-8 w-8 p-0"
+                >
+                  <ChevronsLeft className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="h-8 w-8 p-0"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                
+                {[...Array(Math.min(5, totalPages))].map((_, i) => {
+                  const page = i + Math.max(1, currentPage - 2);
+                  if (page <= totalPages) {
+                    return (
+                      <Button
+                        key={page}
+                        variant={currentPage === page ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setCurrentPage(page)}
+                        className="h-8 w-8 p-0"
+                      >
+                        {page}
+                      </Button>
+                    );
+                  }
+                  return null;
+                })}
+                
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className="h-8 w-8 p-0"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentPage(totalPages)}
+                  disabled={currentPage === totalPages}
+                  className="h-8 w-8 p-0"
+                >
+                  <ChevronsRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       )}
+
+      {/* Delete Confirmation Modal */}
+      <Dialog open={showDeleteModal} onOpenChange={setShowDeleteModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Trash2 className="h-5 w-5 text-red-500" />
+              Confirm Deletion
+            </DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete this campaign? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setShowDeleteModal(false)}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={handleDelete}>
+              Delete Campaign
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

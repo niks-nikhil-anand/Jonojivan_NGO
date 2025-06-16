@@ -241,9 +241,9 @@ const DonationForm = () => {
   };
 
   return (
-    <>
+     <>
       <motion.div
-        className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 p-8 rounded-b-2xl shadow-2xl text-white mx-auto max-w-7xl z-20 relative overflow-hidden"
+        className="w-full bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 p-8 rounded-b-2xl shadow-2xl text-white mx-auto max-w-7xl z-20 relative overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
@@ -260,7 +260,7 @@ const DonationForm = () => {
             transition={{ delay: 0.2 }}
             className="inline-flex items-center gap-2 bg-white/20 px-4 py-1 mb-2"
           >
-            <Heart className="w-4 h-4 text-pink-300" />
+            <Heart className="w-4 h-4 text-green-300" />
             <span className="text-xs font-medium">Plan to Empower</span>
           </motion.div>
           
@@ -280,7 +280,7 @@ const DonationForm = () => {
                 whileTap={{ scale: 0.95 }}
                 className={`px-6 py-3 border border-gray-300 rounded-lg font-semibold text-lg sm:text-xl transition duration-300 shadow-md ${
                   amount === amountValue
-                    ? "bg-gradient-to-r from-pink-500 to-purple-500 text-white border-pink-300" 
+                    ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white border-green-300" 
                     : "bg-white text-black hover:bg-gray-200 hover:scale-105"
                 }`}
                 onClick={() => handleAmountSelect(amountValue)}
@@ -291,7 +291,7 @@ const DonationForm = () => {
             <button
               className={`px-6 py-3 border border-gray-300 rounded-lg font-semibold text-lg sm:text-xl transition duration-300 shadow-md ${
                 isCustom
-                  ? "bg-gradient-to-r from-pink-500 to-purple-500 text-white border-pink-300"
+                  ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white border-green-300"
                   : "bg-white text-black hover:bg-gray-200 hover:scale-105"
               }`}
               onClick={handleCustomAmountSelect}
@@ -306,12 +306,12 @@ const DonationForm = () => {
               animate={{ opacity: 1, height: "auto" }}
               className="flex justify-center mb-6"
             >
-              <span className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-5 py-3 rounded-l-lg">
+              <span className="bg-gradient-to-r from-emerald-500 to-green-500 text-white px-5 py-3 rounded-l-lg">
                 ₹
               </span>
               <input
                 type="number"
-                className="px-6 py-3 border border-gray-300 rounded-r-lg w-full md:w-1/2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-black"
+                className="px-6 py-3 border border-gray-300 rounded-r-lg w-full md:w-1/2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
                 placeholder="Enter custom amount"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
@@ -321,7 +321,7 @@ const DonationForm = () => {
           
           <motion.button
             onClick={openModal}
-            disabled={isLoading} // Added disabled state for loading
+            disabled={isLoading}
             whileHover={{
               scale: 1.05,
               boxShadow: "0 10px 20px rgba(0, 0, 0, 0.3)",
@@ -349,7 +349,7 @@ const DonationForm = () => {
             animate={{ scale: 1, opacity: 1 }}
             className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative"
           >
-            <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 p-6 rounded-t-2xl text-white relative">
+            <div className="bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 p-6 rounded-t-2xl text-white relative">
               <button
                 className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors"
                 onClick={closeModal}
@@ -360,7 +360,7 @@ const DonationForm = () => {
               <p className="text-white/90">Help us create positive change in our community</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6">
+            <div className="p-6">
               {/* Payment Method Selection */}
               <div className="mb-6">
                 <label className="block text-sm font-semibold text-gray-700 mb-3">
@@ -372,7 +372,7 @@ const DonationForm = () => {
                       key={method}
                       className={`flex items-center justify-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all ${
                         paymentMethod === method
-                          ? "border-purple-500 bg-purple-50 text-purple-700"
+                          ? "border-green-500 bg-green-50 text-green-700"
                           : "border-gray-200 hover:border-gray-300"
                       }`}
                     >
@@ -404,13 +404,18 @@ const DonationForm = () => {
                     </label>
                     <input
                       type={type}
-                      name={field} // Added name attribute for proper form handling
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                      name={field}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                       placeholder={`Enter ${label.toLowerCase()}`}
-                      value={formData[field] || ""} // Added fallback for undefined values
-                      onChange={handleInputChange} // Fixed to use the correct function
+                      value={formData[field] || ""}
+                      onChange={handleInputChange}
                       required={required}
                     />
+                    {field === 'panCard' && (
+                      <p className="text-xs text-amber-600 mt-1 font-medium">
+                        <strong>Note:</strong> If you do not provide your PAN Number, you will not be able to claim 50% tax exemption u/s 80G in India
+                      </p>
+                    )}
                   </div>
                 ))}
 
@@ -426,9 +431,9 @@ const DonationForm = () => {
                   />
                 </div>
 
-                <Alert className="border-blue-200 bg-blue-50">
-                  <Info className="h-4 w-4 text-blue-600" />
-                  <AlertDescription className="text-blue-800">
+                <Alert className="border-green-200 bg-green-50">
+                  <Info className="h-4 w-4 text-green-600" />
+                  <AlertDescription className="text-green-800">
                     Your donation is secure and will be processed safely. You&apos;ll receive a confirmation email shortly.
                   </AlertDescription>
                 </Alert>
@@ -442,15 +447,16 @@ const DonationForm = () => {
                     Cancel
                   </button>
                   <button
-                    type="submit" // Changed to submit button to trigger form submission
+                    type="button"
                     disabled={isLoading}
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 text-white rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 px-6 py-3 bg-gradient-to-r from-emerald-500 via-green-500 to-green-600 hover:from-emerald-600 hover:via-green-600 hover:to-green-700 text-white rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    onClick={handleSubmit}
                   >
                     {isLoading ? "Processing..." : "Confirm Donation"}
                   </button>
                 </div>
               </div>
-            </form>
+            </div>
           </motion.div>
         </motion.div>
       )}

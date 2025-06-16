@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify"; // Make sure you have the react-toastify package installed
 import { useRouter } from "next/navigation";
+import { CreditCard, FileText, Heart, Mail, Phone, User, X } from "lucide-react";
 
 const CustomDonationForm = ({ setIsModalOpen }) => {  
   const [formData, setFormData] = useState({
@@ -203,137 +204,178 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
 
 
   return (
-    <div>
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-30">
-      <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg w-full sm:w-11/12 md:w-8/12 lg:w-6/12 max-w-md shadow-lg relative max-h-[97vh] overflow-y-auto">
-        <button
-          className="absolute top-4 right-2 bg-gray-200 text-gray-500 hover:bg-gray-300 hover:text-gray-800 rounded-full p-2 sm:p-3 shadow-md"
-          onClick={closeModal}
-        >
-          <FaTimes className="w-5 h-5" />
-        </button>
-  
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-black">Donation Details</h2>
-  
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-sm sm:text-base font-medium text-gray-700">Full Name</label>
+  <div className="fixed inset-0 bg-gradient-to-br from-purple-900/90 via-blue-900/90 to-indigo-900/90 backdrop-blur-sm flex items-center justify-center z-30 p-4">
+      <div className="bg-white rounded-2xl w-full sm:w-11/12 md:w-8/12 lg:w-6/12 max-w-md shadow-2xl relative max-h-[95vh] overflow-y-auto border border-purple-100">
+        {/* Header with gradient */}
+        <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 p-6 rounded-t-2xl relative">
+          <button
+            className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 text-white rounded-full p-2 transition-all duration-300 backdrop-blur-sm"
+            onClick={closeModal}
+          >
+            <X className="w-5 h-5" />
+          </button>
+          
+          <div className="flex items-center gap-3 text-white">
+            <Heart className="w-8 h-8" />
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold">Make a Donation</h2>
+              <p className="text-purple-100 text-sm">Your kindness makes a difference</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-6 space-y-6">
+          {/* Full Name */}
+          <div className="group">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+              <User className="w-4 h-4 text-purple-600" />
+              Full Name
+            </label>
             <input
               type="text"
               name="fullName"
               value={formData.fullName}
               onChange={handleInputChange}
-              className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg"
-              placeholder="Enter full name"
+              className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-4 focus:ring-purple-100 transition-all duration-300 outline-none"
+              placeholder="Enter your full name"
               required
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-sm sm:text-base font-medium text-gray-700">Email Address</label>
+
+          {/* Email */}
+          <div className="group">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+              <Mail className="w-4 h-4 text-blue-600" />
+              Email Address
+            </label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg"
-              placeholder="Enter email address"
+              className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-300 outline-none"
+              placeholder="Enter your email address"
               required
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-sm sm:text-base font-medium text-gray-700">PAN Card Number(Optional)</label>
+
+          {/* PAN Card */}
+          <div className="group">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+              <FileText className="w-4 h-4 text-indigo-600" />
+              PAN Card Number 
+              <span className="text-xs text-gray-500 font-normal">(Optional)</span>
+            </label>
             <input
               type="text"
               name="panCard"
               value={formData.panCard}
               maxLength={10}
               onChange={handleInputChange}
-              className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg"
-              placeholder="Enter PAN card number"
-              
+              className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all duration-300 outline-none uppercase"
+              placeholder="ABCDE1234F"
             />
           </div>
-          <div className="mb-6">
-            <label
-              htmlFor="phone"
-              className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
-            >
+
+          {/* Phone Number */}
+          <div className="group">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+              <Phone className="w-4 h-4 text-green-600" />
               Phone Number
             </label>
-            <div className="flex items-center border rounded-lg shadow-sm text-black">
-          <span className="px-2 sm:px-4 py-2 bg-gray-100 border-r text-gray-700">+91</span>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            maxLength={10} // Limit phone number to 10 digits
-            pattern="[0-9]{10}" // Only allow numeric input for 10 digits
-            onChange={handleInputChange}
-            className="w-full px-2 sm:px-4 py-2 border-gray-300 rounded-lg text-black"
-            placeholder="Enter your phone number"
-            required
-          />
-        </div>
-
+            <div className="flex items-center border-2 border-gray-200 rounded-xl focus-within:border-green-500 focus-within:ring-4 focus-within:ring-green-100 transition-all duration-300">
+              <span className="px-4 py-3 bg-gradient-to-r from-green-50 to-blue-50 border-r border-gray-200 text-gray-700 font-medium rounded-l-xl">
+                +91
+              </span>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                maxLength={10}
+                pattern="[0-9]{10}"
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 rounded-r-xl outline-none"
+                placeholder="Enter 10-digit number"
+                required
+              />
+            </div>
           </div>
-  
-          {/* Donation Amount Section */}
-          <div className="mb-4">
-            <label className="block text-sm sm:text-base font-medium text-gray-700">
-              Donation Amount (₹{amount})
+
+          {/* Donation Amount */}
+          <div className="bg-gradient-to-r from-purple-50 via-blue-50 to-indigo-50 p-4 rounded-xl border border-purple-100">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-4">
+              <CreditCard className="w-4 h-4 text-purple-600" />
+              Donation Amount: ₹{amount.toLocaleString()}
             </label>
-            <div className="flex items-center justify-between">
+            
+            <div className="flex items-center gap-4 mb-4">
               <button
                 type="button"
                 onClick={decrementAmount}
-                className="px-3 sm:px-4 py-2 bg-gray-300 text-black rounded-lg"
+                className="w-10 h-10 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-xl"
+                disabled={amount <= 1000}
               >
-                -
+                −
               </button>
-  
-              <input
-                type="range"
-                min="1000"
-                max="10000"
-                value={amount}
-                onChange={handleAmountChange}
-                className="w-full mx-3 sm:mx-4"
-              />
-  
+
+              <div className="flex-1 relative">
+                <input
+                  type="range"
+                  min="1000"
+                  max="10000"
+                  step="500"
+                  value={amount}
+                  onChange={handleAmountChange}
+                  className="w-full h-3 bg-gradient-to-r from-purple-200 to-blue-200 rounded-lg appearance-none cursor-pointer"
+                  style={{
+                    background: `linear-gradient(to right, #a855f7 0%, #3b82f6 ${((amount - 1000) / 9000) * 100}%, #e5e7eb ${((amount - 1000) / 9000) * 100}%, #e5e7eb 100%)`
+                  }}
+                />
+              </div>
+
               <button
                 type="button"
                 onClick={incrementAmount}
-                className="px-3 sm:px-4 py-2 bg-gray-300 text-black rounded-lg"
+                className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-xl"
+                disabled={amount >= 10000}
               >
                 +
               </button>
             </div>
+
+            <div className="bg-white p-3 rounded-lg border-2 border-purple-200">
+              <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
+                ₹{amount.toLocaleString()}
+              </div>
+            </div>
           </div>
-  
-          <div className="mb-4">
-            <label className="block text-sm sm:text-base font-medium text-gray-700">Amount</label>
-            <input
-              type="text"
-              value={`₹${amount}`}
-              readOnly
-              className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg text-black"
-            />
-          </div>
-  
+
+          {/* Submit Button */}
           <button
-            type="submit"
+            type="button"
+            onClick={handleSubmit}
             disabled={isLoading}
-            className={`w-full py-3 mt-4 text-white font-semibold rounded-lg ${
-              isLoading ? "bg-gray-500" : "bg-blue-600 hover:bg-blue-700"
+            className={`w-full py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl ${
+              isLoading 
+                ? "bg-gray-400 cursor-not-allowed" 
+                : "bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 hover:from-purple-700 hover:via-blue-700 hover:to-indigo-700"
             }`}
           >
-            {isLoading ? "Processing..." : "Donate Now"}
+            {isLoading ? (
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                Processing...
+              </div>
+            ) : (
+              <div className="flex items-center justify-center gap-2">
+                <Heart className="w-5 h-5" />
+                Donate Now
+              </div>
+            )}
           </button>
-        </form>
+        </div>
       </div>
     </div>
-  </div>
   
   
   

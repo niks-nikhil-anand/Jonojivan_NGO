@@ -121,17 +121,7 @@ const ProgramsSection = () => {
           const styleIndex = index % programStyles.length;
           return {
             ...program,
-            ...programStyles[styleIndex],
-            // Create short description from description if it exists
-            shortDesc: program.description 
-              ? program.description.length > 100 
-                ? program.description.substring(0, 100) + '...'
-                : program.description
-              : 'Learn more about this program',
-            // If whatWeDo exists and is a string, use it as extended description
-            extendedDescription: typeof program.whatWeDo === 'string' 
-              ? program.whatWeDo 
-              : program.description || 'This program is designed to make a positive impact in our community.'
+            ...programStyles[styleIndex]
           };
         });
         
@@ -260,127 +250,93 @@ const ProgramsSection = () => {
   }
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-16 px-4">
-      <div className="max-w-7xl mx-auto">
+    <div className="bg-white py-16 px-4 min-h-screen">
+      <div className="max-w-full mx-auto">
         {/* Header Section */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mb-6">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-green-600 rounded-full mb-6">
             <Sparkles className="w-8 h-8 text-white" />
           </div>
-          <h2 className="text-5xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-4">
             Our Programs
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-gray-800 max-w-4xl mx-auto leading-relaxed px-4">
             Discover our comprehensive programs designed to create lasting impact and transform communities
           </p>
         </div>
 
         {/* Programs Carousel */}
-        <div className="relative">
+        <div className="relative max-w-7xl mx-auto">
           {/* Navigation Buttons */}
           {programs.length > itemsPerView && (
             <>
               <button
                 onClick={handlePrevious}
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg rounded-full p-3 transition-all duration-300 hover:scale-105 border border-gray-200"
+                className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-green-50 shadow-lg rounded-full p-3 transition-all duration-300 hover:scale-105 border-2 border-green-200"
                 aria-label="Previous programs"
               >
-                <ChevronLeft className="w-6 h-6 text-gray-700" />
+                <ChevronLeft className="w-6 h-6 text-green-600" />
               </button>
               
               <button
                 onClick={handleNext}
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg rounded-full p-3 transition-all duration-300 hover:scale-105 border border-gray-200"
+                className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-green-50 shadow-lg rounded-full p-3 transition-all duration-300 hover:scale-105 border-2 border-green-200"
                 aria-label="Next programs"
               >
-                <ChevronRight className="w-6 h-6 text-gray-700" />
+                <ChevronRight className="w-6 h-6 text-green-600" />
               </button>
             </>
           )}
 
           {/* Programs Cards */}
-          <div className="px-12">
-            <div className={`grid gap-8 ${
-              itemsPerView === 1 ? 'grid-cols-1' : 
-              itemsPerView === 2 ? 'grid-cols-1 md:grid-cols-2' : 
-              'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
-            }`}>
+          <div className="px-4 md:px-16 lg:px-20">
+            <div className="grid gap-6 md:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {getVisiblePrograms().map((program) => (
                 <div
-                  key={program._id || program.id}
-                  onClick={() => handleProgramClick(program.slug)}
-                  className={`${program.bgColor} rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 ${program.borderColor} border-2 group relative overflow-hidden cursor-pointer transform hover:scale-[1.02]`}
+                  key={program.id}
+                  className="bg-white rounded-2xl md:rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 border-2 border-gray-200 hover:border-green-400 group relative overflow-hidden cursor-pointer transform hover:scale-[1.02] w-full"
                 >
-                  {/* Background Gradient Overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${program.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
-                  
-                  {/* Program Image */}
-                  {program.image && (
-                    <div className="mb-6 rounded-2xl overflow-hidden">
+                  {/* Square Image */}
+                  <div className="w-full aspect-square relative overflow-hidden rounded-t-2xl md:rounded-t-3xl">
+                    {program.image ? (
                       <img 
                         src={program.image} 
                         alt={program.title}
-                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                        }}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                    </div>
-                  )}
-                  
-                  {/* Icon - Show only if no image or image fails to load */}
-                  {!program.image && (
-                    <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r ${program.color} rounded-2xl mb-6 text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                      {program.icon}
-                    </div>
-                  )}
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                        <div className="text-gray-400 text-center">
+                          {program.icon}
+                          <p className="mt-2 text-sm">No Image</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
 
                   {/* Content */}
-                  <div className="relative z-10">
-                    <h3 className="text-2xl font-bold text-gray-800 mb-3 group-hover:text-gray-900 transition-colors duration-300">
+                  <div className="p-6 md:p-8">
+                    <h3 className="text-xl md:text-2xl font-bold text-black mb-3 group-hover:text-green-800 transition-colors duration-300">
                       {program.title}
                     </h3>
                     
-                    <p className="text-gray-600 font-medium mb-4">
-                      {program.shortDesc}
+                    <p className="text-gray-600 mb-6 leading-relaxed text-sm md:text-base line-clamp-3">
+                      {program.description || 'This program is designed to make a positive impact in our community.'}
                     </p>
-                    
-                    <p className="text-gray-700 mb-6 leading-relaxed line-clamp-3">
-                      {program.extendedDescription}
-                    </p>                   
 
                     {/* Learn More Button */}
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-500">Click to learn more</span>
-                      <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transform group-hover:translate-x-1 transition-all duration-300" />
-                    </div>
+                    <button
+                      onClick={() => handleProgramClick(program.slug)}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 group"
+                    >
+                      Learn More
+                      <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" />
+                    </button>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-
-          {/* Pagination Dots */}
-          {programs.length > itemsPerView && (
-            <div className="flex justify-center mt-8 space-x-2">
-              {Array.from({ length: Math.ceil(programs.length / itemsPerView) }, (_, index) => (
-                <button
-                  key={index}
-                  onClick={() => {
-                    const newIndex = index * itemsPerView;
-                    const maxValidIndex = Math.max(0, programs.length - itemsPerView);
-                    setCurrentIndex(Math.min(newIndex, maxValidIndex));
-                  }}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    Math.floor(currentIndex / itemsPerView) === index
-                      ? 'bg-blue-500 scale-125'
-                      : 'bg-gray-300 hover:bg-gray-400'
-                  }`}
-                  aria-label={`Go to page ${index + 1}`}
-                />
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </div>
