@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Heart, Info, Loader2 } from "lucide-react";
+import { Heart, Info, Loader2, CreditCard } from "lucide-react";
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,18 +8,24 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const DonationSection = ({ program }) => {
   const [amount, setAmount] = useState("");
   const [isCustom, setIsCustom] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("Online");
+  const [showReadMore, setShowReadMore] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     panCard: "",
     phone: "",
-    address: "",
+    state: "",
+    city: "",
+    country: "India",
     donationMode: "Online",
+    agreeToUpdates: false,
+    citizenDeclaration: false,
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -38,14 +44,22 @@ const DonationSection = ({ program }) => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleCheckboxChange = (name, checked) => {
+    setFormData({ ...formData, [name]: checked });
+  };
+
   const resetForm = () => {
     setFormData({ 
       fullName: "", 
       email: "", 
       panCard: "", 
       phone: "", 
-      address: "", 
-      donationMode: "Online" 
+      state: "",
+      city: "",
+      country: "India",
+      donationMode: "Online",
+      agreeToUpdates: false,
+      citizenDeclaration: false,
     });
     setAmount("");
     setIsCustom(false);
@@ -192,13 +206,18 @@ const DonationSection = ({ program }) => {
   };
 
   const handleSubmit = async () => {
-    if (!formData.fullName || !formData.email || !formData.phone) {
+    if (!formData.fullName || !formData.email || !formData.phone || !formData.state || !formData.city) {
       alert("Please fill in all required fields.");
       return;
     }
 
     if (!amount || isNaN(amount) || amount <= 0) {
       alert("Please enter a valid donation amount.");
+      return;
+    }
+
+    if (!formData.citizenDeclaration) {
+      alert("Please confirm that you are a citizen of India.");
       return;
     }
 
@@ -221,13 +240,13 @@ const DonationSection = ({ program }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 ">
+    <div className="min-h-screen bg-white ">
       <div className="max-w-4xl mx-auto">
 
         {/* Main Donation Form */}
         <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
           <CardHeader className="bg-gray-200 text-black rounded-t-lg">
-            <CardTitle className="text-2xl">Yes! I’d like to help</CardTitle>
+            <CardTitle className="text-2xl">Yes! I'd like to help</CardTitle>
             <CardDescription className="text-black">
               Complete the form below to make your contribution
             </CardDescription>
@@ -292,9 +311,15 @@ const DonationSection = ({ program }) => {
 
               {/* Payment Method Selection */}
               <div className="space-y-4">
-                <Label className="text-lg font-semibold text-gray-800">
-                  Payment Method
-                </Label>
+                <div className="flex items-center gap-2">
+                  <Label className="text-lg font-semibold text-gray-800">
+                    Payment Method
+                  </Label>
+                  <CreditCard className="h-5 w-5 text-blue-600" />
+                </div>
+                <p className="text-sm text-gray-600 font-medium">
+                  We accept all major payment methods
+                </p>
                 <RadioGroup 
                   value={paymentMethod} 
                   onValueChange={setPaymentMethod}
@@ -370,32 +395,120 @@ const DonationSection = ({ program }) => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="panCard">PAN Card Number</Label>
+                    <Label htmlFor="state">
+                      State <span className="text-red-500">*</span>
+                    </Label>
                     <Input
-                      id="panCard"
-                      name="panCard"
+                      id="state"
+                      name="state"
                       type="text"
                       className="h-12"
-                      placeholder="Enter your PAN card number"
-                      value={formData.panCard}
+                      placeholder="Enter your state"
+                      value={formData.state}
                       onChange={handleInputChange}
+                      required
                     />
-                    <p className="text-xs text-amber-600 font-medium">
-                      <strong>Note:</strong> Required for 50% tax exemption u/s 80G in India
-                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="city">
+                      City <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="city"
+                      name="city"
+                      type="text"
+                      className="h-12"
+                      placeholder="Enter your city"
+                      value={formData.city}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="country">Country</Label>
+                    <Input
+                      id="country"
+                      name="country"
+                      type="text"
+                      className="h-12"
+                      value={formData.country}
+                      onChange={handleInputChange}
+                      disabled
+                    />
                   </div>
                 </div>
 
+                {/* PAN Card - Full Width */}
                 <div className="space-y-2">
-                  <Label htmlFor="address">Address</Label>
-                  <Textarea
-                    id="address"
-                    name="address"
-                    className="min-h-[100px]"
-                    placeholder="Enter your address"
-                    value={formData.address}
+                  <Label htmlFor="panCard">PAN Card Number</Label>
+                  <Input
+                    id="panCard"
+                    name="panCard"
+                    type="text"
+                    className="h-12"
+                    placeholder="Enter your PAN card number"
+                    value={formData.panCard}
                     onChange={handleInputChange}
                   />
+                  <p className="text-sm text-amber-600 font-medium">
+                    <strong>Please note that if you do not provide your PAN Number, you will not be able to claim 50% tax exemption u/s 80G in India</strong>
+                  </p>
+                </div>
+              </div>
+
+              {/* Information Collection Notice */}
+              <div className="space-y-4 p-4 bg-gray-50 rounded-lg border">
+                <div className="text-sm text-gray-700 leading-relaxed">
+                  <p className="mb-3">
+                    <strong>Information is being collected to comply with government regulations and shall be treated as confidential.</strong> These details shall not be divulged for any other purpose. By sharing your details, you agree to receive stories and updates from CRY via mobile, Whatsapp, landline, email and post. If you'd like to change this, please send us an email on writetous@crymail.org
+                  </p>
+                  
+                  <div className="space-y-3">
+                    <div className="flex items-start space-x-2">
+                      <Checkbox 
+                        id="agreeToUpdates"
+                        checked={formData.agreeToUpdates}
+                        onCheckedChange={(checked) => handleCheckboxChange('agreeToUpdates', checked)}
+                      />
+                      <Label htmlFor="agreeToUpdates" className="text-sm cursor-pointer">
+                        I agree to receive stories and updates from CRY via mobile, Whatsapp, landline, email and post
+                      </Label>
+                    </div>
+
+                    <div className="flex items-start space-x-2">
+                      <Checkbox 
+                        id="citizenDeclaration"
+                        checked={formData.citizenDeclaration}
+                        onCheckedChange={(checked) => handleCheckboxChange('citizenDeclaration', checked)}
+                      />
+                      <Label htmlFor="citizenDeclaration" className="text-sm cursor-pointer">
+                        <span className="text-red-500">*</span> I hereby declare that I am a citizen of India, making this donation out of my own funds. The information provided is accurate to the best of my knowledge.
+                        {!showReadMore && (
+                          <button 
+                            type="button"
+                            className="text-blue-600 hover:underline ml-1"
+                            onClick={() => setShowReadMore(true)}
+                          >
+                            Read More
+                          </button>
+                        )}
+                        {showReadMore && (
+                          <span>
+                            {" "}I understand that this donation is voluntary and irrevocable. I also acknowledge that I have read and understood the terms and conditions of the donation.{" "}
+                            <button 
+                              type="button"
+                              className="text-blue-600 hover:underline"
+                              onClick={() => setShowReadMore(false)}
+                            >
+                              Read Less
+                            </button>
+                          </span>
+                        )}
+                      </Label>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -436,7 +549,7 @@ const DonationSection = ({ program }) => {
                 </Button>
                 <Button
                   onClick={handleSubmit}
-                  disabled={isLoading || !amount}
+                  disabled={isLoading || !amount || !formData.citizenDeclaration}
                   className="flex-1 h-12 text-lg bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all"
                 >
                   {isLoading && <Loader2 className="w-5 h-5 animate-spin mr-2" />}

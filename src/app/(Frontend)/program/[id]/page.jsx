@@ -78,6 +78,16 @@ const ProgramPage = () => {
 
   return (
     <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+       {/* Program Image */}
+      {program?.image && (
+        <div className="w-full h-64 sm:h-80 md:h-96 lg:h-[500px] overflow-hidden">
+          <img 
+            src={program.image} 
+            alt={program.title || "Program"} 
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
       {/* Main Content */}
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -99,10 +109,10 @@ const ProgramPage = () => {
           <div className="flex flex-col lg:flex-row">
             <div className="">
               {program.whatWeDo && (
-                <div className="px-4 sm:px-8 py-8 sm:py-12">
+                <div className="">
                   <div className="max-w-4xl mx-auto">
                     <div className="prose prose-sm sm:prose-lg max-w-none">
-                      <div className="bg-gray-50 rounded-xl p-4 sm:p-8 border border-gray-200">
+                      <div className="bg-gray-50  p-4 sm:p-8 border border-gray-200">
                         <div className="flex items-center mb-6 sm:mb-8">
                           <div className="bg-green-100 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
                             <CheckCircle className="h-6 w-6 sm:h-8 sm:w-8 text-green-600" />
