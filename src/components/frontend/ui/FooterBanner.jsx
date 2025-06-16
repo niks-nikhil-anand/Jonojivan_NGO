@@ -1,10 +1,11 @@
 "use client"
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ArrowRight, Heart } from 'lucide-react';
 
 const FooterBanner = () => {
   return (
-    <div className="bg-purple-500 flex flex-col md:flex-row items-center justify-between px-4 md:px-8 py-6 md:py-12 text-white">
+    <div className="bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-700 flex flex-col md:flex-row items-center justify-between px-4 md:px-8 py-6 md:py-12 text-white">
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -13,14 +14,11 @@ const FooterBanner = () => {
     >
       Your Donation Can Transform Lives & Shapes Future.
     </motion.div>
-    <motion.button
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.8, delay: 0.3 }}
-      className="border-2 border-white px-4 py-2 md:px-6 md:py-2 font-bold uppercase rounded hover:bg-white hover:text-purple-500 transition-colors"
-    >
-      Donate Now
-    </motion.button>
+   <button className="group bg-white text-emerald-600 hover:bg-emerald-50 border-2 border-white hover:border-emerald-200 px-8 py-4 md:px-10 md:py-5 font-bold text-lg uppercase rounded-full transition-all duration-300 flex items-center space-x-3 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">
+            <Heart className="w-5 h-5 group-hover:text-emerald-700 transition-colors" />
+            <span className="group-hover:text-emerald-700 transition-colors">Donate Now</span>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+          </button>
   </div>
   
   );

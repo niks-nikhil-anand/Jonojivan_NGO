@@ -17,11 +17,11 @@ export default function Home() {
       <DonationForm/>
       <ProgramsSections/>
       <CausesSection/>
-      <ChildSponsorshipSection/>
       <CampaignCards />
+      <ChildSponsorshipSection/>
       <OrganizationInfo/>
-      <FAQsSection />
       <BlogSection />
+      <FAQsSection />
       <Testimonials/>
       {/* <CTA/> */}
       <FooterBanner/>
