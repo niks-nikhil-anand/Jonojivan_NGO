@@ -1,11 +1,18 @@
 "use client";
 import React, { useState } from "react";
-import { FaTimes } from "react-icons/fa";
-import { toast } from "react-toastify"; // Make sure you have the react-toastify package installed
+import { toast } from "react-toastify"; 
 import { useRouter } from "next/navigation";
-import { CreditCard, FileText, Heart, Mail, Phone, User, X } from "lucide-react";
+import {
+  CreditCard,
+  FileText,
+  Heart,
+  Mail,
+  Phone,
+  User,
+  X,
+} from "lucide-react";
 
-const CustomDonationForm = ({ setIsModalOpen }) => {  
+const CustomDonationForm = ({ setIsModalOpen }) => {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -47,165 +54,163 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
     setIsModalOpen(false);
   };
 
-
   const initiateRazorpayPayment = async () => {
-     if (!amount || isNaN(amount) || amount <= 0) {
-       toast.error("Please enter a valid donation amount.");
-       return false;
-     }
- 
-     setIsLoading(true); // Set loading to true when payment starts
- 
-     const payload = {
-       amount: amount * 100, // Convert to smallest currency unit (paise)
-       currency: "INR",
-       receipt: `receipt_${Date.now()}`,
-     };
- 
-     try {
-       const response = await fetch("/api/create-razorpay-order", {
-         method: "POST",
-         headers: { "Content-Type": "application/json" },
-         body: JSON.stringify(payload),
-       });
- 
-       
- 
-       if (!response.ok) {
-         const errorData = await response.json();
-         toast.error(`Error: ${errorData.message}`);
-         setIsLoading(false); // Set loading to false after payment creation attempt
-         return false;
-       }
- 
-       const { order } = await response.json();
- 
-       const options = {
-         key: process.env.RAZORPAY_KEY_ID,
-         amount: order.amount,
-         currency: order.currency,
-         name: "Donation",
-         description: "Donation for the cause",
-         order_id: order.id,
-         handler: async function (response) {
-           const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
- 
-           router.push("/donation/success");
- 
-           try {
-             const verificationResponse = await fetch("/api/verify-payment", {
-               method: "POST",
-               headers: { "Content-Type": "application/json" },
-               body: JSON.stringify({ razorpay_order_id, razorpay_payment_id, razorpay_signature }),
-             });
- 
-             if (!verificationResponse.ok) {
-               const errorData = await verificationResponse.json();
-               console.error("Payment verification failed:", errorData);
-               toast.error(`Payment verification failed: ${errorData.message}`);
-               setIsLoading(false); // Set loading to false after verification failure
-               return;
-             }
- 
-             const verificationResult = await verificationResponse.json();
-             console.log("Payment verification successful:", verificationResult);
- 
-             // Record donation after successful verification
-             try {
-               console.log("Preparing data for donation API call...");
- 
-               const requestData = {
-                 amount: payload.amount / 100, // Convert to rupees
-                 fullName: formData.fullName,
-                 emailaddress: formData.email,
-                 panCard: formData.panCard,
-                 phonenumber: formData.phone,
-                 paymentMethod: "Online", // Specify the payment method
-                 razorpay_order_id, // Optional, include only if your API handles it
-                 razorpay_payment_id, // Optional, include only if your API handles it
-               };
- 
-               console.log("Request data:", requestData);
- 
-               const donationResponse = await fetch("/api/donationSuccess", {
-                 method: "POST",
-                 headers: { "Content-Type": "application/json" },
-                 body: JSON.stringify(requestData),
-               });
- 
-               console.log("API response status:", donationResponse.status);
- 
-               if (!donationResponse.ok) {
-                 const errorData = await donationResponse.json();
-                 console.error("Error details:", errorData);
-                 toast.error(`Error recording donation: ${errorData.message}`);
-                 setIsLoading(false); // Set loading to false after donation API failure
-                 return;
-               }
- 
-               const donationResult = await donationResponse.json();
-               console.log("Donation API response data:", donationResult);
- 
-               toast.success("Donation successful! Thank you for your support.");
-              
-               setIsLoading(false); // Set loading to false after donation success
-             } catch (donationError) {
-               console.error("Failed to record donation:", donationError);
-               toast.error("Failed to record donation. Please try again.");
-               setIsLoading(false); // Set loading to false after donation failure
-             }
-           } catch (verificationError) {
-             console.error("Failed to verify payment:", verificationError);
-             toast.error("Payment verification failed. Please try again.");
-             setIsLoading(false); // Set loading to false after verification failure
-           }
-         },
-         prefill: {
-           name: formData.fullName,
-           email: formData.email,
-           contact: formData.phone,
-         },
-         notes: { address: "Razorpay Donation" },
-         theme: { color: "#FF0080" },
-       };
- 
-       const razorpay = new window.Razorpay(options);
-       razorpay.open();
-     } catch (error) {
-       console.error("Error initiating Razorpay payment:", error);
-       toast.error("Failed to create Razorpay order. Please try again.");
-       setIsLoading(false); // Set loading to false after payment creation failure
-     }
-   };
+    if (!amount || isNaN(amount) || amount <= 0) {
+      toast.error("Please enter a valid donation amount.");
+      return false;
+    }
 
-   
+    setIsLoading(true); // Set loading to true when payment starts
 
-  const handleSubmit = async (e) => {
-      e.preventDefault();
-  
-      const payload = { ...formData, amount };
-  
-      if (formData.donationMode === "Online") {
-        await initiateRazorpayPayment();
-        closeModal();
-      } else {
-        setIsLoading(true); // Set loading to true when processing offline donation
-        if (donationResponse.success) {
-          toast.success("Donation successful! Thank you for your support.");
-          resetForm();
-          router.push("/donation/success");
-        } else {
-          toast.error(`Error: ${donationResponse.message}`);
-        }
-        setIsLoading(false); // Set loading to false after donation API completion
-      }
+    const payload = {
+      amount: amount * 100, // Convert to smallest currency unit (paise)
+      currency: "INR",
+      receipt: `receipt_${Date.now()}`,
     };
 
+    try {
+      const response = await fetch("/api/create-razorpay-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        toast.error(`Error: ${errorData.message}`);
+        setIsLoading(false); // Set loading to false after payment creation attempt
+        return false;
+      }
+
+      const { order } = await response.json();
+
+      const options = {
+        key: process.env.RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        name: "Donation",
+        description: "Donation for the cause",
+        order_id: order.id,
+        handler: async function (response) {
+          const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+            response;
+
+          router.push("/donation/success");
+
+          try {
+            const verificationResponse = await fetch("/api/verify-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_order_id,
+                razorpay_payment_id,
+                razorpay_signature,
+              }),
+            });
+
+            if (!verificationResponse.ok) {
+              const errorData = await verificationResponse.json();
+              console.error("Payment verification failed:", errorData);
+              toast.error(`Payment verification failed: ${errorData.message}`);
+              setIsLoading(false); // Set loading to false after verification failure
+              return;
+            }
+
+            const verificationResult = await verificationResponse.json();
+            console.log("Payment verification successful:", verificationResult);
+
+            // Record donation after successful verification
+            try {
+              console.log("Preparing data for donation API call...");
+
+              const requestData = {
+                amount: payload.amount / 100, // Convert to rupees
+                fullName: formData.fullName,
+                emailaddress: formData.email,
+                panCard: formData.panCard,
+                phonenumber: formData.phone,
+                paymentMethod: "Online", // Specify the payment method
+                razorpay_order_id, // Optional, include only if your API handles it
+                razorpay_payment_id, // Optional, include only if your API handles it
+              };
+
+              console.log("Request data:", requestData);
+
+              const donationResponse = await fetch("/api/donationSuccess", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(requestData),
+              });
+
+              console.log("API response status:", donationResponse.status);
+
+              if (!donationResponse.ok) {
+                const errorData = await donationResponse.json();
+                console.error("Error details:", errorData);
+                toast.error(`Error recording donation: ${errorData.message}`);
+                setIsLoading(false); // Set loading to false after donation API failure
+                return;
+              }
+
+              const donationResult = await donationResponse.json();
+              console.log("Donation API response data:", donationResult);
+
+              toast.success("Donation successful! Thank you for your support.");
+
+              setIsLoading(false); // Set loading to false after donation success
+            } catch (donationError) {
+              console.error("Failed to record donation:", donationError);
+              toast.error("Failed to record donation. Please try again.");
+              setIsLoading(false); // Set loading to false after donation failure
+            }
+          } catch (verificationError) {
+            console.error("Failed to verify payment:", verificationError);
+            toast.error("Payment verification failed. Please try again.");
+            setIsLoading(false); // Set loading to false after verification failure
+          }
+        },
+        prefill: {
+          name: formData.fullName,
+          email: formData.email,
+          contact: formData.phone,
+        },
+        notes: { address: "Razorpay Donation" },
+        theme: { color: "#FF0080" },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (error) {
+      console.error("Error initiating Razorpay payment:", error);
+      toast.error("Failed to create Razorpay order. Please try again.");
+      setIsLoading(false); // Set loading to false after payment creation failure
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const payload = { ...formData, amount };
+
+    if (formData.donationMode === "Online") {
+      await initiateRazorpayPayment();
+      closeModal();
+    } else {
+      setIsLoading(true); // Set loading to true when processing offline donation
+      if (donationResponse.success) {
+        toast.success("Donation successful! Thank you for your support.");
+        resetForm();
+        router.push("/donation/success");
+      } else {
+        toast.error(`Error: ${donationResponse.message}`);
+      }
+      setIsLoading(false); // Set loading to false after donation API completion
+    }
+  };
 
   return (
-  <div className="fixed inset-0 bg-gradient-to-br from-purple-900/90 via-blue-900/90 to-indigo-900/90 backdrop-blur-sm flex items-center justify-center z-30 p-4">
-      <div className="bg-white rounded-2xl w-full sm:w-11/12 md:w-8/12 lg:w-6/12 max-w-md shadow-2xl relative max-h-[95vh] overflow-y-auto border border-purple-100">
+    <div className="fixed inset-0 bg-gradient-to-br from-purple-900/90 via-blue-900/90 to-indigo-900/90 backdrop-blur-sm flex items-center justify-center z-30 p-4">
+      <div className="bg-white rounded-2xl w-full sm:w-11/12 md:w-7/12 lg:w-[50%] xl:w-4/12 2xl:w-1/3  shadow-2xl relative max-h-[95vh] overflow-y-auto border border-purple-100">
         {/* Header with gradient */}
         <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 p-6 rounded-t-2xl relative">
           <button
@@ -214,12 +219,16 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
           >
             <X className="w-5 h-5" />
           </button>
-          
+
           <div className="flex items-center gap-3 text-white">
             <Heart className="w-8 h-8" />
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold">Make a Donation</h2>
-              <p className="text-purple-100 text-sm">Your kindness makes a difference</p>
+              <h2 className="text-2xl md:text-3xl font-bold">
+                Make a Donation
+              </h2>
+              <p className="text-purple-100 text-sm">
+                Your kindness makes a difference
+              </p>
             </div>
           </div>
         </div>
@@ -263,8 +272,10 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
           <div className="group">
             <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
               <FileText className="w-4 h-4 text-indigo-600" />
-              PAN Card Number 
-              <span className="text-xs text-gray-500 font-normal">(Optional)</span>
+              PAN Card Number
+              <span className="text-xs text-gray-500 font-normal">
+                (Optional)
+              </span>
             </label>
             <input
               type="text"
@@ -307,7 +318,7 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
               <CreditCard className="w-4 h-4 text-purple-600" />
               Donation Amount: ₹{amount.toLocaleString()}
             </label>
-            
+
             <div className="flex items-center gap-4 mb-4">
               <button
                 type="button"
@@ -328,7 +339,11 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
                   onChange={handleAmountChange}
                   className="w-full h-3 bg-gradient-to-r from-purple-200 to-blue-200 rounded-lg appearance-none cursor-pointer"
                   style={{
-                    background: `linear-gradient(to right, #a855f7 0%, #3b82f6 ${((amount - 1000) / 9000) * 100}%, #e5e7eb ${((amount - 1000) / 9000) * 100}%, #e5e7eb 100%)`
+                    background: `linear-gradient(to right, #a855f7 0%, #3b82f6 ${
+                      ((amount - 1000) / 9000) * 100
+                    }%, #e5e7eb ${
+                      ((amount - 1000) / 9000) * 100
+                    }%, #e5e7eb 100%)`,
                   }}
                 />
               </div>
@@ -356,8 +371,8 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
             onClick={handleSubmit}
             disabled={isLoading}
             className={`w-full py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl ${
-              isLoading 
-                ? "bg-gray-400 cursor-not-allowed" 
+              isLoading
+                ? "bg-gray-400 cursor-not-allowed"
                 : "bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 hover:from-purple-700 hover:via-blue-700 hover:to-indigo-700"
             }`}
           >
@@ -376,10 +391,6 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
         </div>
       </div>
     </div>
-  
-  
-  
-
   );
 };
 
