@@ -80,7 +80,7 @@ const ProgramPage = () => {
     <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
        {/* Program Image */}
       {program?.image && (
-        <div className="w-full h-64 sm:h-80 md:h-96 lg:h-[500px] overflow-hidden">
+        <div className="w-full h-72 sm:h-80 md:h-96 lg:h-[800px] overflow-hidden">
           <img 
             src={program.image} 
             alt={program.title || "Program"} 
@@ -89,23 +89,8 @@ const ProgramPage = () => {
         </div>
       )}
       {/* Main Content */}
-      <div className="mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8  sm:py-8">
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          {/* Program Title Section */}
-          <div className="bg-gradient-to-r from-indigo-600 to-purple-700 px-4 sm:px-8 py-8 sm:py-12 text-center">
-            <div className="max-w-4xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-sm rounded-full p-3 sm:p-4 inline-block mb-4 sm:mb-6">
-                <Target className="h-8 w-8 sm:h-12 sm:w-12 text-white" />
-              </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4 px-2">
-                {program.title || "Program Details"}
-              </h1>
-              <p className="text-lg sm:text-xl text-indigo-100 leading-relaxed px-4">
-                Discover our impactful initiative designed to create positive
-                change
-              </p>
-            </div>
-          </div>
           <div className="flex flex-col lg:flex-row">
             <div className="">
               {program.whatWeDo && (

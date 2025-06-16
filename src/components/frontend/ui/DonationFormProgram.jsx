@@ -246,7 +246,7 @@ const DonationSection = ({ program }) => {
         {/* Main Donation Form */}
         <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
           <CardHeader className="bg-gray-200 text-black rounded-t-lg">
-            <CardTitle className="text-2xl">Yes! I'd like to help</CardTitle>
+            <CardTitle className="text-2xl">Yes! I&apos;d like to help</CardTitle>
             <CardDescription className="text-black">
               Complete the form below to make your contribution
             </CardDescription>
@@ -462,7 +462,7 @@ const DonationSection = ({ program }) => {
               <div className="space-y-4 p-4 bg-gray-50 rounded-lg border">
                 <div className="text-sm text-gray-700 leading-relaxed">
                   <p className="mb-3">
-                    <strong>Information is being collected to comply with government regulations and shall be treated as confidential.</strong> These details shall not be divulged for any other purpose. By sharing your details, you agree to receive stories and updates from CRY via mobile, Whatsapp, landline, email and post. If you'd like to change this, please send us an email on writetous@crymail.org
+                    <strong>Information is being collected to comply with government regulations and shall be treated as confidential.</strong> These details shall not be divulged for any other purpose. By sharing your details, you agree to receive stories and updates from CRY via mobile, Whatsapp, landline, email and post. If you&apos;d like to change this, please send us an email on writetous@crymail.org
                   </p>
                   
                   <div className="space-y-3">
