@@ -1,8 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import { 
-  ChevronLeft, 
-  ChevronRight, 
   ArrowRight,
   Sparkles,
   GraduationCap,
@@ -13,16 +11,17 @@ import {
   HeartHandshake,
   Target,
   Globe,
-  Lightbulb
+  Lightbulb,
+  Heart,
+  Eye
 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 const ProgramsSection = () => {
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [itemsPerView, setItemsPerView] = useState(1);
-  const [isMobile, setIsMobile] = useState(false);
 
   // Default program styling configurations
   const programStyles = [
@@ -82,25 +81,12 @@ const ProgramsSection = () => {
     }
   ];
 
-  // Handle responsive items per view
-  useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      setIsMobile(width < 768);
-      
-      if (width < 640) {
-        setItemsPerView(1);
-      } else if (width < 1024) {
-        setItemsPerView(2);
-      } else {
-        setItemsPerView(3);
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  // Function to truncate text to specific character limit
+  const truncateText = (text, maxLength) => {
+    if (!text) return "";
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength).trim() + "...";
+  };
 
   useEffect(() => {
     const fetchPrograms = async () => {
@@ -138,99 +124,81 @@ const ProgramsSection = () => {
     fetchPrograms();
   }, []);
 
-  // Calculate max index properly
-  const maxIndex = programs.length > 0 ? Math.max(0, programs.length - itemsPerView) : 0;
-
-  const handlePrevious = () => {
-    if (programs.length === 0) return;
-    
-    if (isMobile) {
-      setCurrentIndex((prev) => prev === 0 ? programs.length - 1 : prev - 1);
-    } else {
-      setCurrentIndex((prev) => prev === 0 ? maxIndex : prev - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (programs.length === 0) return;
-    
-    if (isMobile) {
-      setCurrentIndex((prev) => prev >= programs.length - 1 ? 0 : prev + 1);
-    } else {
-      setCurrentIndex((prev) => prev >= maxIndex ? 0 : prev + 1);
-    }
-  };
-
   const handleProgramClick = (slug) => {
     console.log(`Navigating to: /program/${slug}`);
     window.location.href = `/program/${slug}`;
   };
 
-  const getVisiblePrograms = () => {
-    if (programs.length === 0) return [];
-    
-    if (isMobile) {
-      return programs[currentIndex] ? [programs[currentIndex]] : [];
-    }
-    
-    const endIndex = Math.min(currentIndex + itemsPerView, programs.length);
-    return programs.slice(currentIndex, endIndex);
-  };
-
-  // Reset currentIndex when programs load or change
-  useEffect(() => {
-    if (programs.length > 0 && currentIndex >= programs.length) {
-      setCurrentIndex(0);
-    }
-  }, [programs.length, currentIndex]);
-
-  // Reset currentIndex when itemsPerView changes to prevent out-of-bounds
-  useEffect(() => {
-    if (programs.length > 0) {
-      const newMaxIndex = Math.max(0, programs.length - itemsPerView);
-      if (currentIndex > newMaxIndex) {
-        setCurrentIndex(newMaxIndex);
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15
       }
     }
-  }, [itemsPerView, programs.length, currentIndex]);
+  };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mb-6 animate-pulse">
-              <Sparkles className="w-8 h-8 text-white" />
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  // Skeleton Loading Component
+  const ProgramSkeleton = () => (
+    <div className="bg-white py-16 px-4">
+      <div className="max-w-7xl mx-auto">
+        {/* Header Skeleton */}
+        <div className="text-center mb-16">
+          <div className="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-6 animate-pulse"></div>
+          <div className="h-6 bg-gray-200 rounded w-48 mx-auto mb-4 animate-pulse"></div>
+          <div className="h-12 bg-gray-200 rounded w-3/4 mx-auto mb-2 animate-pulse"></div>
+          <div className="h-12 bg-gray-200 rounded w-1/2 mx-auto mb-6 animate-pulse"></div>
+          <div className="h-6 bg-gray-200 rounded w-2/3 mx-auto mb-2 animate-pulse"></div>
+          <div className="h-6 bg-gray-200 rounded w-1/2 mx-auto mb-12 animate-pulse"></div>
+        </div>
+
+        {/* Cards Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[...Array(3)].map((_, index) => (
+            <div key={index} className="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
+              <div className="w-full h-64 bg-gray-200 animate-pulse"></div>
+              <div className="p-6">
+                <div className="h-6 bg-gray-200 rounded w-full mb-3 animate-pulse"></div>
+                <div className="h-4 bg-gray-200 rounded w-full mb-2 animate-pulse"></div>
+                <div className="h-4 bg-gray-200 rounded w-3/4 mb-4 animate-pulse"></div>
+                <div className="h-12 bg-gray-200 rounded w-full animate-pulse"></div>
+              </div>
             </div>
-            <h2 className="text-5xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-4">
-              Our Programs
-            </h2>
-            <div className="flex justify-center space-x-2">
-              <div className="w-3 h-3 bg-blue-400 rounded-full animate-bounce"></div>
-              <div className="w-3 h-3 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-              <div className="w-3 h-3 bg-pink-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-            </div>
-            <p className="text-gray-600 mt-4">Loading our amazing programs...</p>
-          </div>
+          ))}
         </div>
       </div>
-    );
+    </div>
+  );
+
+  if (loading) {
+    return <ProgramSkeleton />;
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-16 px-4">
+      <div className="bg-white py-16 px-4">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-8 max-w-md mx-auto">
-            <h3 className="text-xl font-semibold text-red-800 mb-2">Error Loading Programs</h3>
-            <p className="text-red-600 mb-4">{error}</p>
-            <button 
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-            >
-              Try Again
-            </button>
-          </div>
+          <p className="text-red-600 mb-4 text-lg">{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 text-white px-6 py-3 rounded-full font-bold hover:from-green-700 hover:via-green-600 hover:to-emerald-600 transition-all duration-300"
+          >
+            Retry
+          </button>
         </div>
       </div>
     );
@@ -238,11 +206,10 @@ const ProgramsSection = () => {
 
   if (programs.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-16 px-4">
+      <div className="bg-white py-16 px-4">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-8 max-w-md mx-auto">
-            <h3 className="text-xl font-semibold text-yellow-800 mb-2">No Programs Available</h3>
-            <p className="text-yellow-600">Check back later for new programs.</p>
+          <div className="text-center py-12">
+            <p className="text-gray-600 text-lg">No programs available at the moment.</p>
           </div>
         </div>
       </div>
@@ -250,95 +217,164 @@ const ProgramsSection = () => {
   }
 
   return (
-    <div className="bg-white py-16 px-4 min-h-screen">
-      <div className="max-w-full mx-auto">
-        {/* Header Section */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-green-600 rounded-full mb-6">
-            <Sparkles className="w-8 h-8 text-white" />
-          </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-4">
+    <div className="bg-white py-16 px-4">
+      <div className="max-w-7xl mx-auto">
+        {/* Header Content - Centered at the top */}
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <p className="text-emerald-600 font-medium text-lg mb-4 tracking-wide">
+            Empowerment, Growth, Impact
+          </p>
+          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-6 max-w-4xl mx-auto">
             Our Programs
           </h2>
-          <p className="text-lg md:text-xl text-gray-800 max-w-4xl mx-auto leading-relaxed px-4">
-            Discover our comprehensive programs designed to create lasting impact and transform communities
+          <p className="text-gray-600 text-lg leading-relaxed mb-12 max-w-3xl mx-auto">
+            Discover our comprehensive programs designed to create lasting impact and transform communities through education, support, and empowerment.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Programs Carousel */}
-        <div className="relative max-w-7xl mx-auto">
-          {/* Navigation Buttons */}
-          {programs.length > itemsPerView && (
-            <>
-              <button
-                onClick={handlePrevious}
-                className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-green-50 shadow-lg rounded-full p-3 transition-all duration-300 hover:scale-105 border-2 border-green-200"
-                aria-label="Previous programs"
+        {/* Programs Cards Grid */}
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {programs.slice(0, 3).map((program, index) => {
+            // Consistent character limits for all cards
+            const titleMaxLength = 60;
+            const descriptionMaxLength = 120;
+            
+            return (
+              <motion.div
+                key={program.id || index}
+                variants={cardVariants}
+                whileHover={{ 
+                  scale: 1.02,
+                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)"
+                }}
+                className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 group relative overflow-hidden cursor-pointer"
+                onClick={() => handleProgramClick(program.slug)}
               >
-                <ChevronLeft className="w-6 h-6 text-green-600" />
-              </button>
-              
-              <button
-                onClick={handleNext}
-                className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-green-50 shadow-lg rounded-full p-3 transition-all duration-300 hover:scale-105 border-2 border-green-200"
-                aria-label="Next programs"
-              >
-                <ChevronRight className="w-6 h-6 text-green-600" />
-              </button>
-            </>
-          )}
-
-          {/* Programs Cards */}
-          <div className="px-4 md:px-16 lg:px-20">
-            <div className="grid gap-6 md:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-              {getVisiblePrograms().map((program) => (
-                <div
-                  key={program.id}
-                  className="bg-white rounded-2xl md:rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 border-2 border-gray-200 hover:border-green-400 group relative overflow-hidden cursor-pointer transform hover:scale-[1.02] w-full"
-                >
-                  {/* Square Image */}
-                  <div className="w-full aspect-square relative overflow-hidden rounded-t-2xl md:rounded-t-3xl">
-                    {program.image ? (
-                      <img 
-                        src={program.image} 
-                        alt={program.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                        <div className="text-gray-400 text-center">
-                          {program.icon}
-                          <p className="mt-2 text-sm">No Image</p>
-                        </div>
+                {/* Background Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Image Section */}
+                <div className="relative overflow-hidden h-64">
+                  {program.image ? (
+                    <img 
+                      src={program.image} 
+                      alt={program.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        e.target.src = '/placeholder-image.jpg';
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                      <div className="text-gray-400 text-center">
+                        {program.icon}
+                        <p className="mt-2 text-sm">No Image</p>
                       </div>
-                    )}
+                    </div>
+                  )}
+                  
+                  {/* Program Type Badge */}
+                  <div className="absolute top-4 right-4 bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 text-white px-3 py-1 text-sm font-bold rounded-full shadow-lg">
+                    <div className="flex items-center space-x-1">
+                      <Sparkles className="w-4 h-4" />
+                      <span>Program</span>
+                    </div>
                   </div>
+                  
+                  {/* Gradient overlay on image */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                </div>
 
-                  {/* Content */}
-                  <div className="p-6 md:p-8">
-                    <h3 className="text-xl md:text-2xl font-bold text-black mb-3 group-hover:text-green-800 transition-colors duration-300">
-                      {program.title}
-                    </h3>
+                {/* Content Section */}
+                <div className="p-6 relative z-10">
+                  <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors duration-300 line-clamp-2 leading-tight">
+                    {truncateText(program.title || 'Untitled Program', titleMaxLength)}
+                  </h3>
+                  
+                  <p className="text-gray-600 leading-relaxed mb-4 line-clamp-3">
+                    {truncateText(program.description || 'This program is designed to make a positive impact in our community.', descriptionMaxLength)}
+                  </p>
+
+                  {/* Divider */}
+                  <div className="h-px bg-gray-200 mb-4"></div>
+
+                  {/* Learn More Button */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2 text-sm text-gray-500">
+                      <Heart className="w-4 h-4" />
+                      <span>Learn & Engage</span>
+                    </div>
                     
-                    <p className="text-gray-600 mb-6 leading-relaxed text-sm md:text-base line-clamp-3">
-                      {program.description || 'This program is designed to make a positive impact in our community.'}
-                    </p>
-
-                    {/* Learn More Button */}
-                    <button
-                      onClick={() => handleProgramClick(program.slug)}
-                      className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 group"
+                    <motion.button
+                      className="bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 hover:from-green-700 hover:via-green-600 hover:to-emerald-600"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleProgramClick(program.slug);
+                      }}
                     >
-                      Learn More
-                      <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" />
-                    </button>
+                      <span>LEARN MORE</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </motion.button>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+
+        {/* View All Button at the bottom */}
+        {programs.length > 3 && (
+          <motion.div 
+            className="text-center mt-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Link href="/programs">
+                <button className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 hover:from-emerald-700 hover:via-emerald-600 hover:to-green-600 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-3 mx-auto border-2 border-transparent hover:border-emerald-300">
+                  <Eye className="w-5 h-5" />
+                  <span>VIEW ALL PROGRAMS</span>
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </Link>
+            </motion.div>
+          </motion.div>
+        )}
       </div>
+
+      {/* Custom CSS for line clamping */}
+      <style jsx>{`
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        
+        .line-clamp-3 {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
     </div>
   );
 };
