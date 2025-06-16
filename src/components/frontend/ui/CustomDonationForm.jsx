@@ -209,188 +209,188 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-purple-900/90 via-blue-900/90 to-indigo-900/90 backdrop-blur-sm flex items-center justify-center z-30 p-4">
-      <div className="bg-white rounded-2xl w-full sm:w-11/12 md:w-7/12 lg:w-[50%] xl:w-4/12 2xl:w-1/3  shadow-2xl relative max-h-[95vh] overflow-y-auto border border-purple-100">
-        {/* Header with gradient */}
-        <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 p-6 rounded-t-2xl relative">
-          <button
-            className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 text-white rounded-full p-2 transition-all duration-300 backdrop-blur-sm"
-            onClick={closeModal}
-          >
-            <X className="w-5 h-5" />
-          </button>
+   <div className="fixed inset-0 bg-gradient-to-br from-green-900/90 via-emerald-900/90 to-teal-900/90 backdrop-blur-sm flex items-center justify-center z-30 p-4">
+  <div className="bg-white rounded-2xl w-full sm:w-11/12 md:w-7/12 lg:w-[50%] xl:w-4/12 2xl:w-1/3  shadow-2xl relative max-h-[95vh] overflow-y-auto border border-green-100">
+    {/* Header with gradient */}
+    <div className="bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 p-6 rounded-t-2xl relative">
+      <button
+        className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 text-white rounded-full p-2 transition-all duration-300 backdrop-blur-sm"
+        onClick={closeModal}
+      >
+        <X className="w-5 h-5" />
+      </button>
 
-          <div className="flex items-center gap-3 text-white">
-            <Heart className="w-8 h-8" />
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold">
-                Make a Donation
-              </h2>
-              <p className="text-purple-100 text-sm">
-                Your kindness makes a difference
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="p-6 space-y-6">
-          {/* Full Name */}
-          <div className="group">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-              <User className="w-4 h-4 text-purple-600" />
-              Full Name
-            </label>
-            <input
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleInputChange}
-              className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-4 focus:ring-purple-100 transition-all duration-300 outline-none"
-              placeholder="Enter your full name"
-              required
-            />
-          </div>
-
-          {/* Email */}
-          <div className="group">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-              <Mail className="w-4 h-4 text-blue-600" />
-              Email Address
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-300 outline-none"
-              placeholder="Enter your email address"
-              required
-            />
-          </div>
-
-          {/* PAN Card */}
-          <div className="group">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-              <FileText className="w-4 h-4 text-indigo-600" />
-              PAN Card Number
-              <span className="text-xs text-gray-500 font-normal">
-                (Optional)
-              </span>
-            </label>
-            <input
-              type="text"
-              name="panCard"
-              value={formData.panCard}
-              maxLength={10}
-              onChange={handleInputChange}
-              className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all duration-300 outline-none uppercase"
-              placeholder="ABCDE1234F"
-            />
-          </div>
-
-          {/* Phone Number */}
-          <div className="group">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-              <Phone className="w-4 h-4 text-green-600" />
-              Phone Number
-            </label>
-            <div className="flex items-center border-2 border-gray-200 rounded-xl focus-within:border-green-500 focus-within:ring-4 focus-within:ring-green-100 transition-all duration-300">
-              <span className="px-4 py-3 bg-gradient-to-r from-green-50 to-blue-50 border-r border-gray-200 text-gray-700 font-medium rounded-l-xl">
-                +91
-              </span>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                maxLength={10}
-                pattern="[0-9]{10}"
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-r-xl outline-none"
-                placeholder="Enter 10-digit number"
-                required
-              />
-            </div>
-          </div>
-
-          {/* Donation Amount */}
-          <div className="bg-gradient-to-r from-purple-50 via-blue-50 to-indigo-50 p-4 rounded-xl border border-purple-100">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-4">
-              <CreditCard className="w-4 h-4 text-purple-600" />
-              Donation Amount: ₹{amount.toLocaleString()}
-            </label>
-
-            <div className="flex items-center gap-4 mb-4">
-              <button
-                type="button"
-                onClick={decrementAmount}
-                className="w-10 h-10 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-xl"
-                disabled={amount <= 1000}
-              >
-                −
-              </button>
-
-              <div className="flex-1 relative">
-                <input
-                  type="range"
-                  min="1000"
-                  max="10000"
-                  step="500"
-                  value={amount}
-                  onChange={handleAmountChange}
-                  className="w-full h-3 bg-gradient-to-r from-purple-200 to-blue-200 rounded-lg appearance-none cursor-pointer"
-                  style={{
-                    background: `linear-gradient(to right, #a855f7 0%, #3b82f6 ${
-                      ((amount - 1000) / 9000) * 100
-                    }%, #e5e7eb ${
-                      ((amount - 1000) / 9000) * 100
-                    }%, #e5e7eb 100%)`,
-                  }}
-                />
-              </div>
-
-              <button
-                type="button"
-                onClick={incrementAmount}
-                className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-xl"
-                disabled={amount >= 10000}
-              >
-                +
-              </button>
-            </div>
-
-            <div className="bg-white p-3 rounded-lg border-2 border-purple-200">
-              <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
-                ₹{amount.toLocaleString()}
-              </div>
-            </div>
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="button"
-            onClick={handleSubmit}
-            disabled={isLoading}
-            className={`w-full py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl ${
-              isLoading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 hover:from-purple-700 hover:via-blue-700 hover:to-indigo-700"
-            }`}
-          >
-            {isLoading ? (
-              <div className="flex items-center justify-center gap-2">
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Processing...
-              </div>
-            ) : (
-              <div className="flex items-center justify-center gap-2">
-                <Heart className="w-5 h-5" />
-                Donate Now
-              </div>
-            )}
-          </button>
+      <div className="flex items-center gap-3 text-white">
+        <Heart className="w-8 h-8" />
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold">
+            Make a Donation
+          </h2>
+          <p className="text-green-100 text-sm">
+            Your kindness makes a difference
+          </p>
         </div>
       </div>
     </div>
+
+    <div className="p-6 space-y-6">
+      {/* Full Name */}
+      <div className="group">
+        <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+          <User className="w-4 h-4 text-green-600" />
+          Full Name
+        </label>
+        <input
+          type="text"
+          name="fullName"
+          value={formData.fullName}
+          onChange={handleInputChange}
+          className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300 outline-none"
+          placeholder="Enter your full name"
+          required
+        />
+      </div>
+
+      {/* Email */}
+      <div className="group">
+        <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+          <Mail className="w-4 h-4 text-[#e91e63]" />
+          Email Address
+        </label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-[#e91e63] focus:ring-4 focus:ring-pink-100 transition-all duration-300 outline-none"
+          placeholder="Enter your email address"
+          required
+        />
+      </div>
+
+      {/* PAN Card */}
+      <div className="group">
+        <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+          <FileText className="w-4 h-4 text-green-600" />
+          PAN Card Number
+          <span className="text-xs text-gray-500 font-normal">
+            (Optional)
+          </span>
+        </label>
+        <input
+          type="text"
+          name="panCard"
+          value={formData.panCard}
+          maxLength={10}
+          onChange={handleInputChange}
+          className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300 outline-none uppercase"
+          placeholder="ABCDE1234F"
+        />
+      </div>
+
+      {/* Phone Number */}
+      <div className="group">
+        <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+          <Phone className="w-4 h-4 text-[#e91e63]" />
+          Phone Number
+        </label>
+        <div className="flex items-center border-2 border-gray-200 rounded-xl focus-within:border-[#e91e63] focus-within:ring-4 focus-within:ring-pink-100 transition-all duration-300">
+          <span className="px-4 py-3 bg-gradient-to-r from-green-50 to-pink-50 border-r border-gray-200 text-gray-700 font-medium rounded-l-xl">
+            +91
+          </span>
+          <input
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            maxLength={10}
+            pattern="[0-9]{10}"
+            onChange={handleInputChange}
+            className="w-full px-4 py-3 rounded-r-xl outline-none"
+            placeholder="Enter 10-digit number"
+            required
+          />
+        </div>
+      </div>
+
+      {/* Donation Amount */}
+      <div className="bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 p-4 rounded-xl border border-green-100">
+        <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-4">
+          <CreditCard className="w-4 h-4 text-green-600" />
+          Donation Amount: ₹{amount.toLocaleString()}
+        </label>
+
+        <div className="flex items-center gap-4 mb-4">
+          <button
+            type="button"
+            onClick={decrementAmount}
+            className="w-10 h-10 bg-[#e91e63] hover:bg-[#c2185b] text-white rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-xl"
+            disabled={amount <= 1000}
+          >
+            −
+          </button>
+
+          <div className="flex-1 relative">
+            <input
+              type="range"
+              min="1000"
+              max="10000"
+              step="500"
+              value={amount}
+              onChange={handleAmountChange}
+              className="w-full h-3 bg-gradient-to-r from-green-200 to-emerald-200 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, #22c55e 0%, #10b981 ${
+                  ((amount - 1000) / 9000) * 100
+                }%, #e5e7eb ${
+                  ((amount - 1000) / 9000) * 100
+                }%, #e5e7eb 100%)`,
+              }}
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={incrementAmount}
+            className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-xl"
+            disabled={amount >= 10000}
+          >
+            +
+          </button>
+        </div>
+
+        <div className="bg-white p-3 rounded-lg border-2 border-green-200">
+          <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">
+            ₹{amount.toLocaleString()}
+          </div>
+        </div>
+      </div>
+
+      {/* Submit Button */}
+      <button
+        type="button"
+        onClick={handleSubmit}
+        disabled={isLoading}
+        className={`w-full py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl ${
+          isLoading
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 hover:from-green-700 hover:via-emerald-700 hover:to-teal-700"
+        }`}
+      >
+        {isLoading ? (
+          <div className="flex items-center justify-center gap-2">
+            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            Processing...
+          </div>
+        ) : (
+          <div className="flex items-center justify-center gap-2">
+            <Heart className="w-5 h-5" />
+            Donate Now
+          </div>
+        )}
+      </button>
+    </div>
+  </div>
+</div>
   );
 };
 
