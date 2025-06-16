@@ -7,6 +7,7 @@ import {
   Users,
   Target,
   Heart,
+  Lightbulb,
 } from "lucide-react";
 import Image from "next/image";
 import DonationSection from "@/components/frontend/ui/DonationFormProgram";
@@ -78,12 +79,12 @@ const ProgramPage = () => {
 
   return (
     <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-       {/* Program Image */}
+      {/* Program Image */}
       {program?.image && (
         <div className="w-full h-72 sm:h-80 md:h-96 lg:h-[800px] overflow-hidden">
-          <img 
-            src={program.image} 
-            alt={program.title || "Program"} 
+          <img
+            src={program.image}
+            alt={program.title || "Program"}
             className="w-full h-full object-cover"
           />
         </div>
@@ -124,7 +125,7 @@ const ProgramPage = () => {
           </div>
 
           {/* Info Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-8 pb-8 sm:pb-12 max-w-4xl mx-auto my-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-8 pb-8 sm:pb-12  mx-auto my-10">
             <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 sm:p-6 border border-blue-200">
               <div className="flex items-center mb-3 sm:mb-4">
                 <Users className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600 mr-2 sm:mr-3" />
@@ -150,6 +151,34 @@ const ProgramPage = () => {
                 We employ evidence-based strategies and collaborate with local
                 stakeholders to ensure our initiatives are effective and
                 culturally appropriate.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 sm:p-6 border border-purple-200">
+              <div className="flex items-center mb-3 sm:mb-4">
+                <Heart className="h-6 w-6 sm:h-8 sm:w-8 text-purple-600 mr-2 sm:mr-3" />
+                <h4 className="text-lg sm:text-xl font-semibold text-purple-900">
+                  Compassionate Care
+                </h4>
+              </div>
+              <p className="text-purple-800 text-sm sm:text-base">
+                Every action we take is rooted in empathy and understanding,
+                ensuring that we address not just immediate needs but also the
+                underlying causes of challenges.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl p-4 sm:p-6 border border-amber-200">
+              <div className="flex items-center mb-3 sm:mb-4">
+                <Lightbulb className="h-6 w-6 sm:h-8 sm:w-8 text-amber-600 mr-2 sm:mr-3" />
+                <h4 className="text-lg sm:text-xl font-semibold text-amber-900">
+                  Innovation & Growth
+                </h4>
+              </div>
+              <p className="text-amber-800 text-sm sm:text-base">
+                We continuously seek innovative solutions and foster an
+                environment of learning and adaptation to maximize our positive
+                impact and reach.
               </p>
             </div>
           </div>
@@ -196,7 +225,7 @@ const ProgramPage = () => {
       <div className="bg-gray-800 text-white py-6 sm:py-8 mt-8 sm:mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-gray-300 text-sm sm:text-base">
-            © 2024 Program Dashboard.  {program.title || "Program Details"}
+            © 2024 Program Dashboard. {program.title || "Program Details"}
           </p>
         </div>
       </div>

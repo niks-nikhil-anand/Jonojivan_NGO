@@ -244,7 +244,7 @@ const DonationSection = ({ program }) => {
       <div className="max-w-4xl mx-auto">
 
         {/* Main Donation Form */}
-        <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+        <Card className=" border-0 bg-white/80 backdrop-blur-sm">
           <CardHeader className="bg-gray-200 text-black rounded-t-lg">
             <CardTitle className="text-2xl">Yes! I&apos;d like to help</CardTitle>
             <CardDescription className="text-black">
