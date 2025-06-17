@@ -37,7 +37,6 @@ export async function POST(req) {
       .update(body)
       .digest("hex");
 
-    console.log("Expected Signature:", expectedSignature);
     console.log("Received Signature:", razorpay_signature);
 
     const isAuthentic = expectedSignature === razorpay_signature;

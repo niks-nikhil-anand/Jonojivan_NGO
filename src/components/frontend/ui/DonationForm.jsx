@@ -22,7 +22,7 @@ const DonationForm = () => {
     email: "",
     panCard: "",
     phone: "",
-    address: "", // Added missing address field
+    address: "", 
     donationMode: "Online",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +40,6 @@ const DonationForm = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  // Fixed handleInputChange function - was using wrong parameters
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -52,7 +51,7 @@ const DonationForm = () => {
       email: "", 
       panCard: "", 
       phone: "", 
-      address: "", // Added address reset
+      address: "", 
       donationMode: "Online" 
     });
     setAmount("");
@@ -111,7 +110,7 @@ const DonationForm = () => {
       const { order } = await response.json();
 
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // Fixed environment variable name
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, 
         amount: order.amount,
         currency: order.currency,
         name: "Donation",
@@ -361,34 +360,7 @@ const DonationForm = () => {
             </div>
 
             <div className="p-6">
-              {/* Payment Method Selection */}
-              <div className="mb-6">
-                <label className="block text-sm font-semibold text-gray-700 mb-3">
-                  Payment Method
-                </label>
-                <div className="grid grid-cols-3 gap-3">
-                  {["Online", "Offline", "TestDonation"].map((method) => (
-                    <label
-                      key={method}
-                      className={`flex items-center justify-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all ${
-                        paymentMethod === method
-                          ? "border-green-500 bg-green-50 text-green-700"
-                          : "border-gray-200 hover:border-gray-300"
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="paymentMethod"
-                        value={method}
-                        checked={paymentMethod === method}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
-                        className="sr-only"
-                      />
-                      <span className="text-sm font-medium">{method}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
+            
 
               <div className="space-y-4">
                 {[
