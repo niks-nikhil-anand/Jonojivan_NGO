@@ -149,17 +149,6 @@ const SidebarAdmin = () => {
           icon: Mail,
           label: "Contact Messages",
           href: "/admin/dashboard/message/contactUs",
-          badge: "5",
-        },
-      ],
-    },
-    {
-      title: "Analytics",
-      items: [
-        {
-          icon: FileSpreadsheet,
-          label: "Export Reports",
-          href: "/admin/dashboard/reportsAnalytics",
           badge: null,
         },
       ],
@@ -192,7 +181,7 @@ const SidebarAdmin = () => {
               </p>
             </motion.div>
           )}
-          
+
           <div className="flex items-center space-x-2">
             <Button
               variant="ghost"
@@ -206,7 +195,7 @@ const SidebarAdmin = () => {
                 <Moon className="h-4 w-4 text-slate-600" />
               )}
             </Button>
-            
+
             {!isCollapsed && (
               <Button
                 variant="ghost"
@@ -231,7 +220,7 @@ const SidebarAdmin = () => {
                   {section.title}
                 </h3>
               )}
-              
+
               <div className="space-y-1">
                 {section.items.map((item, itemIndex) => (
                   <Link key={itemIndex} href={item.href} passHref>
@@ -246,7 +235,7 @@ const SidebarAdmin = () => {
                   </Link>
                 ))}
               </div>
-              
+
               {!isCollapsed && sectionIndex < menuSections.length - 1 && (
                 <Separator className="mt-4 bg-slate-200 dark:bg-slate-700" />
               )}
@@ -272,7 +261,14 @@ const SidebarAdmin = () => {
   );
 };
 
-const SidebarItem = ({ icon: Icon, label, badge, selected, isCollapsed, onClick }) => {
+const SidebarItem = ({
+  icon: Icon,
+  label,
+  badge,
+  selected,
+  isCollapsed,
+  onClick,
+}) => {
   return (
     <motion.div
       onClick={onClick}
@@ -284,15 +280,21 @@ const SidebarItem = ({ icon: Icon, label, badge, selected, isCollapsed, onClick 
           : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
       }`}
     >
-      <div className={`flex items-center ${isCollapsed ? "justify-center p-2" : "px-3 py-2"}`}>
-        <Icon className={`${isCollapsed ? "h-5 w-5" : "h-4 w-4"} transition-colors duration-200`} />
-        
+      <div
+        className={`flex items-center ${
+          isCollapsed ? "justify-center p-2" : "px-3 py-2"
+        }`}
+      >
+        <Icon
+          className={`${
+            isCollapsed ? "h-5 w-5" : "h-4 w-4"
+          } transition-colors duration-200`}
+        />
+
         {!isCollapsed && (
           <>
-            <span className="ml-3 font-medium text-sm truncate">
-              {label}
-            </span>
-            
+            <span className="ml-3 font-medium text-sm truncate">{label}</span>
+
             {badge && (
               <Badge
                 variant={badge === "New" ? "default" : "secondary"}
@@ -308,7 +310,7 @@ const SidebarItem = ({ icon: Icon, label, badge, selected, isCollapsed, onClick 
           </>
         )}
       </div>
-      
+
       {/* Active indicator */}
       {selected && (
         <motion.div
@@ -319,7 +321,7 @@ const SidebarItem = ({ icon: Icon, label, badge, selected, isCollapsed, onClick 
           transition={{ duration: 0.2 }}
         />
       )}
-      
+
       {/* Tooltip for collapsed state */}
       {isCollapsed && (
         <div className="absolute left-full ml-2 px-2 py-1 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
