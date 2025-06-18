@@ -166,7 +166,7 @@ const ourProgram = () => {
               </span>
             </h1>
             <p className="text-lg sm:text-xl lg:text-2xl text-indigo-100 max-w-4xl mx-auto leading-relaxed px-4">
-              At Plan to Empower, we unlock potential, inspire dreams, and empower futures. Together, we're building a world where every child has access to quality education.
+              At Plan to Empower, we unlock potential, inspire dreams, and empower futures. Together, we&apos;re building a world where every child has access to quality education.
             </p>
           </div>
         </div>
@@ -226,7 +226,7 @@ const ourProgram = () => {
               How We Make a Difference
             </h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              Through innovative programs and dedicated support, we're creating pathways to success for children and communities across the region.
+              Through innovative programs and dedicated support, we&apos;re creating pathways to success for children and communities across the region.
             </p>
           </div>
 
@@ -349,7 +349,7 @@ const ourProgram = () => {
                 Because Every Child Deserves a Chance
               </h2>
               <p className="text-lg sm:text-xl lg:text-2xl text-indigo-100 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed">
-                Education is more than a right—it's a lifeline to a brighter tomorrow. Join us in making this vision a reality.
+                Education is more than a right—it&apos;s a lifeline to a brighter tomorrow. Join us in making this vision a reality.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-md sm:max-w-none mx-auto">
                 <button className="bg-white text-indigo-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg hover:bg-gray-100 hover:scale-105 transition-all duration-300 flex items-center justify-center shadow-lg">

@@ -157,7 +157,7 @@ const BringSmile = () => {
               </span>
             </h1>
             <p className="text-xl lg:text-2xl text-green-100 max-w-4xl mx-auto leading-relaxed">
-              At Plan to Empower, we unlock potential, inspire dreams, and empower futures. Together, we're building a world where every child has access to quality education.
+              At Plan to Empower, we unlock potential, inspire dreams, and empower futures. Together, we&apos;re building a world where every child has access to quality education.
             </p>
           </div>
         </div>
@@ -213,7 +213,7 @@ const BringSmile = () => {
           <div className="text-center mb-16 fade-in">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">How We Make a Difference</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Through innovative programs and dedicated support, we're creating pathways to success for children and communities across the region.
+              Through innovative programs and dedicated support, we&apos;re creating pathways to success for children and communities across the region.
             </p>
           </div>
 
@@ -336,7 +336,7 @@ const BringSmile = () => {
                 Because Every Child Deserves a Chance
               </h2>
               <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
-                Education is more than a right—it's a lifeline to a brighter tomorrow. Join us in making this vision a reality.
+                Education is more than a right—it&apos;s a lifeline to a brighter tomorrow. Join us in making this vision a reality.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button className="bg-white text-emerald-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors duration-300 flex items-center justify-center">
