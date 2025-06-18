@@ -25,6 +25,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { toast } from "sonner";
 import axios from "axios";
 import { Badge } from "@/components/ui/badge";
+import Loader from "@/components/loader/loader";
 
 const DonationTable = () => {
   const [donations, setDonations] = useState([]);
