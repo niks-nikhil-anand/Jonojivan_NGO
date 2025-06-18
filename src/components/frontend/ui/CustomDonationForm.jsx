@@ -20,12 +20,12 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
     phone: "",
     donationMode: "Online",
   });
-  const [amount, setAmount] = useState(1000); // Initialize donation amount
-  const [isLoading, setIsLoading] = useState(false); // Loading state for async operations
-  const router = useRouter(); // Assuming you use Next.js for routing
+  const [amount, setAmount] = useState(1000); 
+  const [isLoading, setIsLoading] = useState(false); 
+  const router = useRouter(); 
 
   const closeModal = () => {
-    setIsModalOpen(false); // Close the modal
+    setIsModalOpen(false);
   };
 
   const handleInputChange = (e) => {
@@ -85,7 +85,7 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
       const { order } = await response.json();
 
       const options = {
-        key: process.env.RAZORPAY_KEY_ID,
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, 
         amount: order.amount,
         currency: order.currency,
         name: "Donation",

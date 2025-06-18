@@ -90,7 +90,7 @@ const SponsorshipForm = ({ setIsModalOpen }) => {
       const { order } = await response.json();
 
       const options = {
-        key: "rzp_test_YyfNhFl02BDQxW",
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency,
         name: "Child Sponsorship",
