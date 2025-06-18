@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Heart, Users, Quote, ArrowRight, MessageCircle, Sparkles, TrendingUp, Award, CheckCircle, Eye } from 'lucide-react';
+import Link from 'next/link';
 
 const TestimonialCard = ({ avatar, name, job, quote, index, isActive, onClick }) => {
   const gradients = [
@@ -137,33 +138,39 @@ const Testimonials = () => {
     }
   };
 
-  const testimonials = [
-    {
-      name: "Priya Sharma",
-      job: "Supporter of Bring Smile",
-      quote: "I've always believed that education is the key to change. Supporting Bring Smile allows me to contribute towards educating girls who need it most. I'm so proud to see how they're helping young girls fulfill their dreams."
-    },
-    {
-      name: "Ankit Kapoor", 
-      job: "Donor & Community Leader",
-      quote: "Donating to Bring Smile was an easy choice for me. I've seen how education transforms lives, and I'm happy to be part of this cause. It's inspiring to see girls who would otherwise be left behind, getting the chance to learn."
-    },
-    {
-      name: "Seema Khan",
-      job: "Mother and Supporter", 
-      quote: "As a mother, it's close to my heart to see girls getting an education. When I heard about Bring Smile, I knew I wanted to help. Every girl deserves to feel empowered and have access to education."
-    },
-    {
-      name: "Rajesh Gupta",
-      job: "Corporate Sponsor",
-      quote: "Our company's partnership with Bring Smile has been incredibly fulfilling. Seeing the direct impact of our contributions on young lives motivates us to do more. Education truly is the foundation of progress."
-    },
-    {
-      name: "Dr. Meera Patel",
-      job: "Education Advocate",
-      quote: "Working alongside Bring Smile has shown me the power of community-driven change. Their approach to girls' education is both comprehensive and compassionate, creating lasting transformation."
-    }
-  ];
+ const testimonials = [
+  {
+    name: "Priya Sharma",
+    job: "Supporter of Plan to Empower - NGO",
+    quote:
+      "I've always believed that education is the key to change. Supporting Plan to Empower allows me to contribute towards educating girls who need it most. I'm so proud to see how they're helping young girls fulfill their dreams.",
+  },
+  {
+    name: "Ankit Kapoor",
+    job: "Donor & Community Leader",
+    quote:
+      "Donating to Plan to Empower was an easy choice for me. I've seen how education transforms lives, and I'm happy to be part of this cause. It's inspiring to see girls who would otherwise be left behind getting the chance to learn.",
+  },
+  {
+    name: "Seema Khan",
+    job: "Mother and Supporter",
+    quote:
+      "As a mother, it's close to my heart to see girls getting an education. When I heard about Plan to Empower, I knew I wanted to help. Every girl deserves to feel empowered and have access to education.",
+  },
+  {
+    name: "Rajesh Gupta",
+    job: "Corporate Sponsor",
+    quote:
+      "Our company's partnership with Plan to Empower has been incredibly fulfilling. Seeing the direct impact of our contributions on young lives motivates us to do more. Education truly is the foundation of progress.",
+  },
+  {
+    name: "Dr. Meera Patel",
+    job: "Education Advocate",
+    quote:
+      "Working alongside Plan to Empower has shown me the power of community-driven change. Their approach to girls' education is both comprehensive and compassionate, creating lasting transformation.",
+  },
+];
+
 
   const stats = [
     { icon: Star, value: "4.9/5", label: "Average Rating", color: "from-green-500 to-emerald-500" },
@@ -257,11 +264,13 @@ const Testimonials = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
+            <Link href={"/Testimonials"}>
             <button className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 hover:from-emerald-700 hover:via-emerald-600 hover:to-green-600 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-3 mx-auto border-2 border-transparent hover:border-emerald-300">
               <Eye className="w-5 h-5" />
               <span>VIEW ALL 2,157 REVIEWS</span>
               <ArrowRight className="w-5 h-5" />
             </button>
+            </Link>
           </motion.div>
           
           <p className="text-gray-600 mt-4 text-sm">

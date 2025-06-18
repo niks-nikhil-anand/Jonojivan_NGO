@@ -32,8 +32,8 @@ const Navbar = () => {
     { href: "/", label: "Home" },
     { href: "/aboutUs", label: "About Us" },
     { href: "/how-we-work", label: "How We Work" },
-    { href: "/Campaign", label: "Campaign" },
-    { href: "/Campaign", label: "Programs" },
+    { href: "/ourProgram", label: "Our Program" },
+    { href: "/impactStories", label: "Impact Stories" },
     { href: "/contactUs", label: "Contact Us" },
   ];
 

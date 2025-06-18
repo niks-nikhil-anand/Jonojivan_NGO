@@ -64,10 +64,10 @@ const Footer = () => {
               </li>
               <li>
                 <a 
-                  href="/ourMission" 
+                  href="/how-we-work" 
                   className="text-sm text-gray-300 hover:text-pink-500 transition-colors hover:underline block"
                 >
-                  Our Mission
+                 How we work
                 </a>
               </li>
               <li>

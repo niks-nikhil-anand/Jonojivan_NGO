@@ -14,38 +14,39 @@ const FAQsSection = () => {
   };
 
   // FAQ data array - updated to match the image content
- const faqData = [
-    {
-      question: "What is Bring Smile?",
-      answer:
-        "Bring Smile is a non-profit organization dedicated to improving the lives of children, women, and communities through education, skill development, and empowerment. We focus on creating lasting change by providing access to education and equal opportunities for all.",
-      category: "General"
-    },
-    {
-      question: "How can I donate to Bring Smile?",
-      answer:
-        "You can easily donate through our website's Donate Now page. Simply choose your donation amount and proceed with a secure online payment using your preferred method.",
-      category: "Donation"
-    },
-    {
-      question: "What programs does Bring Smile support?",
-      answer:
-        "Bring Smile supports various programs, including: Girl Child Education, Skill Development for Women, Tuition Classes for Quality Education, School Building Projects, and Women Empowerment & Gender Equality initiatives.",
-      category: "Programs"
-    },
-    {
-      question: "How does my donation help?",
-      answer:
-        "Your donation directly supports our programs, providing education, skill development, mentorship, and the creation of infrastructure, ultimately improving the lives of children and women in underserved communities.",
-      category: "Impact"
-    },
-    {
-      question: "How much does it cost to sponsor a child?",
-      answer:
-        "Sponsoring a child costs ₹26,000 per year, which covers their school fees, books, uniforms, and other essential resources for a full year of education.",
-      category: "Sponsorship"
-    },
-  ];
+const faqData = [
+  {
+    question: "What is Plan to Empower - NGO?",
+    answer:
+      "Plan to Empower is a non-profit organization committed to transforming lives through education, skill development, and community empowerment. We focus on creating sustainable change by providing equal opportunities and access to resources for children, women, and underprivileged communities.",
+    category: "General",
+  },
+  {
+    question: "How can I donate to Plan to Empower?",
+    answer:
+      "You can easily donate through our website’s Donate Now page. Simply select your preferred donation amount and complete the secure online payment using your chosen method.",
+    category: "Donation",
+  },
+  {
+    question: "What programs does Plan to Empower support?",
+    answer:
+      "Plan to Empower supports a wide range of initiatives, including: Girl Child Education, Women's Skill Development, Quality Tuition Programs, School Infrastructure Projects, and campaigns for Gender Equality and Women Empowerment.",
+    category: "Programs",
+  },
+  {
+    question: "How does my donation help?",
+    answer:
+      "Your donation directly fuels our programs by providing education, vocational training, mentorship, and critical infrastructure to uplift children and women in underserved areas.",
+    category: "Impact",
+  },
+  {
+    question: "How much does it cost to sponsor a child?",
+    answer:
+      "Sponsoring a child through Plan to Empower costs ₹26,000 per year, covering school fees, uniforms, books, and all essential resources for one full academic year.",
+    category: "Sponsorship",
+  },
+];
+
 
   return (
     <div className=" bg-gray-100 py-16 px-4">
