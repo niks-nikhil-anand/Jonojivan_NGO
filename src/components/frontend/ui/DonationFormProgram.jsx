@@ -241,7 +241,7 @@ const DonationSection = ({ program }) => {
         {/* Main Donation Form */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           <div className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 p-6">
-            <h2 className="text-2xl font-bold text-white">Yes! I'd like to help</h2>
+            <h2 className="text-2xl font-bold text-white">Yes! I&apos;d like to help</h2>
             <p className="text-emerald-100 mt-2">Complete the form below to make your contribution</p>
           </div>
           
@@ -460,7 +460,7 @@ const DonationSection = ({ program }) => {
               <div className="space-y-4 p-6 bg-gray-50 rounded-xl border-2 border-gray-200">
                 <div className="text-sm text-gray-700 leading-relaxed">
                   <p className="mb-4 font-medium">
-                    <strong>Information is being collected to comply with government regulations and shall be treated as confidential.</strong> These details shall not be divulged for any other purpose. By sharing your details, you agree to receive stories and updates from CRY via mobile, Whatsapp, landline, email and post. If you'd like to change this, please send us an email on writetous@crymail.org
+                    <strong>Information is being collected to comply with government regulations and shall be treated as confidential.</strong> These details shall not be divulged for any other purpose. By sharing your details, you agree to receive stories and updates from CRY via mobile, Whatsapp, landline, email and post. If you&apos;d like to change this, please send us an email on writetous@crymail.org
                   </p>
                   
                   <div className="space-y-4">
@@ -533,7 +533,7 @@ const DonationSection = ({ program }) => {
                 <div className="flex items-start gap-3">
                   <Info className="h-5 w-5 text-blue-600 mt-0.5" />
                   <p className="text-blue-800 text-sm">
-                    Your donation is secure and will be processed safely. You'll receive a confirmation email shortly after completing your donation.
+                    Your donation is secure and will be processed safely. You&apos;ll receive a confirmation email shortly after completing your donation.
                   </p>
                 </div>
               </div>

@@ -102,8 +102,8 @@ const ProgramPage = () => {
                     <div className="prose prose-sm sm:prose-lg max-w-none">
                       <div className="bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 p-6 sm:p-8 border-b border-green-100">
                         <div className="flex items-center mb-6 sm:mb-8">
-                          <div className="bg-gradient-to-r from-green-100 to-emerald-100 p-3 sm:p-4 rounded-full mr-4 sm:mr-5 shadow-lg">
-                            <CheckCircle className="h-5 w-5 sm:h-8 sm:w-8 text-green-600" />
+                          <div className="bg-gradient-to-r from-green-100 to-emerald-100 p-3 sm:p-4 rounded-full mr-4 sm:mr-5 shadow-lg mt-5">
+                            <CheckCircle className="h-5 w-5 sm:h-8 sm:w-8 text-green-600 " />
                           </div>
                           <h3 className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">
                             What We Do
