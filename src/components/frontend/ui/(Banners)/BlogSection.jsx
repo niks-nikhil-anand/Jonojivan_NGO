@@ -4,13 +4,15 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Calendar, Clock, ArrowRight, BookOpen, Eye, Share2, User, MessageCircle } from "lucide-react";
+import { Calendar, Clock, ArrowRight, BookOpen, Eye, Share2, User, MessageCircle, ChevronUp } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const BlogSection = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hoveredCard, setHoveredCard] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(3); // Track how many articles to show
+  const [loadingMore, setLoadingMore] = useState(false); // Track loading state for load more
 
   const router = useRouter();
 
@@ -37,6 +39,27 @@ const BlogSection = () => {
     e.stopPropagation();
     // Add share functionality here
     console.log('Share article:', article);
+  };
+
+  // Handle load more functionality
+  const handleLoadMore = async () => {
+    setLoadingMore(true);
+    
+    // Simulate loading delay for better UX
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    setVisibleCount(prev => prev + 3);
+    setLoadingMore(false);
+  };
+
+  // Handle show less functionality
+  const handleShowLess = () => {
+    setVisibleCount(3);
+    // Smooth scroll to blog section
+    const blogSection = document.getElementById('blog-section');
+    if (blogSection) {
+      blogSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   // Function to extract text from content and limit words
@@ -102,7 +125,6 @@ const BlogSection = () => {
           <Skeleton className="h-12 w-1/2 mx-auto mb-6" />
           <Skeleton className="h-6 w-2/3 mx-auto mb-2" />
           <Skeleton className="h-6 w-1/2 mx-auto mb-12" />
-          <Skeleton className="h-12 w-64 mx-auto" />
         </div>
 
         {/* Cards Skeleton */}
@@ -130,8 +152,12 @@ const BlogSection = () => {
     return <BlogSkeleton />;
   }
 
+  // Get visible articles
+  const visibleArticles = articles.slice(0, visibleCount);
+  const hasMoreArticles = visibleCount < articles.length;
+
   return (
-    <div className="bg-white py-16 px-4">
+    <div id="blog-section" className="bg-white py-16 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header Content - Centered at the top */}
         <motion.div 
@@ -149,29 +175,16 @@ const BlogSection = () => {
           <p className="text-gray-600 text-lg leading-relaxed mb-12 max-w-3xl mx-auto">
             Explore the latest stories, campaigns, and causes that showcase how your support creates lasting change in our community.
           </p>
-
-          {/* CTA Button */}
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Link href="/blog">
-              <button className="bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 hover:from-green-700 hover:via-green-600 hover:to-emerald-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-3 mx-auto">
-                <Eye className="w-5 h-5" />
-                <span>VIEW ALL STORIES</span>
-              </button>
-            </Link>
-          </motion.div>
         </motion.div>
 
-        {/* Blog Cards Grid - Below the content */}
+        {/* Blog Cards Grid */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           initial="hidden"
           animate="visible"
           variants={containerVariants}
         >
-          {articles.slice(0, 3).map((article, index) => (
+          {visibleArticles.map((article, index) => (
             <motion.div
               key={article._id}
               variants={cardVariants}
@@ -196,7 +209,7 @@ const BlogSection = () => {
                 />
                 
                 {/* Date Badge */}
-                <div className="absolute top-4 right-4 bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 text-white px-3 py-1 text-sm font-bold rounded-full shadow-lg">
+                <div className="absolute top-4 right-4 bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 text-white px-3 py-1 text-sm font-bold rounded-full shadow-lg">
                   {new Date(article.createdAt).toLocaleDateString("en-US", {
                     day: "2-digit",
                     month: "short",
@@ -222,7 +235,7 @@ const BlogSection = () => {
 
               {/* Content Section */}
               <div className="p-6 relative z-10">
-                <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors duration-300 line-clamp-2 leading-tight">
+                <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-emerald-600 transition-colors duration-300 line-clamp-2 leading-tight">
                   {article.title}
                 </h3>
                 
@@ -241,7 +254,7 @@ const BlogSection = () => {
                   </div>
                   
                   <motion.div 
-                    className="flex items-center space-x-2 text-green-600 font-semibold group-hover:text-green-700 transition-colors duration-300"
+                    className="flex items-center space-x-2 text-emerald-600 font-semibold group-hover:text-emerald-700 transition-colors duration-300"
                     whileHover={{ x: 5 }}
                   >
                     <span className="text-sm">Read More</span>
@@ -253,29 +266,106 @@ const BlogSection = () => {
           ))}
         </motion.div>
 
-        {/* View All Button at the bottom */}
-        {articles.length > 3 && (
+        {/* Load More / Show Less Buttons - Only show if there are articles */}
+        {articles.length > 0 && (
           <motion.div 
-            className="text-center mt-12"
+            className="text-center mt-12 space-y-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Link href="/blog">
-                <button className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 hover:from-emerald-700 hover:via-emerald-600 hover:to-green-600 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-3 mx-auto border-2 border-transparent hover:border-emerald-300">
-                  <BookOpen className="w-5 h-5" />
-                  <span>VIEW ALL ARTICLES</span>
-                  <ArrowRight className="w-5 h-5" />
+            {/* Load More Button - Only show if there are more than 3 articles and not all are visible */}
+            {articles.length > 3 && hasMoreArticles && (
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <button 
+                  onClick={handleLoadMore}
+                  disabled={loadingMore}
+                  className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 hover:from-emerald-700 hover:via-emerald-600 hover:to-green-600 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-3 mx-auto border-2 border-transparent hover:border-emerald-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {loadingMore ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>LOADING...</span>
+                    </>
+                  ) : (
+                    <>
+                      <BookOpen className="w-5 h-5" />
+                      <span>VIEW MORE STORIES</span>
+                      <ArrowRight className="w-5 h-5" />
+                    </>
+                  )}
                 </button>
-              </Link>
-            </motion.div>
+              </motion.div>
+            )}
+
+            {/* Show Less Button - Only show if more than 3 articles are visible */}
+            {visibleCount > 3 && (
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <button 
+                  onClick={handleShowLess}
+                  className="bg-gradient-to-r from-gray-600 via-gray-500 to-gray-600 hover:from-gray-700 hover:via-gray-600 hover:to-gray-700 text-white px-8 py-3 rounded-full font-semibold text-base shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 mx-auto border-2 border-transparent hover:border-gray-300"
+                >
+                  <ChevronUp className="w-4 h-4" />
+                  <span>SHOW LESS</span>
+                </button>
+              </motion.div>
+            )}
+
+            {/* Articles Counter - Only show if there are more than 3 articles */}
+            {articles.length > 3 && (
+              <div className="text-sm text-gray-500 mt-4">
+                Showing {Math.min(visibleCount, articles.length)} of {articles.length} articles
+              </div>
+            )}
+
+            {/* Visit Full Blog Button - Only shown when all articles are loaded and there are more than 3 */}
+            {articles.length > 3 && visibleCount >= articles.length && (
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+                className="pt-4"
+              >
+                <Link href="/blog">
+                  <button className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 hover:from-emerald-700 hover:via-emerald-600 hover:to-green-600 text-white px-8 py-3 rounded-full font-semibold text-base shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 mx-auto border-2 border-transparent hover:border-emerald-300">
+                    <Eye className="w-4 h-4" />
+                    <span>VISIT FULL BLOG</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </Link>
+              </motion.div>
+            )}
           </motion.div>
         )}
       </div>
+
+      {/* Custom CSS for line clamping */}
+      <style jsx>{`
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        
+        .line-clamp-3 {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
     </div>
   );
 };

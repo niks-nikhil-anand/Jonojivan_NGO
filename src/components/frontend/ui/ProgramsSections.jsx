@@ -13,7 +13,8 @@ import {
   Globe,
   Lightbulb,
   Heart,
-  Eye
+  Eye,
+  ChevronUp
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -22,6 +23,8 @@ const ProgramsSection = () => {
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(3); // Track how many programs to show
+  const [loadingMore, setLoadingMore] = useState(false); // Track loading state for load more
 
   // Default program styling configurations
   const programStyles = [
@@ -129,6 +132,27 @@ const ProgramsSection = () => {
     window.location.href = `/program/${slug}`;
   };
 
+  // Handle load more functionality
+  const handleLoadMore = async () => {
+    setLoadingMore(true);
+    
+    // Simulate loading delay for better UX
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    setVisibleCount(prev => prev + 3);
+    setLoadingMore(false);
+  };
+
+  // Handle show less functionality
+  const handleShowLess = () => {
+    setVisibleCount(3);
+    // Smooth scroll to programs section
+    const programsSection = document.getElementById('programs-section');
+    if (programsSection) {
+      programsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -216,8 +240,13 @@ const ProgramsSection = () => {
     );
   }
 
+  // Get visible programs
+  const visiblePrograms = programs.slice(0, visibleCount);
+  const hasMorePrograms = visibleCount < programs.length;
+  const showingAll = visibleCount >= programs.length;
+
   return (
-    <div className="bg-white py-16 px-4">
+    <div id="programs-section" className="bg-white py-16 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header Content - Centered at the top */}
         <motion.div 
@@ -244,7 +273,7 @@ const ProgramsSection = () => {
           initial="hidden"
           animate="visible"
         >
-          {programs.slice(0, 3).map((program, index) => {
+          {visiblePrograms.map((program, index) => {
             // Consistent character limits for all cards
             const titleMaxLength = 60;
             const descriptionMaxLength = 120;
@@ -335,28 +364,64 @@ const ProgramsSection = () => {
           })}
         </motion.div>
 
-        {/* View All Button at the bottom */}
-        {programs.length > 3 && (
-          <motion.div 
-            className="text-center mt-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
+        {/* Load More / Show Less Buttons */}
+        <motion.div 
+          className="text-center mt-12 space-y-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+        >
+          {/* Load More Button */}
+          {hasMorePrograms && (
             <motion.div
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <Link href="/programs">
-                <button className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 hover:from-emerald-700 hover:via-emerald-600 hover:to-green-600 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-3 mx-auto border-2 border-transparent hover:border-emerald-300">
-                  <Eye className="w-5 h-5" />
-                  <span>VIEW ALL PROGRAMS</span>
-                  <ArrowRight className="w-5 h-5" />
-                </button>
-              </Link>
+              <button 
+                onClick={handleLoadMore}
+                disabled={loadingMore}
+                className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 hover:from-emerald-700 hover:via-emerald-600 hover:to-green-600 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-3 mx-auto border-2 border-transparent hover:border-emerald-300 disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {loadingMore ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>LOADING...</span>
+                  </>
+                ) : (
+                  <>
+                    <Eye className="w-5 h-5" />
+                    <span>LOAD MORE PROGRAMS</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </>
+                )}
+              </button>
             </motion.div>
-          </motion.div>
-        )}
+          )}
+
+          {/* Show Less Button */}
+          {visibleCount > 3 && (
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <button 
+                onClick={handleShowLess}
+                className="bg-gradient-to-r from-gray-600 via-gray-500 to-gray-600 hover:from-gray-700 hover:via-gray-600 hover:to-gray-700 text-white px-8 py-3 rounded-full font-semibold text-base shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 mx-auto border-2 border-transparent hover:border-gray-300"
+              >
+                <ChevronUp className="w-4 h-4" />
+                <span>SHOW LESS</span>
+              </button>
+            </motion.div>
+          )}
+
+          {/* Programs Counter */}
+          <div className="text-sm text-gray-500 mt-4">
+            Showing {visibleCount} of {programs.length} programs
+          </div>
+        </motion.div>
       </div>
 
       {/* Custom CSS for line clamping */}
