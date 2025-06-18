@@ -143,7 +143,7 @@ const ChildSponsorshipSection = () => {
               className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-6 leading-tight"
               variants={cardVariants}
             >
-              What is the Child Sponsorship Program of Bring Smile Foundation?
+              What is the Child Sponsorship Program of Plan to Empower Foundation?
             </motion.h2>
 
             {/* Description */}

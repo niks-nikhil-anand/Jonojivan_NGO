@@ -234,7 +234,7 @@ const OrganizationInfo = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Bring Smiles, Build Futures
+              Empowers &  Build Futures
             </motion.h1>
 
             {/* Description */}
@@ -245,7 +245,7 @@ const OrganizationInfo = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <p className="text-xl text-gray-700 leading-relaxed mb-4">
-                Bring Smile Foundation is a movement of hope and empowerment, transforming lives through education in Bihar&apos;s underprivileged regions, where poverty and discrimination often overshadow dreams.
+                Plan to Empowers Foundation is a movement of hope and empowerment, transforming lives through education in Bihar&apos;s underprivileged regions, where poverty and discrimination often overshadow dreams.
               </p>
               
               {/* Additional Context */}
