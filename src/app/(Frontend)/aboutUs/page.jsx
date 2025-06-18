@@ -44,25 +44,25 @@ const AboutPage = () => {
       title: "Bloomfield International School, Ara",
       description: "Our flagship project provides high-quality education to children from marginalized communities. We offer a safe, nurturing, and empowering environment for success academically, socially, and emotionally.",
       icon: <GraduationCap className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-      color: "from-blue-500 to-sky-500",
-      bgColor: "bg-blue-50/80",
-      borderColor: "border-blue-200/60",
+      color: "from-green-500 to-green-600",
+      bgColor: "bg-white/95",
+      borderColor: "border-green-200",
     },
     {
       title: "Skill Development Programs for Women",
       description: "We provide skill development programs to empower women and girls, enabling them to become financially independent and confident leaders in their communities.",
       icon: <UserCheck className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-      color: "from-purple-500 to-violet-500",
-      bgColor: "bg-purple-50/80",
-      borderColor: "border-purple-200/60",
+      color: "from-green-500 to-green-600",
+      bgColor: "bg-white/95",
+      borderColor: "border-green-200",
     },
     {
       title: "Outreach and Community Support",
       description: "We work directly with families and local communities to raise awareness about education, gender equality, and women's rights, ensuring accessibility and impact.",
       icon: <Users className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-      color: "from-emerald-500 to-teal-500",
-      bgColor: "bg-emerald-50/80",
-      borderColor: "border-emerald-200/60",
+      color: "from-green-500 to-green-600",
+      bgColor: "bg-white/95",
+      borderColor: "border-green-200",
     }
   ];
 
@@ -79,25 +79,25 @@ const AboutPage = () => {
       title: "Education First",
       description: "We believe education is the foundation of empowerment and social change.",
       icon: <BookOpen className="w-5 h-5 sm:w-6 sm:h-6" />,
-      color: "from-blue-500 to-indigo-500"
+      color: "from-green-500 to-green-600"
     },
     {
-      title: "Gender Equality",
+      title: "Gender Equality", 
       description: "We champion equal rights and opportunities for women and girls.",
       icon: <Shield className="w-5 h-5 sm:w-6 sm:h-6" />,
-      color: "from-pink-500 to-rose-500"
+      color: "from-green-500 to-green-600"
     },
     {
       title: "Community Focus",
       description: "We work directly with communities to create lasting change.",
       icon: <Heart className="w-5 h-5 sm:w-6 sm:h-6" />,
-      color: "from-emerald-500 to-green-500"
+      color: "from-green-500 to-green-600"
     },
     {
       title: "Innovation",
       description: "We adapt new techniques and approaches for greater impact.",
       icon: <Lightbulb className="w-5 h-5 sm:w-6 sm:h-6" />,
-      color: "from-amber-500 to-orange-500"
+      color: "from-green-500 to-green-600"
     }
   ];
 
@@ -126,7 +126,7 @@ const AboutPage = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-white text-emerald-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
+                className="bg-white text-green-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
               >
                 <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span>Donate Now</span>
@@ -134,7 +134,7 @@ const AboutPage = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:bg-white hover:text-emerald-600 transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
+                className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:bg-white hover:text-green-600 transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
               >
                 <Handshake className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span>Partner With Us</span>
@@ -167,8 +167,8 @@ const AboutPage = () => {
                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
                   We at Plan to Empower work to make a world of happiness, tolerance, social equality, dignity and security where poverty and illiteracy has no role to play. We work to educate children, empower women by educating them and making them financially independent, eradicate poverty and achieve a socially balanced lifeline.
                 </p>
-                <div className="flex items-start space-x-3 sm:space-x-4 p-4 sm:p-6 bg-gradient-to-r from-emerald-50/80 to-green-50/80 rounded-xl border border-emerald-100/50">
-                  <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600 flex-shrink-0 mt-1" />
+                <div className="flex items-start space-x-3 sm:space-x-4 p-4 sm:p-6 bg-gradient-to-r from-green-50/80 to-emerald-50/80 rounded-xl border border-green-100/50">
+                  <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-green-600 flex-shrink-0 mt-1" />
                   <p className="text-sm sm:text-base text-gray-700 font-medium leading-relaxed">
                     Our team works days and nights to have a happy and balanced world around us, providing equal opportunities to all. We work like dedicated professionals but from the core of our heart.
                   </p>
@@ -176,8 +176,8 @@ const AboutPage = () => {
               </div>
               
               <div className="relative">
-                <div className="bg-gradient-to-br from-emerald-100/80 to-green-100/80 rounded-2xl p-6 sm:p-8 text-center border border-emerald-200/50">
-                  <Target className="w-12 h-12 sm:w-16 sm:h-16 text-emerald-600 mx-auto mb-4" />
+                <div className="bg-gradient-to-br from-green-100/80 to-emerald-100/80 rounded-2xl p-6 sm:p-8 text-center border border-green-200/50">
+                  <Target className="w-12 h-12 sm:w-16 sm:h-16 text-green-600 mx-auto mb-4" />
                   <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
                     Empowering People Out of Poverty
                   </h3>
@@ -250,7 +250,7 @@ const AboutPage = () => {
         >
           <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 shadow-xl border border-gray-100/50">
             <div className="text-center mb-8 sm:mb-12">
-              <TrendingUp className="w-12 h-12 sm:w-16 sm:h-16 text-emerald-600 mx-auto mb-4" />
+              <TrendingUp className="w-12 h-12 sm:w-16 sm:h-16 text-green-600 mx-auto mb-4" />
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-3 sm:mb-4 leading-tight">
                 The Impact of Our Work
               </h2>
@@ -267,15 +267,15 @@ const AboutPage = () => {
                 <div className="space-y-3 sm:space-y-4">
                   {impacts.map((impact, index) => (
                     <div key={index} className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                      <div className="w-2 h-2 bg-gradient-to-r from-green-500 to-green-600 rounded-full mt-2 flex-shrink-0"></div>
                       <p className="text-sm sm:text-base text-gray-700 leading-relaxed">{impact}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-emerald-50/80 to-green-50/80 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-emerald-100/50">
-                <Globe className="w-10 h-10 sm:w-12 sm:h-12 text-emerald-600 mb-4" />
+              <div className="bg-gradient-to-br from-green-50/80 to-emerald-50/80 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-green-100/50">
+                <Globe className="w-10 h-10 sm:w-12 sm:h-12 text-green-600 mb-4" />
                 <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
                   Our Approach
                 </h3>
@@ -308,7 +308,7 @@ const AboutPage = () => {
 
           <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 shadow-xl mb-6 sm:mb-8 border border-gray-100/50">
             <div className="max-w-4xl mx-auto text-center">
-              <Building className="w-12 h-12 sm:w-16 sm:h-16 text-emerald-600 mx-auto mb-4 sm:mb-6" />
+              <Building className="w-12 h-12 sm:w-16 sm:h-16 text-green-600 mx-auto mb-4 sm:mb-6" />
               <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
                 The mission of Plan to Empower is to reach the un-reached, underprivileged, deprived and disadvantaged people in the rural and urban population of India, who are either totally unsaved, underserved or at best inappropriately served with regards to health, education & other needs for better living.
               </p>
@@ -355,7 +355,7 @@ const AboutPage = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-white text-emerald-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
+                className="bg-white text-green-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
               >
                 <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span>💖 Donate Now</span>
@@ -363,7 +363,7 @@ const AboutPage = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:bg-white hover:text-emerald-600 transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
+                className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:bg-white hover:text-green-600 transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
               >
                 <Handshake className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span>💖 Partner With Us</span>
