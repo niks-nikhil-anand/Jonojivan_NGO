@@ -48,10 +48,10 @@ const ProgramPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="h-12 w-12 animate-spin text-blue-600 mx-auto mb-4" />
-          <p className="text-gray-600 text-lg">Loading program details...</p>
+      <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 flex items-center justify-center">
+        <div className="text-center bg-white p-8 rounded-2xl shadow-xl border border-green-100">
+          <Loader2 className="h-12 w-12 animate-spin text-green-600 mx-auto mb-4" />
+          <p className="text-gray-700 text-lg font-medium">Loading program details...</p>
         </div>
       </div>
     );
@@ -59,16 +59,16 @@ const ProgramPage = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-100 flex items-center justify-center">
-        <div className="text-center bg-white p-8 rounded-lg shadow-lg max-w-md mx-4">
+      <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-red-100 flex items-center justify-center p-4">
+        <div className="text-center bg-white p-8 rounded-2xl shadow-xl max-w-md mx-4 border border-red-100">
           <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          <h2 className="text-2xl font-bold text-gray-800 mb-3">
             Error Loading Program
           </h2>
-          <p className="text-gray-600">{error}</p>
+          <p className="text-gray-600 mb-6">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="mt-4 px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+            className="px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
           >
             Try Again
           </button>
@@ -78,38 +78,40 @@ const ProgramPage = () => {
   }
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 min-h-screen">
       {/* Program Image */}
       {program?.image && (
-        <div className="w-full h-72 sm:h-80 md:h-96 lg:h-[800px] overflow-hidden">
+        <div className="w-full h-56 sm:h-80 md:h-72 lg:h-[750px] overflow-hidden relative">
           <img
             src={program.image}
             alt={program.title || "Program"}
             className="w-full h-full object-cover"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
         </div>
       )}
+
       {/* Main Content */}
-      <div className="mx-auto px-4 sm:px-6 lg:px-8  sm:py-8">
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-green-100">
           <div className="flex flex-col lg:flex-row">
-            <div className="">
+            <div className="flex-1">
               {program.whatWeDo && (
                 <div className="">
                   <div className="max-w-4xl mx-auto">
                     <div className="prose prose-sm sm:prose-lg max-w-none">
-                      <div className="bg-gray-50  p-4 sm:p-8 border border-gray-200">
+                      <div className="bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 p-6 sm:p-8 border-b border-green-100">
                         <div className="flex items-center mb-6 sm:mb-8">
-                          <div className="bg-green-100 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
-                            <CheckCircle className="h-6 w-6 sm:h-8 sm:w-8 text-green-600" />
+                          <div className="bg-gradient-to-r from-green-100 to-emerald-100 p-3 sm:p-4 rounded-full mr-4 sm:mr-5 shadow-lg">
+                            <CheckCircle className="h-5 w-5 sm:h-8 sm:w-8 text-green-600" />
                           </div>
-                          <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
+                          <h3 className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">
                             What We Do
                           </h3>
                         </div>
 
                         <div
-                          className="text-gray-700 leading-relaxed text-sm sm:text-base"
+                          className="text-gray-700 leading-relaxed text-sm sm:text-base prose prose-green max-w-none"
                           dangerouslySetInnerHTML={{ __html: program.whatWeDo }}
                         />
                       </div>
@@ -118,6 +120,7 @@ const ProgramPage = () => {
                 </div>
               )}
             </div>
+            
             <div className="flex-1">
               {/* Donation Section - Integrated between Mission and What We Do */}
               <DonationSection program={program} />
@@ -125,57 +128,65 @@ const ProgramPage = () => {
           </div>
 
           {/* Info Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-8 pb-8 sm:pb-12  mx-auto my-10">
-            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 sm:p-6 border border-blue-200">
-              <div className="flex items-center mb-3 sm:mb-4">
-                <Users className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600 mr-2 sm:mr-3" />
-                <h4 className="text-lg sm:text-xl font-semibold text-blue-900">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 px-6 sm:px-8 pb-8 sm:pb-12 mx-auto my-10">
+            <div className="bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 rounded-2xl p-6 sm:p-8 border-2 border-green-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]">
+              <div className="flex items-center mb-4 sm:mb-6">
+                <div className="bg-gradient-to-r from-green-100 to-emerald-100 p-3 rounded-full mr-3 sm:mr-4 shadow-md">
+                  <Users className="h-6 w-6 sm:h-8 sm:w-8 text-green-600" />
+                </div>
+                <h4 className="text-lg sm:text-xl font-bold text-green-900">
                   Community Impact
                 </h4>
               </div>
-              <p className="text-blue-800 text-sm sm:text-base">
+              <p className="text-green-800 text-sm sm:text-base leading-relaxed">
                 Our programs are designed to create lasting positive change in
                 the communities we serve, focusing on sustainable development
                 and empowerment.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 sm:p-6 border border-green-200">
-              <div className="flex items-center mb-3 sm:mb-4">
-                <Target className="h-6 w-6 sm:h-8 sm:w-8 text-green-600 mr-2 sm:mr-3" />
-                <h4 className="text-lg sm:text-xl font-semibold text-green-900">
+            <div className="bg-gradient-to-br from-emerald-50 via-teal-50 to-emerald-100 rounded-2xl p-6 sm:p-8 border-2 border-emerald-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]">
+              <div className="flex items-center mb-4 sm:mb-6">
+                <div className="bg-gradient-to-r from-emerald-100 to-teal-100 p-3 rounded-full mr-3 sm:mr-4 shadow-md">
+                  <Target className="h-6 w-6 sm:h-8 sm:w-8 text-emerald-600" />
+                </div>
+                <h4 className="text-lg sm:text-xl font-bold text-emerald-900">
                   Strategic Approach
                 </h4>
               </div>
-              <p className="text-green-800 text-sm sm:text-base">
+              <p className="text-emerald-800 text-sm sm:text-base leading-relaxed">
                 We employ evidence-based strategies and collaborate with local
                 stakeholders to ensure our initiatives are effective and
                 culturally appropriate.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 sm:p-6 border border-purple-200">
-              <div className="flex items-center mb-3 sm:mb-4">
-                <Heart className="h-6 w-6 sm:h-8 sm:w-8 text-purple-600 mr-2 sm:mr-3" />
-                <h4 className="text-lg sm:text-xl font-semibold text-purple-900">
+            <div className="bg-gradient-to-br from-pink-50 via-pink-50 to-pink-100 rounded-2xl p-6 sm:p-8 border-2 border-pink-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]">
+              <div className="flex items-center mb-4 sm:mb-6">
+                <div className="bg-gradient-to-r from-pink-100 to-pink-100 p-3 rounded-full mr-3 sm:mr-4 shadow-md">
+                  <Heart className="h-6 w-6 sm:h-8 sm:w-8 text-pink-600" />
+                </div>
+                <h4 className="text-lg sm:text-xl font-bold text-pink-900">
                   Compassionate Care
                 </h4>
               </div>
-              <p className="text-purple-800 text-sm sm:text-base">
+              <p className="text-pink-800 text-sm sm:text-base leading-relaxed">
                 Every action we take is rooted in empathy and understanding,
                 ensuring that we address not just immediate needs but also the
                 underlying causes of challenges.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl p-4 sm:p-6 border border-amber-200">
-              <div className="flex items-center mb-3 sm:mb-4">
-                <Lightbulb className="h-6 w-6 sm:h-8 sm:w-8 text-amber-600 mr-2 sm:mr-3" />
-                <h4 className="text-lg sm:text-xl font-semibold text-amber-900">
+            <div className="bg-gradient-to-br from-teal-50 via-green-50 to-teal-100 rounded-2xl p-6 sm:p-8 border-2 border-teal-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]">
+              <div className="flex items-center mb-4 sm:mb-6">
+                <div className="bg-gradient-to-r from-teal-100 to-green-100 p-3 rounded-full mr-3 sm:mr-4 shadow-md">
+                  <Lightbulb className="h-6 w-6 sm:h-8 sm:w-8 text-teal-600" />
+                </div>
+                <h4 className="text-lg sm:text-xl font-bold text-teal-900">
                   Innovation & Growth
                 </h4>
               </div>
-              <p className="text-amber-800 text-sm sm:text-base">
+              <p className="text-teal-800 text-sm sm:text-base leading-relaxed">
                 We continuously seek innovative solutions and foster an
                 environment of learning and adaptation to maximize our positive
                 impact and reach.
@@ -184,34 +195,21 @@ const ProgramPage = () => {
           </div>
 
           {/* Additional Call to Action */}
-          <div
-            className="bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 rounded-3xl p-12 text-center text-white shadow-2xl"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
+          <div className="bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 rounded-3xl m-6 sm:m-8 p-8 sm:p-12 text-center text-white shadow-2xl border border-green-400">
             <div className="max-w-4xl mx-auto">
-              <h3 className="text-3xl lg:text-4xl font-bold mb-4">
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">
                 Ready to Make a Difference?
               </h3>
-              <p className="text-lg opacity-90 mb-8 leading-relaxed">
+              <p className="text-base sm:text-lg opacity-90 mb-6 sm:mb-8 leading-relaxed max-w-3xl mx-auto">
                 Your contribution can transform lives and build stronger
                 communities. Join us in creating lasting change.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-white text-green-600 px-8 py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2"
-                >
+                <button className="bg-white text-green-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-[1.02] active:scale-[0.98]">
                   <Heart className="w-5 h-5" />
                   <span>Donate Now</span>
                 </button>
-                <button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-green-600 transition-all duration-300 flex items-center justify-center space-x-2"
-                >
+                <button className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:bg-white hover:text-green-600 transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-[1.02] active:scale-[0.98]">
                   <Users className="w-5 h-5" />
                   <span>Volunteer</span>
                 </button>
@@ -222,10 +220,10 @@ const ProgramPage = () => {
       </div>
 
       {/* Footer */}
-      <div className="bg-gray-800 text-white py-6 sm:py-8 mt-8 sm:mt-12">
+      <div className="bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 text-white py-6 sm:py-8 mt-8 sm:mt-12 border-t border-gray-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-gray-300 text-sm sm:text-base">
-            © 2024 Program Dashboard. {program.title || "Program Details"}
+            © 2024 Program Dashboard. {program?.title || "Program Details"}
           </p>
         </div>
       </div>

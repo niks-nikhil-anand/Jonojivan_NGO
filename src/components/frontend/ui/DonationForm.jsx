@@ -42,6 +42,25 @@ const DonationForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    
+    // Phone number validation - only allow digits and limit to 10
+    if (name === "phone") {
+      const phoneValue = value.replace(/\D/g, ''); // Remove non-digits
+      if (phoneValue.length <= 10) {
+        setFormData({ ...formData, [name]: phoneValue });
+      }
+      return;
+    }
+    
+    // PAN card validation - only allow alphanumeric and limit to 10
+    if (name === "panCard") {
+      const panValue = value.replace(/[^A-Za-z0-9]/g, '').toUpperCase(); // Remove special chars and convert to uppercase
+      if (panValue.length <= 10) {
+        setFormData({ ...formData, [name]: panValue });
+      }
+      return;
+    }
+    
     setFormData({ ...formData, [name]: value });
   };
 
@@ -213,6 +232,18 @@ const DonationForm = () => {
       return;
     }
 
+    // Validate phone number length
+    if (formData.phone.length !== 10) {
+      toast.error("Phone number must be exactly 10 digits.");
+      return;
+    }
+
+    // Validate PAN card format if provided
+    if (formData.panCard && formData.panCard.length !== 10) {
+      toast.error("PAN card number must be exactly 10 characters.");
+      return;
+    }
+
     if (!amount || isNaN(amount) || amount <= 0) {
       toast.error("Please enter a valid donation amount.");
       return;
@@ -360,32 +391,43 @@ const DonationForm = () => {
             </div>
 
             <div className="p-6">
-            
-
               <div className="space-y-4">
                 {[
-                  { label: "Full Name", field: "fullName", type: "text", required: true },
-                  { label: "Email Address", field: "email", type: "email", required: true },
-                  { label: "Phone Number", field: "phone", type: "tel", required: true },
-                  { label: "PAN Card Number", field: "panCard", type: "text", required: false },
-                  { label: "Address", field: "address", type: "text", required: false }
-                ].map(({ label, field, type, required }) => (
+                  { label: "Full Name", field: "fullName", type: "text", required: true, placeholder: "Enter full name" },
+                  { label: "Email Address", field: "email", type: "email", required: true, placeholder: "Enter email address" },
+                  { label: "Phone Number", field: "phone", type: "tel", required: true, placeholder: "+91 Enter 10-digit phone number" },
+                  { label: "PAN Card Number", field: "panCard", type: "text", required: false, placeholder: "Enter 10-character PAN number" },
+                  { label: "Address", field: "address", type: "text", required: false, placeholder: "Enter address" }
+                ].map(({ label, field, type, required, placeholder }) => (
                   <div key={field}>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       {label} {required && <span className="text-red-500">*</span>}
+                      {field === 'phone' && <span className="text-gray-500 text-xs ml-1">(10 digits only)</span>}
+                      {field === 'panCard' && <span className="text-gray-500 text-xs ml-1">(10 characters)</span>}
                     </label>
                     <input
                       type={type}
                       name={field}
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                      placeholder={`Enter ${label.toLowerCase()}`}
+                      placeholder={placeholder}
                       value={formData[field] || ""}
                       onChange={handleInputChange}
                       required={required}
+                      maxLength={field === 'phone' || field === 'panCard' ? 10 : undefined}
                     />
                     {field === 'panCard' && (
                       <p className="text-xs text-amber-600 mt-1 font-medium">
                         <strong>Note:</strong> If you do not provide your PAN Number, you will not be able to claim 50% tax exemption u/s 80G in India
+                      </p>
+                    )}
+                    {field === 'phone' && formData.phone && formData.phone.length < 10 && (
+                      <p className="text-xs text-red-500 mt-1">
+                        Phone number must be exactly 10 digits ({formData.phone.length}/10)
+                      </p>
+                    )}
+                    {field === 'panCard' && formData.panCard && formData.panCard.length > 0 && formData.panCard.length < 10 && (
+                      <p className="text-xs text-red-500 mt-1">
+                        PAN card must be exactly 10 characters ({formData.panCard.length}/10)
                       </p>
                     )}
                   </div>

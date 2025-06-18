@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { toast } from "react-toastify"; 
 import { useRouter } from "next/navigation";
 import {
   CreditCard,
@@ -11,6 +10,7 @@ import {
   User,
   X,
 } from "lucide-react";
+import { toast } from "sonner";
 
 const CustomDonationForm = ({ setIsModalOpen }) => {
   const [formData, setFormData] = useState({

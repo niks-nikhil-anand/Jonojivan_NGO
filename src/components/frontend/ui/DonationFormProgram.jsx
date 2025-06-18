@@ -309,35 +309,7 @@ const DonationSection = ({ program }) => {
                 )}
               </div>
 
-              {/* Payment Method Selection */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <Label className="text-lg font-semibold text-gray-800">
-                    Payment Method
-                  </Label>
-                  <CreditCard className="h-5 w-5 text-blue-600" />
-                </div>
-                <p className="text-sm text-gray-600 font-medium">
-                  We accept all major payment methods
-                </p>
-                <RadioGroup 
-                  value={paymentMethod} 
-                  onValueChange={setPaymentMethod}
-                  className="grid grid-cols-3 gap-4"
-                >
-                  {["Online", "Offline", "TestDonation"].map((method) => (
-                    <div key={method} className="flex items-center space-x-2">
-                      <RadioGroupItem value={method} id={method} />
-                      <Label 
-                        htmlFor={method}
-                        className="cursor-pointer flex-1 p-3 border rounded-lg hover:bg-gray-50 transition-colors"
-                      >
-                        {method}
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              </div>
+              
 
               {/* Personal Information */}
               <div className="space-y-6">
