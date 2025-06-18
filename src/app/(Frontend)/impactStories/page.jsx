@@ -1,137 +1,53 @@
-"use client";
+"use client"
 import React from "react";
 import {
   BookOpen,
   GraduationCap,
-  School,
-  Users,
-  UserCheck,
-  Building,
-  Target,
-  ArrowRight,
-  Sparkles,
-  Globe,
-  Award,
-  Smile,
-  HandHeart,
   Heart,
-  Presentation,
+  Sparkles,
+  User,
+  MapPin,
+  ArrowRight,
+  Smile,
 } from "lucide-react";
-import CTABanner from "@/components/frontend/shared/CTABanner";
 
-const BringSmile = () => {
-  const impactStats = [
+const ImpactStories = () => {
+  const stories = [
     {
-      icon: Smile,
-      number: "10,000+",
-      label: "Children Educated",
-      color: "text-yellow-500",
+      name: "Shaziya",
+      location: "Ara, Bihar",
+      story: "Shaziya's laughter once echoed only within the four walls of her small, dimly lit home. Born into a family struggling to make ends meet, her dreams of going to school were buried under the weight of poverty and societal expectations. But Shaziya's life changed when Bring Smile Foundation stepped in. Through our Child Sponsorship Program, Shaziya was enrolled at Bloomfield International School. Today, Shaziya is not just a student—she's a role model. She dreams of becoming a teacher, so she can inspire other girls in her community to believe in themselves.",
+      callToAction: "Your support can rewrite more stories like Shaziya's. Sponsor a child today and bring a lifetime of smiles.",
     },
     {
-      icon: Users,
-      number: "500+",
-      label: "Girls Empowered",
-      color: "text-pink-500",
+      name: "Anamika",
+      location: "Bhojpur, Bihar",
+      story: "Anamika grew up in a small village where girls rarely set foot in classrooms. Her father, a daily wage laborer, struggled to feed the family, and education was considered a luxury they couldn't afford. When Bring Smile Foundation discovered Anamika's situation, her story became our mission. Through our Child Sponsorship Program, she was given the opportunity to join Bloomfield International School. Today, she not only attends school but excels in her studies, dreaming of becoming a doctor to serve her community.",
+      callToAction: "You can be the turning point in a child's story, just like Anamika's. Sponsor a child and help them create a future filled with hope and possibilities.",
     },
     {
-      icon: School,
-      number: "25+",
-      label: "Schools Supported",
-      color: "text-blue-500",
+      name: "Priya",
+      location: "Ara, Bihar",
+      story: "Priya was born into a world where the value of a girl's education was often overlooked. Her family struggled to make ends meet, and as the eldest daughter, Priya was expected to help with household chores and care for her younger siblings. When Bring Smile Foundation learned about Priya's situation, everything changed. Through the Child Sponsorship Program, Priya was enrolled at Bloomfield International School. Today, Priya is an ambitious student with big dreams. She aspires to become an IAS officer, using her education to fight for justice and equality in her community.",
+      callToAction: "With your support, you can help more girls like Priya rewrite their stories and create a future full of possibilities.",
     },
     {
-      icon: Globe,
-      number: "50+",
-      label: "Communities Reached",
-      color: "text-green-500",
-    },
-  ];
-
-  const programCards = [
-    {
-      icon: School,
-      title: "Running Schools for Holistic Learning",
-      description:
-        "Our flagship initiative, Bloomfield International School, empowers students with quality education and a supportive environment.",
-      gradient: "from-blue-500 to-indigo-500",
+      name: "Anshika",
+      location: "Bhojpur, Bihar",
+      story: "Anshika's childhood was one of silent longing. Born into a family where education for girls was seen as unnecessary, she spent her days helping her mother with household chores. But Anshika's heart never stopped dreaming. When Bring Smile Foundation discovered Anshika, her life began to change. Through the Child Sponsorship Program, she was enrolled in Bloomfield International School. Today, Anshika is thriving academically, with dreams that stretch far beyond her village. She dreams of becoming a doctor to inspire other girls in her community.",
+      callToAction: "Your support can give girls like Anshika the chance they deserve. Sponsor a child today and help transform a life.",
     },
     {
-      icon: UserCheck,
-      title: "Educating Girls, Empowering Communities",
-      description:
-        "We break barriers for girls, ensuring they thrive and uplift entire communities.",
-      gradient: "from-pink-500 to-rose-500",
+      name: "Ayesha",
+      location: "Ara, Bihar",
+      story: "Ayesha's life was shaped by the daily struggles of her family. Her father worked as a daily wage laborer, and education was a luxury they could not afford. Despite the limitations imposed on her, Ayesha always dreamed of something more. When Bring Smile Foundation learned about Ayesha, everything changed. Through the Child Sponsorship Program, Ayesha was given the opportunity to attend Bloomfield International School and discovered a love for learning that she had never known was possible.",
+      callToAction: "Your sponsorship can change a life like Ayesha's. Give the gift of education today and make a lasting impact.",
     },
     {
-      icon: HandHeart,
-      title: "Providing Tuition Classes",
-      description:
-        "Our personalized tuition programs bridge learning gaps and boost confidence.",
-      gradient: "from-emerald-500 to-green-500",
-    },
-    {
-      icon: GraduationCap,
-      title: "Skill Development Programs",
-      description:
-        "We provide vocational training and life skills for independence and self-reliance.",
-      gradient: "from-purple-500 to-violet-500",
-    },
-    {
-      icon: Building,
-      title: "Safe and Inclusive Learning Environments",
-      description:
-        "We create spaces where children feel safe, valued, and inspired to learn.",
-      gradient: "from-orange-500 to-amber-500",
-    },
-  ];
-
-  const impactPoints = [
-    {
-      icon: Smile,
-      text: "Millions of children are still waiting for their chance to learn.",
-      color: "text-yellow-500",
-    },
-    {
-      icon: Presentation,
-      text: "Thousands of girls are waiting for the opportunity to dream big.",
-      color: "text-green-500",
-    },
-    {
-      icon: HandHeart,
-      text: "Every donation helps us bring hope to those in need.",
-      color: "text-blue-500",
-    },
-    {
-      icon: Heart,
-      text: "Your support creates lasting change and brighter futures for many.",
-      color: "text-red-500",
-    },
-  ];
-
-  const actionItems = [
-    {
-      icon: Heart,
-      title: "Donate Now",
-      description: "Sponsor a child's education for just ₹26,000 a year.",
-      color: "text-red-500",
-    },
-    {
-      icon: Presentation,
-      title: "Partner With Us",
-      description: "Help us expand our programs and reach more children.",
-      color: "text-green-500",
-    },
-    {
-      icon: BookOpen,
-      title: "Spread the Word",
-      description: "Share our story and inspire others.",
-      color: "text-yellow-500",
-    },
-    {
-      icon: GraduationCap,
-      title: "Join Our Mission",
-      description: "Make education accessible to every child.",
-      color: "text-blue-500",
+      name: "Sana",
+      location: "Bhojpur, Bihar",
+      story: "Sana's days were filled with endless chores, cooking, cleaning, and taking care of her younger siblings. In her community, girls were expected to stay at home and contribute to the household, while boys went to school to build their futures. But Sana's heart held a quiet hope—she dreamed of becoming a doctor, to heal the sick and help the poor. When Bring Smile Foundation heard about Sana, everything changed. Through our Child Sponsorship Program, Sana was enrolled in Bloomfield International School. Sana flourished in her studies and became a source of inspiration to her family and friends.",
+      callToAction: "With your support, girls like Sana can change their futures. Sponsor a child today and be the reason a dream comes true.",
     },
   ];
 
@@ -183,19 +99,17 @@ const BringSmile = () => {
           <div className="text-center fade-in">
             <div className="flex justify-center mb-6">
               <div className="bg-white/20 p-4 rounded-full backdrop-blur-sm">
-                <Sparkles className="w-12 h-12 text-white" />
+                <Heart className="w-12 h-12 text-white" />
               </div>
             </div>
             <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              Transforming Lives Through
+              Stories of
               <span className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
-                Education
+                Transformation
               </span>
             </h1>
             <p className="text-xl lg:text-2xl text-green-100 max-w-4xl mx-auto leading-relaxed">
-              At Plan to Empower, we unlock potential, inspire dreams, and
-              empower futures. Together, we&apos;re building a world where every
-              child has access to quality education.
+              Every child has a story. These are the stories of dreams realized, barriers broken, and futures transformed through the power of education.
             </p>
           </div>
         </div>
@@ -205,186 +119,115 @@ const BringSmile = () => {
         <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
       </header>
 
-      {/* Impact Stats */}
-      <section className="py-16 -mt-12 relative z-10">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {impactStats.map((stat, index) => (
+      {/* Stories Section */}
+      <section className="py-16 px-6 -mt-12 relative z-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid gap-8 lg:gap-12">
+            {stories.map((story, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl shadow-lg p-6 text-center slide-up hover-scale"
+                className="bg-white rounded-3xl shadow-xl overflow-hidden slide-up hover-lift"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="flex justify-center mb-4">
-                  <div className="bg-gray-50 p-3 rounded-full">
-                    <stat.icon className={`w-8 h-8 ${stat.color}`} />
+                <div className="p-8 lg:p-12">
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:gap-12">
+                    {/* Story Content */}
+                    <div className="flex-1">
+                      <div className="flex items-center gap-4 mb-6">
+                        <div className="bg-gradient-to-r from-emerald-500 to-green-500 p-3 rounded-full">
+                          <User className="w-6 h-6 text-white" />
+                        </div>
+                        <div>
+                          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
+                            {story.name}
+                          </h2>
+                          <div className="flex items-center gap-2 text-gray-600 mt-1">
+                            <MapPin className="w-4 h-4" />
+                            <span className="text-lg">{story.location}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="prose prose-lg max-w-none mb-8">
+                        <p className="text-gray-700 leading-relaxed text-lg">
+                          {story.story}
+                        </p>
+                      </div>
+
+                      {/* Call to Action */}
+                      <div className="bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 rounded-2xl p-6 border border-emerald-100">
+                        <div className="flex items-start gap-4">
+                          <div className="bg-emerald-100 p-2 rounded-full flex-shrink-0">
+                            <Heart className="w-5 h-5 text-emerald-600" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-gray-800 font-medium text-lg leading-relaxed">
+                              {story.callToAction}
+                            </p>
+                            <button className="mt-4 bg-gradient-to-r from-emerald-600 to-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-emerald-700 hover:to-green-700 transition-all duration-300 flex items-center gap-2 hover-scale">
+                              Sponsor a Child
+                              <ArrowRight className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Story Icon/Visual */}
+                    <div className="lg:w-48 flex-shrink-0">
+                      <div className="bg-gradient-to-br from-emerald-100 via-green-100 to-teal-100 rounded-2xl p-8 text-center">
+                        <div className="bg-white p-6 rounded-full inline-block mb-4 shadow-lg">
+                          <BookOpen className="w-12 h-12 text-emerald-600" />
+                        </div>
+                        <h3 className="text-lg font-bold text-gray-900 mb-2">
+                          Education
+                        </h3>
+                        <p className="text-gray-600 text-sm">
+                          Transforming Lives
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
-                  {stat.number}
-                </h3>
-                <p className="text-gray-600 font-medium">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why Education Matters */}
-      <section className="py-16 px-6">
+      {/* Impact Summary */}
+      <section className="py-16 px-6 bg-white">
         <div className="max-w-4xl mx-auto text-center">
           <div className="fade-in">
             <div className="flex justify-center mb-6">
-              <div className="bg-emerald-100 p-3 rounded-full">
-                <Target className="w-8 h-8 text-emerald-600" />
+              <div className="bg-emerald-100 p-4 rounded-full">
+                <Sparkles className="w-10 h-10 text-emerald-600" />
               </div>
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-8">
-              Why Education Matters
+              Your Impact Creates Stories
             </h2>
-            <p className="text-xl text-gray-600 leading-relaxed">
-              Education is the most powerful tool for breaking the cycle of
-              poverty. It equips children with skills, courage, and knowledge to
-              build brighter futures. We refuse to let barriers like poverty and
-              gender discrimination silence their dreams.
+            <p className="text-xl text-gray-600 leading-relaxed mb-8">
+              These stories represent just a few of the thousands of lives transformed through education. Every donation, every sponsorship, every act of support creates a new chapter in a child's life story.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* How We Make a Difference */}
-      <section className="py-16 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16 fade-in">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              How We Make a Difference
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Through innovative programs and dedicated support, we&apos;re
-              creating pathways to success for children and communities across
-              the region.
-            </p>
-          </div>
-
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {programCards.map((card, index) => (
-              <div
-                key={index}
-                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover-lift slide-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className={`h-2 bg-gradient-to-r ${card.gradient}`}></div>
-                <div className="p-8">
-                  <div className="flex justify-center mb-6">
-                    <div
-                      className={`bg-gradient-to-r ${card.gradient} p-4 rounded-full`}
-                    >
-                      <card.icon className="w-8 h-8 text-white" />
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4 text-center group-hover:text-emerald-600 transition-colors duration-300">
-                    {card.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed text-center">
-                    {card.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Impact Section */}
-      <section className="py-16 px-6 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-3xl shadow-xl p-8 lg:p-12 fade-in">
-            <div className="text-center mb-10">
-              <div className="flex justify-center mb-6">
-                <div className="bg-emerald-100 p-4 rounded-full">
-                  <Award className="w-10 h-10 text-emerald-600" />
-                </div>
-              </div>
-              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                The Impact of Your Support
-              </h2>
-              <p className="text-lg text-gray-600">
-                Supporting Plan to Empower means changing lives through
-                education. Together, we can transform countless futures and make
-                dreams a reality.
+            <div className="bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 rounded-2xl p-8 border border-emerald-100">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                Be Part of the Next Story
+              </h3>
+              <p className="text-lg text-gray-700 mb-6">
+                Join us in writing more stories of hope, dreams, and transformation. Together, we can ensure every child has the chance to create their own success story.
               </p>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              {impactPoints.map((point, index) => (
-                <div
-                  key={index}
-                  className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors duration-300 slide-up"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="flex-shrink-0 bg-white p-3 rounded-full shadow-md">
-                    <point.icon className={`w-6 h-6 ${point.color}`} />
-                  </div>
-                  <p className="text-gray-700 text-lg leading-relaxed pt-2">
-                    {point.text}
-                  </p>
-                </div>
-              ))}
+              <button className="bg-gradient-to-r from-emerald-600 to-green-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-emerald-700 hover:to-green-700 transition-all duration-300 flex items-center gap-3 mx-auto hover-scale">
+                <Heart className="w-5 h-5" />
+                Start Your Impact Today
+                <ArrowRight className="w-5 h-5" />
+              </button>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Action Items Section */}
-      <section className="py-16 px-6 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 rounded-3xl shadow-xl p-8 lg:p-12 fade-in">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                Join Us in Building a Brighter Future
-              </h2>
-              <p className="text-lg text-gray-600">
-                There are many ways you can make a difference in the lives of
-                children and communities.
-              </p>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              {actionItems.map((item, index) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group slide-up hover-scale"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 bg-gray-50 p-3 rounded-full group-hover:bg-emerald-50 transition-colors duration-300">
-                      <item.icon className={`w-6 h-6 ${item.color}`} />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors duration-300">
-                        {item.title}
-                      </h3>
-                      <p className="text-gray-600 leading-relaxed">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA Banner */}
-      <CTABanner
-        heading={"Because Every Child Deserves a Chance"}
-        paragraph={
-          " Education is more than a right—it&apos;s a lifeline to a brighter tomorrow. Join us in making this vision a reality."
-        }
-      />
     </div>
   );
 };
 
-export default BringSmile;
+export default ImpactStories;

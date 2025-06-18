@@ -37,15 +37,15 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
   };
 
   const handleAmountChange = (e) => {
-    setAmount(Number(e.target.value)); // Update amount with slider value
+    setAmount(Number(e.target.value)); 
   };
 
   const incrementAmount = () => {
-    setAmount((prevAmount) => Math.min(prevAmount + 1000, 10000)); // Increase by ₹1000, max ₹10000
+    setAmount((prevAmount) => Math.min(prevAmount + 1000, 10000)); 
   };
 
   const decrementAmount = () => {
-    setAmount((prevAmount) => Math.max(prevAmount - 1000, 1000)); // Decrease by ₹1000, min ₹1000
+    setAmount((prevAmount) => Math.max(prevAmount - 1000, 1000)); 
   };
 
   const resetForm = () => {

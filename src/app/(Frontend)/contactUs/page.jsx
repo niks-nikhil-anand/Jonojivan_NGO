@@ -122,39 +122,32 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-emerald-600 via-green-600 to-teal-700 text-white py-12 sm:py-16 lg:py-20 px-4 overflow-hidden">
+      
+
+       <header className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 text-white">
         <div className="absolute inset-0 bg-black/10"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
-        <div className="relative z-10 max-w-6xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="inline-flex items-center justify-center w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 bg-white/20 backdrop-blur-sm rounded-full mb-4 sm:mb-6">
-              <MessageCircle className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 text-white" />
+        <div className="relative max-w-7xl mx-auto px-6 py-24">
+          <div className="text-center fade-in">
+            <div className="flex justify-center mb-6">
+              <div className="bg-white/20 p-4 rounded-full backdrop-blur-sm">
+                <MessageCircle className="w-12 h-12 text-white" />
+              </div>
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+            <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Get in Touch
             </h1>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed opacity-95 px-2">
-              We&apos;d love to hear your thoughts. Your opinions and
+            <p className="text-xl lg:text-2xl text-green-100 max-w-4xl mx-auto leading-relaxed">
+               We&apos;d love to hear your thoughts. Your opinions and
               experiences matter to us. Share your thoughts and let&apos;s
               improve together.
             </p>
-            <motion.div
-              className="inline-block px-4 sm:px-6 py-2 sm:py-3 bg-white/20 backdrop-blur-sm rounded-full shadow-lg"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <p className="text-sm sm:text-base lg:text-lg font-semibold">
-                Our friendly team is here to assist you
-              </p>
-            </motion.div>
-          </motion.div>
+          </div>
         </div>
-      </div>
+
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+      </header>
 
       <div className="max-w-7xl mx-auto px-4 py-12 sm:py-16">
         {/* Contact Form and Info Section */}
