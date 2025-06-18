@@ -10,31 +10,30 @@ import { Toaster } from "sonner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Bring Smile Foundation | Empowering Lives, One Smile at a Time",
+  title: "Plan to Empower | Bring Change with Every Donation",
   description:
-    "Join Bring Smile Foundation in its mission to transform lives through education, healthcare, and community support. Together, we can create a brighter future and bring smiles to millions.",
+    "Plan to Empower is committed to transforming lives by supporting education, healthcare, and basic needs for underprivileged communities. Be the change—donate today and make a lasting impact.",
   keywords:
-    "Bring Smile Foundation, charity, nonprofit, education, healthcare, community support, empowerment, donations, social impact",
-  author: "Bring Smile Foundation Team",
+    "Plan to Empower, plantoempower.org, donate, NGO, charity, nonprofit organization, education for all, healthcare access, basic needs, help the poor, empower communities, India NGO, social impact, humanitarian aid",
+  author: "Plan to Empower Team",
   robots: "index, follow",
   openGraph: {
-    title: "Bring Smile Foundation - Empowering Lives, One Smile at a Time",
+    title: "Plan to Empower | Bring Change with Every Donation",
     type: "website",
-    url: "https://www.bringsmile.in", // Update this URL as needed
+    url: "https://plantoempower.org",
     description:
-      "Support Bring Smile Foundation in empowering underprivileged communities through impactful initiatives. Together, we can make a difference.",
+      "Support Plan to Empower in uplifting lives through donations for education, healthcare, and basic needs. Together, we can create a better tomorrow.",
     images: [
       {
-        url: "/public/logo/og-image.jpg", // Adjust this path as necessary
+        url: "/logo/og-image.jpg", 
         width: 1200,
         height: 630,
-        alt: "Bring Smile Foundation - Empowering Lives",
+        alt: "Plan to Empower - Uplifting Lives",
       },
     ],
   },
 };
 
-// Toggle this flag to enable/disable the maintenance mode
 const isUnderMaintenance = false;
 
 
