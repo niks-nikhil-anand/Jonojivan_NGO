@@ -1,19 +1,20 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { 
-  MapPin, 
-  Mail, 
-  Phone, 
-  Send, 
-  Heart, 
+import {
+  MapPin,
+  Mail,
+  Phone,
+  Send,
+  Heart,
   Handshake,
   Building,
   MessageCircle,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
 } from "lucide-react";
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import CTABanner from "@/components/frontend/shared/CTABanner";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -47,7 +48,13 @@ export default function Contact() {
       if (!response.ok) throw new Error("Failed to send message.");
 
       setSuccess(true);
-      setFormData({ first_name: "", last_name: "", email: "", phone_number: "", message: "" });
+      setFormData({
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone_number: "",
+        message: "",
+      });
     } catch (error) {
       setError("Error sending message. Please try again.");
     } finally {
@@ -60,9 +67,9 @@ export default function Contact() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
-      }
-    }
+        staggerChildren: 0.2,
+      },
+    },
   };
 
   const cardVariants = {
@@ -72,9 +79,9 @@ export default function Contact() {
       y: 0,
       transition: {
         duration: 0.6,
-        ease: "easeOut"
-      }
-    }
+        ease: "easeOut",
+      },
+    },
   };
 
   const contactInfo = [
@@ -84,7 +91,7 @@ export default function Contact() {
       icon: <Building className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
       color: "from-green-500 to-green-600",
       bgColor: "bg-white/95",
-      borderColor: "border-green-200"
+      borderColor: "border-green-200",
     },
     {
       title: "Operation Office",
@@ -92,7 +99,7 @@ export default function Contact() {
       icon: <MapPin className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
       color: "from-green-500 to-green-600",
       bgColor: "bg-white/95",
-      borderColor: "border-green-200"
+      borderColor: "border-green-200",
     },
     {
       title: "Email Address",
@@ -100,7 +107,7 @@ export default function Contact() {
       icon: <Mail className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
       color: "from-green-500 to-green-600",
       bgColor: "bg-white/95",
-      borderColor: "border-green-200"
+      borderColor: "border-green-200",
     },
     {
       title: "Phone",
@@ -108,8 +115,8 @@ export default function Contact() {
       icon: <Phone className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
       color: "from-green-500 to-green-600",
       bgColor: "bg-white/95",
-      borderColor: "border-green-200"
-    }
+      borderColor: "border-green-200",
+    },
   ];
 
   return (
@@ -131,7 +138,9 @@ export default function Contact() {
               Get in Touch
             </h1>
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed opacity-95 px-2">
-              We&apos;d love to hear your thoughts. Your opinions and experiences matter to us. Share your thoughts and let&apos;s improve together.
+              We&apos;d love to hear your thoughts. Your opinions and
+              experiences matter to us. Share your thoughts and let&apos;s
+              improve together.
             </p>
             <motion.div
               className="inline-block px-4 sm:px-6 py-2 sm:py-3 bg-white/20 backdrop-blur-sm rounded-full shadow-lg"
@@ -166,7 +175,8 @@ export default function Contact() {
                 Send us a Message
               </h2>
               <p className="text-sm sm:text-base text-gray-600 px-2">
-                Fill out the form below and we&apos;ll get back to you as soon as possible.
+                Fill out the form below and we&apos;ll get back to you as soon
+                as possible.
               </p>
             </div>
 
@@ -174,7 +184,8 @@ export default function Contact() {
               <Alert className="mb-4 sm:mb-6 border-green-200 bg-green-50">
                 <CheckCircle className="h-4 w-4 text-green-600" />
                 <AlertDescription className="text-green-800 text-sm sm:text-base">
-                  Your message has been sent successfully! We&apos;ll get back to you soon.
+                  Your message has been sent successfully! We&apos;ll get back
+                  to you soon.
                 </AlertDescription>
               </Alert>
             )}
@@ -191,7 +202,10 @@ export default function Contact() {
             <div className="space-y-4 sm:space-y-6">
               <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
                 <div>
-                  <label htmlFor="first_name" className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label
+                    htmlFor="first_name"
+                    className="block text-sm font-semibold text-gray-700 mb-2"
+                  >
                     First Name
                   </label>
                   <input
@@ -205,7 +219,10 @@ export default function Contact() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="last_name" className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label
+                    htmlFor="last_name"
+                    className="block text-sm font-semibold text-gray-700 mb-2"
+                  >
                     Last Name
                   </label>
                   <input
@@ -221,7 +238,10 @@ export default function Contact() {
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-semibold text-gray-700 mb-2"
+                >
                   Email Address
                 </label>
                 <input
@@ -236,7 +256,10 @@ export default function Contact() {
               </div>
 
               <div>
-                <label htmlFor="phone_number" className="block text-sm font-semibold text-gray-700 mb-2">
+                <label
+                  htmlFor="phone_number"
+                  className="block text-sm font-semibold text-gray-700 mb-2"
+                >
                   Phone Number
                 </label>
                 <input
@@ -251,7 +274,10 @@ export default function Contact() {
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-semibold text-gray-700 mb-2"
+                >
                   Your Message
                 </label>
                 <textarea
@@ -306,16 +332,20 @@ export default function Contact() {
                 {contactInfo.map((info, index) => (
                   <motion.div
                     key={index}
-                    whileHover={{ 
+                    whileHover={{
                       scale: 1.02,
-                      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)"
+                      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
                     }}
                     className={`${info.bgColor} backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-500 ${info.borderColor} border-2 group relative overflow-hidden`}
                   >
-                    <div className={`absolute inset-0 bg-gradient-to-br ${info.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
-                    
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-br ${info.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+                    ></div>
+
                     <div className="flex items-start space-x-3 sm:space-x-4 relative z-10">
-                      <div className={`inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-gradient-to-r ${info.color} rounded-xl text-white shadow-lg flex-shrink-0`}>
+                      <div
+                        className={`inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-gradient-to-r ${info.color} rounded-xl text-white shadow-lg flex-shrink-0`}
+                      >
                         {info.icon}
                       </div>
                       <div>
@@ -340,7 +370,9 @@ export default function Contact() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent"></div>
               <div className="text-center relative z-10">
                 <Phone className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 opacity-90" />
-                <h3 className="text-xl sm:text-2xl font-bold mb-2 leading-tight">Need Immediate Help?</h3>
+                <h3 className="text-xl sm:text-2xl font-bold mb-2 leading-tight">
+                  Need Immediate Help?
+                </h3>
                 <p className="opacity-90 mb-4 text-sm sm:text-base">
                   Call us directly for urgent matters
                 </p>
@@ -357,41 +389,14 @@ export default function Contact() {
           </motion.div>
         </motion.div>
 
-        {/* Call to Action Section */}
-        <motion.div
-          className="bg-gradient-to-br from-emerald-600 via-green-600 to-teal-700 rounded-2xl sm:rounded-3xl p-8 sm:p-12 text-center text-white shadow-2xl relative overflow-hidden"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent"></div>
-          <div className="max-w-4xl mx-auto relative z-10">
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 leading-tight">
-              Join Us in Making a Lasting Impact in Bihar
-            </h3>
-            <p className="text-base sm:text-lg lg:text-xl opacity-95 mb-6 sm:mb-8 leading-relaxed px-4">
-              Together, we can expand our reach, touch more lives, and continue to build a future where every child and woman has the opportunity to thrive.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-green-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
-              >
-                <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
-                <span>💖 Donate Now</span>
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:bg-white hover:text-green-600 transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
-              >
-                <Handshake className="w-4 h-4 sm:w-5 sm:h-5" />
-                <span>💖 Partner With Us</span>
-              </motion.button>
-            </div>
-          </div>
-        </motion.div>
+        {/* Final CTA Banner */}
+        <CTABanner
+          heading={"Empowering Women. Transforming Futures."}
+          paragraph={
+                "We uplift women and girls through education, skills, and support—creating pathways to equality and independence."
+
+          }
+        />
       </div>
     </div>
   );
