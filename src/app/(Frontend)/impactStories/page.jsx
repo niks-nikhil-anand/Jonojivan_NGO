@@ -208,7 +208,7 @@ const ImpactStories = () => {
               Your Impact Creates Stories
             </h2>
             <p className="text-xl text-gray-600 leading-relaxed mb-8">
-              These stories represent just a few of the thousands of lives transformed through education. Every donation, every sponsorship, every act of support creates a new chapter in a child's life story.
+              These stories represent just a few of the thousands of lives transformed through education. Every donation, every sponsorship, every act of support creates a new chapter in a child&apos;s life story.
             </p>
             <div className="bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 rounded-2xl p-8 border border-emerald-100">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
