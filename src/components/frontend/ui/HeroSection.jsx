@@ -7,10 +7,9 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import slide1 from "../../../../public/frontend/heroSection/slide1.jpg";
 import slide2 from "../../../../public/frontend/heroSection/slide2.jpg";
-import slide3 from "../../../../public/frontend/heroSection/slide3.jpg";
 import CustomDonationForm from "./CustomDonationForm";
 
-const slides = [slide1, slide2, slide3];
+const slides = [slide1, slide2];
 
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
