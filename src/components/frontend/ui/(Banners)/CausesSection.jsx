@@ -9,6 +9,8 @@ import {
   Handshake,
   Users,
   HeartHandshake,
+  Shield,
+  Scale,
 } from "lucide-react";
 
 const CausesSection = () => {
@@ -67,6 +69,28 @@ const causes = [
     color: "from-rose-500 to-pink-500",
     bgColor: "bg-rose-50",
     borderColor: "border-rose-200",
+  },
+  {
+    title: "Human Rights Protection",
+    shortDesc: "Defending fundamental human rights for all",
+    description:
+      "Incorporating human rights principles into community development, ensuring dignity and justice for every individual in accordance with international standards.",
+    icon: <Scale className="w-8 h-8" />,
+    features: ["Rights Awareness", "Legal Support", "Community Advocacy", "Policy Reform"],
+    color: "from-indigo-500 to-blue-500",
+    bgColor: "bg-indigo-50",
+    borderColor: "border-indigo-200",
+  },
+  {
+    title: "Anti-Corruption Initiatives",
+    shortDesc: "Building transparency and accountability",
+    description:
+      "Promoting transparency and fighting corruption through preventive measures, community education, and accountability frameworks.",
+    icon: <Shield className="w-8 h-8" />,
+    features: ["Transparency Programs", "Whistleblower Protection", "Community Monitoring", "Ethical Training"],
+    color: "from-teal-500 to-cyan-500",
+    bgColor: "bg-teal-50",
+    borderColor: "border-teal-200",
   }
 ];
 
@@ -102,11 +126,11 @@ const causes = [
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <p className="text-emerald-600 font-medium text-lg mb-4 tracking-wide">
+          <p className="text-blue-600 font-medium text-lg mb-4 tracking-wide">
             Making a Difference Together
           </p>
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-6 max-w-4xl mx-auto">
-            Our Impact Areas
+            Jonojivan Foundation Impact Areas
           </h2>
           <p className="text-gray-600 text-lg leading-relaxed mb-12 max-w-3xl mx-auto">
             Transforming lives through targeted interventions that address the root causes of poverty and inequality
@@ -131,7 +155,7 @@ const causes = [
               className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 group relative overflow-hidden p-6"
             >
               {/* Background Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
               {/* Icon */}
               <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r ${cause.color} rounded-2xl mb-6 text-white shadow-lg`}>
@@ -140,7 +164,7 @@ const causes = [
 
               {/* Content */}
               <div className="relative z-10">
-                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors duration-300">
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">
                   {cause.title}
                 </h3>
                 
@@ -171,7 +195,7 @@ const causes = [
 
         {/* Call to Action Section */}
         <motion.div 
-          className="bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 rounded-3xl p-12 text-center text-white shadow-2xl"
+          className="bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 rounded-3xl p-12 text-center text-white shadow-2xl"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.5 }}
@@ -181,13 +205,13 @@ const causes = [
               Ready to Make a Difference?
             </h3>
             <p className="text-lg opacity-90 mb-8 leading-relaxed">
-              Your contribution can transform lives and build stronger communities. Join us in creating lasting change.
+              Your contribution can transform lives and build stronger communities. Join Jonojivan Foundation in creating lasting change.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-white text-green-600 px-8 py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2"
+                className="bg-white text-blue-600 px-8 py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2"
               >
                 <Heart className="w-5 h-5" />
                 <span>Donate Now</span>
@@ -195,7 +219,7 @@ const causes = [
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-green-600 transition-all duration-300 flex items-center justify-center space-x-2"
+                className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-blue-600 transition-all duration-300 flex items-center justify-center space-x-2"
               >
                 <Users className="w-5 h-5" />
                 <span>Volunteer</span>

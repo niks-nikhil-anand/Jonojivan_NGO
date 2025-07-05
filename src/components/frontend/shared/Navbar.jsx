@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Menu, X, Heart } from "lucide-react";
+import { Menu, X, Heart, Sparkles } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -45,43 +45,60 @@ const Navbar = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b bg-white shadow-sm">
-        <nav className="container flex h-16 items-center justify-between px-4">
+      <header className="sticky top-0 z-50 w-full bg-gradient-to-r from-blue-50 via-white to-blue-50 backdrop-blur-md border-b border-blue-100/50 shadow-lg">
+        <div className="absolute inset-0 bg-white/80 backdrop-blur-sm"></div>
+        <nav className="relative container flex h-20 items-center justify-between px-6">
           {/* Logo */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             whileHover={{ scale: 1.05 }}
             className="flex items-center space-x-3"
           >
-            <Link href="/" className="flex items-center">
-              <Image
-                src={logo}
-                alt="Plan to Empower Logo"
-                width={200}
-                height={100}
-              />
+            <Link href="/" className="flex items-center group">
+              <div className="relative">
+                <div className="absolute -inset-1 bg-blue-500 rounded-full opacity-20 group-hover:opacity-30 blur-sm transition-opacity duration-300"></div>
+                <div className="relative bg-blue-600 p-2 rounded-full shadow-lg">
+                  <Sparkles className="h-6 w-6 text-white" />
+                </div>
+              </div>
+              <div className="ml-3">
+                <h1 className="font-bold text-2xl text-blue-700">
+                  JonoJivan
+                </h1>
+                <p className="text-xs text-gray-600 font-medium tracking-wide">
+                  Empowering Lives
+                </p>
+              </div>
             </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex lg:items-center lg:space-x-6">
+          <div className="hidden lg:flex lg:items-center lg:space-x-2">
             <NavigationMenu>
-              <NavigationMenuList>
-                {menuItems.map((item) => (
-                  <NavigationMenuItem key={item.href}>
-                    <Link href={item.href} legacyBehavior passHref>
-                      <NavigationMenuLink
-                        className={cn(
-                          navigationMenuTriggerStyle(),
-                          "hover:bg-green-100 hover:text-green-700 transition-colors duration-200"
-                        )}
-                      >
-                        {item.label}
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
+              <NavigationMenuList className="space-x-1">
+                {menuItems.map((item, index) => (
+                  <motion.div
+                    key={item.href}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                  >
+                    <NavigationMenuItem>
+                      <Link href={item.href} legacyBehavior passHref>
+                        <NavigationMenuLink
+                          className={cn(
+                            navigationMenuTriggerStyle(),
+                            "relative px-4 py-2 text-gray-700 hover:text-blue-700 transition-all duration-300 hover:bg-blue-50/80 rounded-full font-medium text-sm group"
+                          )}
+                        >
+                          <span className="relative z-10">{item.label}</span>
+                          <div className="absolute inset-0 bg-blue-500/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </NavigationMenuLink>
+                      </Link>
+                    </NavigationMenuItem>
+                  </motion.div>
                 ))}
               </NavigationMenuList>
             </NavigationMenu>
@@ -91,16 +108,22 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             {/* Desktop Donate Button */}
             <motion.div
-              whileHover={{ scale: 1.05 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
               className="hidden lg:block"
             >
               <Button
                 onClick={handleDonateClick}
-                className="bg-[#e91e63] hover:bg-[#d81b60] text-white shadow-md"
+                className="relative bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full px-6 py-2 font-semibold overflow-hidden group"
               >
-                <span>Donate Now</span>
-                <Heart className="h-4 w-4 fill-current ml-2" />
+                <div className="absolute inset-0 bg-gradient-to-r from-pink-400 to-rose-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <span className="relative z-10 flex items-center">
+                  Donate Now
+                  <Heart className="h-4 w-4 fill-current ml-2 group-hover:animate-pulse" />
+                </span>
               </Button>
             </motion.div>
 
@@ -110,15 +133,15 @@ const Navbar = () => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="lg:hidden hover:bg-gray-100 transition-colors"
+                  className="lg:hidden hover:bg-blue-50 transition-all duration-300 rounded-full p-2"
                 >
-                  <Menu className="h-5 w-5" />
+                  <Menu className="h-6 w-6 text-gray-700" />
                   <span className="sr-only">Toggle menu</span>
                 </Button>
               </SheetTrigger>
               <SheetContent
                 side="right"
-                className="w-[300px] sm:w-[400px] bg-white border-l border-border"
+                className="w-[320px] sm:w-[400px] bg-gradient-to-br from-blue-50 to-blue-100 border-l border-blue-100"
               >
                 {/* Close Button */}
                 <div className="absolute right-4 top-4">
@@ -126,32 +149,42 @@ const Navbar = () => {
                     variant="ghost"
                     size="icon"
                     onClick={() => setIsMenuOpen(false)}
-                    className="hover:bg-gray-100 transition-colors rounded-full"
+                    className="hover:bg-blue-100 transition-colors rounded-full"
                   >
                     <X className="h-4 w-4" />
                     <span className="sr-only">Close menu</span>
                   </Button>
                 </div>
+                
                 <SheetHeader className="pt-8">
-                  <SheetTitle className="flex items-center ">
-                    <Image src={logo} alt="Logo" width={140} height={140} />
+                  <SheetTitle className="flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="bg-blue-600 p-3 rounded-full inline-block mb-3">
+                        <Sparkles className="h-8 w-8 text-white" />
+                      </div>
+                      <h2 className="text-2xl font-bold text-blue-700">
+                        JonoJivan
+                      </h2>
+                    </div>
                   </SheetTitle>
-                  <SheetDescription>
+                  <SheetDescription className="text-center text-gray-600 font-medium">
                     Empowering communities through sustainable development
                   </SheetDescription>
                 </SheetHeader>
 
-                <div className="mt-6 space-y-4">
+                <div className="mt-8 space-y-3">
                   {/* Mobile Menu Items */}
-                  {menuItems.map((item) => (
+                  {menuItems.map((item, index) => (
                     <motion.div
                       key={item.href}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
                       whileHover={{ x: 4 }}
-                      transition={{ duration: 0.2 }}
                     >
                       <Link
                         href={item.href}
-                        className="block py-3 px-3 text-lg font-medium hover:text-green-700 hover:bg-green-50 rounded-md transition-colors duration-200"
+                        className="block py-3 px-4 text-lg font-medium text-gray-700 hover:text-blue-700 hover:bg-blue-100/50 rounded-xl transition-all duration-300 border border-transparent hover:border-blue-200/50"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         {item.label}
@@ -160,13 +193,21 @@ const Navbar = () => {
                   ))}
 
                   {/* Mobile Donate Button */}
-                  <motion.div whileTap={{ scale: 0.95 }} className="pt-4">
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.6 }}
+                    whileTap={{ scale: 0.95 }} 
+                    className="pt-6"
+                  >
                     <Button
                       onClick={handleDonateClick}
-                      className="w-full bg-[#e91e63] hover:bg-[#d81b60] text-white shadow-md"
+                      className="w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-3 font-semibold"
                     >
-                      <span>Donate Now</span>
-                      <Heart className="h-4 w-4 fill-current ml-2" />
+                      <span className="flex items-center justify-center">
+                        Donate Now
+                        <Heart className="h-4 w-4 fill-current ml-2" />
+                      </span>
                     </Button>
                   </motion.div>
                 </div>
@@ -175,6 +216,7 @@ const Navbar = () => {
           </div>
         </nav>
       </header>
+      
       {/* Custom Donation Form Modal/Dialog */}
       {isDonationFormOpen && (
         <CustomDonationForm

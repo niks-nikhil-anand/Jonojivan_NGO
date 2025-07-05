@@ -22,7 +22,7 @@ const DonationForm = () => {
     email: "",
     panCard: "",
     phone: "",
-    address: "", 
+    address: "",
     donationMode: "Online",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -42,36 +42,36 @@ const DonationForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
+
     // Phone number validation - only allow digits and limit to 10
     if (name === "phone") {
-      const phoneValue = value.replace(/\D/g, ''); // Remove non-digits
+      const phoneValue = value.replace(/\D/g, ""); // Remove non-digits
       if (phoneValue.length <= 10) {
         setFormData({ ...formData, [name]: phoneValue });
       }
       return;
     }
-    
+
     // PAN card validation - only allow alphanumeric and limit to 10
     if (name === "panCard") {
-      const panValue = value.replace(/[^A-Za-z0-9]/g, '').toUpperCase(); // Remove special chars and convert to uppercase
+      const panValue = value.replace(/[^A-Za-z0-9]/g, "").toUpperCase(); // Remove special chars and convert to uppercase
       if (panValue.length <= 10) {
         setFormData({ ...formData, [name]: panValue });
       }
       return;
     }
-    
+
     setFormData({ ...formData, [name]: value });
   };
 
   const resetForm = () => {
-    setFormData({ 
-      fullName: "", 
-      email: "", 
-      panCard: "", 
-      phone: "", 
-      address: "", 
-      donationMode: "Online" 
+    setFormData({
+      fullName: "",
+      email: "",
+      panCard: "",
+      phone: "",
+      address: "",
+      donationMode: "Online",
     });
     setAmount("");
     setIsModalOpen(false);
@@ -94,7 +94,10 @@ const DonationForm = () => {
         return { success: false, message: errorData.message };
       }
     } catch (error) {
-      return { success: false, message: "An error occurred. Please try again later." };
+      return {
+        success: false,
+        message: "An error occurred. Please try again later.",
+      };
     }
   };
 
@@ -129,20 +132,25 @@ const DonationForm = () => {
       const { order } = await response.json();
 
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, 
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency,
         name: "Donation",
         description: "Donation for the cause",
         order_id: order.id,
         handler: async function (response) {
-          const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
+          const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+            response;
 
           try {
             const verificationResponse = await fetch("/api/verify-payment", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ razorpay_order_id, razorpay_payment_id, razorpay_signature }),
+              body: JSON.stringify({
+                razorpay_order_id,
+                razorpay_payment_id,
+                razorpay_signature,
+              }),
             });
 
             if (!verificationResponse.ok) {
@@ -258,7 +266,7 @@ const DonationForm = () => {
       setIsLoading(true);
       // Fixed: Call the API function that was defined but never used
       const donationResponse = await makeDonationApiCall(payload);
-      
+
       if (donationResponse.success) {
         toast.success("Donation successful! Thank you for your support.");
         resetForm();
@@ -271,9 +279,10 @@ const DonationForm = () => {
   };
 
   return (
-     <>
+    <>
       <motion.div
-        className="w-full bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 p-8 rounded-b-2xl shadow-2xl text-white mx-auto max-w-7xl z-20 relative overflow-hidden"
+        className="w-full bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400
+ p-8 rounded-b-2xl shadow-2xl text-white mx-auto max-w-7xl z-20 relative overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
@@ -282,7 +291,7 @@ const DonationForm = () => {
         <div className="absolute top-4 right-4 opacity-10">
           <Heart className="w-20 h-20" />
         </div>
-        
+
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
@@ -291,9 +300,9 @@ const DonationForm = () => {
             className="inline-flex items-center gap-2 bg-white/20 px-4 py-1 mb-2"
           >
             <Heart className="w-4 h-4 text-green-300" />
-            <span className="text-xs font-medium">Plan to Empower</span>
+            <span className="text-xs font-medium">Jonojivan Foundaion</span>
           </motion.div>
-          
+
           <h3 className="text-2xl sm:text-3xl font-bold mb-6 text-white">
             MAKE A DONATION
           </h3>
@@ -301,7 +310,7 @@ const DonationForm = () => {
             Your donation helps us make a real difference in the lives of many.
             Every contribution counts and creates lasting positive change.
           </p>
-          
+
           <div className="flex flex-wrap gap-4 justify-center mb-8">
             {["500", "1000", "2500", "5000"].map((amountValue) => (
               <motion.button
@@ -310,7 +319,7 @@ const DonationForm = () => {
                 whileTap={{ scale: 0.95 }}
                 className={`px-6 py-3 border border-gray-300 rounded-lg font-semibold text-lg sm:text-xl transition duration-300 shadow-md ${
                   amount === amountValue
-                    ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white border-green-300" 
+                    ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white border-green-300"
                     : "bg-white text-black hover:bg-gray-200 hover:scale-105"
                 }`}
                 onClick={() => handleAmountSelect(amountValue)}
@@ -348,7 +357,7 @@ const DonationForm = () => {
               />
             </motion.div>
           )}
-          
+
           <motion.button
             onClick={openModal}
             disabled={isLoading}
@@ -386,24 +395,67 @@ const DonationForm = () => {
               >
                 <X className="w-5 h-5" />
               </button>
-              <h2 className="text-2xl font-bold mb-2">Complete Your Donation</h2>
-              <p className="text-white/90">Help us create positive change in our community</p>
+              <h2 className="text-2xl font-bold mb-2">
+                Complete Your Donation
+              </h2>
+              <p className="text-white/90">
+                Help us create positive change in our community
+              </p>
             </div>
 
             <div className="p-6">
               <div className="space-y-4">
                 {[
-                  { label: "Full Name", field: "fullName", type: "text", required: true, placeholder: "Enter full name" },
-                  { label: "Email Address", field: "email", type: "email", required: true, placeholder: "Enter email address" },
-                  { label: "Phone Number", field: "phone", type: "tel", required: true, placeholder: "+91 Enter 10-digit phone number" },
-                  { label: "PAN Card Number", field: "panCard", type: "text", required: false, placeholder: "Enter 10-character PAN number" },
-                  { label: "Address", field: "address", type: "text", required: false, placeholder: "Enter address" }
+                  {
+                    label: "Full Name",
+                    field: "fullName",
+                    type: "text",
+                    required: true,
+                    placeholder: "Enter full name",
+                  },
+                  {
+                    label: "Email Address",
+                    field: "email",
+                    type: "email",
+                    required: true,
+                    placeholder: "Enter email address",
+                  },
+                  {
+                    label: "Phone Number",
+                    field: "phone",
+                    type: "tel",
+                    required: true,
+                    placeholder: "+91 Enter 10-digit phone number",
+                  },
+                  {
+                    label: "PAN Card Number",
+                    field: "panCard",
+                    type: "text",
+                    required: false,
+                    placeholder: "Enter 10-character PAN number",
+                  },
+                  {
+                    label: "Address",
+                    field: "address",
+                    type: "text",
+                    required: false,
+                    placeholder: "Enter address",
+                  },
                 ].map(({ label, field, type, required, placeholder }) => (
                   <div key={field}>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      {label} {required && <span className="text-red-500">*</span>}
-                      {field === 'phone' && <span className="text-gray-500 text-xs ml-1">(10 digits only)</span>}
-                      {field === 'panCard' && <span className="text-gray-500 text-xs ml-1">(10 characters)</span>}
+                      {label}{" "}
+                      {required && <span className="text-red-500">*</span>}
+                      {field === "phone" && (
+                        <span className="text-gray-500 text-xs ml-1">
+                          (10 digits only)
+                        </span>
+                      )}
+                      {field === "panCard" && (
+                        <span className="text-gray-500 text-xs ml-1">
+                          (10 characters)
+                        </span>
+                      )}
                     </label>
                     <input
                       type={type}
@@ -413,23 +465,36 @@ const DonationForm = () => {
                       value={formData[field] || ""}
                       onChange={handleInputChange}
                       required={required}
-                      maxLength={field === 'phone' || field === 'panCard' ? 10 : undefined}
+                      maxLength={
+                        field === "phone" || field === "panCard"
+                          ? 10
+                          : undefined
+                      }
                     />
-                    {field === 'panCard' && (
+                    {field === "panCard" && (
                       <p className="text-xs text-amber-600 mt-1 font-medium">
-                        <strong>Note:</strong> If you do not provide your PAN Number, you will not be able to claim 50% tax exemption u/s 80G in India
+                        <strong>Note:</strong> If you do not provide your PAN
+                        Number, you will not be able to claim 50% tax exemption
+                        u/s 80G in India
                       </p>
                     )}
-                    {field === 'phone' && formData.phone && formData.phone.length < 10 && (
-                      <p className="text-xs text-red-500 mt-1">
-                        Phone number must be exactly 10 digits ({formData.phone.length}/10)
-                      </p>
-                    )}
-                    {field === 'panCard' && formData.panCard && formData.panCard.length > 0 && formData.panCard.length < 10 && (
-                      <p className="text-xs text-red-500 mt-1">
-                        PAN card must be exactly 10 characters ({formData.panCard.length}/10)
-                      </p>
-                    )}
+                    {field === "phone" &&
+                      formData.phone &&
+                      formData.phone.length < 10 && (
+                        <p className="text-xs text-red-500 mt-1">
+                          Phone number must be exactly 10 digits (
+                          {formData.phone.length}/10)
+                        </p>
+                      )}
+                    {field === "panCard" &&
+                      formData.panCard &&
+                      formData.panCard.length > 0 &&
+                      formData.panCard.length < 10 && (
+                        <p className="text-xs text-red-500 mt-1">
+                          PAN card must be exactly 10 characters (
+                          {formData.panCard.length}/10)
+                        </p>
+                      )}
                   </div>
                 ))}
 
@@ -448,7 +513,8 @@ const DonationForm = () => {
                 <Alert className="border-green-200 bg-green-50">
                   <Info className="h-4 w-4 text-green-600" />
                   <AlertDescription className="text-green-800">
-                    Your donation is secure and will be processed safely. You&apos;ll receive a confirmation email shortly.
+                    Your donation is secure and will be processed safely.
+                    You&apos;ll receive a confirmation email shortly.
                   </AlertDescription>
                 </Alert>
 

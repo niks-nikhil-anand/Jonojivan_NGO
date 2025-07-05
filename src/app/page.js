@@ -9,6 +9,7 @@ import ChildSponsorshipSection from "@/components/frontend/ui/ChildSponsorshipSe
 import Testimonials from "@/components/frontend/ui/Testimonials";
 import CausesSection from "@/components/frontend/ui/(Banners)/CausesSection";
 import ProgramsSections from "@/components/frontend/ui/ProgramsSections";
+import MissionVisionSection from "@/components/frontend/ui/MissionVisionSection";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
       <ChildSponsorshipSection/>
       <OrganizationInfo/>
       <BlogSection />
+      <MissionVisionSection/>
       <FAQsSection />
       <Testimonials/>
       {/* <CTA/> */}

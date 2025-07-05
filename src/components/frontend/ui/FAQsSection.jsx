@@ -2,7 +2,10 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { Plus, Minus, HelpCircle, ArrowRight, MessageCircleQuestion, Users, Heart } from "lucide-react";
+import {
+  Plus,
+  Minus,
+} from "lucide-react";
 
 const FAQsSection = () => {
   // Set first FAQ as open by default to match the image
@@ -14,47 +17,45 @@ const FAQsSection = () => {
   };
 
   // FAQ data array - updated to match the image content
-const faqData = [
-  {
-    question: "What is Plan to Empower - NGO?",
-    answer:
-      "Plan to Empower is a non-profit organization committed to transforming lives through education, skill development, and community empowerment. We focus on creating sustainable change by providing equal opportunities and access to resources for children, women, and underprivileged communities.",
-    category: "General",
-  },
-  {
-    question: "How can I donate to Plan to Empower?",
-    answer:
-      "You can easily donate through our website’s Donate Now page. Simply select your preferred donation amount and complete the secure online payment using your chosen method.",
-    category: "Donation",
-  },
-  {
-    question: "What programs does Plan to Empower support?",
-    answer:
-      "Plan to Empower supports a wide range of initiatives, including: Girl Child Education, Women's Skill Development, Quality Tuition Programs, School Infrastructure Projects, and campaigns for Gender Equality and Women Empowerment.",
-    category: "Programs",
-  },
-  {
-    question: "How does my donation help?",
-    answer:
-      "Your donation directly fuels our programs by providing education, vocational training, mentorship, and critical infrastructure to uplift children and women in underserved areas.",
-    category: "Impact",
-  },
-  {
-    question: "How much does it cost to sponsor a child?",
-    answer:
-      "Sponsoring a child through Plan to Empower costs ₹26,000 per year, covering school fees, uniforms, books, and all essential resources for one full academic year.",
-    category: "Sponsorship",
-  },
-];
-
+  const faqData = [
+    {
+      question: "What is Jonojivan Foundation - NGO?",
+      answer:
+        "Jonojivan Foundation is a non-profit organization committed to transforming lives through education, skill development, and community empowerment. We focus on creating sustainable change by providing equal opportunities and access to resources for children, women, and underprivileged communities.",
+      category: "General",
+    },
+    {
+      question: "How can I donate to Jonojivan Foundation?",
+      answer:
+        "You can easily donate through our website's Donate Now page. Simply select your preferred donation amount and complete the secure online payment using your chosen method.",
+      category: "Donation",
+    },
+    {
+      question: "What programs does Jonojivan Foundation support?",
+      answer:
+        "Jonojivan Foundation supports a wide range of initiatives, including: Girl Child Education, Women's Skill Development, Quality Tuition Programs, School Infrastructure Projects, and campaigns for Gender Equality and Women Empowerment.",
+      category: "Programs",
+    },
+    {
+      question: "How does my donation help?",
+      answer:
+        "Your donation directly fuels our programs by providing education, vocational training, mentorship, and critical infrastructure to uplift children and women in underserved areas.",
+      category: "Impact",
+    },
+    {
+      question: "How much does it cost to sponsor a child?",
+      answer:
+        "Sponsoring a child through Jonojivan Foundation costs ₹26,000 per year, covering school fees, uniforms, books, and all essential resources for one full academic year.",
+      category: "Sponsorship",
+    },
+  ];
 
   return (
     <div className=" bg-gray-100 py-16 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          
           {/* Left Content Section */}
-          <motion.div 
+          <motion.div
             className="lg:sticky lg:top-24"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -62,24 +63,23 @@ const faqData = [
           >
             {/* Header */}
             <div className="mb-8">
-              <p className="text-emerald-600 font-medium text-lg mb-4 tracking-wide">
+              <p className="text-blue-600 font-medium text-lg mb-4 tracking-wide">
                 Recently asked questions
               </p>
               <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-6">
                 People are frequently asking some questions from us
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-8">
-                Proactively procrastinate cross-platform results via extensive ideas distinctively underwhelm enterprise. Compellingly plagiarize value-added sources with inexpensive schemas.
+                Proactively procrastinate cross-platform results via extensive
+                ideas distinctively underwhelm enterprise. Compellingly
+                plagiarize value-added sources with inexpensive schemas.
               </p>
             </div>
 
             {/* CTA Button */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Link href="/Faqs">
-                <button className="bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 hover:from-green-700 hover:via-green-600 hover:to-emerald-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-3">
+                <button className="bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 hover:from-blue-700 hover:via-blue-600 hover:to-cyan-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-3">
                   <span>LEARN HOW TO GET HELP</span>
                 </button>
               </Link>
@@ -109,12 +109,12 @@ const faqData = [
                   <h3 className="text-lg font-bold text-gray-900 pr-4">
                     {faq.question}
                   </h3>
-                  
+
                   <div className="flex-shrink-0">
                     <motion.div
                       animate={{ rotate: openFAQ === index ? 45 : 0 }}
                       transition={{ duration: 0.3 }}
-                      className="w-8 h-8 bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-md"
+                      className="w-8 h-8 bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 rounded-full flex items-center justify-center shadow-md"
                     >
                       {openFAQ === index ? (
                         <Minus className="w-4 h-4 text-white" />

@@ -21,7 +21,6 @@ import {
   UserCheck,
   Handshake,
 } from "lucide-react";
-import CTABanner from "@/components/frontend/shared/CTABanner";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -45,9 +44,9 @@ const workingProcess = [
     description:
       "Browse our verified projects and select the cause that resonates most with your heart and values.",
     icon: <Heart className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-    color: "from-green-500 to-green-600",
+    color: "from-blue-500 to-blue-600",
     bgColor: "bg-white/95",
-    borderColor: "border-green-200",
+    borderColor: "border-blue-200",
   },
   {
     step: "2",
@@ -55,9 +54,9 @@ const workingProcess = [
     description:
       "Our field team conducts thorough verification of beneficiaries and requirements before any fund allocation.",
     icon: <Search className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-    color: "from-green-500 to-green-600",
+    color: "from-blue-500 to-blue-600",
     bgColor: "bg-white/95",
-    borderColor: "border-green-200",
+    borderColor: "border-blue-200",
   },
   {
     step: "3",
@@ -65,9 +64,9 @@ const workingProcess = [
     description:
       "Your donation is immediately allocated to the verified project with complete documentation and tracking.",
     icon: <CheckCircle className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-    color: "from-green-500 to-green-600",
+    color: "from-blue-500 to-blue-600",
     bgColor: "bg-white/95",
-    borderColor: "border-green-200",
+    borderColor: "border-blue-200",
   },
   {
     step: "4",
@@ -75,9 +74,9 @@ const workingProcess = [
     description:
       "Our trusted partners and volunteers work directly with beneficiaries to implement the solution effectively.",
     icon: <Users className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-    color: "from-green-500 to-green-600",
+    color: "from-blue-500 to-blue-600",
     bgColor: "bg-white/95",
-    borderColor: "border-green-200",
+    borderColor: "border-blue-200",
   },
   {
     step: "5",
@@ -85,9 +84,9 @@ const workingProcess = [
     description:
       "Every step is monitored and documented with photos, videos, and progress reports for complete transparency.",
     icon: <BarChart3 className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-    color: "from-green-500 to-green-600",
+    color: "from-blue-500 to-blue-600",
     bgColor: "bg-white/95",
-    borderColor: "border-green-200",
+    borderColor: "border-blue-200",
   },
   {
     step: "6",
@@ -95,9 +94,9 @@ const workingProcess = [
     description:
       "Receive detailed reports, photos, and stories showing exactly how your generosity created positive change.",
     icon: <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-    color: "from-green-500 to-green-600",
+    color: "from-blue-500 to-blue-600",
     bgColor: "bg-white/95",
-    borderColor: "border-green-200",
+    borderColor: "border-blue-200",
   },
 ];
 
@@ -106,25 +105,25 @@ const principles = [
     title: "Transparency",
     description: "Complete visibility into fund utilization",
     icon: <Eye className="w-5 h-5 sm:w-6 sm:h-6" />,
-    color: "from-green-500 to-green-600",
+    color: "from-blue-500 to-blue-600",
   },
   {
     title: "Accountability",
     description: "Every rupee tracked and accounted for",
     icon: <Shield className="w-5 h-5 sm:w-6 sm:h-6" />,
-    color: "from-green-500 to-green-600",
+    color: "from-blue-500 to-blue-600",
   },
   {
     title: "Efficiency",
     description: "Maximum impact with minimal overhead",
     icon: <Target className="w-5 h-5 sm:w-6 sm:h-6" />,
-    color: "from-green-500 to-green-600",
+    color: "from-blue-500 to-blue-600",
   },
   {
     title: "Trust",
     description: "Building lasting relationships with donors",
     icon: <HandHeart className="w-5 h-5 sm:w-6 sm:h-6" />,
-    color: "from-green-500 to-green-600",
+    color: "from-blue-500 to-blue-600",
   },
 ];
 
@@ -133,33 +132,72 @@ const differentiators = [
     title: "Real-Time Tracking",
     description:
       "Track your donation's journey from contribution to impact with our advanced monitoring system.",
-    icon: <Clock className="w-6 h-6 sm:w-7 sm:h-7 text-green-600" />,
+    icon: <Clock className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600" />,
   },
   {
     title: "Zero Administration Costs",
     description:
       "100% of your donation goes directly to beneficiaries. Our administrative costs are covered separately.",
-    icon: <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 text-green-600" />,
+    icon: <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600" />,
   },
   {
     title: "Verified Beneficiaries",
     description:
       "Every recipient is personally verified by our field team to ensure authenticity and genuine need.",
-    icon: <UserCheck className="w-6 h-6 sm:w-7 sm:h-7 text-green-600" />,
+    icon: <UserCheck className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600" />,
   },
   {
     title: "Impact Documentation",
     description:
       "Receive photos, videos, and detailed reports showing the exact impact of your contribution.",
-    icon: <FileText className="w-6 h-6 sm:w-7 sm:h-7 text-green-600" />,
+    icon: <FileText className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600" />,
   },
 ];
 
+const CTABanner = ({ heading, paragraph }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800 text-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 shadow-2xl text-center relative overflow-hidden"
+    >
+      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+      <div className="relative z-10">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 leading-tight">
+          {heading}
+        </h2>
+        <p className="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 max-w-3xl mx-auto opacity-95 leading-relaxed">
+          {paragraph}
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-white text-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
+          >
+            <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span>Start Donating</span>
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:bg-white hover:text-blue-600 transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
+          >
+            <Users className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span>Join Our Community</span>
+          </motion.button>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 export default function HowWeWork() {
   return (
-    <div className="min-h-screen  bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-emerald-600 via-green-600 to-teal-700 text-white py-12 sm:py-16 lg:py-20 px-4 overflow-hidden">
+      <div className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white py-12 sm:py-16 lg:py-20 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
         <div className="relative z-10 max-w-6xl mx-auto text-center">
@@ -170,6 +208,11 @@ export default function HowWeWork() {
           >
             <div className="inline-flex items-center justify-center w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 bg-white/20 backdrop-blur-sm rounded-full mb-4 sm:mb-6">
               <Settings className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 text-white" />
+            </div>
+            <div className="mb-3 sm:mb-4">
+              <span className="inline-block bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm sm:text-base font-medium">
+                Jonojivan Foundation
+              </span>
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
               How We Work
@@ -183,7 +226,7 @@ export default function HowWeWork() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-white text-green-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
+                className="bg-white text-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
               >
                 <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span>Choose Your Project</span>
@@ -191,7 +234,7 @@ export default function HowWeWork() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:bg-white hover:text-green-600 transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
+                className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:bg-white hover:text-blue-600 transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
               >
                 <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span>View Our Programs</span>
@@ -225,8 +268,8 @@ export default function HowWeWork() {
                   creates the maximum possible impact in the lives of those who
                   need it most.
                 </p>
-                <div className="flex items-start space-x-3 sm:space-x-4 p-4 sm:p-6 bg-gradient-to-r from-green-50/80 to-emerald-50/80 rounded-xl border border-green-100/50">
-                  <Shield className="w-6 h-6 sm:w-8 sm:h-8 text-green-600 flex-shrink-0 mt-1" />
+                <div className="flex items-start space-x-3 sm:space-x-4 p-4 sm:p-6 bg-gradient-to-r from-blue-50/80 to-indigo-50/80 rounded-xl border border-blue-100/50">
+                  <Shield className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 flex-shrink-0 mt-1" />
                   <p className="text-sm sm:text-base text-gray-700 font-medium leading-relaxed">
                     Your trust is our foundation. Every rupee is accounted for,
                     every impact is measured, and every story is shared.
@@ -235,8 +278,8 @@ export default function HowWeWork() {
               </div>
 
               <div className="relative">
-                <div className="bg-gradient-to-br from-green-100/80 to-emerald-100/80 rounded-2xl p-6 sm:p-8 text-center border border-green-200/50">
-                  <Eye className="w-12 h-12 sm:w-16 sm:h-16 text-green-600 mx-auto mb-4" />
+                <div className="bg-gradient-to-br from-blue-100/80 to-indigo-100/80 rounded-2xl p-6 sm:p-8 text-center border border-blue-200/50">
+                  <Eye className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 mx-auto mb-4" />
                   <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
                     Complete Transparency
                   </h3>
@@ -361,7 +404,7 @@ export default function HowWeWork() {
         >
           <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 shadow-xl border border-gray-100/50">
             <div className="text-center mb-8 sm:mb-12">
-              <Zap className="w-12 h-12 sm:w-16 sm:h-16 text-[#e91e63] mx-auto mb-4" />
+              <Zap className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 mx-auto mb-4" />
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-3 sm:mb-4 leading-tight">
                 What Makes Us Different
               </h2>
@@ -375,7 +418,7 @@ export default function HowWeWork() {
               {differentiators.map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-start space-x-3 sm:space-x-4 p-4 sm:p-6 bg-gradient-to-br from-gray-50/80 to-green-50/80 rounded-xl sm:rounded-2xl hover:shadow-lg transition-all duration-300 border border-gray-100/50"
+                  className="flex items-start space-x-3 sm:space-x-4 p-4 sm:p-6 bg-gradient-to-br from-gray-50/80 to-blue-50/80 rounded-xl sm:rounded-2xl hover:shadow-lg transition-all duration-300 border border-gray-100/50"
                 >
                   <div className="flex-shrink-0 mt-1">{item.icon}</div>
                   <div>
@@ -410,7 +453,7 @@ export default function HowWeWork() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             <div className="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:shadow-xl transition-all duration-300 border border-gray-100/50">
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent mb-2">
+              <div className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent mb-2">
                 100%
               </div>
               <div className="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 mb-2">
@@ -422,7 +465,7 @@ export default function HowWeWork() {
             </div>
 
             <div className="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:shadow-xl transition-all duration-300 border border-gray-100/50">
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-2">
+              <div className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
                 24/7
               </div>
               <div className="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 mb-2">
@@ -434,7 +477,7 @@ export default function HowWeWork() {
             </div>
 
             <div className="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg text-center hover:shadow-xl transition-all duration-300 border border-gray-100/50 sm:col-span-2 lg:col-span-1">
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-[#e91e63] to-pink-600 bg-clip-text text-transparent mb-2">
+              <div className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
                 Real
               </div>
               <div className="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 mb-2">
@@ -451,7 +494,7 @@ export default function HowWeWork() {
         <CTABanner
           heading={"Join Us in Making a Lasting Impact"}
           paragraph={
-            "Together, we’re embracing innovation and fresh approaches to solve evolving challenges and create real, lasting change."
+            "Together, we're embracing innovation and fresh approaches to solve evolving challenges and create real, lasting change."
           }
         />
       </div>

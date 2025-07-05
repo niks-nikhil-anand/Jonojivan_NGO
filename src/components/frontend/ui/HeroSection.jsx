@@ -1,152 +1,162 @@
 "use client";
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
-import { Heart } from "lucide-react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "framer-motion";
+
 import slide1 from "../../../../public/frontend/heroSection/slide1.jpg";
 import slide2 from "../../../../public/frontend/heroSection/slide2.jpg";
-import CustomDonationForm from "./CustomDonationForm";
+import slide3 from "../../../../public/frontend/heroSection/slide3.jpg";
 
-const slides = [slide1, slide2];
+const slides = [
+  {
+    image: slide1,
+    title: "Be the Ray of Hope",
+    subtitle:
+      "Your small act of kindness can light up someone’s entire world. Join us in creating brighter futures together.",
+    button1: "Donate Now",
+    button2: "Our Mission",
+  },
+  {
+    image: slide2,
+    title: "Empower Through Education",
+    subtitle:
+      "Support a child’s journey to learning and growth. Help us build classrooms of dreams and futures full of possibilities.",
+    button1: "Sponsor a Child",
+    button2: "View Programs",
+  },
+  {
+    image: slide3,
+    title: "Every Life Matters",
+    subtitle:
+      "Contribute to life-saving healthcare for the underprivileged. Together, we can ensure no one is left behind.",
+    button1: "Support Healthcare",
+    button2: "Get Involved",
+  },
+];
 
-const HeroSection = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isDonationFormOpen, setIsDonationFormOpen] = useState(false);
+const slideVariants = {
+  enter: { x: "100%", opacity: 0 },
+  center: { x: 0, opacity: 1 },
+  exit: { x: "-100%", opacity: 0 },
+};
+
+const Slider = () => {
+  const [current, setCurrent] = useState(0);
 
   useEffect(() => {
+    // Preload images
+    slides.forEach((slide) => {
+      const img = new window.Image();
+      img.src = slide.image.src;
+    });
+
+    // Start auto slide interval
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+      setCurrent((prev) => (prev + 1) % slides.length);
+    }, 3000);
+
+    // Clear interval on unmount
     return () => clearInterval(interval);
   }, []);
 
-  const handleDonateClick = (e) => {
-    e.preventDefault();
-    setIsDonationFormOpen(true);
-  };
+  const { image, title, subtitle, button1, button2 } = slides[current];
 
   return (
-    <>
-      <div className="relative h-[60vh] w-full overflow-hidden">
-        {/* Slides with Next.js Image */}
-        {slides.map((slide, index) => (
-          <motion.div
-            key={index}
-            className="absolute inset-0 w-full h-full transition-opacity duration-1000"
-            style={{ opacity: currentSlide === index ? 1 : 0 }}
-          >
-            <Image
-              src={slide}
-              alt={`Slide ${index + 1}`}
-              fill
-              priority={index === 0}
-              className="object-cover"
-            />
-          </motion.div>
-        ))}
-
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-purple-900/30 z-10" />
-
-        {/* Content */}
+    <div
+      className="relative w-full bg-black overflow-hidden 
+  h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-[90vh] xl:h-screen"
+    >
+      <AnimatePresence mode="sync" initial={false}>
         <motion.div
-          className="relative z-20 flex flex-col items-center justify-center h-full text-white text-center px-4 sm:px-6 lg:px-8"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
+          key={current}
+          className="absolute inset-0"
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{
+            x: { type: "tween", duration: 0.6, ease: [0.25, 0.1, 0.25, 1] },
+            opacity: { duration: 0.6, ease: "easeInOut" },
+          }}
         >
-          <motion.h2
-            className="text-xs sm:text-sm md:text-base lg:text-lg uppercase tracking-widest font-medium text-pink-200 mb-2 sm:mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-          >
-            Helping around the world
-          </motion.h2>
+          {/* Background Image */}
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="object-cover transition-opacity duration-300 ease-in-out"
+            priority
+          />
+          {/* Overlay Content */}
+          <div className="absolute inset-0 flex items-center px-6 md:px-20 z-10">
+            {/* Gradient Overlay to the Left */}
+            <div className="absolute inset-0 bg-gradient-to-l from-black/0 via-black/60 to-black z-0 " />
 
-          <motion.h1
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-          >
-            MAKE SOMEONE&apos;S LIFE BY
-          </motion.h1>
+            {/* Text Content */}
+            <div className="max-w-2xl text-white space-y-6 z-10">
+              {title.includes(" to ") ? (
+                <h1
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-['Playfair_Display'] font-semibold leading-tight text-center md:text-left"
+                  style={{
+                    fontFamily: "var(--font-playfair)",
+                    fontWeight: 500,
+                  }}
+                >
+                  {title.split(" to ")[0]} <br className="hidden sm:block" />
+                  {"to " + title.split(" to ")[1]}
+                </h1>
+              ) : (
+                <h1
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-['Playfair_Display'] font-semibold leading-tight text-center md:text-left"
+                  style={{
+                    fontFamily: "var(--font-playfair)",
+                    fontWeight: 500,
+                  }}
+                >
+                  {title}
+                </h1>
+              )}
 
-          <motion.h1
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-pink-300 bg-clip-text text-transparent mt-1 sm:mt-2 leading-tight"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.8 }}
-          >
-            GIVING OF YOURS.
-          </motion.h1>
+              <p
+                className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-200 font-light leading-relaxed text-center md:text-left"
+                style={{
+                  fontFamily: "var(--font-manrope)",
+                  fontWeight: 500,
+                }}
+              >
+                {subtitle}
+              </p>
+              <div className="flex gap-4 justify-center md:justify-start">
+                <motion.button
+                  className="bg-white text-black px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full font-semibold hover:bg-gray-200 transition text-xs sm:text-sm md:text-base lg:text-xl cursor-pointer"
+                  style={{
+                    fontFamily: "var(--font-manrope)",
+                    fontWeight: 600,
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {button1}
+                </motion.button>
 
-          {/* Donate Button */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.9, duration: 0.5 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="mt-4 sm:mt-6 lg:mt-8"
-          >
-            <Button
-              onClick={handleDonateClick}
-              size="lg"
-              className="bg-[#e91e63] hover:bg-[#d81b60] text-white font-semibold py-2.5 px-6 sm:py-3 sm:px-8 text-sm sm:text-base shadow-lg hover:shadow-xl transition-all duration-300 rounded-lg"
-            >
-              Donate Now
-              <Heart className="ml-2 h-4 w-4 sm:h-5 sm:w-5 fill-current" />
-            </Button>
-          </motion.div>
+                <motion.button
+                  className="border border-white text-white px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full font-semibold transition-all text-xs sm:text-sm md:text-base lg:text-xl cursor-pointer"
+                  style={{
+                    fontFamily: "var(--font-manrope)",
+                    fontWeight: 600,
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {button2}
+                </motion.button>
+              </div>
+            </div>
+          </div>
         </motion.div>
-
-        {/* Dots */}
-        <motion.div
-          className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 sm:gap-3 z-20"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.1, duration: 0.6 }}
-        >
-          {slides.map((_, i) => (
-            <motion.div
-              key={i}
-              onClick={() => setCurrentSlide(i)}
-              className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full cursor-pointer transition-all duration-300 ${
-                currentSlide === i
-                  ? "bg-gradient-to-r from-green-400 to-blue-400 scale-110"
-                  : "bg-white/70 hover:bg-white/90"
-              }`}
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
-            />
-          ))}
-        </motion.div>
-
-        {/* Background Animation Blobs */}
-        <motion.div
-          className="absolute top-10 right-10 w-20 h-20 sm:w-32 sm:h-32 bg-gradient-to-br from-green-500/20 to-blue-600/20 rounded-full blur-xl z-10"
-          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute bottom-20 left-10 w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-br from-blue-500/20 to-green-600/20 rounded-full blur-lg z-10"
-          animate={{ scale: [1.2, 1, 1.2], opacity: [0.4, 0.2, 0.4] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        />
-      </div>
-
-      {/* Custom Donation Form Modal/Dialog */}
-    {isDonationFormOpen && (
-        <CustomDonationForm
-          isOpen={isDonationFormOpen}
-          setIsModalOpen={setIsDonationFormOpen}
-        />
-      )}
-    </>
+      </AnimatePresence>
+    </div>
   );
 };
 
-export default HeroSection;
+export default Slider;

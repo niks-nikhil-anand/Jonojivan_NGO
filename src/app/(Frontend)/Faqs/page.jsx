@@ -6,21 +6,21 @@ import Link from "next/link";
 
 const faqs = [
   {
-    question: "What is Plan to Empower - NGO?",
+    question: "What is Jonojivan Foundation?",
     answer:
-      "Plan to Empower is a non-profit organization dedicated to improving the lives of children, women, and communities through education, skill development, and empowerment. We focus on creating lasting change by providing access to education and equal opportunities for all.",
+      "Jonojivan Foundation is a non-profit organization dedicated to improving the lives of children, women, and communities through education, skill development, and empowerment. We focus on creating lasting change by providing access to education and equal opportunities for all.",
     category: "General",
   },
   {
-    question: "How can I donate to Plan to Empower?",
+    question: "How can I donate to Jonojivan Foundation?",
     answer:
       "You can easily donate through our website's Donate Now page. Simply choose your donation amount and proceed with a secure online payment using your preferred method.",
     category: "Donation",
   },
   {
-    question: "What programs does Plan to Empower support?",
+    question: "What programs does Jonojivan Foundation support?",
     answer:
-      "Plan to Empower supports various programs, including: Girl Child Education, Skill Development for Women, Tuition Classes for Quality Education, School Building Projects, and Women Empowerment & Gender Equality initiatives.",
+      "Jonojivan Foundation supports various programs, including: Girl Child Education, Skill Development for Women, Tuition Classes for Quality Education, School Building Projects, and Women Empowerment & Gender Equality initiatives.",
     category: "Programs",
   },
   {
@@ -50,11 +50,11 @@ const faqs = [
   {
     question: "Is my donation tax-deductible?",
     answer:
-      "Yes, Plan to Empower is a registered non-profit, and all donations are eligible for tax deductions under Section 80G of the Income Tax Act of 1961.",
+      "Yes, Jonojivan Foundation is a registered non-profit, and all donations are eligible for tax deductions under Section 80G of the Income Tax Act of 1961.",
     category: "Donation",
   },
   {
-    question: "How can I stay updated on Plan to Empower’s progress?",
+    question: "How can I stay updated on Jonojivan Foundation’s progress?",
     answer:
       "Once you donate, we will send regular updates through emails, newsletters, and social media. You can also follow us on social media for real-time information about our programs and the impact of your donation.",
     category: "General",
@@ -84,13 +84,13 @@ const faqs = [
     category: "Impact",
   },
   {
-    question: "How can I volunteer with Plan to Empower?",
+    question: "How can I volunteer with Jonojivan Foundation?",
     answer:
       "We are always looking for passionate volunteers. You can apply to volunteer on our Volunteer Page, where you can choose opportunities that match your skills and interests.",
     category: "General",
   },
   {
-    question: "Can I organize a fundraising event for Plan to Empower?",
+    question: "Can I organize a fundraising event for Jonojivan Foundation?",
     answer:
       "Absolutely! We encourage individuals and organizations to host fundraising events to support our mission. Contact us to learn how we can assist in organizing and promoting your event.",
     category: "General",
@@ -102,7 +102,7 @@ const faqs = [
     category: "Impact",
   },
   {
-    question: "How can I share Plan to Empower's mission with others?",
+    question: "How can I share Jonojivan Foundation's mission with others?",
     answer:
       "You can help spread the word by sharing our website, social media posts, and newsletters with your network. Every person you inspire to get involved makes a difference!",
     category: "General",
@@ -120,12 +120,13 @@ const faqs = [
     category: "Donation",
   },
   {
-    question: "What is the best way to contact Plan to Empower for additional information?",
+    question: "What is the best way to contact Jonojivan Foundation for additional information?",
     answer:
-      "You can contact us via email at contact@plantoempower.org or call us at [phone number]. We are happy to answer any questions and discuss how you can further support our mission.",
+      "You can contact us via email at contact@jonojivanfoundation.org or call us at [phone number]. We are happy to answer any questions and discuss how you can further support our mission.",
     category: "General",
   },
 ];
+
 
 
 const FaqsPage = () => {
@@ -145,10 +146,10 @@ const FaqsPage = () => {
   const getCategoryColor = (category) => {
     const colors = {
       General: "bg-blue-100 text-blue-800 border-blue-200",
-      Donation: "bg-green-100 text-green-800 border-green-200",
-      Programs: "bg-purple-100 text-purple-800 border-purple-200",
-      Impact: "bg-orange-100 text-orange-800 border-orange-200",
-      Sponsorship: "bg-pink-100 text-pink-800 border-pink-200"
+      Donation: "bg-sky-100 text-sky-800 border-sky-200",
+      Programs: "bg-indigo-100 text-indigo-800 border-indigo-200",
+      Impact: "bg-cyan-100 text-cyan-800 border-cyan-200",
+      Sponsorship: "bg-blue-100 text-blue-800 border-blue-200"
     };
     return colors[category] || "bg-gray-100 text-gray-800 border-gray-200";
   };
@@ -156,7 +157,7 @@ const FaqsPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 text-white">
+      <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 text-white">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="relative max-w-7xl mx-auto px-6 py-24">
           <motion.div
@@ -176,7 +177,7 @@ const FaqsPage = () => {
                 Questions
               </span>
             </h1>
-            <p className="text-xl lg:text-2xl text-green-100 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl lg:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
               Find answers to common questions about our mission, donation process, and how you can make a difference in the lives of children and women.
             </p>
           </motion.div>
@@ -200,7 +201,7 @@ const FaqsPage = () => {
           >
             <div className="bg-white rounded-2xl shadow-lg p-8 sticky top-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                <HelpCircle className="w-6 h-6 text-emerald-600 mr-3" />
+                <HelpCircle className="w-6 h-6 text-blue-600 mr-3" />
                 Categories
               </h3>
               
@@ -211,7 +212,7 @@ const FaqsPage = () => {
                     onClick={() => setSelectedCategory(category)}
                     className={`w-full text-left px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
                       selectedCategory === category
-                        ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg"
+                        ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg"
                         : "bg-gray-50 hover:bg-gray-100 text-gray-700"
                     }`}
                   >
@@ -224,17 +225,17 @@ const FaqsPage = () => {
               </div>
 
               {/* Contact Card */}
-              <div className="mt-8 p-6 bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl border border-emerald-100">
+              <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
                 <div className="text-center">
-                  <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Heart className="w-6 h-6 text-emerald-600" />
+                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Heart className="w-6 h-6 text-blue-600" />
                   </div>
                   <h4 className="font-bold text-gray-900 mb-2">Still need help?</h4>
                   <p className="text-gray-600 text-sm mb-4">
                     Contact us for personalized assistance with your questions.
                   </p>
                   <Link href={"/contactUs"}>
-                  <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-full text-sm font-medium transition-colors duration-300 cursor-pointer">
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full text-sm font-medium transition-colors duration-300 cursor-pointer">
                     Contact Support
                   </button>
                   
@@ -289,7 +290,7 @@ const FaqsPage = () => {
                       <motion.div
                         animate={{ rotate: activeIndex === index ? 45 : 0 }}
                         transition={{ duration: 0.3 }}
-                        className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full flex items-center justify-center shadow-md"
+                        className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center shadow-md"
                       >
                         {activeIndex === index ? (
                           <Minus className="w-5 h-5 text-white" />
@@ -311,7 +312,7 @@ const FaqsPage = () => {
                         className="overflow-hidden"
                       >
                         <div className="px-6 pb-6">
-                          <div className="h-px bg-gradient-to-r from-emerald-200 via-green-200 to-transparent mb-4"></div>
+                          <div className="h-px bg-gradient-to-r from-blue-200 via-indigo-200 to-transparent mb-4"></div>
                           <p className="text-gray-600 leading-relaxed text-lg">
                             {faq.answer}
                           </p>
@@ -327,7 +328,7 @@ const FaqsPage = () => {
 
         {/* Bottom CTA Section */}
         <motion.div
-          className="mt-20 bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 rounded-3xl p-12 text-center text-white relative overflow-hidden"
+          className="mt-20 bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 rounded-3xl p-12 text-center text-white relative overflow-hidden"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
@@ -341,15 +342,15 @@ const FaqsPage = () => {
             <h3 className="text-3xl lg:text-4xl font-bold mb-4">
               Ready to Make a Difference?
             </h3>
-            <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
               Join thousands of supporters who are creating lasting change in the lives of children and women. Every contribution makes a meaningful impact.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-emerald-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors duration-300 flex items-center justify-center">
+              <button className="bg-white text-blue-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors duration-300 flex items-center justify-center">
                 <Heart className="w-5 h-5 mr-2" />
                 Donate Now
               </button>
-              <button className="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-emerald-600 transition-all duration-300 flex items-center justify-center">
+              <button className="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-blue-600 transition-all duration-300 flex items-center justify-center">
                 Learn More
                 <ArrowRight className="w-5 h-5 ml-2" />
               </button>

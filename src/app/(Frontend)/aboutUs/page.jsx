@@ -2,20 +2,23 @@
 import React from "react";
 import { motion } from "framer-motion";
 import {
-  Heart,
+  Shield,
   Users,
   Target,
   BookOpen,
   Handshake,
-  Shield,
-  GraduationCap,
+  Eye,
+  Scale,
   TrendingUp,
   Globe,
   Building,
   UserCheck,
   Lightbulb,
+  Truck,
+  ShoppingCart,
+  AlertTriangle,
+  Check,
 } from "lucide-react";
-import CTABanner from "@/components/frontend/shared/CTABanner";
 
 const AboutPage = () => {
   const containerVariants = {
@@ -42,76 +45,76 @@ const AboutPage = () => {
 
   const focusAreas = [
     {
-      title: "Bloomfield International School, Ara",
+      title: "Human Rights Advocacy",
       description:
-        "Our flagship project provides high-quality education to children from marginalized communities. We offer a safe, nurturing, and empowering environment for success academically, socially, and emotionally.",
-      icon: <GraduationCap className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-      color: "from-green-500 to-green-600",
+        "We work to incorporate and protect human rights as outlined in the Human Rights Act 1998, ensuring equal rights and dignity for all individuals in our communities.",
+      icon: <Scale className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
+      color: "from-blue-500 to-blue-600",
       bgColor: "bg-white/95",
-      borderColor: "border-green-200",
+      borderColor: "border-blue-200",
     },
     {
-      title: "Skill Development Programs for Women",
+      title: "Anti-Corruption Initiatives",
       description:
-        "We provide skill development programs to empower women and girls, enabling them to become financially independent and confident leaders in their communities.",
-      icon: <UserCheck className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-      color: "from-green-500 to-green-600",
+        "We expose corruption in tender processes and public procurement, implementing both preventive and reactive measures to ensure transparency and accountability.",
+      icon: <Eye className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
+      color: "from-blue-500 to-blue-600",
       bgColor: "bg-white/95",
-      borderColor: "border-green-200",
+      borderColor: "border-blue-200",
     },
     {
-      title: "Outreach and Community Support",
+      title: "E-commerce & Logistics Support",
       description:
-        "We work directly with families and local communities to raise awareness about education, gender equality, and women's rights, ensuring accessibility and impact.",
-      icon: <Users className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-      color: "from-green-500 to-green-600",
+        "We provide oversight and support for fair practices in e-commerce and logistics sectors, ensuring transparent operations and protecting consumer rights.",
+      icon: <Truck className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
+      color: "from-blue-500 to-blue-600",
       bgColor: "bg-white/95",
-      borderColor: "border-green-200",
+      borderColor: "border-blue-200",
     },
   ];
 
   const impacts = [
-    "Girls are going to school, breaking traditional barriers to education",
-    "Women are gaining financial independence through vocational training",
-    "Communities are transforming with a growing understanding of education and equality",
-    "Vulnerable families are becoming financially independent through skill development",
-    "Children are breaking free from the cycle of poverty and illiteracy",
+    "Exposing tender fixing and saving millions in public funds",
+    "Implementing preventive anti-corruption measures across sectors",
+    "Protecting human rights and ensuring equal access to justice",
+    "Monitoring e-commerce practices for consumer protection",
+    "Building transparent governance systems in communities",
   ];
 
   const values = [
     {
-      title: "Education First",
+      title: "Transparency",
       description:
-        "We believe education is the foundation of empowerment and social change.",
-      icon: <BookOpen className="w-5 h-5 sm:w-6 sm:h-6" />,
-      color: "from-green-500 to-green-600",
+        "We believe in open governance and accountability in all public and private sectors.",
+      icon: <Eye className="w-5 h-5 sm:w-6 sm:h-6" />,
+      color: "from-blue-500 to-blue-600",
     },
     {
-      title: "Gender Equality",
+      title: "Human Rights",
       description:
-        "We champion equal rights and opportunities for women and girls.",
+        "We champion the protection of fundamental human rights for all individuals.",
       icon: <Shield className="w-5 h-5 sm:w-6 sm:h-6" />,
-      color: "from-green-500 to-green-600",
+      color: "from-blue-500 to-blue-600",
     },
     {
-      title: "Community Focus",
+      title: "Justice",
       description:
-        "We work directly with communities to create lasting change.",
-      icon: <Heart className="w-5 h-5 sm:w-6 sm:h-6" />,
-      color: "from-green-500 to-green-600",
+        "We work to ensure equal access to justice and fair treatment for all.",
+      icon: <Scale className="w-5 h-5 sm:w-6 sm:h-6" />,
+      color: "from-blue-500 to-blue-600",
     },
     {
       title: "Innovation",
-      description: "We adapt new techniques and approaches for greater impact.",
+      description: "We use modern approaches to combat corruption and protect rights.",
       icon: <Lightbulb className="w-5 h-5 sm:w-6 sm:h-6" />,
-      color: "from-green-500 to-green-600",
+      color: "from-blue-500 to-blue-600",
     },
   ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-emerald-600 via-green-600 to-teal-700 text-white py-12 sm:py-16 lg:py-20 px-4 overflow-hidden">
+      <div className="relative bg-gradient-to-br from-blue-600 via-indigo-600 to-cyan-700 text-white py-12 sm:py-16 lg:py-20 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
         <div className="relative z-10 max-w-6xl mx-auto text-center">
@@ -121,28 +124,27 @@ const AboutPage = () => {
             transition={{ duration: 0.8 }}
           >
             <div className="inline-flex items-center justify-center w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 bg-white/20 backdrop-blur-sm rounded-full mb-4 sm:mb-6">
-              <Heart className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 text-white" />
+              <Shield className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 text-white" />
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-              Plan to Empower
+              Jonojivan Foundation
             </h1>
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed opacity-95 px-2">
-              We seek to safeguard the rights of women and children through
-              advocacy, education, and empowerment.
+              Protecting Human Rights, Fighting Corruption, and Ensuring Transparency in E-commerce and Logistics
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-white text-green-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
+                className="bg-white text-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
               >
-                <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
-                <span>Donate Now</span>
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>Support Our Mission</span>
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:bg-white hover:text-green-600 transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
+                className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:bg-white hover:text-blue-600 transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
               >
                 <Handshake className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span>Partner With Us</span>
@@ -170,40 +172,27 @@ const AboutPage = () => {
             <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
               <div className="space-y-4 sm:space-y-6">
                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                  Plan to Empower is a non-profit organization dedicated to
-                  promoting child welfare and women&apos;s rights in India. We
-                  work to ensure that families thrive in environments that are
-                  safe, healthy, nurturing, and productive.
+                  Jonojivan Foundation is dedicated to upholding human rights, fighting corruption, and ensuring transparency across various sectors. Our work is grounded in the principles of the Human Rights Act 1998, which aims to incorporate fundamental rights into law and practice.
                 </p>
                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                  We at Plan to Empower work to make a world of happiness,
-                  tolerance, social equality, dignity and security where poverty
-                  and illiteracy has no role to play. We work to educate
-                  children, empower women by educating them and making them
-                  financially independent, eradicate poverty and achieve a
-                  socially balanced lifeline.
+                  We operate as an anti-corruption body that exposes tender fixing, saves public funds, and implements comprehensive anti-bribery measures. Our scope includes both preventive strategies and reactive responses to corruption in e-commerce, logistics, and public procurement.
                 </p>
-                <div className="flex items-start space-x-3 sm:space-x-4 p-4 sm:p-6 bg-gradient-to-r from-green-50/80 to-emerald-50/80 rounded-xl border border-green-100/50">
-                  <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-green-600 flex-shrink-0 mt-1" />
+                <div className="flex items-start space-x-3 sm:space-x-4 p-4 sm:p-6 bg-gradient-to-r from-blue-50/80 to-indigo-50/80 rounded-xl border border-blue-100/50">
+                  <AlertTriangle className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 flex-shrink-0 mt-1" />
                   <p className="text-sm sm:text-base text-gray-700 font-medium leading-relaxed">
-                    Our team works days and nights to have a happy and balanced
-                    world around us, providing equal opportunities to all. We
-                    work like dedicated professionals but from the core of our
-                    heart.
+                    Our anti-corruption efforts vary in scope and strategy, but all are unified by our commitment to transparency, accountability, and the protection of fundamental human rights.
                   </p>
                 </div>
               </div>
 
               <div className="relative">
-                <div className="bg-gradient-to-br from-green-100/80 to-emerald-100/80 rounded-2xl p-6 sm:p-8 text-center border border-green-200/50">
-                  <Target className="w-12 h-12 sm:w-16 sm:h-16 text-green-600 mx-auto mb-4" />
+                <div className="bg-gradient-to-br from-blue-100/80 to-indigo-100/80 rounded-2xl p-6 sm:p-8 text-center border border-blue-200/50">
+                  <Target className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 mx-auto mb-4" />
                   <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
-                    Empowering People Out of Poverty
+                    Fighting Corruption & Protecting Rights
                   </h3>
                   <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                    We put women and girls at the center because today they are
-                    in the most desperate and vulnerable condition and lack very
-                    basic necessities.
+                    We expose corruption in tender processes while ensuring that human rights are protected and incorporated into all aspects of governance and business operations.
                   </p>
                 </div>
               </div>
@@ -223,7 +212,7 @@ const AboutPage = () => {
               Our Focus Areas
             </h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
-              Empowering Communities Across Bihar Through Targeted Interventions
+              Comprehensive Approach to Rights Protection and Anti-Corruption
             </p>
           </div>
 
@@ -275,24 +264,24 @@ const AboutPage = () => {
         >
           <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 shadow-xl border border-gray-100/50">
             <div className="text-center mb-8 sm:mb-12">
-              <TrendingUp className="w-12 h-12 sm:w-16 sm:h-16 text-green-600 mx-auto mb-4" />
+              <TrendingUp className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 mx-auto mb-4" />
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-3 sm:mb-4 leading-tight">
                 The Impact of Our Work
               </h2>
               <p className="text-lg sm:text-xl text-gray-600 px-4">
-                Creating lasting change in communities across Bihar
+                Creating transparency and protecting rights across multiple sectors
               </p>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
               <div>
                 <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">
-                  Transforming Lives
+                  Measurable Results
                 </h3>
                 <div className="space-y-3 sm:space-y-4">
                   {impacts.map((impact, index) => (
                     <div key={index} className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-gradient-to-r from-green-500 to-green-600 rounded-full mt-2 flex-shrink-0"></div>
+                      <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mt-2 flex-shrink-0"></div>
                       <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
                         {impact}
                       </p>
@@ -301,22 +290,16 @@ const AboutPage = () => {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-green-50/80 to-emerald-50/80 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-green-100/50">
-                <Globe className="w-10 h-10 sm:w-12 sm:h-12 text-green-600 mb-4" />
+              <div className="bg-gradient-to-br from-blue-50/80 to-indigo-50/80 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-blue-100/50">
+                <ShoppingCart className="w-10 h-10 sm:w-12 sm:h-12 text-blue-600 mb-4" />
                 <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
-                  Our Approach
+                  Our Methodology
                 </h3>
                 <p className="text-sm sm:text-base text-gray-700 mb-4 leading-relaxed">
-                  We work with girls and women in rural areas, urban slums,
-                  factories, and businesses to uplift their livelihoods. In our
-                  skill centers, we facilitate and train women and girls to
-                  learn different skills and provide assistance to make them
-                  financially independent.
+                  We implement both preventive and reactive anti-corruption measures. Our preventive approach includes transparency initiatives, while our reactive measures involve investigating and exposing corruption when it occurs.
                 </p>
                 <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                  Together, we can expand our reach, touch more lives, and
-                  continue to build a future where every child and woman has the
-                  opportunity to thrive.
+                  In e-commerce and logistics, we monitor practices to ensure fair operations and protect consumer rights, while maintaining oversight of public procurement processes.
                 </p>
               </div>
             </div>
@@ -335,20 +318,15 @@ const AboutPage = () => {
               Our Mission & Values
             </h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-4xl mx-auto px-4 leading-relaxed">
-              To reach the un-reached, underprivileged, deprived and
-              disadvantaged people in rural and urban India
+              Incorporating human rights principles while fighting corruption across all sectors
             </p>
           </div>
 
           <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 shadow-xl mb-6 sm:mb-8 border border-gray-100/50">
             <div className="max-w-4xl mx-auto text-center">
-              <Building className="w-12 h-12 sm:w-16 sm:h-16 text-green-600 mx-auto mb-4 sm:mb-6" />
+              <Building className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 mx-auto mb-4 sm:mb-6" />
               <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                The mission of Plan to Empower is to reach the un-reached,
-                underprivileged, deprived and disadvantaged people in the rural
-                and urban population of India, who are either totally unsaved,
-                underserved or at best inappropriately served with regards to
-                health, education & other needs for better living.
+                Our mission is to ensure the rights contained in the European Convention on Human Rights are incorporated into practice while combating corruption through comprehensive anti-bribery measures. We work to create transparent systems in e-commerce, logistics, and public procurement that protect both individual rights and public resources.
               </p>
             </div>
           </div>
@@ -377,12 +355,40 @@ const AboutPage = () => {
         </motion.div>
 
         {/* Call to Action */}
-        <CTABanner
-          heading={"Breaking the Cycle of Poverty, One Skill at a Time"}
-          paragraph={
-            "At Plan to Empower, we uplift communities through microfinance and vocational training—helping individuals gain the tools they need to build a better future for themselves and their families."
-          }
-        />
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.0 }}
+        >
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 text-white shadow-xl">
+            <Check className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-6" />
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 leading-tight">
+              Building a Transparent Future
+            </h2>
+            <p className="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed opacity-95">
+              At Jonojivan Foundation, we combine human rights advocacy with anti-corruption efforts to create transparent systems that protect both individual rights and public resources across e-commerce, logistics, and governance.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
+              >
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>Join Our Mission</span>
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:bg-white hover:text-blue-600 transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
+              >
+                <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>Learn More</span>
+              </motion.button>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   );

@@ -14,7 +14,6 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import CTABanner from "@/components/frontend/shared/CTABanner";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -86,45 +85,43 @@ export default function Contact() {
 
   const contactInfo = [
     {
-      title: "Registered Office",
-      details: "Singhi Kalan, PO- Ara, District- Bhojpur, Bihar, Pin- 802301.",
+      title: "Foundation Office",
+      details: "UTTAR KHATOWAL PO UTTAR KHATOWAL PS RUPAHIHAT NAGAON ASSAM PIN 782124",
       icon: <Building className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-      color: "from-green-500 to-green-600",
+      color: "from-blue-500 to-blue-600",
       bgColor: "bg-white/95",
-      borderColor: "border-green-200",
+      borderColor: "border-blue-200",
     },
     {
-      title: "Operation Office",
-      details: "F-13/17, Jogabai Extension, Okhla, New Delhi- 110025.",
+      title: "Location",
+      details: "Nagaon, Assam - 782124",
       icon: <MapPin className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-      color: "from-green-500 to-green-600",
+      color: "from-blue-500 to-blue-600",
       bgColor: "bg-white/95",
-      borderColor: "border-green-200",
+      borderColor: "border-blue-200",
     },
     {
       title: "Email Address",
-      details: "contact@plantoempower.org",
+      details: "info@jonojivanfoundation.org",
       icon: <Mail className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-      color: "from-green-500 to-green-600",
+      color: "from-blue-500 to-blue-600",
       bgColor: "bg-white/95",
-      borderColor: "border-green-200",
+      borderColor: "border-blue-200",
     },
     {
       title: "Phone",
-      details: "+91-9891989182",
+      details: "+91-9435266783",
       icon: <Phone className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-      color: "from-green-500 to-green-600",
+      color: "from-blue-500 to-blue-600",
       bgColor: "bg-white/95",
-      borderColor: "border-green-200",
+      borderColor: "border-blue-200",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/50 to-indigo-50/60">
       {/* Hero Section */}
-      
-
-       <header className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 text-white">
+      <header className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-600 text-white">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="relative max-w-7xl mx-auto px-6 py-24">
           <div className="text-center fade-in">
@@ -133,11 +130,14 @@ export default function Contact() {
                 <MessageCircle className="w-12 h-12 text-white" />
               </div>
             </div>
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              Get in Touch
+            <h1 className="text-4xl lg:text-5xl font-bold mb-4 leading-tight">
+              JONOJIVAN Foundation
             </h1>
-            <p className="text-xl lg:text-2xl text-green-100 max-w-4xl mx-auto leading-relaxed">
-               We&apos;d love to hear your thoughts. Your opinions and
+            <h2 className="text-3xl lg:text-4xl font-bold mb-6 leading-tight">
+              Get in Touch
+            </h2>
+            <p className="text-xl lg:text-2xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
+              We&apos;d love to hear your thoughts. Your opinions and
               experiences matter to us. Share your thoughts and let&apos;s
               improve together.
             </p>
@@ -163,7 +163,7 @@ export default function Contact() {
             className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 shadow-xl border border-gray-100/50"
           >
             <div className="text-center mb-6 sm:mb-8">
-              <Send className="w-10 h-10 sm:w-12 sm:h-12 text-green-600 mx-auto mb-3 sm:mb-4" />
+              <Send className="w-10 h-10 sm:w-12 sm:h-12 text-blue-600 mx-auto mb-3 sm:mb-4" />
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-3 sm:mb-4 leading-tight">
                 Send us a Message
               </h2>
@@ -174,9 +174,9 @@ export default function Contact() {
             </div>
 
             {success && (
-              <Alert className="mb-4 sm:mb-6 border-green-200 bg-green-50">
-                <CheckCircle className="h-4 w-4 text-green-600" />
-                <AlertDescription className="text-green-800 text-sm sm:text-base">
+              <Alert className="mb-4 sm:mb-6 border-blue-200 bg-blue-50">
+                <CheckCircle className="h-4 w-4 text-blue-600" />
+                <AlertDescription className="text-blue-800 text-sm sm:text-base">
                   Your message has been sent successfully! We&apos;ll get back
                   to you soon.
                 </AlertDescription>
@@ -202,7 +202,7 @@ export default function Contact() {
                     First Name
                   </label>
                   <input
-                    className="w-full h-10 sm:h-12 px-3 sm:px-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300 text-sm sm:text-base"
+                    className="w-full h-10 sm:h-12 px-3 sm:px-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-sm sm:text-base"
                     type="text"
                     id="first_name"
                     value={formData.first_name}
@@ -219,7 +219,7 @@ export default function Contact() {
                     Last Name
                   </label>
                   <input
-                    className="w-full h-10 sm:h-12 px-3 sm:px-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300 text-sm sm:text-base"
+                    className="w-full h-10 sm:h-12 px-3 sm:px-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-sm sm:text-base"
                     type="text"
                     id="last_name"
                     value={formData.last_name}
@@ -238,7 +238,7 @@ export default function Contact() {
                   Email Address
                 </label>
                 <input
-                  className="w-full h-10 sm:h-12 px-3 sm:px-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300 text-sm sm:text-base"
+                  className="w-full h-10 sm:h-12 px-3 sm:px-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-sm sm:text-base"
                   type="email"
                   id="email"
                   value={formData.email}
@@ -256,7 +256,7 @@ export default function Contact() {
                   Phone Number
                 </label>
                 <input
-                  className="w-full h-10 sm:h-12 px-3 sm:px-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300 text-sm sm:text-base"
+                  className="w-full h-10 sm:h-12 px-3 sm:px-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-sm sm:text-base"
                   type="tel"
                   id="phone_number"
                   value={formData.phone_number}
@@ -274,7 +274,7 @@ export default function Contact() {
                   Your Message
                 </label>
                 <textarea
-                  className="w-full h-28 sm:h-32 px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300 resize-none text-sm sm:text-base"
+                  className="w-full h-28 sm:h-32 px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 resize-none text-sm sm:text-base"
                   id="message"
                   value={formData.message}
                   onChange={handleChange}
@@ -288,7 +288,7 @@ export default function Contact() {
                 whileTap={{ scale: 0.98 }}
                 onClick={handleSubmit}
                 disabled={loading}
-                className="w-full h-12 sm:h-14 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 text-white font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
+                className="w-full h-12 sm:h-14 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
               >
                 {loading ? (
                   <>
@@ -312,7 +312,7 @@ export default function Contact() {
           >
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl mb-6 sm:mb-8 border border-gray-100/50">
               <div className="text-center mb-6 sm:mb-8">
-                <MapPin className="w-10 h-10 sm:w-12 sm:h-12 text-green-600 mx-auto mb-3 sm:mb-4" />
+                <MapPin className="w-10 h-10 sm:w-12 sm:h-12 text-blue-600 mx-auto mb-3 sm:mb-4" />
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-3 sm:mb-4 leading-tight">
                   Contact Information
                 </h2>
@@ -358,7 +358,7 @@ export default function Contact() {
             {/* Quick Contact Card */}
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="bg-gradient-to-br from-emerald-600 via-green-600 to-teal-700 rounded-xl sm:rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden"
+              className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-700 rounded-xl sm:rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent"></div>
               <div className="text-center relative z-10">
@@ -372,10 +372,10 @@ export default function Contact() {
                 <motion.a
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  href="tel:+919891989182"
-                  className="inline-block bg-white text-green-600 px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-sm sm:text-base"
+                  href="tel:+919435266783"
+                  className="inline-block bg-white text-blue-600 px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-sm sm:text-base"
                 >
-                  +91-9891989182
+                  +91-9435266783
                 </motion.a>
               </div>
             </motion.div>
@@ -383,13 +383,14 @@ export default function Contact() {
         </motion.div>
 
         {/* Final CTA Banner */}
-        <CTABanner
-          heading={"Empowering Women. Transforming Futures."}
-          paragraph={
-                "We uplift women and girls through education, skills, and support—creating pathways to equality and independence."
-
-          }
-        />
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-8 sm:p-12 text-center text-white shadow-2xl">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">
+            Empowering Communities. Transforming Lives.
+          </h2>
+          <p className="text-lg sm:text-xl lg:text-2xl opacity-90 max-w-4xl mx-auto leading-relaxed">
+            JONOJIVAN Foundation is dedicated to creating positive change through community development, education, and social empowerment initiatives.
+          </p>
+        </div>
       </div>
     </div>
   );

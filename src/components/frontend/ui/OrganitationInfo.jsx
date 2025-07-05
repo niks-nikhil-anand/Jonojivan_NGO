@@ -11,7 +11,11 @@ import {
   TrendingUp,
   Sparkles,
   ArrowRight,
-  Target
+  Target,
+  BookOpen,
+  Award,
+  Globe,
+  Lightbulb
 } from "lucide-react";
 
 const OrganizationInfo = () => {
@@ -48,7 +52,7 @@ const OrganizationInfo = () => {
       title: "Volunteers in 2020",
       description: "Dedicated changemakers",
       icon: <Users className="w-8 h-8" />,
-      color: "from-blue-500 to-sky-500",
+      color: "from-blue-500 to-blue-600",
       bgColor: "bg-blue-50",
       borderColor: "border-blue-200"
     },
@@ -58,9 +62,9 @@ const OrganizationInfo = () => {
       title: "People Helped in 2020",
       description: "Lives transformed",
       icon: <Heart className="w-8 h-8" />,
-      color: "from-pink-500 to-rose-500",
-      bgColor: "bg-pink-50",
-      borderColor: "border-pink-200"
+      color: "from-yellow-500 to-yellow-600",
+      bgColor: "bg-yellow-50",
+      borderColor: "border-yellow-200"
     },
     {
       number: 16,
@@ -68,9 +72,9 @@ const OrganizationInfo = () => {
       title: "Funds Collected",
       description: "Resources mobilized",
       icon: <DollarSign className="w-8 h-8" />,
-      color: "from-emerald-500 to-teal-500",
-      bgColor: "bg-emerald-50",
-      borderColor: "border-emerald-200"
+      color: "from-blue-600 to-blue-700",
+      bgColor: "bg-blue-50",
+      borderColor: "border-blue-200"
     }
   ];
 
@@ -109,7 +113,7 @@ const OrganizationInfo = () => {
   };
 
   return (
-    <div ref={sectionRef} className=" bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-16 px-4 relative overflow-hidden">
+    <div ref={sectionRef} className="bg-gradient-to-br from-blue-50 via-yellow-50 to-blue-100 py-16 px-4 relative overflow-hidden">
       {/* Background Image with Enhanced Overlay */}
       <div className="absolute inset-0">
         <Image
@@ -122,8 +126,8 @@ const OrganizationInfo = () => {
           priority
         />
         {/* Multi-layered Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-blue-50/70 to-indigo-100/60 backdrop-blur-sm"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-50/40 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-white/85 via-blue-50/75 to-yellow-100/70 backdrop-blur-sm"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-blue-50/40 to-transparent"></div>
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -141,13 +145,13 @@ const OrganizationInfo = () => {
               className="text-center lg:text-left mb-12"
               variants={cardVariants}
             >
-              <div className="inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-4">
+              <div className="inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mb-4">
                 <TrendingUp className="w-4 h-4 text-white mr-2" />
                 <span className="text-white font-semibold text-sm uppercase tracking-wide">
                   Our Impact
                 </span>
               </div>
-              <h3 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+              <h3 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">
                 Creating Measurable Change
               </h3>
             </motion.div>
@@ -216,7 +220,7 @@ const OrganizationInfo = () => {
           >
             {/* Mission Badge */}
             <motion.div 
-              className="inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full mb-6"
+              className="inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-full mb-6"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -229,12 +233,12 @@ const OrganizationInfo = () => {
 
             {/* Main Title */}
             <motion.h1
-              className="text-4xl lg:text-6xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-6 leading-tight"
+              className="text-4xl lg:text-6xl font-bold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent mb-6 leading-tight"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Empowers &  Build Futures
+              Jonojivan Foundation
             </motion.h1>
 
             {/* Description */}
@@ -245,13 +249,13 @@ const OrganizationInfo = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <p className="text-xl text-gray-700 leading-relaxed mb-4">
-                Plan to Empowers Foundation is a movement of hope and empowerment, transforming lives through education in Bihar&apos;s underprivileged regions, where poverty and discrimination often overshadow dreams.
+                Jonojivan Foundation is a movement of hope and empowerment, transforming lives through education in Bihar&apos;s underprivileged regions, where poverty and discrimination often overshadow dreams.
               </p>
               
               {/* Additional Context */}
-              <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6 border border-indigo-100">
+              <div className="bg-gradient-to-r from-blue-50 to-yellow-50 rounded-2xl p-6 border border-blue-100">
                 <div className="flex items-start space-x-3">
-                  <div className="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl text-white">
+                  <div className="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-500 to-yellow-500 rounded-xl text-white">
                     <Sparkles className="w-5 h-5" />
                   </div>
                   <div>
@@ -267,7 +271,7 @@ const OrganizationInfo = () => {
             {/* CTA Button */}
             <Link href="/aboutUs">
               <motion.button
-                className="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-8 py-4 rounded-2xl font-bold shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center space-x-2 group"
+                className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white px-8 py-4 rounded-2xl font-bold shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center space-x-2 group"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
@@ -293,7 +297,7 @@ const OrganizationInfo = () => {
                 { label: "Success Rate", value: "95%" }
               ].map((item, index) => (
                 <div key={index} className="text-center p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-white/40">
-                  <div className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                  <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-yellow-600 bg-clip-text text-transparent">
                     {item.value}
                   </div>
                   <div className="text-sm text-gray-600 font-medium">
@@ -309,4 +313,6 @@ const OrganizationInfo = () => {
   );
 };
 
-export default OrganizationInfo;
+
+
+export default  OrganizationInfo;
