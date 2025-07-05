@@ -122,7 +122,7 @@ const CampaignCards = () => {
           <p className="text-red-600 mb-4 text-lg">{error}</p>
           <button 
             onClick={() => window.location.reload()} 
-            className="bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 text-white px-6 py-3 rounded-full font-bold hover:from-green-700 hover:via-green-600 hover:to-emerald-600 transition-all duration-300"
+            className="bg-gradient-to-r from-blue-600 via-blue-500 to-sky-500 text-white px-6 py-3 rounded-full font-bold hover:from-blue-700 hover:via-blue-600 hover:to-sky-600 transition-all duration-300"
           >
             Retry
           </button>
@@ -141,7 +141,7 @@ const CampaignCards = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <p className="text-emerald-600 font-medium text-lg mb-4 tracking-wide">
+          <p className="text-blue-600 font-medium text-lg mb-4 tracking-wide">
             Dignity, Opportunity, Hope
           </p>
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-6 max-w-4xl mx-auto">
@@ -190,7 +190,7 @@ const CampaignCards = () => {
                   }}
                 >
                   {/* Background Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-sky-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   
                   {/* Image Section */}
                   <div className="relative overflow-hidden h-64">
@@ -204,7 +204,7 @@ const CampaignCards = () => {
                     />
                     
                     {/* Goal Badge */}
-                    <div className="absolute top-4 right-4 bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 text-white px-3 py-1 text-sm font-bold rounded-full shadow-lg">
+                    <div className="absolute top-4 right-4 bg-gradient-to-r from-blue-600 via-blue-500 to-sky-500 text-white px-3 py-1 text-sm font-bold rounded-full shadow-lg">
                       <div className="flex items-center space-x-1">
                         <Target className="w-4 h-4" />
                         <span>₹{(goal / 10000000).toFixed(2)} Cr</span>
@@ -217,7 +217,7 @@ const CampaignCards = () => {
 
                   {/* Content Section */}
                   <div className="p-6 relative z-10">
-                    <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors duration-300 line-clamp-2 leading-tight">
+                    <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2 leading-tight">
                       {truncateText(card.title || 'Untitled Campaign', titleMaxLength)}
                     </h3>
                     
@@ -241,7 +241,7 @@ const CampaignCards = () => {
                       
                       <div className="relative w-full h-3 bg-gray-200 rounded-full overflow-hidden">
                         <motion.div
-                          className="absolute top-0 left-0 h-3 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full"
+                          className="absolute top-0 left-0 h-3 bg-gradient-to-r from-blue-500 to-sky-500 rounded-full"
                           initial={{ width: 0 }}
                           animate={{ width: `${progressPercentage}%` }}
                           transition={{ duration: 1, delay: 0.5 }}
@@ -264,7 +264,7 @@ const CampaignCards = () => {
                       </div>
                       
                       <motion.button
-                        className="bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 hover:from-green-700 hover:via-green-600 hover:to-emerald-600"
+                        className="bg-gradient-to-r from-blue-600 via-blue-500 to-sky-500 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 hover:from-blue-700 hover:via-blue-600 hover:to-sky-600"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={(e) => {
@@ -299,7 +299,7 @@ const CampaignCards = () => {
               whileTap={{ scale: 0.98 }}
             >
               <Link href="/campaigns">
-                <button className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 hover:from-emerald-700 hover:via-emerald-600 hover:to-green-600 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-3 mx-auto border-2 border-transparent hover:border-emerald-300">
+                <button className="bg-gradient-to-r from-blue-600 via-blue-500 to-sky-500 hover:from-blue-700 hover:via-blue-600 hover:to-sky-600 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-3 mx-auto border-2 border-transparent hover:border-blue-300">
                   <Heart className="w-5 h-5" />
                   <span>VIEW ALL CAMPAIGNS</span>
                   <ArrowRight className="w-5 h-5" />

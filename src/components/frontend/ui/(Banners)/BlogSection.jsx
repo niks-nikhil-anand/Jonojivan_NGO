@@ -166,7 +166,7 @@ const BlogSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <p className="text-emerald-600 font-medium text-lg mb-4 tracking-wide">
+          <p className="text-blue-600 font-medium text-lg mb-4 tracking-wide">
             News & articles
           </p>
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-6 max-w-4xl mx-auto">
@@ -198,7 +198,7 @@ const BlogSection = () => {
               onMouseLeave={() => setHoveredCard(null)}
             >
               {/* Background Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
               {/* Image Section */}
               <div className="relative overflow-hidden h-64">
@@ -209,7 +209,7 @@ const BlogSection = () => {
                 />
                 
                 {/* Date Badge */}
-                <div className="absolute top-4 right-4 bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 text-white px-3 py-1 text-sm font-bold rounded-full shadow-lg">
+                <div className="absolute top-4 right-4 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-white px-3 py-1 text-sm font-bold rounded-full shadow-lg">
                   {new Date(article.createdAt).toLocaleDateString("en-US", {
                     day: "2-digit",
                     month: "short",
@@ -235,7 +235,7 @@ const BlogSection = () => {
 
               {/* Content Section */}
               <div className="p-6 relative z-10">
-                <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-emerald-600 transition-colors duration-300 line-clamp-2 leading-tight">
+                <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2 leading-tight">
                   {article.title}
                 </h3>
                 
@@ -254,7 +254,7 @@ const BlogSection = () => {
                   </div>
                   
                   <motion.div 
-                    className="flex items-center space-x-2 text-emerald-600 font-semibold group-hover:text-emerald-700 transition-colors duration-300"
+                    className="flex items-center space-x-2 text-blue-600 font-semibold group-hover:text-blue-700 transition-colors duration-300"
                     whileHover={{ x: 5 }}
                   >
                     <span className="text-sm">Read More</span>
@@ -283,7 +283,7 @@ const BlogSection = () => {
                 <button 
                   onClick={handleLoadMore}
                   disabled={loadingMore}
-                  className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 hover:from-emerald-700 hover:via-emerald-600 hover:to-green-600 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-3 mx-auto border-2 border-transparent hover:border-emerald-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 hover:from-blue-700 hover:via-blue-600 hover:to-blue-700 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-3 mx-auto border-2 border-transparent hover:border-blue-300 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {loadingMore ? (
                     <>
@@ -338,7 +338,7 @@ const BlogSection = () => {
                 className="pt-4"
               >
                 <Link href="/blog">
-                  <button className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 hover:from-emerald-700 hover:via-emerald-600 hover:to-green-600 text-white px-8 py-3 rounded-full font-semibold text-base shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 mx-auto border-2 border-transparent hover:border-emerald-300">
+                  <button className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 hover:from-blue-700 hover:via-blue-600 hover:to-blue-700 text-white px-8 py-3 rounded-full font-semibold text-base shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 mx-auto border-2 border-transparent hover:border-blue-300">
                     <Eye className="w-4 h-4" />
                     <span>VISIT FULL BLOG</span>
                     <ArrowRight className="w-4 h-4" />
