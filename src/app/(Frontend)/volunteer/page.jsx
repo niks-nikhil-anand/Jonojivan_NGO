@@ -348,7 +348,7 @@ export default function JonojivanVolunteerPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-              Lives We've Transformed
+              Lives We&apos;ve Transformed
             </h2>
             <p className="text-xl text-gray-600">
               See the impact of our volunteers through these inspiring stories
@@ -532,7 +532,7 @@ export default function JonojivanVolunteerPage() {
             Get in Touch
           </h2>
           <p className="text-xl text-gray-600 mb-12">
-            Have questions about volunteering? We'd love to hear from you!
+            Have questions about volunteering? We&apos;d love to hear from you!
           </p>
           
           <div className="grid md:grid-cols-2 gap-8">

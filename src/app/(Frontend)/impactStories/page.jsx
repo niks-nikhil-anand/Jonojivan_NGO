@@ -300,7 +300,7 @@ export default function BlueStoriesPage() {
             <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 leading-relaxed mb-12 max-w-4xl mx-auto">
               These stories represent just a few of the thousands of lives
               transformed through education. Every donation, every sponsorship,
-              every act of support creates a new chapter in a child's life
+              every act of support creates a new chapter in a child&apos;s life
               story.
             </p>
             
