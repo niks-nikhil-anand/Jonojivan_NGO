@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   ArrowRight,
   Sparkles,
@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const ProgramsSection = () => {
   const [programs, setPrograms] = useState([]);
@@ -26,8 +27,8 @@ const ProgramsSection = () => {
   const [visibleCount, setVisibleCount] = useState(3); // Track how many programs to show
   const [loadingMore, setLoadingMore] = useState(false); // Track loading state for load more
 
-  // Default program styling configurations
-  const programStyles = [
+  // Default program styling configurations - moved to useMemo to prevent re-creation
+  const programStyles = useMemo(() => [
     {
       bgColor: 'bg-gradient-to-br from-blue-50 to-indigo-100',
       borderColor: 'border-blue-200',
@@ -82,7 +83,7 @@ const ProgramsSection = () => {
       color: 'from-yellow-500 to-orange-600',
       icon: <Lightbulb className="w-8 h-8" />
     }
-  ];
+  ], []);
 
   // Function to truncate text to specific character limit
   const truncateText = (text, maxLength) => {
@@ -125,7 +126,7 @@ const ProgramsSection = () => {
     };
 
     fetchPrograms();
-  }, []);
+  }, [programStyles]); // Added programStyles to dependency array
 
   const handleProgramClick = (slug) => {
     console.log(`Navigating to: /program/${slug}`);
@@ -295,12 +296,20 @@ const ProgramsSection = () => {
                 {/* Image Section */}
                 <div className="relative overflow-hidden h-64">
                   {program.image ? (
-                    <img 
+                    <Image 
                       src={program.image} 
-                      alt={program.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      alt={program.title || 'Program image'}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                       onError={(e) => {
-                        e.target.src = '/placeholder-image.jpg';
+                        // Fallback to regular img if Next.js Image fails
+                        e.target.style.display = 'none';
+                        const fallbackImg = document.createElement('img');
+                        fallbackImg.src = '/placeholder-image.jpg';
+                        fallbackImg.alt = program.title || 'Program image';
+                        fallbackImg.className = 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500';
+                        e.target.parentNode.appendChild(fallbackImg);
                       }}
                     />
                   ) : (

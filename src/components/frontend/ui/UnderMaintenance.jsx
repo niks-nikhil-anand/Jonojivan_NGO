@@ -1,6 +1,7 @@
 "use client"
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 const UnderMaintenance = () => {
   return (
@@ -23,15 +24,18 @@ const UnderMaintenance = () => {
           Our website is currently under maintenance. We appreciate your patience and apologize for any inconvenience.
         </motion.p>
         <motion.div
-          className="mt-6"
+          className="mt-6 relative w-full h-48"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, delay: 0.6 }}
         >
-          <img
+          <Image
             src="https://via.placeholder.com/300x200"
             alt="Under Maintenance"
-            className="w-full rounded-lg"
+            fill
+            className="rounded-lg object-cover"
+            sizes="(max-width: 448px) 100vw, 448px"
+            priority
           />
         </motion.div>
       </div>

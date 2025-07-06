@@ -12,10 +12,6 @@ import {
   Sparkles,
   ArrowRight,
   Target,
-  BookOpen,
-  Award,
-  Globe,
-  Lightbulb
 } from "lucide-react";
 
 const OrganizationInfo = () => {
@@ -34,13 +30,14 @@ const OrganizationInfo = () => {
       }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    const currentElement = sectionRef.current;
+    if (currentElement) {
+      observer.observe(currentElement);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentElement) {
+        observer.unobserve(currentElement);
       }
     };
   }, []);
@@ -313,6 +310,4 @@ const OrganizationInfo = () => {
   );
 };
 
-
-
-export default  OrganizationInfo;
+export default OrganizationInfo;
