@@ -18,7 +18,6 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import logo from "../../../../public/logo/logo.jpg";
@@ -88,13 +87,10 @@ const Navbar = () => {
                     <NavigationMenuItem>
                       <Link href={item.href} legacyBehavior passHref>
                         <NavigationMenuLink
-                          className={cn(
-                            navigationMenuTriggerStyle(),
-                            "relative px-4 py-2 text-gray-700 hover:text-blue-700 transition-all duration-300 hover:bg-blue-50/80 rounded-full font-medium text-sm group"
-                          )}
+                          className="relative inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-300 rounded-full hover:text-blue-700 "
                         >
                           <span className="relative z-10">{item.label}</span>
-                          <div className="absolute inset-0 bg-blue-500/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          
                         </NavigationMenuLink>
                       </Link>
                     </NavigationMenuItem>
@@ -133,7 +129,7 @@ const Navbar = () => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="lg:hidden hover:bg-blue-50 transition-all duration-300 rounded-full p-2"
+                  className="lg:hidden transition-all duration-300 rounded-full p-2"
                 >
                   <Menu className="h-6 w-6 text-gray-700" />
                   <span className="sr-only">Toggle menu</span>
@@ -184,7 +180,7 @@ const Navbar = () => {
                     >
                       <Link
                         href={item.href}
-                        className="block py-3 px-4 text-lg font-medium text-gray-700 hover:text-blue-700 hover:bg-blue-100/50 rounded-xl transition-all duration-300 border border-transparent hover:border-blue-200/50"
+                        className="block py-3 px-4 text-lg font-medium text-gray-700 hover:text-blue-700 rounded-xl transition-all duration-300 border border-transparent hover:border-blue-200/50"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         {item.label}
