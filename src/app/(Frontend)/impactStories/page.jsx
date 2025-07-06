@@ -1,64 +1,73 @@
- "use client"
-import React from 'react';
-import { Heart, User, MapPin, BookOpen, Sparkles, ArrowRight, Star, Award, Users } from 'lucide-react';
+"use client";
+import React from "react";
+import {
+  Heart,
+  User,
+  MapPin,
+  BookOpen,
+  Sparkles,
+  ArrowRight,
+  Star,
+  Award,
+  Users,
+} from "lucide-react";
 
 const stories = [
   {
-    name: "Ruksana Begum",
+    name: "Priyanka Das",
     location: "Dibrugarh, Assam",
     story:
-      "Ruksana's parents worked in tea gardens and couldn’t afford school. Our program enrolled her in evening classes and science workshops. Now 22, she’s pursuing a degree in Environmental Science and leads a local climate awareness group.",
+      "Priyanka’s parents worked in tea estates and couldn’t afford her education. Our evening school and science workshops gave her a fresh start. Now 22, she is pursuing a degree in Environmental Science and leads a local climate awareness campaign.",
     callToAction:
-      "Your support can help more children like Ruksana become champions for their communities.",
+      "Your support can help more girls like Priyanka become leaders in their communities.",
     icon: Users,
   },
   {
-    name: "Meher Jahan",
+    name: "Sneha Kalita",
     location: "Silchar, Assam",
     story:
-      "Meher grew up helping at her father's tea stall, with no access to books. Our learning center introduced her to reading and writing. Today at 21, she runs a youth library and mentors other girls through creative writing.",
+      "Sneha spent her childhood helping her father at his small shop. Books were a distant dream until she joined our learning center. Today at 21, she runs a youth library and mentors young girls in creative writing.",
     callToAction:
-      "Sponsor a child like Meher and empower them to write their own future.",
+      "Sponsor a girl like Sneha and empower her to inspire others through knowledge.",
     icon: Users,
   },
   {
-    name: "Farzana Khatun",
+    name: "Ritika Sharma",
     location: "Jorhat, Assam",
     story:
-      "Farzana faced early marriage pressure, but our intervention gave her a new path. After joining our legal literacy program, she is now a 23-year-old paralegal helping women understand their rights.",
+      "Ritika was expected to marry early, but our legal literacy program opened new doors for her. Now 23, she works as a paralegal, helping other women in her community understand and fight for their rights.",
     callToAction:
-      "Your support can help girls like Farzana become defenders of justice.",
+      "Support Ritika and others like her in becoming voices of justice.",
     icon: Users,
   },
   {
-    name: "Latifa Bano",
+    name: "Ankita Deka",
     location: "Tezpur, Assam",
     story:
-      "Latifa fetched water instead of going to school. Our after-school initiative nurtured her math skills. Today, at 22, she’s studying civil engineering and helps install clean water systems in nearby villages.",
+      "Ankita walked miles for water and missed school often. Our after-school initiative helped her catch up, especially in math. Now 22, she is studying civil engineering and designs water systems for remote villages.",
     callToAction:
-      "Support girls like Latifa in building a better world with their knowledge.",
+      "Help girls like Ankita build a better future—one solution at a time.",
     icon: Users,
   },
   {
-    name: "Nazeera Rahman",
+    name: "Komal Nath",
     location: "Nagaon, Assam",
     story:
-      "Nazeera worked on her parents’ farm and missed school. Our health and education outreach reconnected her with learning. Now 21, she’s training as a nurse and volunteers at rural health camps.",
+      "Komal worked on her family’s farm and couldn’t attend regular school. After joining our outreach program, she discovered a passion for healthcare. At 21, she is now training to be a nurse and serves at local health camps.",
     callToAction:
-      "Your contribution can bring healthcare and hope through girls like Nazeera.",
+      "Your donation can support healthcare heroes like Komal in rural communities.",
     icon: Users,
   },
   {
-    name: "Salma Yasmin",
+    name: "Pallavi Goswami",
     location: "Barpeta, Assam",
     story:
-      "Salma's family worked in brick kilns, with no access to education. Our program helped her resume schooling and build confidence. Now a 23-year-old journalism student, she runs a local podcast for youth voices.",
+      "Pallavi's parents worked in a brick kiln, and she was pulled out of school early. Our education program helped her resume her studies. Now 23, she is pursuing journalism and runs a local podcast on youth issues.",
     callToAction:
-      "Sponsor change-makers like Salma and amplify unheard stories.",
+      "Sponsor girls like Pallavi and help amplify voices that matter.",
     icon: Users,
   },
 ];
-
 
 export default function BlueStoriesPage() {
   return (
@@ -81,7 +90,7 @@ export default function BlueStoriesPage() {
         .pulse-glow {
           animation: pulseGlow 2s infinite;
         }
-        
+
         @keyframes fadeIn {
           from {
             opacity: 0;
@@ -105,7 +114,8 @@ export default function BlueStoriesPage() {
         }
 
         @keyframes pulseGlow {
-          0%, 100% {
+          0%,
+          100% {
             box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
           }
           50% {
@@ -129,7 +139,11 @@ export default function BlueStoriesPage() {
 
         .shape {
           position: absolute;
-          background: linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+          background: linear-gradient(
+            45deg,
+            rgba(59, 130, 246, 0.1),
+            rgba(147, 51, 234, 0.1)
+          );
           border-radius: 50%;
           animation: float 20s infinite linear;
         }
@@ -195,8 +209,9 @@ export default function BlueStoriesPage() {
               </span>
             </h1>
             <p className="text-lg sm:text-xl lg:text-2xl text-blue-100 max-w-4xl mx-auto leading-relaxed px-4">
-              Every child has a story waiting to be written. These are the stories of dreams realized,
-              barriers broken, and futures transformed through the power of education and compassion.
+              Every child has a story waiting to be written. These are the
+              stories of dreams realized, barriers broken, and futures
+              transformed through the power of education and compassion.
             </p>
           </div>
         </div>
@@ -303,7 +318,7 @@ export default function BlueStoriesPage() {
               every act of support creates a new chapter in a child&apos;s life
               story.
             </p>
-            
+
             {/* Enhanced CTA Card */}
             <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 rounded-3xl p-8 sm:p-12 border border-blue-200 shadow-xl max-w-4xl mx-auto">
               <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">

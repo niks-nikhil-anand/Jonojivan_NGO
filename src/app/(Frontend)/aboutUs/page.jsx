@@ -62,15 +62,6 @@ const AboutPage = () => {
       bgColor: "bg-white/95",
       borderColor: "border-blue-200",
     },
-    {
-      title: "E-commerce & Logistics Support",
-      description:
-        "We provide oversight and support for fair practices in e-commerce and logistics sectors, ensuring transparent operations and protecting consumer rights.",
-      icon: <Truck className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
-      color: "from-blue-500 to-blue-600",
-      bgColor: "bg-white/95",
-      borderColor: "border-blue-200",
-    },
   ];
 
   const impacts = [

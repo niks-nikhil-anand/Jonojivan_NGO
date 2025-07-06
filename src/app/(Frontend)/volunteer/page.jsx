@@ -558,7 +558,7 @@ export default function JonojivanVolunteerPage() {
                 </div>
                 <div className="text-left">
                   <h3 className="text-xl font-bold text-gray-900">Call Us</h3>
-                  <p className="text-green-600">+91 98765 43210</p>
+                  <a href='tel:+919435266783' className="text-green-600">+91 9435266783</a>
                 </div>
               </div>
               <p className="text-gray-700">
