@@ -1,4 +1,5 @@
 import connectDB from "@/lib/dbConnect";
+import uploadImage from "@/lib/uploadImages";
 import campaignModels from "@/models/campaignModels";
 import { NextResponse } from "next/server";
 

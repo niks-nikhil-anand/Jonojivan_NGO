@@ -1,30 +1,121 @@
 "use client"
 import React from "react";
 import { motion } from "framer-motion";
-import { 
-  GraduationCap, 
-  Heart, 
+import {
   BookOpenCheck,
-  School,
   Handshake,
-  Users,
+  GraduationCap,
+  School,
   HeartHandshake,
-  Shield,
   Scale,
+  Shield,
+  Rocket,
+  Venus,
+  Tractor,
+  Leaf,
+  HeartPulse,
+  Heart,
+  Users,
 } from "lucide-react";
+
 
 const CausesSection = () => {
 const causes = [
   {
-    title: "Girl Child Education",
-    shortDesc: "Empowering girls to dream, learn, and lead",
+    title: "Youth Empowerment",
+    shortDesc: "Unleashing potential through skills and leadership",
     description:
-      "Your donation empowers girls to rise above their circumstances through access to education, creating a future full of possibilities.",
-    icon: <BookOpenCheck className="w-8 h-8" />,
-    features: ["Educational Support", "Mentorship Programs", "Scholarships", "Safe Learning Spaces"],
+      "We empower young individuals through skill development, leadership programs, job placement, and advocacy—nurturing a generation of confident, capable, and responsible leaders.",
+    icon: <Rocket className="w-8 h-8" />,
+    features: [
+      "Skill Development",
+      "Leadership Programs",
+      "Job Placement Assistance",
+      "Youth Advocacy"
+    ],
+    color: "from-blue-500 to-indigo-500",
+    bgColor: "bg-blue-50",
+    borderColor: "border-blue-200",
+  },
+  {
+    title: "Women Empowerment",
+    shortDesc: "Fostering financial, legal, and health independence",
+    description:
+      "Support women's financial independence, access to education, legal rights, and health awareness—paving the way for gender equity and self-sufficient communities.",
+    icon: <Venus className="w-8 h-8" />,
+    features: [
+      "Economic Independence",
+      "Education & Training",
+      "Health & Wellness",
+      "Legal Awareness"
+    ],
     color: "from-pink-500 to-fuchsia-500",
     bgColor: "bg-pink-50",
     borderColor: "border-pink-200",
+  },
+  {
+    title: "Rural Empowerment",
+    shortDesc: "Transforming rural lives with opportunities",
+    description:
+      "Enhance the quality of rural life by supporting agriculture, developing infrastructure, enabling diverse income opportunities, and building strong, self-reliant communities.",
+    icon: <Tractor className="w-8 h-8" />,
+    features: [
+      "Agricultural Support",
+      "Infrastructure Development",
+      "Community Development",
+      "Income Generation"
+    ],
+    color: "from-green-600 to-emerald-500",
+    bgColor: "bg-green-50",
+    borderColor: "border-green-200",
+  },
+  {
+    title: "Environmental Help",
+    shortDesc: "Protecting our planet for future generations",
+    description:
+      "Join us in conserving nature through restoration projects, promoting sustainable living, spreading climate awareness, and implementing effective waste management systems.",
+    icon: <Leaf className="w-8 h-8" />,
+    features: [
+      "Conservation Projects",
+      "Sustainable Practices",
+      "Climate Change Awareness",
+      "Waste Management"
+    ],
+    color: "from-teal-500 to-green-500",
+    bgColor: "bg-teal-50",
+    borderColor: "border-teal-200",
+  },
+  {
+    title: "Education Empowerment",
+    shortDesc: "Opening doors to learning and opportunity",
+    description:
+      "Help us ensure inclusive, equitable, and quality education for all by supporting schools, teacher training, adult literacy, and education for children with disabilities.",
+    icon: <GraduationCap className="w-8 h-8" />,
+    features: [
+      "Access to Quality Education",
+      "Teacher Training",
+      "Adult Literacy Programs",
+      "Inclusive Education"
+    ],
+    color: "from-yellow-500 to-amber-500",
+    bgColor: "bg-yellow-50",
+    borderColor: "border-yellow-200",
+  },
+  {
+    title: "Health Empowerment",
+    shortDesc: "Promoting wellness, prevention, and mental health",
+    description:
+      "Support healthcare access in underserved regions, educate communities on preventive health, and promote physical and mental well-being for all.",
+    icon: <HeartPulse className="w-8 h-8" />,
+    features: [
+      "Healthcare Access",
+      "Health Education",
+      "Disease Prevention and Control",
+      "Mental Health Support"
+    ],
+    color: "from-rose-500 to-pink-500",
+    bgColor: "bg-rose-50",
+    borderColor: "border-rose-200",
   },
   {
     title: "Skill Development for Women",
@@ -47,17 +138,6 @@ const causes = [
     color: "from-blue-500 to-sky-500",
     bgColor: "bg-blue-50",
     borderColor: "border-blue-200",
-  },
-  {
-    title: "Build a School",
-    shortDesc: "Creating safe and inspiring learning spaces",
-    description:
-      "Your contribution helps construct and maintain schools that offer holistic, inclusive, and quality education.",
-    icon: <School className="w-8 h-8" />,
-    features: ["Infrastructure Development", "Inclusive Classrooms", "Community Engagement", "Smart Learning"],
-    color: "from-yellow-500 to-amber-500",
-    bgColor: "bg-yellow-50",
-    borderColor: "border-yellow-200",
   },
   {
     title: "Empower Through Equality",
@@ -93,6 +173,7 @@ const causes = [
     borderColor: "border-teal-200",
   }
 ];
+
 
   const containerVariants = {
     hidden: { opacity: 0 },
