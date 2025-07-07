@@ -9,7 +9,7 @@ import {
   Text,
   Link,
 } from '@react-email/components';
-import logo from '../../public/logo/Smile.png'
+
 
 function ThankYouEmail({ donorName }) {
   return (

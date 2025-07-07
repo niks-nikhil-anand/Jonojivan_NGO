@@ -167,13 +167,30 @@ const News = () => {
   const handleView = async (id) => {
     try {
       setViewLoading(true);
-      const response = await axios.get(`/api/admin/dashboard/contactUs/${id}`);
-      setSelectedContact(response.data);
       setViewModalOpen(true);
-      toast.success("Contact details loaded");
+      
+      // Try to fetch detailed contact data first
+      try {
+        const response = await axios.get(`/api/admin/dashboard/contactUs/${id}`);
+        // Handle different possible response structures
+        const contactData = response.data.data || response.data || response;
+        setSelectedContact(contactData);
+        toast.success("Contact details loaded");
+      } catch (apiError) {
+        console.warn("API call failed, using local data:", apiError);
+        // Fallback to local data if API call fails
+        const localContact = contacts.find(contact => contact._id === id);
+        if (localContact) {
+          setSelectedContact(localContact);
+          toast.success("Contact details loaded from local data");
+        } else {
+          throw new Error("Contact not found");
+        }
+      }
     } catch (error) {
       console.error("Error fetching contact details:", error);
       toast.error("Failed to fetch contact details");
+      setViewModalOpen(false);
     } finally {
       setViewLoading(false);
     }
@@ -427,12 +444,17 @@ const News = () => {
                             variant="ghost"
                             size="sm"
                             disabled={viewLoading}
+                            className="hover:bg-blue-50 hover:text-blue-600"
                           >
-                            <Eye className="h-4 w-4" />
+                            {viewLoading ? (
+                              <div className="animate-spin h-4 w-4 border-2 border-blue-600 border-t-transparent rounded-full"></div>
+                            ) : (
+                              <Eye className="h-4 w-4" />
+                            )}
                           </Button>
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
-                              <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700">
+                              <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700 hover:bg-red-50">
                                 <Trash2 className="h-4 w-4" />
                               </Button>
                             </AlertDialogTrigger>
@@ -517,39 +539,39 @@ const News = () => {
         </CardContent>
       </Card>
 
-      {/* View Contact Modal */}
+    {/* View Contact Modal */}
       <Dialog open={viewModalOpen} onOpenChange={setViewModalOpen}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <User className="h-5 w-5" />
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-white">
+          <DialogHeader className="bg-gray-50 -m-6 mb-0 p-6 rounded-t-lg">
+            <DialogTitle className="flex items-center gap-2 text-gray-900">
+              <User className="h-5 w-5 text-blue-600" />
               Contact Details
             </DialogTitle>
           </DialogHeader>
           
-          {selectedContact && (
-            <div className="space-y-6 py-4">
+          {selectedContact ? (
+            <div className="space-y-6 py-4 bg-gray-50 -mx-6 px-6 -mb-6 pb-6">
               {/* Personal Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Card>
+                <Card className="bg-white shadow-sm border-gray-200">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-2">
                       <User className="h-4 w-4 text-blue-600" />
                       <h3 className="font-semibold text-sm text-gray-700">Name</h3>
                     </div>
-                    <p className="text-lg font-medium">
+                    <p className="text-lg font-medium text-gray-900">
                       {selectedContact.firstName} {selectedContact.lastName}
                     </p>
                   </CardContent>
                 </Card>
 
-                <Card>
+                <Card className="bg-white shadow-sm border-gray-200">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-2">
                       <Clock className="h-4 w-4 text-green-600" />
                       <h3 className="font-semibold text-sm text-gray-700">Submitted On</h3>
                     </div>
-                    <p className="text-lg">
+                    <p className="text-lg text-gray-900">
                       {formatDate(selectedContact.createdAt)}
                     </p>
                   </CardContent>
@@ -558,25 +580,25 @@ const News = () => {
 
               {/* Contact Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Card>
+                <Card className="bg-white shadow-sm border-gray-200">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-2">
                       <Mail className="h-4 w-4 text-red-600" />
                       <h3 className="font-semibold text-sm text-gray-700">Email Address</h3>
                     </div>
-                    <p className="text-lg break-all">
+                    <p className="text-lg break-all text-gray-900">
                       {selectedContact.email}
                     </p>
                   </CardContent>
                 </Card>
 
-                <Card>
+                <Card className="bg-white shadow-sm border-gray-200">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-2">
                       <Phone className="h-4 w-4 text-purple-600" />
                       <h3 className="font-semibold text-sm text-gray-700">Phone Number</h3>
                     </div>
-                    <p className="text-lg">
+                    <p className="text-lg text-gray-900">
                       {selectedContact.mobileNumber || 'Not provided'}
                     </p>
                   </CardContent>
@@ -584,13 +606,13 @@ const News = () => {
               </div>
 
               {/* Message */}
-              <Card>
+              <Card className="bg-white shadow-sm border-gray-200">
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <MessageSquare className="h-4 w-4 text-orange-600" />
                     <h3 className="font-semibold text-sm text-gray-700">Message</h3>
                   </div>
-                  <div className="bg-gray-50 p-4 rounded-lg">
+                  <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
                     <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
                       {selectedContact.message || 'No message provided'}
                     </p>
@@ -600,13 +622,13 @@ const News = () => {
 
               {/* Additional Information (if any) */}
               {selectedContact.subject && (
-                <Card>
+                <Card className="bg-white shadow-sm border-gray-200">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-2">
                       <FileText className="h-4 w-4 text-indigo-600" />
                       <h3 className="font-semibold text-sm text-gray-700">Subject</h3>
                     </div>
-                    <p className="text-lg">
+                    <p className="text-lg text-gray-900">
                       {selectedContact.subject}
                     </p>
                   </CardContent>
@@ -614,22 +636,28 @@ const News = () => {
               )}
 
               {/* Action Buttons */}
-              <div className="flex justify-end gap-2 pt-4 border-t">
+              <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 bg-white -mx-6 px-6 -mb-6 pb-6 rounded-b-lg">
                 <Button
                   variant="outline"
                   onClick={() => setViewModalOpen(false)}
+                  className="bg-white hover:bg-gray-50 border-gray-300"
                 >
                   Close
                 </Button>
                 <Button
                   variant="outline"
                   onClick={() => window.open(`mailto:${selectedContact.email}`)}
-                  className="text-blue-600 hover:text-blue-700"
+                  className="text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 border-blue-200"
                 >
                   <Mail className="h-4 w-4 mr-2" />
                   Reply via Email
                 </Button>
               </div>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center py-8 bg-gray-50 -mx-6 -mb-6 rounded-b-lg">
+              <div className="animate-spin h-8 w-8 border-2 border-blue-600 border-t-transparent rounded-full"></div>
+              <span className="ml-2 text-gray-700">Loading contact details...</span>
             </div>
           )}
         </DialogContent>

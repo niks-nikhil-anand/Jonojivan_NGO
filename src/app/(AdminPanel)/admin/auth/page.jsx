@@ -106,7 +106,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center py-12 px-4">
+     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-100 flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
         {/* Header Section */}
         <motion.div
@@ -115,30 +115,29 @@ const LoginForm = () => {
           initial="hidden"
           animate="visible"
         >
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-teal-500 to-blue-500 rounded-full mb-6 shadow-lg">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mb-6 shadow-lg">
             <Heart className="w-8 h-8 text-white" />
           </div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-2">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent mb-2">
             Welcome Back
           </h2>
-          <p className="text-gray-600 text-lg">
-            BringSmile Foundation Admin Portal
+          <p className="text-blue-700 text-lg font-medium">
+            Jonojivan Foundation Admin Portal
           </p>
         </motion.div>
 
-        {/* Login Form Card */}
         <motion.div
           variants={formVariants}
           initial="hidden"
           animate="visible"
           whileHover={{
             scale: 1.01,
-            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
+            boxShadow: "0 25px 50px -12px rgba(59, 130, 246, 0.25)",
           }}
-          className="bg-white rounded-3xl p-8 shadow-xl border-2 border-blue-100 relative overflow-hidden group"
+          className="bg-white rounded-3xl p-8 shadow-xl border-2 border-blue-200 relative overflow-hidden group"
         >
           {/* Background Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-teal-500 to-blue-500 opacity-0 group-hover:opacity-3 transition-opacity duration-500"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-600 opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
 
           <div className="relative z-10">
             {/* Success/Error Alerts */}
@@ -161,7 +160,7 @@ const LoginForm = () => {
             <form onSubmit={handleLogin} className="space-y-6">
               {/* Email Field */}
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
+                <label className="text-sm font-semibold text-blue-700 flex items-center space-x-2">
                   <Mail className="w-4 h-4" />
                   <span>Email Address</span>
                 </label>
@@ -171,7 +170,7 @@ const LoginForm = () => {
                     placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-300 bg-gray-50 hover:bg-white"
+                    className="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-blue-50 hover:bg-white"
                     required
                     disabled={loading}
                   />
@@ -180,7 +179,7 @@ const LoginForm = () => {
 
               {/* Password Field */}
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
+                <label className="text-sm font-semibold text-blue-700 flex items-center space-x-2">
                   <Lock className="w-4 h-4" />
                   <span>Password</span>
                 </label>
@@ -190,13 +189,13 @@ const LoginForm = () => {
                     value={password}
                     placeholder="Enter your password"
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-300 bg-gray-50 hover:bg-white pr-12"
+                    className="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-blue-50 hover:bg-white pr-12"
                     required
                     disabled={loading}
                   />
                   <button
                     type="button"
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700 transition-colors"
+                    className="absolute inset-y-0 right-3 flex items-center text-blue-500 hover:text-blue-700 transition-colors"
                     onClick={() => setShowPassword(!showPassword)}
                     disabled={loading}
                   >
@@ -218,7 +217,7 @@ const LoginForm = () => {
                 className={`w-full py-4 rounded-xl font-bold text-white shadow-lg transition-all duration-300 flex items-center justify-center space-x-2 ${
                   loading
                     ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-700 hover:to-blue-700 hover:shadow-xl"
+                    : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl"
                 }`}
               >
                 {loading ? (
@@ -237,7 +236,7 @@ const LoginForm = () => {
             <div className="mt-6 text-center">
               <Link
                 href="#"
-                className="text-teal-600 hover:text-teal-700 font-medium transition-colors inline-flex items-center space-x-1"
+                className="text-blue-600 hover:text-blue-700 font-medium transition-colors inline-flex items-center space-x-1"
               >
                 <span>Forgot your password?</span>
               </Link>
@@ -245,16 +244,16 @@ const LoginForm = () => {
 
             {/* Divider */}
             <div className="flex items-center justify-center my-8">
-              <div className="border-t border-gray-200 flex-grow"></div>
-              <div className="px-4 text-gray-500 text-sm font-medium">
-                BringSmile Foundation
+              <div className="border-t border-blue-200 flex-grow"></div>
+              <div className="px-4 text-blue-600 text-sm font-medium">
+                Jonojivan Foundation
               </div>
-              <div className="border-t border-gray-200 flex-grow"></div>
+              <div className="border-t border-blue-200 flex-grow"></div>
             </div>
 
             {/* Footer Message */}
             <div className="text-center">
-              <p className="text-gray-600 text-sm">
+              <p className="text-blue-600 text-sm">
                 Secure admin access to manage foundation operations
               </p>
             </div>
@@ -268,7 +267,7 @@ const LoginForm = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.6 }}
         >
-          <div className="flex items-center justify-center space-x-2 text-gray-500 text-sm">
+          <div className="flex items-center justify-center space-x-2 text-blue-600 text-sm">
             <Shield className="w-4 h-4" />
             <span>Protected by enterprise-grade security</span>
           </div>

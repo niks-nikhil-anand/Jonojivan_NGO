@@ -1,7 +1,7 @@
 import connectDB from "@/lib/dbConnect";
-import uploadImage from "@/lib/uploadImages";
 import campaignModels from "@/models/campaignModels";
 import { NextResponse } from "next/server";
+
 
 export const POST = async (req) => {
   try {
@@ -24,7 +24,7 @@ export const POST = async (req) => {
       return NextResponse.json({ msg: "Please provide all the required fields." }, { status: 400 });
     }
 
-    const imageUploadResult = await uploadImage(image, "campaignImages"); // Assuming image is uploaded in 'campaignImages' folder
+    const imageUploadResult = await uploadImage(image, "campaignImages"); 
     console.log("Image upload result:", imageUploadResult);
 
     if (!imageUploadResult.secure_url) {
@@ -62,7 +62,7 @@ export const GET = async (req) => {
     await connectDB();
     console.log("Connected to the database.");
 
-    const campaigns = await campaignModels.find({ status: 'Active' }); 
+    const campaigns = await campaignModels.find(); 
     console.log("Fetched campaigns:", campaigns);
     return NextResponse.json(campaigns, { status: 200 });
   } catch (error) {
