@@ -11,6 +11,7 @@ import {
   Award,
   Users,
 } from "lucide-react";
+import CallToAction from "@/components/frontend/ui/CallToAction";
 
 const stories = [
   {
@@ -268,10 +269,6 @@ export default function BlueStoriesPage() {
                               <p className="text-gray-800 font-medium text-lg lg:text-xl leading-relaxed mb-6">
                                 {story.callToAction}
                               </p>
-                              <button className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 flex items-center gap-3 mx-auto sm:mx-0 hover-scale shadow-lg">
-                                Sponsor a Child
-                                <ArrowRight className="w-5 h-5" />
-                              </button>
                             </div>
                           </div>
                         </div>
@@ -301,43 +298,9 @@ export default function BlueStoriesPage() {
       </section>
 
       {/* Impact Summary Section */}
-      <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-5xl mx-auto text-center">
-          <div className="fade-in">
-            <div className="flex justify-center mb-8">
-              <div className="bg-blue-100 p-6 rounded-full pulse-glow">
-                <Sparkles className="w-12 h-12 text-blue-600" />
-              </div>
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-gray-900 mb-8">
-              Your Impact Creates Stories
-            </h2>
-            <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 leading-relaxed mb-12 max-w-4xl mx-auto">
-              These stories represent just a few of the thousands of lives
-              transformed through education. Every donation, every sponsorship,
-              every act of support creates a new chapter in a child&apos;s life
-              story.
-            </p>
-
-            {/* Enhanced CTA Card */}
-            <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 rounded-3xl p-8 sm:p-12 border border-blue-200 shadow-xl max-w-4xl mx-auto">
-              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                Be Part of the Next Story
-              </h3>
-              <p className="text-lg sm:text-xl text-gray-700 mb-8 leading-relaxed">
-                Join us in writing more stories of hope, dreams, and
-                transformation. Together, we can ensure every child has the
-                chance to create their own success story.
-              </p>
-              <button className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-xl font-semibold text-lg sm:text-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 flex items-center gap-3 mx-auto hover-scale shadow-lg">
-                <Heart className="w-6 h-6" />
-                Start Your Impact Today
-                <ArrowRight className="w-6 h-6" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div className="max-w-7xl mx-auto px-6 py-24">
+        <CallToAction/>
+      </div>
     </div>
   );
 }

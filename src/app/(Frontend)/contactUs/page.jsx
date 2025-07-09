@@ -14,6 +14,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import CallToAction from "@/components/frontend/ui/CallToAction";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -383,14 +384,7 @@ export default function Contact() {
         </motion.div>
 
         {/* Final CTA Banner */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-8 sm:p-12 text-center text-white shadow-2xl">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">
-            Empowering Communities. Transforming Lives.
-          </h2>
-          <p className="text-lg sm:text-xl lg:text-2xl opacity-90 max-w-4xl mx-auto leading-relaxed">
-            JONOJIVAN Foundation is dedicated to creating positive change through community development, education, and social empowerment initiatives.
-          </p>
-        </div>
+        <CallToAction/>
       </div>
     </div>
   );
