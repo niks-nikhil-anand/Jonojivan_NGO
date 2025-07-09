@@ -5,6 +5,7 @@ import EgoisticFooter from "@/components/utils/EgosticFooter";
 import Script from "next/script";
 import UnderMaintenance from "@/components/frontend/ui/UnderMaintenance";
 import { Toaster } from "sonner";
+import FooterBanner from "@/components/frontend/ui/FooterBanner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -60,6 +61,7 @@ export default function RootLayout({ children }) {
           <>
             <EgoisticNavbar />
             {children}
+             <FooterBanner/>
             <EgoisticFooter />
             <Toaster />
             <Script

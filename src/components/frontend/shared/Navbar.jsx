@@ -19,8 +19,6 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import { cn } from "@/lib/utils";
-import logo from "../../../../public/logo/logo.jpg";
 import CustomDonationForm from "../ui/CustomDonationForm";
 
 const Navbar = () => {
@@ -63,9 +61,7 @@ const Navbar = () => {
                 </div>
               </div>
               <div className="ml-3">
-                <h1 className="font-bold text-2xl text-blue-700">
-                  JonoJivan
-                </h1>
+                <h1 className="font-bold text-2xl text-blue-700">JonoJivan</h1>
                 <p className="text-xs text-gray-600 font-medium tracking-wide">
                   Empowering Lives
                 </p>
@@ -86,11 +82,8 @@ const Navbar = () => {
                   >
                     <NavigationMenuItem>
                       <Link href={item.href} legacyBehavior passHref>
-                        <NavigationMenuLink
-                          className="relative inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-300 rounded-full hover:text-blue-700 "
-                        >
+                        <NavigationMenuLink className="relative inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-300 rounded-full hover:text-blue-700 ">
                           <span className="relative z-10">{item.label}</span>
-                          
                         </NavigationMenuLink>
                       </Link>
                     </NavigationMenuItem>
@@ -151,7 +144,7 @@ const Navbar = () => {
                     <span className="sr-only">Close menu</span>
                   </Button>
                 </div>
-                
+
                 <SheetHeader className="pt-8">
                   <SheetTitle className="flex items-center justify-center">
                     <div className="text-center">
@@ -189,11 +182,11 @@ const Navbar = () => {
                   ))}
 
                   {/* Mobile Donate Button */}
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.6 }}
-                    whileTap={{ scale: 0.95 }} 
+                    whileTap={{ scale: 0.95 }}
                     className="pt-6"
                   >
                     <Button
@@ -212,7 +205,7 @@ const Navbar = () => {
           </div>
         </nav>
       </header>
-      
+
       {/* Custom Donation Form Modal/Dialog */}
       {isDonationFormOpen && (
         <CustomDonationForm

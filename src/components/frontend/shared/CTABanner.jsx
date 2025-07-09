@@ -1,3 +1,4 @@
+"ue client"
 import { ArrowRight, Heart } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";

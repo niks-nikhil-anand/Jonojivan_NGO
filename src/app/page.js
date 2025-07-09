@@ -16,17 +16,16 @@ export default function Home() {
     <>
       <HeroSection />
       <DonationForm/>
-      <ProgramsSections/>  
+      {/* <ProgramsSections/>   */}
       <CausesSection/>
       <CampaignCards />
-      <ChildSponsorshipSection/>
+      {/* <ChildSponsorshipSection/> */}
       <OrganizationInfo/>
       <BlogSection />
       <MissionVisionSection/>
       <FAQsSection />
       <Testimonials/>
-      {/* <CTA/> */}
-      <FooterBanner/>
+     
     </>
   );
 }

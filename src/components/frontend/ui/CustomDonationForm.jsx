@@ -209,10 +209,10 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
   };
 
   return (
-   <div className="fixed inset-0 bg-gradient-to-br from-green-900/90 via-emerald-900/90 to-teal-900/90 backdrop-blur-sm flex items-center justify-center z-30 p-4">
-  <div className="bg-white rounded-2xl w-full sm:w-11/12 md:w-7/12 lg:w-[50%] xl:w-4/12 2xl:w-1/3  shadow-2xl relative max-h-[95vh] overflow-y-auto border border-green-100">
+   <div className="fixed inset-0 bg-gradient-to-br from-blue-900/90 via-indigo-900/90 to-cyan-900/90 backdrop-blur-sm flex items-center justify-center z-30 p-4">
+  <div className="bg-white rounded-2xl w-full sm:w-11/12 md:w-7/12 lg:w-[50%] xl:w-4/12 2xl:w-1/3  shadow-2xl relative max-h-[95vh] overflow-y-auto border border-blue-100">
     {/* Header with gradient */}
-    <div className="bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 p-6 rounded-t-2xl relative">
+    <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600 p-6 rounded-t-2xl relative">
       <button
         className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 text-white rounded-full p-2 transition-all duration-300 backdrop-blur-sm"
         onClick={closeModal}
@@ -226,7 +226,7 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
           <h2 className="text-2xl md:text-3xl font-bold">
             Make a Donation
           </h2>
-          <p className="text-green-100 text-sm">
+          <p className="text-blue-100 text-sm">
             Your kindness makes a difference
           </p>
         </div>
@@ -237,7 +237,7 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
       {/* Full Name */}
       <div className="group">
         <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-          <User className="w-4 h-4 text-green-600" />
+          <User className="w-4 h-4 text-blue-600" />
           Full Name
         </label>
         <input
@@ -245,7 +245,7 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
           name="fullName"
           value={formData.fullName}
           onChange={handleInputChange}
-          className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300 outline-none"
+          className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-300 outline-none"
           placeholder="Enter your full name"
           required
         />
@@ -271,7 +271,7 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
       {/* PAN Card */}
       <div className="group">
         <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-          <FileText className="w-4 h-4 text-green-600" />
+          <FileText className="w-4 h-4 text-blue-600" />
           PAN Card Number
           <span className="text-xs text-gray-500 font-normal">
             (Optional)
@@ -283,7 +283,7 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
           value={formData.panCard}
           maxLength={10}
           onChange={handleInputChange}
-          className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300 outline-none uppercase"
+          className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-300 outline-none uppercase"
           placeholder="ABCDE1234F"
         />
       </div>
@@ -295,7 +295,7 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
           Phone Number
         </label>
         <div className="flex items-center border-2 border-gray-200 rounded-xl focus-within:border-[#e91e63] focus-within:ring-4 focus-within:ring-pink-100 transition-all duration-300">
-          <span className="px-4 py-3 bg-gradient-to-r from-green-50 to-pink-50 border-r border-gray-200 text-gray-700 font-medium rounded-l-xl">
+          <span className="px-4 py-3 bg-gradient-to-r from-blue-50 to-pink-50 border-r border-gray-200 text-gray-700 font-medium rounded-l-xl">
             +91
           </span>
           <input
@@ -313,9 +313,9 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
       </div>
 
       {/* Donation Amount */}
-      <div className="bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 p-4 rounded-xl border border-green-100">
+      <div className="bg-gradient-to-r from-blue-50 via-indigo-50 to-cyan-50 p-4 rounded-xl border border-blue-100">
         <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-4">
-          <CreditCard className="w-4 h-4 text-green-600" />
+          <CreditCard className="w-4 h-4 text-blue-600" />
           Donation Amount: ₹{amount.toLocaleString()}
         </label>
 
@@ -337,9 +337,9 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
               step="500"
               value={amount}
               onChange={handleAmountChange}
-              className="w-full h-3 bg-gradient-to-r from-green-200 to-emerald-200 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-3 bg-gradient-to-r from-blue-200 to-indigo-200 rounded-lg appearance-none cursor-pointer"
               style={{
-                background: `linear-gradient(to right, #22c55e 0%, #10b981 ${
+                background: `linear-gradient(to right, #3b82f6 0%, #6366f1 ${
                   ((amount - 1000) / 9000) * 100
                 }%, #e5e7eb ${
                   ((amount - 1000) / 9000) * 100
@@ -351,15 +351,15 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
           <button
             type="button"
             onClick={incrementAmount}
-            className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-xl"
             disabled={amount >= 10000}
           >
             +
           </button>
         </div>
 
-        <div className="bg-white p-3 rounded-lg border-2 border-green-200">
-          <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">
+        <div className="bg-white p-3 rounded-lg border-2 border-blue-200">
+          <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
             ₹{amount.toLocaleString()}
           </div>
         </div>
@@ -373,7 +373,7 @@ const CustomDonationForm = ({ setIsModalOpen }) => {
         className={`w-full py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl ${
           isLoading
             ? "bg-gray-400 cursor-not-allowed"
-            : "bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 hover:from-green-700 hover:via-emerald-700 hover:to-teal-700"
+            : "bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600 hover:from-blue-700 hover:via-indigo-700 hover:to-cyan-700"
         }`}
       >
         {isLoading ? (
