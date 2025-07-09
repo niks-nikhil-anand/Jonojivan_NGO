@@ -96,7 +96,8 @@ const AboutPage = () => {
     },
     {
       title: "Innovation",
-      description: "We use modern approaches to combat corruption and protect rights.",
+      description:
+        "We use modern approaches to combat corruption and protect rights.",
       icon: <Lightbulb className="w-5 h-5 sm:w-6 sm:h-6" />,
       color: "from-blue-500 to-blue-600",
     },
@@ -121,8 +122,10 @@ const AboutPage = () => {
               Jonojivan Foundation
             </h1>
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed opacity-95 px-2">
-              Protecting Human Rights, Fighting Corruption, and Ensuring Transparency in E-commerce and Logistics
+              Protecting human rights, combating corruption, and promoting
+              transparency.
             </p>
+
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -163,15 +166,26 @@ const AboutPage = () => {
             <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
               <div className="space-y-4 sm:space-y-6">
                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                  Jonojivan Foundation is dedicated to upholding human rights, fighting corruption, and ensuring transparency across various sectors. Our work is grounded in the principles of the Human Rights Act 1998, which aims to incorporate fundamental rights into law and practice.
+                  Jonojivan Foundation is dedicated to upholding human rights,
+                  fighting corruption, and ensuring transparency across various
+                  sectors. Our work is grounded in the principles of the Human
+                  Rights Act 1998, which aims to incorporate fundamental rights
+                  into law and practice.
                 </p>
                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                  We operate as an anti-corruption body that exposes tender fixing, saves public funds, and implements comprehensive anti-bribery measures. Our scope includes both preventive strategies and reactive responses to corruption in e-commerce, logistics, and public procurement.
+                  We operate as an anti-corruption body that exposes tender
+                  fixing, saves public funds, and implements comprehensive
+                  anti-bribery measures. Our scope includes both preventive
+                  strategies and reactive responses to corruption in e-commerce,
+                  logistics, and public procurement.
                 </p>
                 <div className="flex items-start space-x-3 sm:space-x-4 p-4 sm:p-6 bg-gradient-to-r from-blue-50/80 to-indigo-50/80 rounded-xl border border-blue-100/50">
                   <AlertTriangle className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 flex-shrink-0 mt-1" />
                   <p className="text-sm sm:text-base text-gray-700 font-medium leading-relaxed">
-                    Our anti-corruption efforts vary in scope and strategy, but all are unified by our commitment to transparency, accountability, and the protection of fundamental human rights.
+                    Our anti-corruption efforts vary in scope and strategy, but
+                    all are unified by our commitment to transparency,
+                    accountability, and the protection of fundamental human
+                    rights.
                   </p>
                 </div>
               </div>
@@ -183,7 +197,9 @@ const AboutPage = () => {
                     Fighting Corruption & Protecting Rights
                   </h3>
                   <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                    We expose corruption in tender processes while ensuring that human rights are protected and incorporated into all aspects of governance and business operations.
+                    We expose corruption in tender processes while ensuring that
+                    human rights are protected and incorporated into all aspects
+                    of governance and business operations.
                   </p>
                 </div>
               </div>
@@ -260,7 +276,8 @@ const AboutPage = () => {
                 The Impact of Our Work
               </h2>
               <p className="text-lg sm:text-xl text-gray-600 px-4">
-                Creating transparency and protecting rights across multiple sectors
+                Creating transparency and protecting rights across multiple
+                sectors
               </p>
             </div>
 
@@ -287,10 +304,15 @@ const AboutPage = () => {
                   Our Methodology
                 </h3>
                 <p className="text-sm sm:text-base text-gray-700 mb-4 leading-relaxed">
-                  We implement both preventive and reactive anti-corruption measures. Our preventive approach includes transparency initiatives, while our reactive measures involve investigating and exposing corruption when it occurs.
+                  We implement both preventive and reactive anti-corruption
+                  measures. Our preventive approach includes transparency
+                  initiatives, while our reactive measures involve investigating
+                  and exposing corruption when it occurs.
                 </p>
                 <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                  In e-commerce and logistics, we monitor practices to ensure fair operations and protect consumer rights, while maintaining oversight of public procurement processes.
+                  In e-commerce and logistics, we monitor practices to ensure
+                  fair operations and protect consumer rights, while maintaining
+                  oversight of public procurement processes.
                 </p>
               </div>
             </div>
@@ -309,7 +331,8 @@ const AboutPage = () => {
               Our Mission & Values
             </h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-4xl mx-auto px-4 leading-relaxed">
-              Incorporating human rights principles while fighting corruption across all sectors
+              Incorporating human rights principles while fighting corruption
+              across all sectors
             </p>
           </div>
 
@@ -317,7 +340,12 @@ const AboutPage = () => {
             <div className="max-w-4xl mx-auto text-center">
               <Building className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 mx-auto mb-4 sm:mb-6" />
               <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                Our mission is to ensure the rights contained in the European Convention on Human Rights are incorporated into practice while combating corruption through comprehensive anti-bribery measures. We work to create transparent systems in e-commerce, logistics, and public procurement that protect both individual rights and public resources.
+                Our mission is to ensure the rights contained in the European
+                Convention on Human Rights are incorporated into practice while
+                combating corruption through comprehensive anti-bribery
+                measures. We work to create transparent systems in e-commerce,
+                logistics, and public procurement that protect both individual
+                rights and public resources.
               </p>
             </div>
           </div>
@@ -358,7 +386,10 @@ const AboutPage = () => {
               Building a Transparent Future
             </h2>
             <p className="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed opacity-95">
-              At Jonojivan Foundation, we combine human rights advocacy with anti-corruption efforts to create transparent systems that protect both individual rights and public resources across e-commerce, logistics, and governance.
+              At Jonojivan Foundation, we combine human rights advocacy with
+              anti-corruption efforts to create transparent systems that protect
+              both individual rights and public resources across e-commerce,
+              logistics, and governance.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <motion.button
