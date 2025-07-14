@@ -2,7 +2,7 @@
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import Footer from '../frontend/shared/Footer';
-
+import FooterBanner from '../frontend/ui/FooterBanner';
 
 const EgoisticFooter = () => {
   const pathname = usePathname();
@@ -14,7 +14,12 @@ const EgoisticFooter = () => {
     return null; 
   }
 
-  return <Footer />;
+  return (
+    <>
+      <FooterBanner />
+      <Footer />
+    </>
+  );
 };
 
 export default EgoisticFooter;

@@ -55,7 +55,7 @@ const Page = () => {
             transition={{ duration: 0.5 }}
             className="w-full bg-white flex flex-col"
         >
-            <div className='w-full bg-[#F4B03E] h-[60vh] flex justify-center items-center relative'>
+            <div className='w-full bg-blue-600 h-[60vh] flex justify-center items-center relative'>
                 <h1 className='text-white md:text-6xl text-3xl text-center'>Cancellations And Refund Policy</h1>
             </div>
 

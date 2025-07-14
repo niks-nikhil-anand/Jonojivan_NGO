@@ -61,7 +61,6 @@ export default function RootLayout({ children }) {
           <>
             <EgoisticNavbar />
             {children}
-             <FooterBanner/>
             <EgoisticFooter />
             <Toaster />
             <Script

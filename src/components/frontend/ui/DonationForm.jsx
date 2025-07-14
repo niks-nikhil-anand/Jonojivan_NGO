@@ -299,7 +299,7 @@ const DonationForm = () => {
             transition={{ delay: 0.2 }}
             className="inline-flex items-center gap-2 bg-white/20 px-4 py-1 mb-2"
           >
-            <Heart className="w-4 h-4 text-green-300" />
+            <Heart className="w-4 h-4 text-blue-300" />
             <span className="text-xs font-medium">Jonojivan Foundaion</span>
           </motion.div>
 
@@ -319,7 +319,7 @@ const DonationForm = () => {
                 whileTap={{ scale: 0.95 }}
                 className={`px-6 py-3 border border-gray-300 rounded-lg font-semibold text-lg sm:text-xl transition duration-300 shadow-md ${
                   amount === amountValue
-                    ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white border-green-300"
+                    ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white border-blue-300"
                     : "bg-white text-black hover:bg-gray-200 hover:scale-105"
                 }`}
                 onClick={() => handleAmountSelect(amountValue)}
@@ -330,7 +330,7 @@ const DonationForm = () => {
             <button
               className={`px-6 py-3 border border-gray-300 rounded-lg font-semibold text-lg sm:text-xl transition duration-300 shadow-md ${
                 isCustom
-                  ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white border-green-300"
+                  ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white border-blue-300"
                   : "bg-white text-black hover:bg-gray-200 hover:scale-105"
               }`}
               onClick={handleCustomAmountSelect}
@@ -345,12 +345,12 @@ const DonationForm = () => {
               animate={{ opacity: 1, height: "auto" }}
               className="flex justify-center mb-6"
             >
-              <span className="bg-gradient-to-r from-emerald-500 to-green-500 text-white px-5 py-3 rounded-l-lg">
+              <span className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-5 py-3 rounded-l-lg">
                 ₹
               </span>
               <input
                 type="number"
-                className="px-6 py-3 border border-gray-300 rounded-r-lg w-full md:w-1/2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+                className="px-6 py-3 border border-gray-300 rounded-r-lg w-full md:w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
                 placeholder="Enter custom amount"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
@@ -369,7 +369,7 @@ const DonationForm = () => {
             whileTap={{
               scale: 0.95,
             }}
-            className="px-10 py-4 bg-[#e91e63] hover:bg-[#d81b60] text-white rounded-lg shadow-lg hover:shadow-xl focus:outline-none transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-10 py-4 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600  text-white rounded-lg shadow-lg hover:shadow-xl focus:outline-none transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? "Processing..." : "DONATE NOW"}
           </motion.button>
@@ -388,7 +388,7 @@ const DonationForm = () => {
             animate={{ scale: 1, opacity: 1 }}
             className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative"
           >
-            <div className="bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 p-6 rounded-t-2xl text-white relative">
+            <div className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 p-6 rounded-t-2xl text-white relative">
               <button
                 className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors"
                 onClick={closeModal}
@@ -460,7 +460,7 @@ const DonationForm = () => {
                     <input
                       type={type}
                       name={field}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                       placeholder={placeholder}
                       value={formData[field] || ""}
                       onChange={handleInputChange}
@@ -510,9 +510,9 @@ const DonationForm = () => {
                   />
                 </div>
 
-                <Alert className="border-green-200 bg-green-50">
-                  <Info className="h-4 w-4 text-green-600" />
-                  <AlertDescription className="text-green-800">
+                <Alert className="border-blue-200 bg-blue-50">
+                  <Info className="h-4 w-4 text-blue-600" />
+                  <AlertDescription className="text-blue-800">
                     Your donation is secure and will be processed safely.
                     You&apos;ll receive a confirmation email shortly.
                   </AlertDescription>
@@ -529,7 +529,7 @@ const DonationForm = () => {
                   <button
                     type="button"
                     disabled={isLoading}
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-emerald-500 via-green-500 to-green-600 hover:from-emerald-600 hover:via-green-600 hover:to-green-700 text-white rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-500 via-blue-500 to-blue-600 hover:from-blue-600 hover:via-blue-600 hover:to-blue-700 text-white rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                     onClick={handleSubmit}
                   >
                     {isLoading ? "Processing..." : "Confirm Donation"}

@@ -146,7 +146,7 @@ const Footer = () => {
               <div className="space-y-4">
                 <a
                   href="/donate"
-                  className="block w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold px-6 py-3 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 text-center group"
+                  className="block w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-semibold px-6 py-3 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 text-center group"
                 >
                   <span className="flex items-center justify-center">
                     <Heart className="h-4 w-4 mr-2 group-hover:animate-pulse" />
@@ -174,9 +174,10 @@ const Footer = () => {
             {/* Legal Links */}
             <div className="flex flex-wrap justify-center lg:justify-start gap-6 text-sm">
               {[
-                { href: "/return-policy", label: "Return Policy" },
-                { href: "/privacy-policy", label: "Privacy Policy" },
-                { href: "/terms", label: "Terms of Use" },
+                { href: "/returnPolicy", label: "Return Policy" },
+                { href: "/privacyPolicy", label: "Privacy Policy" },
+                { href: "/termsAndConditions", label: "Terms of Use" },
+                { href: "/shippingPolicy", label: " Shipping Policy" },
               ].map((item) => (
                 <a
                   key={item.href}
