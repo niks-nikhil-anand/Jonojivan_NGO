@@ -47,8 +47,9 @@ const Footer = () => {
             {/* Mission Statement */}
             <div className="bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-600/30">
               <p className="text-gray-300 leading-relaxed">
-                Dedicated to transforming communities through sustainable development, 
-                education, and empowerment initiatives across rural India.
+                Dedicated to transforming communities through sustainable
+                development, education, and empowerment initiatives across rural
+                India.
               </p>
             </div>
 
@@ -58,7 +59,7 @@ const Footer = () => {
                 <Heart className="h-5 w-5 text-red-400 mr-2" />
                 Get in Touch
               </h3>
-              
+
               <div className="space-y-3">
                 <div className="flex items-center space-x-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition-colors group">
                   <Mail className="h-5 w-5 text-blue-400 flex-shrink-0 group-hover:scale-110 transition-transform" />
@@ -69,7 +70,7 @@ const Footer = () => {
                     info@jonojivan.org
                   </a>
                 </div>
-                
+
                 <div className="flex items-center space-x-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition-colors group">
                   <Phone className="h-5 w-5 text-green-400 flex-shrink-0 group-hover:scale-110 transition-transform" />
                   <a
@@ -79,12 +80,14 @@ const Footer = () => {
                     +91 94352 66783
                   </a>
                 </div>
-                
+
                 <div className="flex items-start space-x-3 p-3 rounded-lg bg-slate-800/50">
                   <MapPin className="h-5 w-5 text-purple-400 mt-0.5 flex-shrink-0" />
                   <span className="text-gray-300 text-sm leading-relaxed">
-                    Uttar Khatowal, PO- Uttar Khatowal<br />
-                    PS- Rupahihat, Nagaon, Assam<br />
+                    Uttar Khatowal, PO- Uttar Khatowal
+                    <br />
+                    PS- Rupahihat, Nagaon, Assam
+                    <br />
                     Pin- 782124
                   </span>
                 </div>
@@ -105,6 +108,7 @@ const Footer = () => {
                   { href: "/how-we-work", label: "How We Work" },
                   { href: "/impactStories", label: "Impact Stories" },
                   { href: "/aboutUs", label: "About Us" },
+                  { href: "/contactUs", label: "Contact Us" },
                 ].map((item) => (
                   <li key={item.href}>
                     <a
@@ -124,8 +128,8 @@ const Footer = () => {
               <h3 className="text-lg font-semibold text-white">Quick Links</h3>
               <ul className="space-y-3">
                 {[
-                  { href: "/volunteer", label: "Volunteer" },
-                  { href: "/contactUs", label: "Contact Us" },
+                  { href: "/member", label: "Become Member" },
+                  { href: "/jonojivan-garib-kalyan", label: "Jonojivan Garib Kalyan" },
                 ].map((item) => (
                   <li key={item.href}>
                     <a
@@ -153,7 +157,7 @@ const Footer = () => {
                     Donate Now
                   </span>
                 </a>
-                
+
                 <a
                   href="/volunteer"
                   className="block w-full bg-slate-700 hover:bg-slate-600 text-white font-semibold px-6 py-3 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 text-center group border border-slate-600 hover:border-slate-500"

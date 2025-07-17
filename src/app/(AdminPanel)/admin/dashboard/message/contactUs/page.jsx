@@ -12,13 +12,14 @@ import {
   ChevronDown,
   Calendar,
   FileText,
-  Table,
   X,
   Mail,
   Phone,
   User,
   MessageSquare,
-  Clock
+  Clock,
+  Minus,
+  Loader2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,16 +50,39 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import Loader from "@/components/loader/loader";
 
-const News = () => {
+// Table components (basic HTML table with styling)
+const Table = ({ children, className = '' }) => (
+  <table className={`w-full ${className}`}>{children}</table>
+);
+
+const TableHeader = ({ children, className = '' }) => (
+  <thead className={className}>{children}</thead>
+);
+
+const TableBody = ({ children, className = '' }) => (
+  <tbody className={className}>{children}</tbody>
+);
+
+const TableRow = ({ children, className = '' }) => (
+  <tr className={className}>{children}</tr>
+);
+
+const TableHead = ({ children, className = '' }) => (
+  <th className={`px-4 py-3 text-left font-semibold ${className}`}>{children}</th>
+);
+
+const TableCell = ({ children, className = '' }) => (
+  <td className={`px-4 py-3 ${className}`}>{children}</td>
+);
+
+const ContactUs = () => {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortField, setSortField] = useState("createdAt");
   const [sortDirection, setSortDirection] = useState("desc");
-  const [filterBy, setFilterBy] = useState("all");
   const [dateFilter, setDateFilter] = useState("all");
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [selectedContact, setSelectedContact] = useState(null);
@@ -83,6 +107,28 @@ const News = () => {
 
     fetchContacts();
   }, []);
+
+  const truncateWords = (text, wordLimit) => {
+    if (!text) return "";
+    const words = text.split(" ");
+    return words.length > wordLimit
+      ? words.slice(0, wordLimit).join(" ") + "..."
+      : text;
+  };
+
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortDirection("asc");
+    }
+  };
+
+  const getSortIcon = (field) => {
+    if (sortField !== field) return <Minus className="h-3 w-3" />;
+    return sortDirection === "asc" ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />;
+  };
 
   // Filter and search logic
   const filteredContacts = useMemo(() => {
@@ -154,15 +200,6 @@ const News = () => {
   const indexOfFirstContact = indexOfLastContact - contactsPerPage;
   const currentContacts = filteredContacts.slice(indexOfFirstContact, indexOfLastContact);
   const totalPages = Math.ceil(filteredContacts.length / contactsPerPage);
-
-  const handleSort = (field) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-    } else {
-      setSortField(field);
-      setSortDirection("asc");
-    }
-  };
 
   const handleView = async (id) => {
     try {
@@ -287,14 +324,6 @@ const News = () => {
     toast.success("PDF export initiated");
   };
 
-  const truncateWords = (text, wordLimit) => {
-    if (!text) return "";
-    const words = text.split(" ");
-    return words.length > wordLimit
-      ? words.slice(0, wordLimit).join(" ") + "..."
-      : text;
-  };
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -306,189 +335,217 @@ const News = () => {
     });
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-[80vh]">
-        <Loader />
-      </div>
-    );
-  }
-
   return (
-    <div className="w-full p-6 space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Table className="h-5 w-5" />
-            Contact Management
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {/* Controls */}
-          <div className="flex flex-col lg:flex-row gap-4 mb-6">
-            {/* Search */}
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <Input
-                placeholder="Search contacts..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
+    <div className="space-y-6 p-6 bg-white min-h-screen">
+      {/* Loading State */}
+      {loading && (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin text-gray-600" />
+          <span className="ml-2 text-gray-600">Loading contacts...</span>
+        </div>
+      )}
 
-            {/* Date Filter */}
-            <Select value={dateFilter} onValueChange={setDateFilter}>
-              <SelectTrigger className="w-40 bg-white">
-                <Calendar className="h-4 w-4 mr-2" />
-                <SelectValue placeholder="Date filter" />
-              </SelectTrigger>
-              <SelectContent className="bg-white border shadow-lg">
-                <SelectItem value="all" className="hover:bg-gray-50">All Time</SelectItem>
-                <SelectItem value="today" className="hover:bg-gray-50">Today</SelectItem>
-                <SelectItem value="week" className="hover:bg-gray-50">Last Week</SelectItem>
-                <SelectItem value="month" className="hover:bg-gray-50">Last Month</SelectItem>
-              </SelectContent>
-            </Select>
-
-            {/* Export Buttons */}
-            <div className="flex gap-2">
-              <Button onClick={exportToCSV} variant="outline" size="sm">
-                <FileText className="h-4 w-4 mr-2" />
-                CSV
-              </Button>
-              <Button onClick={exportToPDF} variant="outline" size="sm">
-                <Download className="h-4 w-4 mr-2" />
-                PDF
-              </Button>
+      {/* Main Content */}
+      {!loading && (
+        <>
+          {/* Header: Title, Search, Filter & Export */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <h2 className="text-2xl font-semibold text-black">Contact Management</h2>
+            <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  placeholder="Search contacts..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 w-full md:w-64 border-gray-300 bg-white text-black placeholder:text-gray-500 focus:border-gray-500 focus:ring-gray-500"
+                />
+              </div>
+              <Select value={dateFilter} onValueChange={setDateFilter}>
+                <SelectTrigger className="w-full md:w-32 border-gray-300 bg-white text-black hover:bg-gray-50 focus:border-gray-500 focus:ring-gray-500">
+                  <Calendar className="h-4 w-4 mr-2 text-gray-600" />
+                  <SelectValue placeholder="Date" />
+                </SelectTrigger>
+                <SelectContent className="bg-white border-gray-300">
+                  <SelectItem value="all" className="text-black hover:bg-gray-100 focus:bg-gray-100">All Time</SelectItem>
+                  <SelectItem value="today" className="text-black hover:bg-gray-100 focus:bg-gray-100">Today</SelectItem>
+                  <SelectItem value="week" className="text-black hover:bg-gray-100 focus:bg-gray-100">Last Week</SelectItem>
+                  <SelectItem value="month" className="text-black hover:bg-gray-100 focus:bg-gray-100">Last Month</SelectItem>
+                </SelectContent>
+              </Select>
+              <div className="flex gap-2">
+                <Button 
+                  onClick={exportToCSV} 
+                  variant="outline" 
+                  size="sm"
+                  className="border-gray-300 bg-white text-black hover:bg-gray-100"
+                >
+                  <FileText className="h-4 w-4 mr-2" />
+                  CSV
+                </Button>
+                <Button 
+                  onClick={exportToPDF} 
+                  variant="outline" 
+                  size="sm"
+                  className="border-gray-300 bg-white text-black hover:bg-gray-100"
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  PDF
+                </Button>
+              </div>
             </div>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <Card>
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Card className="border-gray-200 bg-white">
               <CardContent className="p-4">
-                <div className="text-2xl font-bold">{contacts.length}</div>
-                <p className="text-sm text-gray-500">Total Contacts</p>
+                <div className="text-2xl font-bold text-black">{contacts.length}</div>
+                <p className="text-sm text-gray-600">Total Contacts</p>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="border-gray-200 bg-white">
               <CardContent className="p-4">
-                <div className="text-2xl font-bold">{filteredContacts.length}</div>
-                <p className="text-sm text-gray-500">Filtered Results</p>
+                <div className="text-2xl font-bold text-black">{filteredContacts.length}</div>
+                <p className="text-sm text-gray-600">Filtered Results</p>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="border-gray-200 bg-white">
               <CardContent className="p-4">
-                <div className="text-2xl font-bold">{currentContacts.length}</div>
-                <p className="text-sm text-gray-500">Current Page</p>
+                <div className="text-2xl font-bold text-black">{currentContacts.length}</div>
+                <p className="text-sm text-gray-600">Current Page</p>
               </CardContent>
             </Card>
           </div>
 
           {/* Table */}
-          <div className="rounded-md border">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b bg-gray-50/50">
-                    {[
-                      { key: "firstName", label: "First Name" },
-                      { key: "lastName", label: "Last Name" },
-                      { key: "email", label: "Email" },
-                      { key: "mobileNumber", label: "Phone" },
-                      { key: "message", label: "Message" },
-                      { key: "createdAt", label: "Created At" }
-                    ].map((column) => (
-                      <th
-                        key={column.key}
-                        className="px-4 py-3 text-left text-sm font-medium text-gray-500 cursor-pointer hover:text-gray-700"
-                        onClick={() => handleSort(column.key)}
+          <div className="overflow-x-auto border border-gray-200 rounded-lg bg-white">
+            <Table>
+              <TableHeader className="bg-gray-100">
+                <TableRow>
+                  <TableHead className="text-black font-semibold">
+                    <button 
+                      onClick={() => handleSort("firstName")} 
+                      className="flex items-center gap-1 hover:bg-gray-200 p-1 rounded transition-colors"
+                    >
+                      First Name {getSortIcon("firstName")}
+                    </button>
+                  </TableHead>
+                  <TableHead className="text-black font-semibold">
+                    <button 
+                      onClick={() => handleSort("lastName")} 
+                      className="flex items-center gap-1 hover:bg-gray-200 p-1 rounded transition-colors"
+                    >
+                      Last Name {getSortIcon("lastName")}
+                    </button>
+                  </TableHead>
+                  <TableHead className="text-black font-semibold">
+                    <button 
+                      onClick={() => handleSort("email")} 
+                      className="flex items-center gap-1 hover:bg-gray-200 p-1 rounded transition-colors"
+                    >
+                      Email {getSortIcon("email")}
+                    </button>
+                  </TableHead>
+                  <TableHead className="text-black font-semibold">
+                    <button 
+                      onClick={() => handleSort("mobileNumber")} 
+                      className="flex items-center gap-1 hover:bg-gray-200 p-1 rounded transition-colors"
+                    >
+                      Phone {getSortIcon("mobileNumber")}
+                    </button>
+                  </TableHead>
+                  <TableHead className="text-black font-semibold">Message</TableHead>
+                  <TableHead className="text-black font-semibold">
+                    <button 
+                      onClick={() => handleSort("createdAt")} 
+                      className="flex items-center gap-1 hover:bg-gray-200 p-1 rounded transition-colors"
+                    >
+                      Created {getSortIcon("createdAt")}
+                    </button>
+                  </TableHead>
+                  <TableHead className="text-center text-black font-semibold">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {currentContacts.map((contact) => (
+                  <TableRow key={contact._id} className="hover:bg-gray-50 border-b border-gray-200">
+                    <TableCell className="font-medium text-black">{contact.firstName}</TableCell>
+                    <TableCell className="font-medium text-black">{contact.lastName}</TableCell>
+                    <TableCell className="text-black">{contact.email}</TableCell>
+                    <TableCell className="text-black">{contact.mobileNumber}</TableCell>
+                    <TableCell className="max-w-64 text-sm text-gray-600">
+                      {truncateWords(contact.message, 8)}
+                    </TableCell>
+                    <TableCell>
+                      <span className="text-gray-600 text-sm">
+                        {new Date(contact.createdAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                        })}
+                      </span>
+                    </TableCell>
+                    <TableCell className="text-center space-x-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleView(contact._id)}
+                        disabled={viewLoading}
+                        className="h-8 w-8 p-0 border-gray-300 bg-white text-black hover:bg-gray-100"
                       >
-                        <div className="flex items-center gap-2">
-                          {column.label}
-                          {sortField === column.key && (
-                            sortDirection === "asc" ? 
-                            <ChevronUp className="h-4 w-4" /> : 
-                            <ChevronDown className="h-4 w-4" />
-                          )}
-                        </div>
-                      </th>
-                    ))}
-                    <th className="px-4 py-3 text-center text-sm font-medium text-gray-500">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentContacts.map((contact) => (
-                    <tr key={contact._id} className="border-b hover:bg-gray-50/50">
-                      <td className="px-4 py-3 text-sm">{contact.firstName}</td>
-                      <td className="px-4 py-3 text-sm">{contact.lastName}</td>
-                      <td className="px-4 py-3 text-sm">{contact.email}</td>
-                      <td className="px-4 py-3 text-sm">{contact.mobileNumber}</td>
-                      <td className="px-4 py-3 text-sm max-w-xs">
-                        <div className="truncate" title={contact.message}>
-                          {truncateWords(contact.message, 10)}
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-sm">
-                        <Badge variant="secondary">
-                          {new Date(contact.createdAt).toLocaleDateString()}
-                        </Badge>
-                      </td>
-                      <td className="px-4 py-3 text-sm">
-                        <div className="flex items-center justify-center gap-2">
-                          <Button
-                            onClick={() => handleView(contact._id)}
-                            variant="ghost"
-                            size="sm"
-                            disabled={viewLoading}
-                            className="hover:bg-blue-50 hover:text-blue-600"
+                        {viewLoading ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="h-8 w-8 p-0 border-gray-300 bg-white text-black hover:bg-gray-100 hover:text-red-600"
                           >
-                            {viewLoading ? (
-                              <div className="animate-spin h-4 w-4 border-2 border-blue-600 border-t-transparent rounded-full"></div>
-                            ) : (
-                              <Eye className="h-4 w-4" />
-                            )}
+                            <Trash2 className="h-4 w-4" />
                           </Button>
-                          <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                              <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700 hover:bg-red-50">
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  This action cannot be undone. This will permanently delete the contact.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction
-                                  onClick={() => handleDelete(contact._id)}
-                                  className="bg-red-600 hover:bg-red-700"
-                                >
-                                  Delete
-                                </AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent className="bg-white">
+                          <AlertDialogHeader>
+                            <AlertDialogTitle className="text-black">Are you sure?</AlertDialogTitle>
+                            <AlertDialogDescription className="text-gray-600">
+                              This action cannot be undone. This will permanently delete the contact.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel className="bg-white text-black border-gray-300 hover:bg-gray-100">Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleDelete(contact._id)}
+                              className="bg-red-600 hover:bg-red-700 text-white"
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+
+            {currentContacts.length === 0 && (
+              <div className="text-center py-12 text-gray-500">
+                <Search className="h-10 w-10 mx-auto mb-2" />
+                <p className="text-black">No contacts found.</p>
+              </div>
+            )}
           </div>
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-between mt-6">
-              <div className="text-sm text-gray-500">
+            <div className="flex items-center justify-between">
+              <div className="text-sm text-gray-600">
                 Showing {indexOfFirstContact + 1} to {Math.min(indexOfLastContact, filteredContacts.length)} of {filteredContacts.length} results
               </div>
               <div className="flex gap-2">
@@ -497,6 +554,7 @@ const News = () => {
                   size="sm"
                   onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                   disabled={currentPage === 1}
+                  className="border-gray-300 bg-white text-black hover:bg-gray-100"
                 >
                   Previous
                 </Button>
@@ -513,6 +571,10 @@ const News = () => {
                         variant={currentPage === pageNumber ? "default" : "outline"}
                         size="sm"
                         onClick={() => setCurrentPage(pageNumber)}
+                        className={currentPage === pageNumber ? 
+                          "bg-black text-white hover:bg-gray-800" : 
+                          "border-gray-300 bg-white text-black hover:bg-gray-100"
+                        }
                       >
                         {pageNumber}
                       </Button>
@@ -521,7 +583,7 @@ const News = () => {
                     pageNumber === currentPage - 2 ||
                     pageNumber === currentPage + 2
                   ) {
-                    return <span key={pageNumber} className="px-2">...</span>;
+                    return <span key={pageNumber} className="px-2 text-gray-500">...</span>;
                   }
                   return null;
                 })}
@@ -530,20 +592,21 @@ const News = () => {
                   size="sm"
                   onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                   disabled={currentPage === totalPages}
+                  className="border-gray-300 bg-white text-black hover:bg-gray-100"
                 >
                   Next
                 </Button>
               </div>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </>
+      )}
 
-    {/* View Contact Modal */}
+      {/* View Contact Modal */}
       <Dialog open={viewModalOpen} onOpenChange={setViewModalOpen}>
         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-white">
           <DialogHeader className="bg-gray-50 -m-6 mb-0 p-6 rounded-t-lg">
-            <DialogTitle className="flex items-center gap-2 text-gray-900">
+            <DialogTitle className="flex items-center gap-2 text-black">
               <User className="h-5 w-5 text-blue-600" />
               Contact Details
             </DialogTitle>
@@ -559,7 +622,7 @@ const News = () => {
                       <User className="h-4 w-4 text-blue-600" />
                       <h3 className="font-semibold text-sm text-gray-700">Name</h3>
                     </div>
-                    <p className="text-lg font-medium text-gray-900">
+                    <p className="text-lg font-medium text-black">
                       {selectedContact.firstName} {selectedContact.lastName}
                     </p>
                   </CardContent>
@@ -571,7 +634,7 @@ const News = () => {
                       <Clock className="h-4 w-4 text-green-600" />
                       <h3 className="font-semibold text-sm text-gray-700">Submitted On</h3>
                     </div>
-                    <p className="text-lg text-gray-900">
+                    <p className="text-lg text-black">
                       {formatDate(selectedContact.createdAt)}
                     </p>
                   </CardContent>
@@ -586,7 +649,7 @@ const News = () => {
                       <Mail className="h-4 w-4 text-red-600" />
                       <h3 className="font-semibold text-sm text-gray-700">Email Address</h3>
                     </div>
-                    <p className="text-lg break-all text-gray-900">
+                    <p className="text-lg break-all text-black">
                       {selectedContact.email}
                     </p>
                   </CardContent>
@@ -598,7 +661,7 @@ const News = () => {
                       <Phone className="h-4 w-4 text-purple-600" />
                       <h3 className="font-semibold text-sm text-gray-700">Phone Number</h3>
                     </div>
-                    <p className="text-lg text-gray-900">
+                    <p className="text-lg text-black">
                       {selectedContact.mobileNumber || 'Not provided'}
                     </p>
                   </CardContent>
@@ -628,7 +691,7 @@ const News = () => {
                       <FileText className="h-4 w-4 text-indigo-600" />
                       <h3 className="font-semibold text-sm text-gray-700">Subject</h3>
                     </div>
-                    <p className="text-lg text-gray-900">
+                    <p className="text-lg text-black">
                       {selectedContact.subject}
                     </p>
                   </CardContent>
@@ -640,7 +703,7 @@ const News = () => {
                 <Button
                   variant="outline"
                   onClick={() => setViewModalOpen(false)}
-                  className="bg-white hover:bg-gray-50 border-gray-300"
+                  className="bg-white hover:bg-gray-50 border-gray-300 text-black"
                 >
                   Close
                 </Button>
@@ -656,7 +719,7 @@ const News = () => {
             </div>
           ) : (
             <div className="flex items-center justify-center py-8 bg-gray-50 -mx-6 -mb-6 rounded-b-lg">
-              <div className="animate-spin h-8 w-8 border-2 border-blue-600 border-t-transparent rounded-full"></div>
+              <Loader2 className="h-8 w-8 animate-spin text-gray-600" />
               <span className="ml-2 text-gray-700">Loading contact details...</span>
             </div>
           )}
@@ -666,4 +729,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default ContactUs;

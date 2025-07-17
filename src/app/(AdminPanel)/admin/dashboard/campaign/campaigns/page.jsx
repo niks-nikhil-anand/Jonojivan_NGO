@@ -1,80 +1,52 @@
-"use client";
-import React, { useEffect, useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-import { toast } from "sonner";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Trash2,
-  Search,
-  Filter,
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  ArrowUpDown,
-  ArrowUp,
-  ArrowDown,
-  Eye,
-  Calendar,
-  DollarSign,
-  Target,
-  TrendingUp
-} from "lucide-react";
+"use client"
+import React, { useState, useMemo, useEffect } from 'react';
+import { Search, Filter, Eye, Trash2, ChevronUp, ChevronDown, Minus, Loader2 } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import axios from 'axios';
+// Table components (basic HTML table with styling)
+const Table = ({ children, className = '' }) => (
+  <table className={`w-full ${className}`}>{children}</table>
+);
 
-// Import shadcn components
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+const TableHeader = ({ children, className = '' }) => (
+  <thead className={className}>{children}</thead>
+);
 
-const CampaignTable = () => {
+const TableBody = ({ children, className = '' }) => (
+  <tbody className={className}>{children}</tbody>
+);
+
+const TableRow = ({ children, className = '' }) => (
+  <tr className={className}>{children}</tr>
+);
+
+const TableHead = ({ children, className = '' }) => (
+  <th className={`px-4 py-3 text-left font-semibold ${className}`}>{children}</th>
+);
+
+const TableCell = ({ children, className = '' }) => (
+  <td className={`px-4 py-3 ${className}`}>{children}</td>
+);
+
+export default function CampaignManagement() {
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [sortField, setSortField] = useState("createdAt");
-  const [sortDirection, setSortDirection] = useState("desc");
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [deleteId, setDeleteId] = useState(null);
-  const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [sortField, setSortField] = useState('');
+  const [sortOrder, setSortOrder] = useState('asc');
+
+  const toast = {
+    error: (message) => console.error(message)
+  };
 
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
         const response = await axios.get("/api/admin/dashboard/campaign/addCampaign");
+        console.log(response)
         setCampaigns(response.data);
       } catch (error) {
         console.error("Error fetching campaigns:", error);
@@ -87,181 +59,99 @@ const CampaignTable = () => {
     fetchCampaigns();
   }, []);
 
-  // Filter and sort campaigns
-  const filteredAndSortedCampaigns = useMemo(() => {
-    let filtered = campaigns.filter((campaign) => {
-      const matchesSearch = campaign.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           campaign.description.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesStatus = statusFilter === "all" || 
-                           campaign.status.toLowerCase() === statusFilter.toLowerCase();
-      return matchesSearch && matchesStatus;
-    });
-
-    // Sort campaigns
-    filtered.sort((a, b) => {
-      let aValue = a[sortField];
-      let bValue = b[sortField];
-
-      if (sortField === "createdAt") {
-        aValue = new Date(aValue);
-        bValue = new Date(bValue);
-      } else if (sortField === "goal" || sortField === "raised") {
-        aValue = parseFloat(aValue) || 0;
-        bValue = parseFloat(bValue) || 0;
-      }
-
-      if (sortDirection === "asc") {
-        return aValue > bValue ? 1 : -1;
-      } else {
-        return aValue < bValue ? 1 : -1;
-      }
-    });
-
-    return filtered;
-  }, [campaigns, searchTerm, statusFilter, sortField, sortDirection]);
-
-  // Pagination
-  const totalPages = Math.ceil(filteredAndSortedCampaigns.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentCampaigns = filteredAndSortedCampaigns.slice(startIndex, startIndex + itemsPerPage);
+  const truncateWords = (text, wordCount) => {
+    const words = text.split(' ');
+    if (words.length <= wordCount) return text;
+    return words.slice(0, wordCount).join(' ') + '...';
+  };
 
   const handleSort = (field) => {
     if (sortField === field) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     } else {
       setSortField(field);
-      setSortDirection("asc");
+      setSortOrder('asc');
     }
   };
 
   const getSortIcon = (field) => {
-    if (sortField !== field) return <ArrowUpDown className="h-4 w-4" />;
-    return sortDirection === "asc" ? <ArrowUp className="h-4 w-4" /> : <ArrowDown className="h-4 w-4" />;
+    if (sortField !== field) return <Minus className="h-3 w-3" />;
+    return sortOrder === 'asc' ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />;
+  };
+
+  const toggleStatus = (id, currentStatus) => {
+    // Handle status toggle - implement your logic here
+    console.log('Toggle status for campaign:', id, 'Current status:', currentStatus);
   };
 
   const confirmDelete = (id) => {
-    setDeleteId(id);
-    setShowDeleteModal(true);
+    // Handle delete confirmation - implement your logic here
+    console.log('Delete campaign:', id);
   };
 
-  const handleDelete = async () => {
-    try {
-      toast.loading("Deleting campaign...", { id: "delete-campaign" });
+  const filteredAndSortedCampaigns = useMemo(() => {
+    let filtered = campaigns.filter(campaign => {
+      const matchesSearch = campaign.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           campaign.description.toLowerCase().includes(searchTerm.toLowerCase());
       
-      await axios.delete(`/api/admin/dashboard/campaign/${deleteId}`);
+      const matchesStatus = statusFilter === 'all' || 
+                           campaign.status.toLowerCase() === statusFilter.toLowerCase();
       
-      setCampaigns(campaigns.filter((campaign) => campaign._id !== deleteId));
-      setShowDeleteModal(false);
-      setDeleteId(null);
-      
-      toast.success("Campaign deleted successfully!", { id: "delete-campaign" });
-    } catch (error) {
-      console.error("Error deleting campaign:", error);
-      toast.error("Failed to delete campaign", { id: "delete-campaign" });
+      return matchesSearch && matchesStatus;
+    });
+
+    if (sortField) {
+      filtered.sort((a, b) => {
+        let aValue, bValue;
+        
+        switch (sortField) {
+          case 'title':
+            aValue = a.title.toLowerCase();
+            bValue = b.title.toLowerCase();
+            break;
+          case 'goal':
+            aValue = parseFloat(a.goal);
+            bValue = parseFloat(b.goal);
+            break;
+          case 'raised':
+            aValue = parseFloat(a.raised || 0);
+            bValue = parseFloat(b.raised || 0);
+            break;
+          case 'createdAt':
+            aValue = new Date(a.createdAt);
+            bValue = new Date(b.createdAt);
+            break;
+          default:
+            return 0;
+        }
+
+        if (sortOrder === 'asc') {
+          return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+        } else {
+          return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+        }
+      });
     }
-  };
 
-  const toggleStatus = async (id, currentStatus) => {
-    try {
-      const newStatus = currentStatus === 'Active' ? 'Pending' : 'Active';
-      
-      toast.loading("Updating status...", { id: "status-update" });
-      
-      await axios.put(`/api/admin/dashboard/campaign/updateStatus/${id}`, { status: newStatus });
-      
-      setCampaigns(campaigns.map((campaign) =>
-        campaign._id === id ? { ...campaign, status: newStatus } : campaign
-      ));
-      
-      toast.success(`Status updated to ${newStatus}!`, { id: "status-update" });
-    } catch (error) {
-      console.error("Error updating status:", error);
-      toast.error("Failed to update status", { id: "status-update" });
-    }
-  };
-
-  const truncateWords = (text, wordLimit) => {
-    if (!text) return "";
-    const words = text.split(" ");
-    return words.length > wordLimit
-      ? words.slice(0, wordLimit).join(" ") + "..."
-      : text;
-  };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-      </div>
-    );
-  }
+    return filtered;
+  }, [campaigns, searchTerm, statusFilter, sortField, sortOrder]);
 
   return (
-    <div className="space-y-6 p-6 bg-gradient-to-br from-gray-50 to-white min-h-screen">
-      {/* Header Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <Card className="border-0 shadow-lg bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-300 text-sm">Total Campaigns</p>
-                <p className="text-2xl font-bold">{campaigns.length}</p>
-              </div>
-              <Target className="h-8 w-8 text-gray-400" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-0 shadow-lg bg-gradient-to-r from-green-600 to-green-700 text-white">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-green-100 text-sm">Active</p>
-                <p className="text-2xl font-bold">
-                  {campaigns.filter(c => c.status === 'Active').length}
-                </p>
-              </div>
-              <TrendingUp className="h-8 w-8 text-green-200" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-0 shadow-lg bg-gradient-to-r from-yellow-500 to-yellow-600 text-white">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-yellow-100 text-sm">Pending</p>
-                <p className="text-2xl font-bold">
-                  {campaigns.filter(c => c.status === 'Pending').length}
-                </p>
-              </div>
-              <Calendar className="h-8 w-8 text-yellow-200" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-0 shadow-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-blue-100 text-sm">Total Raised</p>
-                <p className="text-2xl font-bold">
-                  ₹{campaigns.reduce((sum, c) => sum + (parseFloat(c.raised) || 0), 0).toLocaleString()}
-                </p>
-              </div>
-              <DollarSign className="h-8 w-8 text-blue-200" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+    <div className="space-y-6 p-6 bg-white min-h-screen">
+      {/* Loading State */}
+      {loading && (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin text-gray-600" />
+          <span className="ml-2 text-gray-600">Loading campaigns...</span>
+        </div>
+      )}
 
-      {/* Main Table Card */}
-      <Card className="border-0 shadow-xl bg-white">
-        <CardHeader className="bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-t-lg">
+      {/* Main Content */}
+      {!loading && (
+        <>
+          {/* Header: Title, Search & Filter */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <CardTitle className="text-xl font-bold">Campaign Management</CardTitle>
-            
-            {/* Search and Filters */}
+            <h2 className="text-2xl font-semibold text-black">Campaign Management</h2>
             <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -269,280 +159,126 @@ const CampaignTable = () => {
                   placeholder="Search campaigns..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 w-full md:w-64 bg-white"
+                  className="pl-10 w-full md:w-64 border-gray-300 bg-white text-black placeholder:text-gray-500 focus:border-gray-500 focus:ring-gray-500"
                 />
               </div>
-              
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-full md:w-32 bg-white">
-                  <Filter className="h-4 w-4 mr-2" />
-                  <SelectValue />
+                <SelectTrigger className="w-full md:w-32 border-gray-300 bg-white text-black hover:bg-gray-50 focus:border-gray-500 focus:ring-gray-500">
+                  <Filter className="h-4 w-4 mr-2 text-gray-600" />
+                  <SelectValue placeholder="Status" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Status</SelectItem>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
+                <SelectContent className="bg-white border-gray-300">
+                  <SelectItem value="all" className="text-black hover:bg-gray-100 focus:bg-gray-100">All</SelectItem>
+                  <SelectItem value="active" className="text-black hover:bg-gray-100 focus:bg-gray-100">Active</SelectItem>
+                  <SelectItem value="pending" className="text-black hover:bg-gray-100 focus:bg-gray-100">Pending</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
-        </CardHeader>
-        
-        <CardContent className="p-0">
-          <div className="overflow-x-auto">
+
+          {/* Table */}
+          <div className="overflow-x-auto border border-gray-200 rounded-lg bg-white">
             <Table>
-              <TableHeader>
-                <TableRow className="bg-gray-50 border-b-2">
-                  <TableHead className="text-center font-semibold">Image</TableHead>
-                  <TableHead className="font-semibold">
-                    <Button
-                      variant="ghost"
-                      onClick={() => handleSort("title")}
-                      className="h-auto p-0 font-semibold hover:bg-transparent"
+              <TableHeader className="bg-gray-100">
+                <TableRow>
+                  <TableHead className="text-center text-black font-semibold">Image</TableHead>
+                  <TableHead className="text-black font-semibold">
+                    <button 
+                      onClick={() => handleSort("title")} 
+                      className="flex items-center gap-1 hover:bg-gray-200 p-1 rounded transition-colors"
                     >
                       Title {getSortIcon("title")}
-                    </Button>
+                    </button>
                   </TableHead>
-                  <TableHead className="font-semibold">Description</TableHead>
-                  <TableHead className="font-semibold">
-                    <Button
-                      variant="ghost"
-                      onClick={() => handleSort("goal")}
-                      className="h-auto p-0 font-semibold hover:bg-transparent"
+                  <TableHead className="text-black font-semibold">Description</TableHead>
+                  <TableHead className="text-black font-semibold">
+                    <button 
+                      onClick={() => handleSort("goal")} 
+                      className="flex items-center gap-1 hover:bg-gray-200 p-1 rounded transition-colors"
                     >
                       Goal {getSortIcon("goal")}
-                    </Button>
+                    </button>
                   </TableHead>
-                  <TableHead className="font-semibold">
-                    <Button
-                      variant="ghost"
-                      onClick={() => handleSort("raised")}
-                      className="h-auto p-0 font-semibold hover:bg-transparent"
+                  <TableHead className="text-black font-semibold">
+                    <button 
+                      onClick={() => handleSort("raised")} 
+                      className="flex items-center gap-1 hover:bg-gray-200 p-1 rounded transition-colors"
                     >
                       Raised {getSortIcon("raised")}
-                    </Button>
+                    </button>
                   </TableHead>
-                  <TableHead className="font-semibold text-center">Status</TableHead>
-                  <TableHead className="font-semibold">
-                    <Button
-                      variant="ghost"
-                      onClick={() => handleSort("createdAt")}
-                      className="h-auto p-0 font-semibold hover:bg-transparent"
+                  <TableHead className="text-black font-semibold">
+                    <button 
+                      onClick={() => handleSort("createdAt")} 
+                      className="flex items-center gap-1 hover:bg-gray-200 p-1 rounded transition-colors"
                     >
                       Created {getSortIcon("createdAt")}
-                    </Button>
+                    </button>
                   </TableHead>
-                  <TableHead className="font-semibold text-center">Actions</TableHead>
+                  <TableHead className="text-center text-black font-semibold">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <AnimatePresence>
-                  {currentCampaigns.map((campaign) => (
-                    <motion.tr
-                      key={campaign._id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.2 }}
-                      className="hover:bg-gray-50 transition-colors"
-                    >
-                      <TableCell className="text-center">
-                        <div className="flex justify-center">
-                          <img
-                            src={campaign.image}
-                            alt={campaign.title}
-                            className="w-12 h-12 object-cover rounded-lg shadow-md"
-                          />
-                        </div>
-                      </TableCell>
-                      <TableCell className="font-medium max-w-48">
-                        <div className="truncate">{campaign.title}</div>
-                      </TableCell>
-                      <TableCell className="max-w-64">
-                        <div className="text-sm text-gray-600">
-                          {truncateWords(campaign.description, 8)}
-                        </div>
-                      </TableCell>
-                      <TableCell className="font-semibold text-green-600">
-                        ₹{parseFloat(campaign.goal).toLocaleString()}
-                      </TableCell>
-                      <TableCell className="font-semibold text-blue-600">
-                        ₹{parseFloat(campaign.raised || 0).toLocaleString()}
-                      </TableCell>
-                      <TableCell className="text-center">
-                        <div className="flex items-center justify-center space-x-2">
-                          <Switch
-                            checked={campaign.status === 'Active'}
-                            onCheckedChange={() => toggleStatus(campaign._id, campaign.status)}
-                            className="data-[state=checked]:bg-green-500"
-                          />
-                          <Badge 
-                            variant={campaign.status === 'Active' ? 'default' : 'secondary'}
-                            className={campaign.status === 'Active' ? 'bg-green-500' : 'bg-yellow-500'}
-                          >
-                            {campaign.status}
-                          </Badge>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="text-sm text-gray-600">
-                          {new Date(campaign.createdAt).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric'
-                          })}
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-center">
-                        <div className="flex justify-center space-x-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => router.push(`/campaign/${campaign._id}`)}
-                            className="h-8 w-8 p-0"
-                          >
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="destructive"
-                            size="sm"
-                            onClick={() => confirmDelete(campaign._id)}
-                            className="h-8 w-8 p-0"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </motion.tr>
-                  ))}
-                </AnimatePresence>
+                {filteredAndSortedCampaigns.map((campaign) => (
+                  <TableRow key={campaign._id} className="hover:bg-gray-50 border-b border-gray-200">
+                    <TableCell className="text-center">
+                      <img
+                        src={campaign.image}
+                        alt={campaign.title}
+                        className="w-12 h-12 object-cover rounded border border-gray-200"
+                      />
+                    </TableCell>
+                    <TableCell className="font-medium max-w-48 truncate text-black">{campaign.title}</TableCell>
+                    <TableCell className="max-w-64 text-sm text-gray-600">
+                      {truncateWords(campaign.description, 8)}
+                    </TableCell>
+                    <TableCell className="text-black font-semibold">
+                      ₹{parseFloat(campaign.goal).toLocaleString()}
+                    </TableCell>
+                    <TableCell className="text-black font-semibold">
+                      ₹{parseFloat(campaign.raised || 0).toLocaleString()}
+                    </TableCell>
+                    <TableCell>
+                      <span className="text-gray-600 text-sm">
+                        {new Date(campaign.createdAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                        })}
+                      </span>
+                    </TableCell>
+                    <TableCell className="text-center space-x-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => console.log('View campaign:', campaign._id)}
+                        className="h-8 w-8 p-0 border-gray-300 bg-white text-black hover:bg-gray-100"
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => confirmDelete(campaign._id)}
+                        className="h-8 w-8 p-0 border-gray-300 bg-white text-black hover:bg-gray-100 hover:text-red-600"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
+
+            {filteredAndSortedCampaigns.length === 0 && (
+              <div className="text-center py-12 text-gray-500">
+                <Search className="h-10 w-10 mx-auto mb-2" />
+                <p className="text-black">No campaigns found.</p>
+              </div>
+            )}
           </div>
-          
-          {currentCampaigns.length === 0 && (
-            <div className="text-center py-12">
-              <div className="text-gray-400 mb-2">
-                <Search className="h-12 w-12 mx-auto mb-4" />
-              </div>
-              <p className="text-gray-500">No campaigns found matching your criteria.</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <Card className="border-0 shadow-lg">
-          <CardContent className="p-4">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-700">Rows per page:</span>
-                <Select value={itemsPerPage.toString()} onValueChange={(value) => setItemsPerPage(Number(value))}>
-                  <SelectTrigger className="w-20">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="5">5</SelectItem>
-                    <SelectItem value="10">10</SelectItem>
-                    <SelectItem value="20">20</SelectItem>
-                    <SelectItem value="50">50</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-700">
-                  {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredAndSortedCampaigns.length)} of {filteredAndSortedCampaigns.length}
-                </span>
-              </div>
-              
-              <div className="flex items-center space-x-1">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(1)}
-                  disabled={currentPage === 1}
-                  className="h-8 w-8 p-0"
-                >
-                  <ChevronsLeft className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="h-8 w-8 p-0"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-                
-                {[...Array(Math.min(5, totalPages))].map((_, i) => {
-                  const page = i + Math.max(1, currentPage - 2);
-                  if (page <= totalPages) {
-                    return (
-                      <Button
-                        key={page}
-                        variant={currentPage === page ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setCurrentPage(page)}
-                        className="h-8 w-8 p-0"
-                      >
-                        {page}
-                      </Button>
-                    );
-                  }
-                  return null;
-                })}
-                
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="h-8 w-8 p-0"
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(totalPages)}
-                  disabled={currentPage === totalPages}
-                  className="h-8 w-8 p-0"
-                >
-                  <ChevronsRight className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        </>
       )}
-
-      {/* Delete Confirmation Modal */}
-      <Dialog open={showDeleteModal} onOpenChange={setShowDeleteModal}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Trash2 className="h-5 w-5 text-red-500" />
-              Confirm Deletion
-            </DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete this campaign? This action cannot be undone.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setShowDeleteModal(false)}>
-              Cancel
-            </Button>
-            <Button variant="destructive" onClick={handleDelete}>
-              Delete Campaign
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
-};
-
-export default CampaignTable;
+}
