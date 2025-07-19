@@ -27,10 +27,12 @@ const Navbar = () => {
 
   const menuItems = [
     { href: "/", label: "Home" },
-    { href: "/aboutUs", label: "About Us" },
-    { href: "/how-we-work", label: "How We Work" },
-    { href: "/impactStories", label: "Impact Stories" },
-    { href: "/contactUs", label: "Contact Us" },
+    { href: "/aboutUs", label: "Certification" },
+    { href: "/how-we-work", label: "Our Projects" },
+    { href: "/impactStories", label: "Id Card Download" },
+    { href: "/contactUs", label: "Jonojivan Garib Kalyan" },
+    { href: "/contactUs", label: "Become a member" },
+    { href: "/contactUs", label: "Press/Media Gallery" },
   ];
 
   const handleDonateClick = (e) => {

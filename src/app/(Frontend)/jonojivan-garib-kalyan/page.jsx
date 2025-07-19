@@ -224,7 +224,7 @@ export default function JonojivanMembershipPage() {
             </p>
             <div className="flex justify-center">
               <div className="bg-white/20 px-6 py-3 rounded-full backdrop-blur-sm">
-                <p className="text-white font-semibold">Garib Kalyan Yojana </p>
+                <p className="text-white font-semibold">Jonojivan Garib Kalyan </p>
               </div>
             </div>
           </div>
