@@ -7,12 +7,14 @@ import OrganizationInfo from "@/components/frontend/ui/OrganitationInfo";
 import Testimonials from "@/components/frontend/ui/Testimonials";
 import CausesSection from "@/components/frontend/ui/(Banners)/CausesSection";
 import MissionVisionSection from "@/components/frontend/ui/MissionVisionSection";
+import VolunteerOpportunities from "@/components/frontend/shared/VolunteerOpportunities";
 
 export default function Home() {
   return (
     <>
       <HeroSection />
       <DonationForm/>
+      <VolunteerOpportunities/>
       {/* <ProgramsSections/>   */}
       <CausesSection/>
       <CampaignCards />

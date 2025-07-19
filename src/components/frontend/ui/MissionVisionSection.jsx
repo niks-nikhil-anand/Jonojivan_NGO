@@ -2,6 +2,7 @@
 import { Award, BookOpen, Globe, Lightbulb, Sparkles, Target, Users } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import CallToAction from "./CallToAction";
 
 
 
@@ -182,6 +183,10 @@ const MissionVisionSection = () => {
             ))}
           </div>
         </motion.div>
+        <div className="my-10">
+
+        <CallToAction/>
+        </div>
       </div>
     </div>
   );

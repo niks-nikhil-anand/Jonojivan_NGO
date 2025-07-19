@@ -17,8 +17,7 @@ import {
   Heart,
   Users,
 } from "lucide-react";
-
-import CallToAction from "../CallToAction";
+import JonojivanGaribKalyanBanner from "../../shared/jonojivanGaribKalyanBanner";
 
 const CausesSection = () => {
   const [isDonationFormOpen, setIsDonationFormOpen] = useState(false);
@@ -312,7 +311,7 @@ const CausesSection = () => {
             </motion.div>
           ))}
         </motion.div>
-        <CallToAction/>
+        <JonojivanGaribKalyanBanner/>
       </div>
       
     </div>

@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 // Added missing imports
-import { Heart, X, Info } from "lucide-react";
+import { Heart, X, Info, Building, CreditCard, Building2, Phone } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const DonationForm = () => {
@@ -373,6 +373,56 @@ const DonationForm = () => {
           >
             {isLoading ? "Processing..." : "DONATE NOW"}
           </motion.button>
+          {/* Payment Information Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mt-8 border border-white/20"
+          >
+            <h4 className="text-lg font-semibold mb-4 text-white flex items-center justify-center gap-2">
+              <CreditCard className="w-5 h-5" />
+              Payment Information
+            </h4>
+            
+            <div className="grid md:grid-cols-2 gap-4 text-left">
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <Building className="w-5 h-5 text-blue-200 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-medium text-blue-100">Bank Details</p>
+                    <p className="text-white font-semibold">AU SMALL FINANCE BANK</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <CreditCard className="w-5 h-5 text-blue-200 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-medium text-blue-100">Account Number</p>
+                    <p className="text-white font-mono font-semibold">2211260142868327</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <Building2 className="w-5 h-5 text-blue-200 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-medium text-blue-100">IFSC Code</p>
+                    <p className="text-white font-mono font-semibold">AUBL0002601</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <Phone className="w-5 h-5 text-blue-200 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-medium text-blue-100">Google Pay</p>
+                    <p className="text-white font-mono font-semibold">9435266783</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </motion.div>
 
