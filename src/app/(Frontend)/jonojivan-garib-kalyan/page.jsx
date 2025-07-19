@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import axios from "axios";
 import {
   Heart,
   Users,
@@ -22,6 +23,7 @@ import {
   Banknote,
   Link,
   Star,
+  Loader2,
 } from "lucide-react";
 import Initiatives from "@/components/frontend/shared/Initiatives";
 
@@ -44,6 +46,7 @@ export default function JonojivanMembershipPage() {
   });
 
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -80,6 +83,14 @@ export default function JonojivanMembershipPage() {
         ...prev,
         [statusKey]: true,
       }));
+
+      // Clear error when file is uploaded
+      if (errors[fieldName]) {
+        setErrors((prev) => ({
+          ...prev,
+          [fieldName]: "",
+        }));
+      }
     }
   };
 
@@ -120,29 +131,101 @@ export default function JonojivanMembershipPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (validateForm()) {
-      alert(
-        "Membership application submitted successfully! We will review your application and contact you soon."
-      );
-      // Reset form
-      setFormData({
-        memberName: "",
-        contactNumber: "",
-        documentNumber: "",
-        accountNumber: "",
-        referLinkIdCard: "",
-        photoUpload: null,
-        aadhaarCard: null,
-        bankPassbook: null,
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Create FormData object
+      const apiFormData = new FormData();
+      
+      // Append text fields
+      apiFormData.append('memberName', formData.memberName);
+      apiFormData.append('contactNumber', formData.contactNumber);
+      apiFormData.append('documentNumber', formData.documentNumber);
+      apiFormData.append('accountNumber', formData.accountNumber);
+      apiFormData.append('referLinkIdCard', formData.referLinkIdCard || '');
+      
+      // Append files
+      if (formData.photoUpload) {
+        apiFormData.append('photoUpload', formData.photoUpload);
+      }
+      
+      if (formData.aadhaarCard) {
+        apiFormData.append('aadhaarCard', formData.aadhaarCard);
+      }
+      
+      if (formData.bankPassbook) {
+        apiFormData.append('bankPassbook', formData.bankPassbook);
+      }
+
+      // Make API call
+      const response = await axios.post('/api/jonojivan-garib-kalyan', apiFormData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        // Optional: Add upload progress tracking
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          console.log(`Upload Progress: ${percentCompleted}%`);
+        },
       });
-      setUploadStatus({
-        photo: false,
-        aadhaar: false,
-        bank: false,
-      });
+
+      // Handle successful response
+      if (response.status === 200 || response.status === 201) {
+        alert(
+          "Membership application submitted successfully! We will review your application and contact you soon."
+        );
+        
+        // Reset form
+        setFormData({
+          memberName: "",
+          contactNumber: "",
+          documentNumber: "",
+          accountNumber: "",
+          referLinkIdCard: "",
+          photoUpload: null,
+          aadhaarCard: null,
+          bankPassbook: null,
+        });
+        
+        setUploadStatus({
+          photo: false,
+          aadhaar: false,
+          bank: false,
+        });
+
+        // Reset file inputs
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+        fileInputs.forEach(input => input.value = '');
+      }
+
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      
+      // Handle different types of errors
+      if (error.response) {
+        // Server responded with error status
+        const errorMessage = error.response.data?.message || 
+                           error.response.data?.error || 
+                           `Server error: ${error.response.status}`;
+        alert(`Failed to submit application: ${errorMessage}`);
+      } else if (error.request) {
+        // Request was made but no response received
+        alert("Network error: Please check your internet connection and try again.");
+      } else {
+        // Something else happened
+        alert("An unexpected error occurred. Please try again.");
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -249,7 +332,7 @@ export default function JonojivanMembershipPage() {
               </p>
             </div>
 
-            <div className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               {/* Member Name */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -261,7 +344,8 @@ export default function JonojivanMembershipPage() {
                   name="memberName"
                   value={formData.memberName}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  disabled={isSubmitting}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed ${
                     errors.memberName ? "border-red-500" : "border-gray-300"
                   }`}
                   placeholder="Enter your full name"
@@ -285,7 +369,8 @@ export default function JonojivanMembershipPage() {
                   name="contactNumber"
                   value={formData.contactNumber}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  disabled={isSubmitting}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed ${
                     errors.contactNumber ? "border-red-500" : "border-gray-300"
                   }`}
                   placeholder="Enter your 10-digit phone number"
@@ -309,7 +394,8 @@ export default function JonojivanMembershipPage() {
                   name="documentNumber"
                   value={formData.documentNumber}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  disabled={isSubmitting}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed ${
                     errors.documentNumber ? "border-red-500" : "border-gray-300"
                   }`}
                   placeholder="Enter your document number"
@@ -333,7 +419,8 @@ export default function JonojivanMembershipPage() {
                   name="accountNumber"
                   value={formData.accountNumber}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  disabled={isSubmitting}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed ${
                     errors.accountNumber ? "border-red-500" : "border-gray-300"
                   }`}
                   placeholder="Enter your bank account number"
@@ -357,7 +444,8 @@ export default function JonojivanMembershipPage() {
                   name="referLinkIdCard"
                   value={formData.referLinkIdCard}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                   placeholder="Enter referral ID card number (optional)"
                 />
               </div>
@@ -377,10 +465,13 @@ export default function JonojivanMembershipPage() {
                       onChange={(e) => handleFileUpload(e, "photoUpload")}
                       className="file-input"
                       id="photoUpload"
+                      disabled={isSubmitting}
                     />
                     <label
                       htmlFor="photoUpload"
                       className={`w-full h-32 border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors ${
+                        isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                      } ${
                         uploadStatus.photo
                           ? "border-green-500 bg-green-50"
                           : errors.photoUpload
@@ -421,10 +512,13 @@ export default function JonojivanMembershipPage() {
                       onChange={(e) => handleFileUpload(e, "aadhaarCard")}
                       className="file-input"
                       id="aadhaarCard"
+                      disabled={isSubmitting}
                     />
                     <label
                       htmlFor="aadhaarCard"
                       className={`w-full h-32 border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors ${
+                        isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                      } ${
                         uploadStatus.aadhaar
                           ? "border-green-500 bg-green-50"
                           : errors.aadhaarCard
@@ -465,10 +559,13 @@ export default function JonojivanMembershipPage() {
                       onChange={(e) => handleFileUpload(e, "bankPassbook")}
                       className="file-input"
                       id="bankPassbook"
+                      disabled={isSubmitting}
                     />
                     <label
                       htmlFor="bankPassbook"
                       className={`w-full h-32 border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors ${
+                        isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                      } ${
                         uploadStatus.bank
                           ? "border-green-500 bg-green-50"
                           : errors.bankPassbook
@@ -500,14 +597,24 @@ export default function JonojivanMembershipPage() {
               {/* Submit Button */}
               <div className="text-center pt-6">
                 <button
-                  onClick={handleSubmit}
-                  className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 flex items-center gap-3 mx-auto shadow-lg hover:shadow-xl"
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 flex items-center gap-3 mx-auto shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-blue-600 disabled:hover:to-indigo-600"
                 >
-                  <Heart className="w-5 h-5" />
-                  Submit Application
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <Heart className="w-5 h-5" />
+                      Submit Application
+                    </>
+                  )}
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </section>

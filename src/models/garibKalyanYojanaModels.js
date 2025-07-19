@@ -68,8 +68,8 @@ const GaribKalyanYojanaSchema = new mongoose.Schema(
   }
 );
 
-const Donation =
-  mongoose.models.GaribKalyanYojana ||
-  mongoose.model("GaribKalyanYojana", GaribKalyanYojanaSchema);
+const GaribKalyan =
+  mongoose.models.GaribKalyan ||
+  mongoose.model("GaribKalyan", GaribKalyanYojanaSchema);
 
-export default Donation;
+export default GaribKalyan;
