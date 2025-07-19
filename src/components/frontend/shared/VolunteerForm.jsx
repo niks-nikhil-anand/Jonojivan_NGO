@@ -34,6 +34,7 @@ const VolunteerRegistrationForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const committees = [
     { name: 'Executive Committee', amount: 5100 },
@@ -102,7 +103,7 @@ const VolunteerRegistrationForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Password validation
@@ -123,9 +124,83 @@ const VolunteerRegistrationForm = () => {
       alert(`Please fill in all required fields: ${missingFields.join(', ')}`);
       return;
     }
-    
-    console.log('Form submitted:', formData);
-    alert('Registration submitted successfully!');
+
+    setIsSubmitting(true);
+
+    try {
+      // Create FormData object to handle file upload
+      const submitData = new FormData();
+      
+      // Append all form fields to FormData
+      Object.keys(formData).forEach(key => {
+        if (key === 'image' && formData[key]) {
+          // Append image file
+          submitData.append('image', formData[key]);
+        } else if (key !== 'image' && key !== 'confirmPassword') {
+          // Append all other fields except confirmPassword (not needed on server)
+          submitData.append(key, formData[key]);
+        }
+      });
+
+      // Make API call using fetch
+      const response = await fetch('/api/member', {
+        method: 'POST',
+        body: submitData, // FormData automatically sets correct Content-Type
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      console.log('Registration successful:', response.data);
+      alert('Registration submitted successfully!');
+      
+      // Reset form after successful submission
+      setFormData({
+        name: '',
+        gender: '',
+        mobile: '',
+        whatsapp: '',
+        email: '',
+        adhaar: '',
+        guardianName: '',
+        guardianMobile: '',
+        maritalStatus: '',
+        address: '',
+        country: 'India',
+        state: '',
+        district: '',
+        committee: '',
+        subCommittee: '',
+        joiningState: '',
+        post: '',
+        supportingAmount: '',
+        pincode: '',
+        password: '',
+        confirmPassword: '',
+        image: null
+      });
+
+    } catch (error) {
+      console.error('Registration failed:', error);
+      
+      // Handle different types of errors
+      if (error.response) {
+        // Server responded with error status
+        const errorMessage = error.response.data?.message || 'Registration failed. Please try again.';
+        alert(`Error: ${errorMessage}`);
+      } else if (error.request) {
+        // Request was made but no response received
+        alert('Network error. Please check your connection and try again.');
+      } else {
+        // Something else happened
+        alert('An unexpected error occurred. Please try again.');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -134,14 +209,14 @@ const VolunteerRegistrationForm = () => {
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 lg:p-12 border border-white/20">
           <div className="text-center mb-8">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-              Volunteer Registration Form
+              Member Registration Form
             </h2>
             <p className="text-xl text-gray-600">
               Join Jonojivan Foundation - Complete your registration below
             </p>
           </div>
 
-          <div className="space-y-8">
+          <form onSubmit={handleSubmit} className="space-y-8">
             {/* Personal Details Section */}
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6">
               <div className="flex items-center gap-3 mb-6">
@@ -586,16 +661,20 @@ const VolunteerRegistrationForm = () => {
             {/* Submit Button */}
             <div className="text-center pt-6">
               <button
-                type="button"
-                onClick={handleSubmit}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-12 py-4 rounded-xl font-semibold text-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 flex items-center gap-3 mx-auto shadow-lg hover:shadow-xl transform hover:scale-105"
+                type="submit"
+                disabled={isSubmitting}
+                className={`${
+                  isSubmitting 
+                    ? 'bg-gray-400 cursor-not-allowed' 
+                    : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105'
+                } text-white px-12 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center gap-3 mx-auto shadow-lg hover:shadow-xl`}
               >
                 <Heart className="w-5 h-5" />
-                Submit Registration
+                {isSubmitting ? 'Submitting...' : 'Submit Registration'}
                 <ArrowRight className="w-5 h-5" />
               </button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

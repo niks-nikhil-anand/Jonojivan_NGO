@@ -94,7 +94,7 @@ const ContactUs = () => {
     const fetchContacts = async () => {
       try {
         const response = await axios.get("/api/admin/dashboard/contactUs");
-        console.log(response.data.data);
+        console.log(response);
         setContacts(Array.isArray(response.data.data) ? response.data.data : []);
         toast.success("Contacts loaded successfully");
       } catch (error) {
