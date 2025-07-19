@@ -8,12 +8,16 @@ const VolunteerOpportunities = () => {
       description: "Generate personalized volunteer ID cards instantly.",
       icon: CreditCard,
       color: "from-sky-500 to-blue-500",
+      bgColor: "from-sky-50 to-blue-50",
+      borderColor: "border-sky-200",
     },
     {
       title: "Generate Appointment Letter",
       description: "Get your official volunteer appointment letter.",
       icon: FileText,
       color: "from-green-500 to-lime-500",
+      bgColor: "from-green-50 to-lime-50",
+      borderColor: "border-green-200",
     },
     {
       title: "Generate Certificate",
@@ -21,12 +25,16 @@ const VolunteerOpportunities = () => {
         "Download your verified certificate of appreciation or participation.",
       icon: Award,
       color: "from-yellow-500 to-amber-500",
+      bgColor: "from-yellow-50 to-amber-50",
+      borderColor: "border-yellow-200",
     },
     {
       title: "Donate Us",
       description: "Support our mission with your financial contribution.",
       icon: HeartCrack,
       color: "from-rose-500 to-pink-500",
+      bgColor: "from-rose-50 to-pink-50",
+      borderColor: "border-rose-200",
     },
   ];
   
@@ -52,12 +60,12 @@ const VolunteerOpportunities = () => {
               return (
                 <div
                   key={index}
-                  className="group relative bg-white rounded-xl shadow-md hover:shadow-lg overflow-hidden transition-all duration-300 transform hover:scale-105 cursor-pointer border border-gray-100"
+                  className={`group relative bg-gradient-to-br ${opportunity.bgColor} rounded-xl shadow-md hover:shadow-xl overflow-hidden transition-all duration-300 transform hover:scale-105 cursor-pointer border ${opportunity.borderColor}`}
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  {/* Gradient background */}
+                  {/* Enhanced hover overlay */}
                   <div
-                    className={`absolute inset-0 bg-gradient-to-br ${opportunity.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
+                    className={`absolute inset-0 bg-gradient-to-br ${opportunity.color} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}
                   ></div>
 
                   <div className="p-5 relative z-10">
@@ -101,7 +109,7 @@ const VolunteerOpportunities = () => {
 
                   {/* Bottom accent */}
                   <div
-                    className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r ${opportunity.color} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300`}
+                    className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${opportunity.color} opacity-100`}
                   ></div>
                 </div>
               );
