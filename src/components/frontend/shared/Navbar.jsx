@@ -32,7 +32,7 @@ const Navbar = () => {
     { href: "/impactStories", label: "Id Card Download" },
     { href: "/jonojivan-garib-kalyan", label: "Jonojivan Garib Kalyan" },
     { href: "/member", label: "Become a member" },
-    { href: "/contactUs", label: "Press/Media Gallery" },
+    { href: "/mediaGallery", label: "Press/Media Gallery" },
   ];
 
   const handleDonateClick = (e) => {
