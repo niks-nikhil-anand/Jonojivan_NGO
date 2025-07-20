@@ -388,66 +388,67 @@ const DonationForm = () => {
           {/* Payment Information Section */}
           {/* Action Buttons Row - Moved above payment information */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-8">
-            {/* Become Member Button */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Link href="/become-member" passHref>
-                <Button
-                  className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-3 font-semibold text-sm group"
-                >
-                  <span className="flex items-center justify-center">
-                    <UserPlus className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
-                    Become Member
-                  </span>
-                </Button>
-              </Link>
-            </motion.div>
+  {/* Become Member Button */}
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: 0.6 }}
+    whileHover={{ scale: 1.02 }}
+    whileTap={{ scale: 0.98 }}
+  >
+    <Link href="/become-member" passHref>
+      <Button
+        className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-6 font-semibold text-sm group"
+      >
+        <span className="flex items-center justify-center">
+          <UserPlus className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
+          Become Member
+        </span>
+      </Button>
+    </Link>
+  </motion.div>
 
-            {/* Member Sign In Button */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Link href="/auth/member-signIn" passHref>
-                <Button
-                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-3 font-semibold text-sm group"
-                >
-                  <span className="flex items-center justify-center">
-                    <LogIn className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
-                    Sign In
-                  </span>
-                </Button>
-              </Link>
-            </motion.div>
+  {/* Member Sign In Button */}
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: 0.7 }}
+    whileHover={{ scale: 1.02 }}
+    whileTap={{ scale: 0.98 }}
+  >
+    <Link href="/auth/member-signIn" passHref>
+      <Button
+        className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-6 font-semibold text-sm group"
+      >
+        <span className="flex items-center justify-center">
+          <LogIn className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
+          Sign In
+        </span>
+      </Button>
+    </Link>
+  </motion.div>
 
-            {/* Apply for Jonojivan Garib Kalyan Button */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Link href="/jonojivan-garib-kalyan" passHref>
-                <Button
-                  className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-3 font-semibold text-sm group"
-                >
-                  <span className="flex items-center justify-center">
-                    <FileText className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
-                    Apply for Jonojivan Garib Kalyan
-                  </span>
-                </Button>
-              </Link>
-            </motion.div>
-          </div>
+  {/* Apply for Jonojivan Garib Kalyan Button */}
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: 0.8 }}
+    whileHover={{ scale: 1.02 }}
+    whileTap={{ scale: 0.98 }}
+  >
+    <Link href="/jonojivan-garib-kalyan" passHref>
+      <Button
+        className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-6 font-semibold text-sm group"
+      >
+        <span className="flex items-center justify-center">
+          <FileText className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
+          Apply for Jonojivan Garib Kalyan
+        </span>
+      </Button>
+    </Link>
+  </motion.div>
+</div>
+
 
           {/* Payment Information Section */}
           <motion.div
