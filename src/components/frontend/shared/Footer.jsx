@@ -128,8 +128,10 @@ const Footer = () => {
               <h3 className="text-lg font-semibold text-white">Quick Links</h3>
               <ul className="space-y-3">
                 {[
-                  { href: "/member", label: "Become Member" },
+                  { href: "/become-member", label: "Become Member" },
+                  { href: "/impactStories", label: "Id Card Download" },
                   { href: "/jonojivan-garib-kalyan", label: "Jonojivan Garib Kalyan" },
+                  { href: "/mediaGallery", label: "Press/Media Gallery" },
                 ].map((item) => (
                   <li key={item.href}>
                     <a
