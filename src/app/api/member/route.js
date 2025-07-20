@@ -128,8 +128,8 @@ export const POST = async (req) => {
       mobileNumber: mobile,
       password: hashedPassword,
       profilePic: profileImageUrl,
-      role: 'User',
-      status: 'Pending'
+      role: 'Member',
+      status: 'Active'
     };
 
     const newUser = await User.create(userData);

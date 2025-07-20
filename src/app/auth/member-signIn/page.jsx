@@ -33,9 +33,8 @@ const Page = () => {
     }
 
     try {
-      const signInUrl = "/api/volunteer/auth/signIn";
 
-      const response = await fetch(signInUrl, {
+      const response = await fetch("/api/member/auth/SignIn", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +52,7 @@ const Page = () => {
         
         // Add a small delay before redirect for better UX
         setTimeout(() => {
-          window.location.href = "/volunteer/dashboard";
+          window.location.href = "/member";
         }, 1000);
       } else {
         const errorData = await response.json();
@@ -210,7 +209,7 @@ const Page = () => {
               <p className="text-gray-600 text-sm">
                 New to Jonojivan?{" "}
                 <a
-                  href="/volunteer/signup"
+                  href="/become-member"
                   className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200 hover:underline"
                 >
                   Become a Member

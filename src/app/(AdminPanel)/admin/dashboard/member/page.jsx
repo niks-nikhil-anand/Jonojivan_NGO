@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 
 // UI Components from shadcn
 import { Input } from "@/components/ui/input";
@@ -68,11 +69,6 @@ export default function MemberManagement() {
     inactive: 0,
   });
 
-  const toast = {
-    error: (message) => console.error(message),
-    success: (message) => console.log(message),
-  };
-
   useEffect(() => {
     fetchMembers();
   }, [searchTerm, statusFilter, committeeFilter, sortField, sortOrder]);
@@ -122,10 +118,15 @@ export default function MemberManagement() {
 
     const stats = {
       total: data.length,
-      pending: data.filter((member) => member?.membershipStatus === "Pending").length,
-      active: data.filter((member) => member?.membershipStatus === "Active").length,
-      suspended: data.filter((member) => member?.membershipStatus === "Suspended").length,
-      inactive: data.filter((member) => member?.membershipStatus === "Inactive").length,
+      pending: data.filter((member) => member?.membershipStatus === "Pending")
+        .length,
+      active: data.filter((member) => member?.membershipStatus === "Active")
+        .length,
+      suspended: data.filter(
+        (member) => member?.membershipStatus === "Suspended"
+      ).length,
+      inactive: data.filter((member) => member?.membershipStatus === "Inactive")
+        .length,
     };
     setStats(stats);
   };
@@ -189,14 +190,20 @@ export default function MemberManagement() {
       });
 
       const data = await response.json();
+      console.log("Response data:", data);
 
-      if (data.success) {
-        toast.success("Status updated successfully");
-        fetchMembers(); // Refresh the list
+      // Check if response is successful (status 200)
+      if (response.ok) {
+        toast.success("Member status updated successfully");
+        fetchMembers(); // Refresh the members list
+      } else {
+        // Handle error response from the API
+        toast.error(data.msg || "Failed to update member status");
+        console.error("API Error:", data.msg);
       }
     } catch (error) {
-      console.error("Error updating status:", error);
-      toast.error("Failed to update status");
+      console.error("Error updating member status:", error);
+      toast.error("Failed to update member status");
     }
   };
 
@@ -210,9 +217,12 @@ export default function MemberManagement() {
 
       const data = await response.json();
 
-      if (data.success) {
+      if (response.ok) {
         toast.success("Member deleted successfully");
-        fetchMembers(); // Refresh the list
+        fetchMembers();
+      } else {
+        toast.error(data.msg || "Failed to update member status");
+        console.error("API Error:", data.msg);
       }
     } catch (error) {
       console.error("Error deleting member:", error);
@@ -293,41 +303,57 @@ export default function MemberManagement() {
 
         <Card className="bg-white border-gray-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-700">Pending</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-700">
+              Pending
+            </CardTitle>
             <Clock className="h-4 w-4 text-yellow-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-yellow-600">{stats.pending}</div>
+            <div className="text-2xl font-bold text-yellow-600">
+              {stats.pending}
+            </div>
           </CardContent>
         </Card>
 
         <Card className="bg-white border-gray-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-700">Active</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-700">
+              Active
+            </CardTitle>
             <UserCheck className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">{stats.active}</div>
+            <div className="text-2xl font-bold text-green-600">
+              {stats.active}
+            </div>
           </CardContent>
         </Card>
 
         <Card className="bg-white border-gray-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-700">Suspended</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-700">
+              Suspended
+            </CardTitle>
             <UserX className="h-4 w-4 text-red-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600">{stats.suspended}</div>
+            <div className="text-2xl font-bold text-red-600">
+              {stats.suspended}
+            </div>
           </CardContent>
         </Card>
 
         <Card className="bg-white border-gray-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-700">Inactive</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-700">
+              Inactive
+            </CardTitle>
             <User className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-500">{stats.inactive}</div>
+            <div className="text-2xl font-bold text-gray-500">
+              {stats.inactive}
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -349,11 +375,30 @@ export default function MemberManagement() {
             <SelectValue placeholder="Filter by status" />
           </SelectTrigger>
           <SelectContent className="bg-white border-gray-300">
-            <SelectItem value="all" className="text-black hover:bg-gray-100">All Status</SelectItem>
-            <SelectItem value="Pending" className="text-black hover:bg-gray-100">Pending</SelectItem>
-            <SelectItem value="Active" className="text-black hover:bg-gray-100">Active</SelectItem>
-            <SelectItem value="Suspended" className="text-black hover:bg-gray-100">Suspended</SelectItem>
-            <SelectItem value="Inactive" className="text-black hover:bg-gray-100">Inactive</SelectItem>
+            <SelectItem value="all" className="text-black hover:bg-gray-100">
+              All Status
+            </SelectItem>
+            <SelectItem
+              value="Pending"
+              className="text-black hover:bg-gray-100"
+            >
+              Pending
+            </SelectItem>
+            <SelectItem value="Active" className="text-black hover:bg-gray-100">
+              Active
+            </SelectItem>
+            <SelectItem
+              value="Suspended"
+              className="text-black hover:bg-gray-100"
+            >
+              Suspended
+            </SelectItem>
+            <SelectItem
+              value="Inactive"
+              className="text-black hover:bg-gray-100"
+            >
+              Inactive
+            </SelectItem>
           </SelectContent>
         </Select>
         <Select value={committeeFilter} onValueChange={setCommitteeFilter}>
@@ -362,12 +407,36 @@ export default function MemberManagement() {
             <SelectValue placeholder="Filter by committee" />
           </SelectTrigger>
           <SelectContent className="bg-white border-gray-300">
-            <SelectItem value="all" className="text-black hover:bg-gray-100">All Committees</SelectItem>
-            <SelectItem value="Executive Committee" className="text-black hover:bg-gray-100">Executive Committee</SelectItem>
-            <SelectItem value="National Committee" className="text-black hover:bg-gray-100">National Committee</SelectItem>
-            <SelectItem value="State Committee" className="text-black hover:bg-gray-100">State Committee</SelectItem>
-            <SelectItem value="District Committee" className="text-black hover:bg-gray-100">District Committee</SelectItem>
-            <SelectItem value="Member" className="text-black hover:bg-gray-100">Member</SelectItem>
+            <SelectItem value="all" className="text-black hover:bg-gray-100">
+              All Committees
+            </SelectItem>
+            <SelectItem
+              value="Executive Committee"
+              className="text-black hover:bg-gray-100"
+            >
+              Executive Committee
+            </SelectItem>
+            <SelectItem
+              value="National Committee"
+              className="text-black hover:bg-gray-100"
+            >
+              National Committee
+            </SelectItem>
+            <SelectItem
+              value="State Committee"
+              className="text-black hover:bg-gray-100"
+            >
+              State Committee
+            </SelectItem>
+            <SelectItem
+              value="District Committee"
+              className="text-black hover:bg-gray-100"
+            >
+              District Committee
+            </SelectItem>
+            <SelectItem value="Member" className="text-black hover:bg-gray-100">
+              Member
+            </SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -400,7 +469,9 @@ export default function MemberManagement() {
                   <TableHead className="text-gray-700">Committee</TableHead>
                   <TableHead className="text-gray-700">Post</TableHead>
                   <TableHead className="text-gray-700">Status</TableHead>
-                  <TableHead className="text-gray-700">Payment Status</TableHead>
+                  <TableHead className="text-gray-700">
+                    Payment Status
+                  </TableHead>
                   <TableHead className="text-gray-700">
                     <button
                       onClick={() => handleSort("registrationDate")}
@@ -409,16 +480,23 @@ export default function MemberManagement() {
                       Registration Date {getSortIcon("registrationDate")}
                     </button>
                   </TableHead>
-                  <TableHead className="text-center text-gray-700">Actions</TableHead>
+                  <TableHead className="text-center text-gray-700">
+                    Actions
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {currentMembers.map((member) => (
-                  <TableRow key={member._id} className="hover:bg-gray-50 border-gray-200">
+                  <TableRow
+                    key={member._id}
+                    className="hover:bg-gray-50 border-gray-200"
+                  >
                     <TableCell className="font-medium text-black">
                       {member.user?.fullName || "N/A"}
                     </TableCell>
-                    <TableCell className="text-gray-700">{member.user?.email || "N/A"}</TableCell>
+                    <TableCell className="text-gray-700">
+                      {member.user?.email || "N/A"}
+                    </TableCell>
                     <TableCell className="font-mono text-sm text-gray-700">
                       {member.membershipId}
                     </TableCell>
@@ -432,24 +510,30 @@ export default function MemberManagement() {
                       {getStatusBadge(member.membershipStatus)}
                     </TableCell>
                     <TableCell>
-                      <Badge 
-                        variant="outline" 
+                      <Badge
+                        variant="outline"
                         className={`font-medium ${
-                          member.paymentStatus === 'Paid' ? 'bg-green-100 text-green-800 border-green-200' :
-                          member.paymentStatus === 'Partial' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
-                          member.paymentStatus === 'Failed' ? 'bg-red-100 text-red-800 border-red-200' :
-                          'bg-gray-100 text-gray-800 border-gray-200'
+                          member.paymentStatus === "Paid"
+                            ? "bg-green-100 text-green-800 border-green-200"
+                            : member.paymentStatus === "Partial"
+                            ? "bg-yellow-100 text-yellow-800 border-yellow-200"
+                            : member.paymentStatus === "Failed"
+                            ? "bg-red-100 text-red-800 border-red-200"
+                            : "bg-gray-100 text-gray-800 border-gray-200"
                         }`}
                       >
                         {member.paymentStatus}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-sm text-gray-600">
-                      {new Date(member.registrationDate).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
+                      {new Date(member.registrationDate).toLocaleDateString(
+                        "en-US",
+                        {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        }
+                      )}
                     </TableCell>
                     <TableCell className="text-center">
                       <div className="flex items-center justify-center gap-2">
@@ -471,7 +555,8 @@ export default function MemberManagement() {
                             updateMemberStatus(member._id, value)
                           }
                         >
-                          <SelectTrigger className={`w-32 h-8 text-white font-medium rounded-md border-0
+                          <SelectTrigger
+                            className={`w-32 h-8 text-white font-medium rounded-md border-0
                             ${
                               member.membershipStatus === "Active"
                                 ? "bg-green-600"
@@ -483,14 +568,35 @@ export default function MemberManagement() {
                                 ? "bg-gray-500"
                                 : "bg-gray-500"
                             }
-                          `}>
+                          `}
+                          >
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className="bg-white border-gray-300">
-                            <SelectItem value="Pending" className="text-black hover:bg-gray-100">Pending</SelectItem>
-                            <SelectItem value="Active" className="text-black hover:bg-gray-100">Active</SelectItem>
-                            <SelectItem value="Suspended" className="text-black hover:bg-gray-100">Suspended</SelectItem>
-                            <SelectItem value="Inactive" className="text-black hover:bg-gray-100">Inactive</SelectItem>
+                            <SelectItem
+                              value="Pending"
+                              className="text-black hover:bg-gray-100"
+                            >
+                              Pending
+                            </SelectItem>
+                            <SelectItem
+                              value="Active"
+                              className="text-black hover:bg-gray-100"
+                            >
+                              Active
+                            </SelectItem>
+                            <SelectItem
+                              value="Suspended"
+                              className="text-black hover:bg-gray-100"
+                            >
+                              Suspended
+                            </SelectItem>
+                            <SelectItem
+                              value="Inactive"
+                              className="text-black hover:bg-gray-100"
+                            >
+                              Inactive
+                            </SelectItem>
                           </SelectContent>
                         </Select>
 
@@ -513,7 +619,9 @@ export default function MemberManagement() {
               <div className="text-center py-12 text-gray-500">
                 <FileText className="h-12 w-12 mx-auto mb-4 text-gray-300" />
                 <p className="text-lg font-medium">No members found</p>
-                <p className="text-sm">Try adjusting your search or filter criteria</p>
+                <p className="text-sm">
+                  Try adjusting your search or filter criteria
+                </p>
               </div>
             )}
           </div>
@@ -531,10 +639,30 @@ export default function MemberManagement() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="bg-white border-gray-300">
-                    <SelectItem value="5" className="text-black hover:bg-gray-100">5</SelectItem>
-                    <SelectItem value="10" className="text-black hover:bg-gray-100">10</SelectItem>
-                    <SelectItem value="20" className="text-black hover:bg-gray-100">20</SelectItem>
-                    <SelectItem value="50" className="text-black hover:bg-gray-100">50</SelectItem>
+                    <SelectItem
+                      value="5"
+                      className="text-black hover:bg-gray-100"
+                    >
+                      5
+                    </SelectItem>
+                    <SelectItem
+                      value="10"
+                      className="text-black hover:bg-gray-100"
+                    >
+                      10
+                    </SelectItem>
+                    <SelectItem
+                      value="20"
+                      className="text-black hover:bg-gray-100"
+                    >
+                      20
+                    </SelectItem>
+                    <SelectItem
+                      value="50"
+                      className="text-black hover:bg-gray-100"
+                    >
+                      50
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <span>entries</span>
@@ -573,7 +701,9 @@ export default function MemberManagement() {
                   return (
                     <Button
                       key={pageNumber}
-                      variant={currentPage === pageNumber ? "default" : "outline"}
+                      variant={
+                        currentPage === pageNumber ? "default" : "outline"
+                      }
                       size="sm"
                       onClick={() => handlePageChange(pageNumber)}
                       className={`h-8 w-8 p-0 ${
@@ -618,85 +748,150 @@ export default function MemberManagement() {
               {/* Personal Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-1">
-                  <h3 className="text-lg font-semibold text-black mb-4">Profile Information</h3>
+                  <h3 className="text-lg font-semibold text-black mb-4">
+                    Profile Information
+                  </h3>
                   <div className="space-y-4">
                     <div className="flex flex-col items-center">
                       <img
-                        src={selectedMember.profileImage || "/api/placeholder/150/150"}
+                        src={
+                          selectedMember.profileImage ||
+                          "/api/placeholder/150/150"
+                        }
                         alt="Profile"
                         className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-md"
                       />
                       <div className="mt-2 text-center">
-                        <p className="text-lg font-semibold text-black">{selectedMember.user?.fullName}</p>
-                        <p className="text-sm text-gray-600">{selectedMember.membershipId}</p>
+                        <p className="text-lg font-semibold text-black">
+                          {selectedMember.user?.fullName}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          {selectedMember.membershipId}
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Full Name</label>
-                    <p className="text-sm text-black font-medium mt-1">{selectedMember.user?.fullName || "N/A"}</p>
+                    <label className="text-sm font-medium text-gray-700">
+                      Full Name
+                    </label>
+                    <p className="text-sm text-black font-medium mt-1">
+                      {selectedMember.user?.fullName || "N/A"}
+                    </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Email</label>
-                    <p className="text-sm text-black font-medium mt-1">{selectedMember.user?.email || "N/A"}</p>
+                    <label className="text-sm font-medium text-gray-700">
+                      Email
+                    </label>
+                    <p className="text-sm text-black font-medium mt-1">
+                      {selectedMember.user?.email || "N/A"}
+                    </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Mobile Number</label>
-                    <p className="text-sm text-black font-medium mt-1">{selectedMember.user?.mobileNumber || "N/A"}</p>
+                    <label className="text-sm font-medium text-gray-700">
+                      Mobile Number
+                    </label>
+                    <p className="text-sm text-black font-medium mt-1">
+                      {selectedMember.user?.mobileNumber || "N/A"}
+                    </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">WhatsApp Number</label>
-                    <p className="text-sm text-black font-medium mt-1">{selectedMember.whatsappNumber || "N/A"}</p>
+                    <label className="text-sm font-medium text-gray-700">
+                      WhatsApp Number
+                    </label>
+                    <p className="text-sm text-black font-medium mt-1">
+                      {selectedMember.whatsappNumber || "N/A"}
+                    </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Gender</label>
-                    <p className="text-sm text-black font-medium mt-1 capitalize">{selectedMember.gender}</p>
+                    <label className="text-sm font-medium text-gray-700">
+                      Gender
+                    </label>
+                    <p className="text-sm text-black font-medium mt-1 capitalize">
+                      {selectedMember.gender}
+                    </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Aadhaar Number</label>
-                    <p className="text-sm text-black font-mono font-medium mt-1">{selectedMember.adhaarNumber}</p>
+                    <label className="text-sm font-medium text-gray-700">
+                      Aadhaar Number
+                    </label>
+                    <p className="text-sm text-black font-mono font-medium mt-1">
+                      {selectedMember.adhaarNumber}
+                    </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Marital Status</label>
-                    <p className="text-sm text-black font-medium mt-1 capitalize">{selectedMember.maritalStatus}</p>
+                    <label className="text-sm font-medium text-gray-700">
+                      Marital Status
+                    </label>
+                    <p className="text-sm text-black font-medium mt-1 capitalize">
+                      {selectedMember.maritalStatus}
+                    </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Guardian Name</label>
-                    <p className="text-sm text-black font-medium mt-1">{selectedMember.guardianName}</p>
+                    <label className="text-sm font-medium text-gray-700">
+                      Guardian Name
+                    </label>
+                    <p className="text-sm text-black font-medium mt-1">
+                      {selectedMember.guardianName}
+                    </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Guardian Mobile</label>
-                    <p className="text-sm text-black font-medium mt-1">{selectedMember.guardianMobile}</p>
+                    <label className="text-sm font-medium text-gray-700">
+                      Guardian Mobile
+                    </label>
+                    <p className="text-sm text-black font-medium mt-1">
+                      {selectedMember.guardianMobile}
+                    </p>
                   </div>
                 </div>
               </div>
 
               {/* Address Information */}
               <div>
-                <h3 className="text-lg font-semibold text-black mb-4">Address Information</h3>
+                <h3 className="text-lg font-semibold text-black mb-4">
+                  Address Information
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div className="md:col-span-2">
-                    <label className="text-sm font-medium text-gray-700">Address</label>
-                    <p className="text-sm text-black font-medium mt-1">{selectedMember.address}</p>
+                    <label className="text-sm font-medium text-gray-700">
+                      Address
+                    </label>
+                    <p className="text-sm text-black font-medium mt-1">
+                      {selectedMember.address}
+                    </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Country</label>
-                    <p className="text-sm text-black font-medium mt-1">{selectedMember.country}</p>
+                    <label className="text-sm font-medium text-gray-700">
+                      Country
+                    </label>
+                    <p className="text-sm text-black font-medium mt-1">
+                      {selectedMember.country}
+                    </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">State</label>
-                    <p className="text-sm text-black font-medium mt-1">{selectedMember.state}</p>
+                    <label className="text-sm font-medium text-gray-700">
+                      State
+                    </label>
+                    <p className="text-sm text-black font-medium mt-1">
+                      {selectedMember.state}
+                    </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">District</label>
-                    <p className="text-sm text-black font-medium mt-1">{selectedMember.district}</p>
+                    <label className="text-sm font-medium text-gray-700">
+                      District
+                    </label>
+                    <p className="text-sm text-black font-medium mt-1">
+                      {selectedMember.district}
+                    </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Pincode</label>
-                                      <p className="text-sm text-black font-medium mt-1">
+                    <label className="text-sm font-medium text-gray-700">
+                      Pincode
+                    </label>
+                    <p className="text-sm text-black font-medium mt-1">
                       {selectedMember.pincode || "N/A"}
                     </p>
                   </div>
@@ -705,36 +900,57 @@ export default function MemberManagement() {
 
               {/* Membership Info */}
               <div>
-                <h3 className="text-lg font-semibold text-black mb-4">Membership Information</h3>
+                <h3 className="text-lg font-semibold text-black mb-4">
+                  Membership Information
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Committee</label>
-                    <p className="text-sm text-black font-medium mt-1">{selectedMember.committee || "N/A"}</p>
+                    <label className="text-sm font-medium text-gray-700">
+                      Committee
+                    </label>
+                    <p className="text-sm text-black font-medium mt-1">
+                      {selectedMember.committee || "N/A"}
+                    </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Post</label>
-                    <p className="text-sm text-black font-medium mt-1">{selectedMember.post || "N/A"}</p>
+                    <label className="text-sm font-medium text-gray-700">
+                      Post
+                    </label>
+                    <p className="text-sm text-black font-medium mt-1">
+                      {selectedMember.post || "N/A"}
+                    </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Membership ID</label>
-                    <p className="text-sm text-black font-mono font-medium mt-1">{selectedMember.membershipId || "N/A"}</p>
+                    <label className="text-sm font-medium text-gray-700">
+                      Membership ID
+                    </label>
+                    <p className="text-sm text-black font-mono font-medium mt-1">
+                      {selectedMember.membershipId || "N/A"}
+                    </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Status</label>
+                    <label className="text-sm font-medium text-gray-700">
+                      Status
+                    </label>
                     <p className="text-sm font-medium mt-1">
                       {getStatusBadge(selectedMember.membershipStatus)}
                     </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Payment Status</label>
+                    <label className="text-sm font-medium text-gray-700">
+                      Payment Status
+                    </label>
                     <p className="text-sm font-medium mt-1">
-                      <Badge 
-                        variant="outline" 
+                      <Badge
+                        variant="outline"
                         className={`font-medium ${
-                          selectedMember.paymentStatus === 'Paid' ? 'bg-green-100 text-green-800 border-green-200' :
-                          selectedMember.paymentStatus === 'Partial' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
-                          selectedMember.paymentStatus === 'Failed' ? 'bg-red-100 text-red-800 border-red-200' :
-                          'bg-gray-100 text-gray-800 border-gray-200'
+                          selectedMember.paymentStatus === "Paid"
+                            ? "bg-green-100 text-green-800 border-green-200"
+                            : selectedMember.paymentStatus === "Partial"
+                            ? "bg-yellow-100 text-yellow-800 border-yellow-200"
+                            : selectedMember.paymentStatus === "Failed"
+                            ? "bg-red-100 text-red-800 border-red-200"
+                            : "bg-gray-100 text-gray-800 border-gray-200"
                         }`}
                       >
                         {selectedMember.paymentStatus}
@@ -742,9 +958,13 @@ export default function MemberManagement() {
                     </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Registration Date</label>
+                    <label className="text-sm font-medium text-gray-700">
+                      Registration Date
+                    </label>
                     <p className="text-sm text-black font-medium mt-1">
-                      {new Date(selectedMember.registrationDate).toLocaleDateString("en-US", {
+                      {new Date(
+                        selectedMember.registrationDate
+                      ).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "short",
                         day: "numeric",
@@ -760,4 +980,3 @@ export default function MemberManagement() {
     </div>
   );
 }
-

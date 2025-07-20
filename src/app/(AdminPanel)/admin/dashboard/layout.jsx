@@ -1,7 +1,8 @@
-import 'tailwindcss/tailwind.css';
-import '@/app/globals.css';
-import NavbarAdmin from '@/components/adminPanel/NavbarAdmin';
-import SidebarAdmin from '@/components/adminPanel/SidebarAdmin';
+import "tailwindcss/tailwind.css";
+import "@/app/globals.css";
+import NavbarAdmin from "@/components/adminPanel/NavbarAdmin";
+import SidebarAdmin from "@/components/adminPanel/SidebarAdmin";
+import { Toaster } from "sonner";
 
 const Layout = ({ children }) => {
   return (
@@ -11,6 +12,7 @@ const Layout = ({ children }) => {
         <NavbarAdmin className="w-full " />
         {children}
       </div>
+      <Toaster />
     </div>
   );
 };

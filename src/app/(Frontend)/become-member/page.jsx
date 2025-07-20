@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import {
   Heart,
   Users,
@@ -126,38 +126,6 @@ const volunteerOpportunities = [
 ];
 
 export default function JonojivanVolunteerPage() {
-  const [selectedRole, setSelectedRole] = useState(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    role: "",
-    availability: "",
-    experience: "",
-    motivation: "",
-  });
-
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Thank you for your interest! We will contact you soon.");
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      role: "",
-      availability: "",
-      experience: "",
-      motivation: "",
-    });
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       <style jsx>{`

@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -22,6 +21,7 @@ import {
   Receipt,
   LogOut,
 } from "lucide-react";
+import { toast } from "sonner";
 
 const SidebarVolunteer = () => {
   const [selectedItem, setSelectedItem] = useState("Dashboard");
@@ -30,7 +30,7 @@ const SidebarVolunteer = () => {
   const handleLogout = async () => {
     toast.loading("Logging out...", { id: "logout" });
     try {
-      const response = await fetch("/api/volunteer/auth/logout", {
+      const response = await fetch("/api/member/auth/Logout", {
         method: "POST",
       });
       const data = await response.json();
@@ -124,36 +124,48 @@ const SidebarVolunteer = () => {
 
   return (
     <motion.div
-      className="w-72 h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-black border-r border-gray-200 dark:border-gray-700 flex flex-col shadow-xl"
+      className="w-72 h-screen bg-white dark:bg-black border-r border-gray-200 dark:border-gray-800 flex flex-col shadow-xl dark:shadow-2xl"
       initial={{ x: -20, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
       {/* Header */}
-      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex items-center">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-              Volunteer Portal
+      <div className="p-6 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.3 }}
+          className="flex items-center"
+        >
+          <div className="w-8 h-8 bg-gray-800 dark:bg-white rounded-lg shadow-md mr-3 flex items-center justify-center">
+            <div className="w-4 h-4 bg-white dark:bg-black rounded-sm"></div>
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+              Member Portal
             </h1>
-          </motion.div>
-        </div>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              Jonojivan Foundation
+            </p>
+          </div>
+        </motion.div>
       </div>
 
       {/* Navigation */}
-      <ScrollArea className="flex-1 px-4">
+      <ScrollArea className="flex-1 px-4 bg-gray-25 dark:bg-gray-950">
         <div className="py-6 space-y-8">
           {menuSections.map((section, sectionIndex) => (
-            <div key={sectionIndex}>
-              <h3 className="px-3 mb-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+            <motion.div
+              key={sectionIndex}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 * sectionIndex, duration: 0.3 }}
+            >
+              <h3 className="px-3 mb-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 {section.title}
               </h3>
 
-              <div className="space-y-2">
+              <div className="space-y-1">
                 {section.items.map((item, itemIndex) => (
                   <Link key={itemIndex} href={item.href} passHref>
                     <SidebarItem
@@ -168,21 +180,21 @@ const SidebarVolunteer = () => {
               </div>
 
               {sectionIndex < menuSections.length - 1 && (
-                <Separator className="mt-6 bg-gray-200 dark:bg-gray-700" />
+                <Separator className="mt-6 bg-gray-200 dark:bg-gray-800" />
               )}
-            </div>
+            </motion.div>
           ))}
         </div>
       </ScrollArea>
 
       {/* Footer - Logout Button */}
-      <div className="p-6 border-t border-gray-200 dark:border-gray-700">
+      <div className="p-6 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
         <Button
           onClick={handleLogout}
-          variant="destructive"
-          className="w-full px-4 py-3 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-1"
+          variant="outline"
+          className="w-full px-4 py-3 bg-white dark:bg-black border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02]"
         >
-          <LogOut className="h-5 w-5 mr-3" />
+          <LogOut className="h-4 w-4 mr-3" />
           Logout
         </Button>
       </div>
@@ -200,26 +212,27 @@ const SidebarItem = ({
   return (
     <motion.div
       onClick={onClick}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      className={`relative group cursor-pointer rounded-xl transition-all duration-200 shadow-sm hover:shadow-md ${
+      whileHover={{ scale: 1.01, x: 2 }}
+      whileTap={{ scale: 0.99 }}
+      className={`relative group cursor-pointer rounded-lg transition-all duration-200 ${
         selected
-          ? "bg-gradient-to-r from-blue-500/10 to-blue-600/10 text-blue-600 dark:text-blue-400 shadow-md ring-1 ring-blue-500/20"
-          : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
+          ? "bg-gray-900 dark:bg-white text-white dark:text-black shadow-lg ring-1 ring-gray-900 dark:ring-white"
+          : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 shadow-sm hover:shadow-md"
       }`}
     >
       <div className="flex items-center px-4 py-3">
-        <Icon className="h-5 w-5 transition-colors duration-200" />
+        <Icon className={`h-5 w-5 transition-colors duration-200 ${
+          selected ? "text-white dark:text-black" : ""
+        }`} />
         <span className="ml-4 font-medium text-sm truncate">{label}</span>
 
         {badge && (
           <Badge
-            variant={badge === "New" ? "default" : badge === "Active" ? "secondary" : "outline"}
-            className={`ml-auto text-xs font-medium px-2 py-1 shadow-sm ${
+            className={`ml-auto text-xs font-medium px-2 py-1 shadow-sm transition-colors duration-200 ${
               badge === "New"
-                ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-blue-500/25"
+                ? "bg-gray-800 dark:bg-gray-200 text-white dark:text-black"
                 : badge === "Active"
-                ? "bg-gradient-to-r from-green-500 to-green-600 text-white shadow-green-500/25"
+                ? "bg-gray-700 dark:bg-gray-300 text-white dark:text-black"
                 : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
             }`}
           >
@@ -232,12 +245,17 @@ const SidebarItem = ({
       {selected && (
         <motion.div
           layoutId="activeIndicator"
-          className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-blue-600 rounded-r-full shadow-lg"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-white dark:bg-black rounded-r-full shadow-lg"
+          initial={{ opacity: 0, scaleY: 0 }}
+          animate={{ opacity: 1, scaleY: 1 }}
           transition={{ duration: 0.2 }}
         />
       )}
+
+      {/* Subtle hover glow effect */}
+      <div className={`absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+        !selected ? "bg-gradient-to-r from-transparent via-gray-50 dark:via-gray-800 to-transparent" : ""
+      }`} />
     </motion.div>
   );
 };

@@ -7,7 +7,7 @@ import FooterBanner from '../frontend/ui/FooterBanner';
 const EgoisticFooter = () => {
   const pathname = usePathname();
   const isAdminPage = pathname.startsWith('/admin/dashboard');
-  const isMemberPage = pathname.startsWith('/Member');
+  const isMemberPage = pathname.startsWith('/member');
 
   if (isAdminPage || isMemberPage  ) {
     return null; 

@@ -139,7 +139,6 @@ const memberSchema = new mongoose.Schema({
         default: ''
     },
     
-    // Member Status
     membershipStatus: {
         type: String,
         enum: ['Pending', 'Active', 'Suspended', 'Inactive'],
