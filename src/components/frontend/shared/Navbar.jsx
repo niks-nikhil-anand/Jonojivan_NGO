@@ -313,50 +313,7 @@ const Navbar = () => {
                         </Link>
                       </motion.div>
 
-                      {/* Mobile Action Buttons Row */}
-                      <div className="grid grid-cols-2 gap-3 pt-2">
-                        {/* Mobile Become Member Button - Fixed with icon */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, delay: 0.8 }}
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <Link href="/become-member" passHref>
-                            <Button
-                              className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-3 font-semibold text-sm group"
-                              onClick={() => setIsMenuOpen(false)}
-                            >
-                              <span className="flex items-center justify-center">
-                                Become Member
-                              </span>
-                            </Button>
-                          </Link>
-                        </motion.div>
-
-                        {/* Mobile Member Sign In Button */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, delay: 0.9 }}
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <Link href="/auth/member-signIn" passHref>
-                            <Button
-                              variant="outline"
-                              className="w-full border-2 border-blue-300 text-blue-700 hover:bg-blue-50 hover:border-blue-400 shadow-md hover:shadow-lg transition-all duration-300 rounded-xl py-3 font-semibold text-sm group"
-                              onClick={() => setIsMenuOpen(false)}
-                            >
-                              <span className="flex items-center justify-center">
-                                <LogIn className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
-                                Sign In
-                              </span>
-                            </Button>
-                          </Link>
-                        </motion.div>
-                      </div>
+                      
 
                       {/* Additional Info Section */}
                       <motion.div
