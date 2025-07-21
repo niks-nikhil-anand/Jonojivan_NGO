@@ -10,27 +10,30 @@ import slide3 from "../../../../public/frontend/heroSection/slide3.jpg";
 const slides = [
   {
     image: slide1,
-    title: "Be the Ray of Hope",
+    title: "Protecting Human Rights",
     subtitle:
-      "Your small act of kindness can light up someone’s entire world. Join us in creating brighter futures together.",
-    button1: "Donate Now",
-    button2: "Our Mission",
+      "Stand up for justice and equality. Your support helps us defend the rights of the most vulnerable in our society.",
+    button1: "Become member",
+    button2: "Jono-Garib Kalyan ",
+    focus: "Human Rights",
   },
   {
     image: slide2,
-    title: "Empower Through Education",
+    title: "Fighting Corruption",
     subtitle:
-      "Support a child’s journey to learning and growth. Help us build classrooms of dreams and futures full of possibilities.",
-    button1: "Sponsor a Child",
-    button2: "View Programs",
+      "Join us in building a transparent society. Together we can create accountability and ensure resources reach those who need them most.",
+    button1: "Become member",
+    button2: "Jono-Garib Kalyan ",
+    focus: "Anti-Corruption",
   },
   {
     image: slide3,
-    title: "Every Life Matters",
+    title: "Social Welfare for All",
     subtitle:
-      "Contribute to life-saving healthcare for the underprivileged. Together, we can ensure no one is left behind.",
-    button1: "Support Healthcare",
-    button2: "Get Involved",
+      "Supporting communities through comprehensive welfare programs. Help us create lasting change in healthcare, education, and livelihood.",
+    button1: "Become member",
+    button2: "Jono-Garib Kalyan ",
+    focus: "Social Welfare",
   },
 ];
 
@@ -127,8 +130,9 @@ const Slider = () => {
                 {subtitle}
               </p>
               <div className="flex gap-4 justify-center md:justify-start">
+                {/* Primary Button - White Text on Primary Background */}
                 <motion.button
-                  className="bg-white text-black px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full font-semibold hover:bg-gray-200 transition text-xs sm:text-sm md:text-base lg:text-xl cursor-pointer"
+                  className="bg-blue-600 text-white px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full font-semibold hover:bg-blue-700 transition text-xs sm:text-sm md:text-base lg:text-xl cursor-pointer"
                   style={{
                     fontFamily: "var(--font-manrope)",
                     fontWeight: 600,
@@ -139,8 +143,9 @@ const Slider = () => {
                   {button1}
                 </motion.button>
 
+                {/* Secondary Button - Transparent with White Border */}
                 <motion.button
-                  className="border border-white text-white px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full font-semibold transition-all text-xs sm:text-sm md:text-base lg:text-xl cursor-pointer"
+                  className="border border-white text-white px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full font-semibold hover:bg-white hover:text-black transition-all text-xs sm:text-sm md:text-base lg:text-xl cursor-pointer"
                   style={{
                     fontFamily: "var(--font-manrope)",
                     fontWeight: 600,
