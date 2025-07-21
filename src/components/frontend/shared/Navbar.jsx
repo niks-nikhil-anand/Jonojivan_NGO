@@ -29,6 +29,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import CustomDonationForm from "../ui/CustomDonationForm";
+import { FaWhatsapp } from "react-icons/fa";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -312,8 +313,29 @@ const Navbar = () => {
                           </Button>
                         </Link>
                       </motion.div>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.7 }}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Link href="https://wa.link/hlyxrs" passHref>
+                          <Button
+                            className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-3.5 font-semibold text-base group relative overflow-hidden"
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            {/* Subtle hover overlay */}
+                            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                      
+                            {/* Button Content */}
+                            <span className="relative z-10 flex items-center justify-center">
+                              <FaWhatsapp className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
+                              Chat on whatsapp
+                            </span>
+                          </Button>
+                        </Link>
+                      </motion.div>
 
                       {/* Additional Info Section */}
                       <motion.div
@@ -322,16 +344,14 @@ const Navbar = () => {
                         transition={{ duration: 0.5, delay: 1 }}
                         className="mt-8 pt-6 border-t border-blue-100"
                       >
-                        <div className="text-center space-y-2">
+                        <div className="text-center space-y-3">
                           <p className="text-xs text-gray-500 font-medium">
                             Need help? Contact us
                           </p>
-                          <div className="flex justify-center space-x-4">
+                          <div className="flex flex-col space-y-3">
+                            {/* Phone Contact */}
                             <span className="text-xs text-blue-600 font-semibold">
                               📞 +91 94352 66783
-                            </span>
-                            <span className="text-xs text-blue-600 font-semibold">
-                              📧 info@jonojivan.in
                             </span>
                           </div>
                         </div>
