@@ -9,12 +9,14 @@ import CausesSection from "@/components/frontend/ui/(Banners)/CausesSection";
 import MissionVisionSection from "@/components/frontend/ui/MissionVisionSection";
 import VolunteerOpportunities from "@/components/frontend/shared/VolunteerOpportunities";
 import Initiatives from "@/components/frontend/shared/Initiatives";
+import FoodBhandara from "@/components/frontend/shared/FoodBhandara";
 
 export default function Home() {
   return (
     <>
       <HeroSection />
       <DonationForm/>
+      <FoodBhandara/>
       <Initiatives/>
       <VolunteerOpportunities/>
       {/* <ProgramsSections/>   */}
