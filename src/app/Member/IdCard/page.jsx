@@ -1,185 +1,500 @@
 "use client";
-import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import React, { useEffect, useState, useRef } from "react";
+import { toast } from "react-hot-toast";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
-  User, Calendar, Shield, MapPin, Phone, Mail,
-  Building, Download, QrCode, CreditCard
-} from 'lucide-react';
+  User,
+  Calendar,
+  Shield,
+  Building,
+  QrCode,
+  Download,
+  Mail,
+  Phone,
+  MapPin,
+  RotateCcw,
+  FileText,
+} from "lucide-react";
 
-const IDCard = () => {
-  const memberData = {
-    name: "John Doe",
-    phone: "1234567890",
-    email: "anushkawinggosoft@gmail.com",
-    location: "Ujjain",
-    id: "MBR-17",
-    designation: {
-      name: "Executive Committee",
-      level: "National Level",
-      description:
-        "The highest governing body of Jonojivan Foundation, responsible for strategic decision-making, policy formulation, and overall organizational leadership..."
-    },
-    issueDate: "26-12-2024",
-    validUntil: "26-12-2025",
-  };
+// Using jsPDF for proper PDF generation
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
-  const qrData = `Name: ${memberData.name}\nID: ${memberData.id}\nPhone: ${memberData.phone}\nEmail: ${memberData.email}\nDesignation: ${memberData.designation.name}\nLocation: ${memberData.location}`;
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=${encodeURIComponent(qrData)}`;
+const CONTACTS = [
+  {
+    icon: <Phone className="inline h-4 w-4 mr-1" />,
+    text: "+91-1800-XXX-XXXX",
+  },
+  {
+    icon: <Mail className="inline h-4 w-4 mr-1" />,
+    text: "help@jonojivan.org",
+  },
+  { icon: <MapPin className="inline h-4 w-4 mr-1" />, text: "Ujjain, India" },
+];
 
-  const downloadPDF = () => {
-    const printWindow = window.open('', '_blank');
-    const frontCard = document.getElementById('front-card');
-    const backCard = document.getElementById('back-card');
+const TERMS_AND_CONDITIONS = [
+  "Carry the ID card at all times during working hours for identification purposes.",
+  "The ID card is strictly for official use and should not be shared or used for unauthorized purposes.",
+];
 
-    if (printWindow && frontCard && backCard) {
-      printWindow.document.write(`
-        <html>
-          <head>
-            <title>ID Card - ${memberData.name}</title>
-            <style>
-              body { margin: 0; padding: 20px; font-family: Arial; background: #fff; }
-              .print-container { display: flex; gap: 20px; justify-content: center; }
-              .card { width: 350px; height: 550px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-              @media print { .print-container { gap: 10px; } }
-            </style>
-          </head>
-          <body>
-            <div class="print-container">
-              ${frontCard.outerHTML}
-              ${backCard.outerHTML}
-            </div>
-            <script>
-              window.onload = () => {
-                window.print();
-                window.close();
-              };
-            </script>
-          </body>
-        </html>
-      `);
+const CONTACT_DETAILS = {
+  headquarters: {
+    title: "HEADQUARTERS",
+    address: "Jonojivan Foundation Building",
+    location: "Mahakal Road, Ujjain - 456001",
+    state: "Madhya Pradesh, India",
+  },
+  communication: {
+    email: "help@jonojivan.org",
+    phone: "+91-1800-XXX-XXXX",
+    website: "www.jonojivan.org",
+    whatsapp: "+91-98XXX-XXXXX",
+  },
+  emergency: {
+    title: "24/7 EMERGENCY HELPLINE",
+    phone: "+91-1800-XXX-XXXX",
+    email: "emergency@jonojivan.org",
+  },
+  office_hours: {
+    weekdays: "Monday - Friday: 9:00 AM - 6:00 PM",
+    saturday: "Saturday: 9:00 AM - 1:00 PM",
+    sunday: "Sunday: Closed (Emergency only)",
+  },
+};
+
+function getStatusClass(status) {
+  switch (status) {
+    case "Active":
+      return "bg-green-100 text-green-800 border-green-200";
+    case "Pending":
+      return "bg-yellow-100 text-yellow-800 border-yellow-200";
+    case "Suspended":
+      return "bg-red-100 text-red-800 border-red-200";
+    case "Inactive":
+      return "bg-gray-100 text-gray-800 border-gray-200";
+    default:
+      return "bg-gray-100 text-gray-700 border-gray-200";
+  }
+}
+
+export default function IDCard() {
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [showBack, setShowBack] = useState(false);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const frontCardRef = useRef(null);
+  const backCardRef = useRef(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      setLoading(true);
+      try {
+        const res = await fetch("/api/member/auth/memberAuthToken", {
+          method: "GET",
+          credentials: "include",
+        });
+        if (res.ok) {
+          const member = await res.json();
+          setUserData({
+            name: member.user?.fullName || "N/A",
+            email: member.user?.email || "N/A",
+            avatar: member.profileImage || member.user?.profilePic || "",
+            membershipId: member.membershipId,
+            membershipStatus: member.membershipStatus,
+            committee: member.committee,
+            post: member.post,
+            district: member.district,
+            state: member.state,
+            phone: member.user?.mobileNumber,
+            issueDate: new Date(member.registrationDate).toLocaleDateString(),
+            validUntil: member.validUntil || "---",
+            qrStr: `${member.user?.fullName || ""}\nID: ${
+              member.membershipId || ""
+            }\nPhone: ${member.user?.mobileNumber || ""}\nCommittee: ${
+              member.committee || ""
+            }`,
+          });
+        } else {
+          toast.error("Unauthorized or not logged in");
+        }
+      } catch {
+        toast.error("Could not fetch data");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchUser();
+  }, []);
+
+  const qrCodeUrl = userData
+    ? `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(
+        userData.qrStr
+      )}`
+    : "";
+
+  const handleDownloadPDF = async () => {
+    if (!frontCardRef.current || !backCardRef.current || !userData) {
+      toast.error("Card not ready for download");
+      return;
+    }
+
+    setIsGeneratingPDF(true);
+    toast.loading("Generating PDF...");
+
+    try {
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "pt",
+        format: [420, 620], // Slightly larger for better spacing
+      });
+
+      // Capture front side with padding
+      const frontCanvas = await html2canvas(frontCardRef.current, {
+        scale: 4, // Higher scale for better quality
+        backgroundColor: "#ffffff",
+        useCORS: true,
+        allowTaint: true,
+        width: frontCardRef.current.offsetWidth + 40, // Add padding
+        height: frontCardRef.current.offsetHeight + 40,
+        x: -20, // Center with padding
+        y: -20,
+      });
+
+      // Capture back side with padding
+      const backCanvas = await html2canvas(backCardRef.current, {
+        scale: 4, // Higher scale for better quality
+        backgroundColor: "#ffffff",
+        useCORS: true,
+        allowTaint: true,
+        width: backCardRef.current.offsetWidth + 40, // Add padding
+        height: backCardRef.current.offsetHeight + 40,
+        x: -20, // Center with padding
+        y: -20,
+      });
+
+      // Add front side to PDF with proper spacing
+      const frontImgData = frontCanvas.toDataURL("image/jpeg", 1.0);
+      pdf.addImage(frontImgData, "JPEG", 20, 20, 380, 580); // 20pt margin on all sides
+
+      // Add new page for back side
+      pdf.addPage();
+      const backImgData = backCanvas.toDataURL("image/jpeg", 1.0);
+      pdf.addImage(backImgData, "JPEG", 20, 20, 380, 580); // 20pt margin on all sides
+
+      // Save the PDF
+      pdf.save(`JonojivanID-${userData.membershipId || "member"}.pdf`);
+
+      toast.dismiss();
+      toast.success("PDF downloaded successfully!");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      toast.dismiss();
+      toast.error("Failed to generate PDF");
+    } finally {
+      setIsGeneratingPDF(false);
     }
   };
 
-  const IDCardFront = () => (
-    <Card id="front-card" className="w-[350px] h-[550px] bg-white shadow-lg border border-gray-300 rounded-xl overflow-hidden">
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 h-20 flex items-center justify-center text-white">
-        <Building className="w-7 h-7 mr-2" />
+  const IDCardFront = ({ userData, qrCodeUrl }) => (
+    <div
+      ref={frontCardRef}
+      className="w-[380px] h-[580px] flex flex-col rounded-2xl shadow-2xl border border-blue-300 overflow-hidden bg-white relative mx-auto"
+      style={{
+        padding: 0,
+        background: "linear-gradient(135deg,#ddeeff 0%,#f8fafc 80%)",
+      }}
+    >
+      {/* Header */}
+      <div className="flex items-center bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400 h-[80px] px-6 py-3 text-white">
+        <Building className="w-8 h-8 mr-3 opacity-90" />
         <div>
-          <h1 className="text-xl font-bold leading-none">JONOJIVAN</h1>
-          <p className="text-sm tracking-wider">FOUNDATION</p>
+          <h1 className="text-xl font-bold tracking-wide">
+            JONOJIVAN Foundation
+          </h1>
         </div>
       </div>
-      <CardContent className="p-6 flex flex-col gap-4">
-        <div className="flex justify-center">
-          <div className="w-24 h-28 bg-gray-100 border-2 border-gray-300 rounded-md flex items-center justify-center">
-            <User className="w-16 h-16 text-gray-400" />
+
+      <CardContent className="flex-1 flex flex-col px-8 pt-6 pb-4">
+        {/* Profile Picture */}
+
+        <div className="flex items-center justify-between mb-4 px-6">
+          <div className="border-4 border-blue-300 rounded-full w-24 h-24 bg-white flex items-center justify-center shadow-lg overflow-hidden">
+            {userData.avatar ? (
+              <img
+                src={userData.avatar}
+                alt="avatar"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <User className="w-14 h-14 text-blue-200" />
+            )}
+          </div>
+          <div className="flex flex-col ml-4 flex-1">
+            <h3 className="text-lg font-extrabold tracking-wide text-gray-800">
+              {userData.name}
+            </h3>
+            <Badge
+              className={`inline-flex gap-1 ${getStatusClass(
+                userData.membershipStatus
+              )} py-1 px-4 text-xs font-semibold border`}
+            >
+              <Shield className="w-4 h-4 -mt-0.5" />
+              {userData.membershipStatus}
+            </Badge>
           </div>
         </div>
-        <div className="text-center space-y-2">
-          <h3 className="text-xl font-bold text-gray-800">{memberData.name}</h3>
-          <Badge className="bg-green-500 text-white px-3 py-1 text-sm inline-flex items-center gap-1">
-            <Shield className="w-4 h-4" />
-            ACTIVE
-          </Badge>
+
+        {/* Member Details */}
+        <div className="my-4 text-sm text-gray-700 space-y-2">
+          <div className="grid grid-cols-1 gap-y-2">
+            <div className="flex justify-between border-b border-gray-200 pb-1">
+              <span className="font-bold">ID:</span>
+              <span className="text-right">{userData.membershipId}</span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 pb-1">
+              <span className="font-bold">Email:</span>
+              <span className="text-right text-xs">{userData.email}</span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 pb-1">
+              <span className="font-bold">Phone:</span>
+              <span className="text-right">{userData.phone}</span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 pb-1">
+              <span className="font-bold">District:</span>
+              <span className="text-right">{userData.district}</span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 pb-1">
+              <span className="font-bold">State:</span>
+              <span className="text-right">{userData.state}</span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 pb-1">
+              <span className="font-bold">Post:</span>
+              <span className="text-right">{userData.post}</span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 pb-1">
+              <span className="font-bold">Committee:</span>
+              <span className="text-right">{userData.committee}</span>
+            </div>
+          </div>
         </div>
-        <div className="text-sm text-gray-700 space-y-1">
-          <p><strong>ID:</strong> {memberData.id}</p>
-          <p><strong>Phone:</strong> {memberData.phone}</p>
-          <p><strong>Email:</strong> {memberData.email}</p>
-          <p><strong>Location:</strong> {memberData.location}</p>
+
+        {/* Dates */}
+        <div className="flex flex-col sm:flex-row items-center justify-between mt-4 mb-4 gap-2">
+          <span className="flex items-center gap-1 text-xs text-gray-600">
+            <Calendar className="w-4 h-4 text-blue-500" />
+            Issue: {userData.issueDate}
+          </span>
+          <span className="flex items-center gap-1 text-xs text-gray-600">
+            <Calendar className="w-4 h-4 text-blue-500" />
+            Valid: {userData.validUntil}
+          </span>
         </div>
-        <div className="bg-blue-50 border border-blue-200 p-3 rounded-md">
-          <h4 className="font-bold text-blue-800 text-base mb-1">{memberData.designation.name}</h4>
-          <p className="text-blue-600 text-sm">{memberData.designation.level}</p>
-        </div>
-        <div className="text-xs text-gray-600 space-y-1 mt-auto">
-          <p className="flex items-center gap-2"><Calendar className="w-4 h-4 text-blue-600" /> Issue: {memberData.issueDate}</p>
-          <p className="flex items-center gap-2"><Calendar className="w-4 h-4 text-blue-600" /> Valid Until: {memberData.validUntil}</p>
-        </div>
+
+        {/* QR Code Section */}
       </CardContent>
-    </Card>
+
+      {/* Footer */}
+      <div className="w-full text-center text-[11px] text-gray-500 px-4  bg-blue-50 border-t border-blue-200">
+        © {new Date().getFullYear()} Jonojivan Foundation. All rights reserved.
+      </div>
+    </div>
   );
 
-  const IDCardBack = () => (
-    <Card id="back-card" className="w-[350px] h-[550px] bg-white shadow-lg border border-gray-300 rounded-xl overflow-hidden">
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 h-20 flex items-center justify-center text-white">
-        <QrCode className="w-6 h-6 mr-2" />
-        <div>
-          <h1 className="text-lg font-bold">VERIFICATION</h1>
-          <p className="text-xs">BACK SIDE</p>
+  const IDCardBack = ({ userData }) => (
+    <div
+      ref={backCardRef}
+      className="w-[380px] h-[580px] flex flex-col rounded-2xl shadow-2xl border border-blue-300 overflow-hidden bg-white relative mx-auto"
+      style={{
+        padding: 0,
+        background: "linear-gradient(135deg,#f8fafc 0%,#ddeeff 80%)",
+      }}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-center bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400 h-[80px] px-6 py-3 text-white">
+        <FileText className="w-8 h-8 mr-3 opacity-90" />
+        <div className="text-center">
+          <h1 className="text-lg font-bold tracking-wide">
+            TERMS & CONDITIONS
+          </h1>
+          <p className="font-light text-xs uppercase tracking-widest">
+            Membership Guidelines
+          </p>
         </div>
       </div>
-      <CardContent className="p-6 flex flex-col gap-4">
-        <div className="flex justify-center">
-          <div className="bg-white border-2 border-gray-300 p-3 rounded-lg">
-            <img src={qrCodeUrl} alt="QR Code" className="w-20 h-20" />
+
+      <CardContent className="flex-1 flex flex-col px-8 pt-6 pb-4">
+        {/* Terms and Conditions */}
+        <div className="flex-1">
+          <div className="mb-4">
+            <h3 className="text-sm font-bold text-gray-800 mb-3 text-center border-b border-gray-300 pb-2">
+              MEMBERSHIP TERMS & CONDITIONS
+            </h3>
+          </div>
+
+          <div className="space-y-2.5 text-[9px] text-gray-700 leading-relaxed">
+            {TERMS_AND_CONDITIONS.map((term, index) => (
+              <div
+                key={index}
+                className="flex items-start border-b border-gray-100 pb-1.5"
+              >
+                <span className="font-bold text-blue-600 mr-2 mt-0.5 text-[8px] bg-blue-100 rounded-full w-4 h-4 flex items-center justify-center">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="flex-1">{term}</span>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="bg-blue-50 border border-blue-200 p-3 rounded-md text-xs text-blue-700">
-          <strong>QR CODE VERIFICATION:</strong><br />
-          Scan the QR code to verify this member&apos;s identity.
-        </div>
-        <div className="bg-gray-50 border border-gray-200 p-3 rounded-md text-xs text-gray-700 space-y-2">
-          <strong>TERMS & CONDITIONS</strong>
-          <ul className="list-disc pl-4">
-            <li>This card is property of Jonojivan Foundation.</li>
-            <li>Carry during all official activities.</li>
-            <li>Report if lost, stolen or damaged.</li>
-            <li>Non-transferable and for official use only.</li>
-            <li>Misuse may result in action.</li>
-          </ul>
-        </div>
-        <div className="bg-red-50 border border-red-200 p-3 rounded-md text-xs text-red-700">
-          <strong>EMERGENCY CONTACT</strong>
-          <p>📞 +91 1800-XXX-XXXX</p>
-          <p>✉️ help@jonojivan.org</p>
-        </div>
-        <div className="flex justify-between pt-4 text-xs text-gray-600">
-          <div className="text-center">
-            <div className="w-20 border-t border-gray-400 mb-1" />
-            Member Sign
+
+        {/* Contact Information */}
+        <div className="mt-4 border-t border-gray-300 pt-4">
+          <h4 className="text-[11px] font-bold text-gray-800 mb-3 text-center">
+            CONTACT INFORMATION
+          </h4>
+
+          {/* Headquarters */}
+          <div className="mb-3 p-2 bg-gray-50 rounded border">
+            <h5 className="text-[10px] font-bold text-blue-700 mb-1">
+              {CONTACT_DETAILS.headquarters.title}
+            </h5>
+            <div className="text-[9px] text-gray-600 leading-tight">
+              <div>{CONTACT_DETAILS.headquarters.address}</div>
+              <div>{CONTACT_DETAILS.headquarters.location}</div>
+              <div>{CONTACT_DETAILS.headquarters.state}</div>
+            </div>
           </div>
+
+          {/* Communication Details */}
+          <div className="grid grid-cols-1 gap-1.5 text-[9px] text-gray-600 mb-3">
+            <div className="flex items-center">
+              <Mail className="w-3 h-3 mr-2 text-blue-500" />
+              <span className="font-medium">Email:</span>
+              <span className="ml-1">
+                {CONTACT_DETAILS.communication.email}
+              </span>
+            </div>
+            <div className="flex items-center">
+              <Phone className="w-3 h-3 mr-2 text-blue-500" />
+              <span className="font-medium">Phone:</span>
+              <span className="ml-1">
+                {CONTACT_DETAILS.communication.phone}
+              </span>
+            </div>
+            <div className="flex items-center">
+              <QrCode className="w-3 h-3 mr-2 text-blue-500" />
+              <span className="font-medium">Website:</span>
+              <span className="ml-1">
+                {CONTACT_DETAILS.communication.website}
+              </span>
+            </div>
+            <div className="flex items-center">
+              <Phone className="w-3 h-3 mr-2 text-green-500" />
+              <span className="font-medium">WhatsApp:</span>
+              <span className="ml-1">
+                {CONTACT_DETAILS.communication.whatsapp}
+              </span>
+            </div>
+          </div>
+
+          {/* Emergency Contact */}
+          <div className="mb-3 p-2 bg-red-50 border border-red-200 rounded">
+            <h5 className="text-[10px] font-bold text-red-700 mb-1">
+              {CONTACT_DETAILS.emergency.title}
+            </h5>
+            <div className="text-[9px] text-red-600">
+              <div>📞 {CONTACT_DETAILS.emergency.phone}</div>
+              <div>✉️ {CONTACT_DETAILS.emergency.email}</div>
+            </div>
+          </div>
+
+          {/* Office Hours */}
           <div className="text-center">
-            <div className="w-20 border-t border-gray-400 mb-1" />
-            Authorized Sign
+            <h5 className="text-[10px] font-bold text-gray-700 mb-1">
+              OFFICE HOURS
+            </h5>
+            <div className="text-[8px] text-gray-500 leading-tight">
+              <div>{CONTACT_DETAILS.office_hours.weekdays}</div>
+              <div>{CONTACT_DETAILS.office_hours.saturday}</div>
+              <div className="text-red-500 font-medium">
+                {CONTACT_DETAILS.office_hours.sunday}
+              </div>
+            </div>
           </div>
         </div>
       </CardContent>
-    </Card>
-  );
 
-  return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex justify-end mb-6">
-          <button
-            onClick={downloadPDF}
-            className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-          >
-            <Download className="w-4 h-4" />
-            Download PDF
-          </button>
+      {/* Footer */}
+      <div className="w-full text-center text-[10px] text-gray-500 px-4 py-2 bg-blue-50 border-t border-blue-200">
+        <div className="mb-1">
+          <span className="font-bold">Member ID:</span> {userData?.membershipId}
         </div>
-        <div className="flex justify-center gap-8 flex-wrap">
-          <div>
-            <div className="flex items-center justify-center mb-3 text-gray-700 font-semibold text-lg">
-              <CreditCard className="w-5 h-5 mr-2" />
-              Front Side
-            </div>
-            <IDCardFront />
-          </div>
-          <div>
-            <div className="flex items-center justify-center mb-3 text-gray-700 font-semibold text-lg">
-              <CreditCard className="w-5 h-5 mr-2" />
-              Back Side
-            </div>
-            <IDCardBack />
-          </div>
+        <div>
+          © {new Date().getFullYear()} Jonojivan Foundation. All rights
+          reserved.
         </div>
       </div>
     </div>
   );
-};
 
-export default IDCard;
+  return (
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-100 via-white to-blue-100 py-16 px-6 relative">
+      {loading && (
+        <div className="flex flex-col items-center justify-center min-h-[90vh] py-16">
+          <div className="space-y-8">
+            <div>
+              <div className="text-center mb-4">
+                <Skeleton className="h-6 w-24 mx-auto mb-2" />
+              </div>
+              <Skeleton className="w-[380px] h-[580px] rounded-2xl" />
+            </div>
+            <div>
+              <div className="text-center mb-4">
+                <Skeleton className="h-6 w-24 mx-auto mb-2" />
+              </div>
+              <Skeleton className="w-[380px] h-[580px] rounded-2xl" />
+            </div>
+          </div>
+          <Skeleton className="h-12 w-80 mt-8" />
+        </div>
+      )}
+
+      {!loading && userData && (
+        <>
+          <div className="flex flex-row justify-center w-full gap-8">
+            {/* Front Side */}
+            <div className="flex-1 max-w-[380px]">
+              <div className="text-center mb-4">
+                <h2 className="text-lg font-bold text-gray-800">FRONT SIDE</h2>
+              </div>
+              <IDCardFront userData={userData} qrCodeUrl={qrCodeUrl} />
+            </div>
+
+            {/* Back Side */}
+            <div className="flex-1 max-w-[380px]">
+              <div className="text-center mb-4">
+                <h2 className="text-lg font-bold text-gray-800">BACK SIDE</h2>
+              </div>
+              <IDCardBack userData={userData} />
+            </div>
+          </div>
+
+          <div className="flex justify-center gap-4 my-10">
+
+            <button
+              onClick={handleDownloadPDF}
+              disabled={isGeneratingPDF}
+              className="flex items-center gap-2 px-6 py-3 bg-green-700 text-white font-semibold rounded-xl shadow hover:bg-green-800 transition active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Download className="w-5 h-5" />
+              {isGeneratingPDF ? "Generating..." : "Download PDF"}
+            </button>
+          </div>
+
+          {/* Remove the hidden elements section since both sides are now visible */}
+        </>
+      )}
+    </div>
+  );
+}

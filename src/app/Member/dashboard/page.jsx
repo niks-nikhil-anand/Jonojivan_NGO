@@ -238,8 +238,8 @@ const DashboardPage = () => {
   ];
 
   return (
-<div className="min-h-screen max-h-[95vh] overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-6 pb-20">
-      <div className="max-w-7xl mx-auto space-y-8">
+<div className="min-h-screen max-h-[60vh] overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-6 pb-20">
+      <div className=" mx-auto space-y-8">
         
         {/* Welcome Banner */}
         <motion.div
