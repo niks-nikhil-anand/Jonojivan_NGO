@@ -18,37 +18,38 @@ const FAQsSection = () => {
 
   // FAQ data array - updated to match the image content
   const faqData = [
-    {
-      question: "What is Jonojivan Foundation - NGO?",
-      answer:
-        "Jonojivan Foundation is a non-profit organization committed to transforming lives through education, skill development, and community empowerment. We focus on creating sustainable change by providing equal opportunities and access to resources for children, women, and underprivileged communities.",
-      category: "General",
-    },
-    {
-      question: "How can I donate to Jonojivan Foundation?",
-      answer:
-        "You can easily donate through our website's Donate Now page. Simply select your preferred donation amount and complete the secure online payment using your chosen method.",
-      category: "Donation",
-    },
-    {
-      question: "What programs does Jonojivan Foundation support?",
-      answer:
-        "Jonojivan Foundation supports a wide range of initiatives, including: Girl Child Education, Women's Skill Development, Quality Tuition Programs, School Infrastructure Projects, and campaigns for Gender Equality and Women Empowerment.",
-      category: "Programs",
-    },
-    {
-      question: "How does my donation help?",
-      answer:
-        "Your donation directly fuels our programs by providing education, vocational training, mentorship, and critical infrastructure to uplift children and women in underserved areas.",
-      category: "Impact",
-    },
-    {
-      question: "How much does it cost to sponsor a child?",
-      answer:
-        "Sponsoring a child through Jonojivan Foundation costs ₹26,000 per year, covering school fees, uniforms, books, and all essential resources for one full academic year.",
-      category: "Sponsorship",
-    },
-  ];
+  {
+    question: "What is JonoJivan Gramin Vikash Foundation - NGO?",
+    answer:
+      "JonoJivan Gramin Vikash Foundation is a non-profit organization committed to transforming lives through education, skill development, and community empowerment. We focus on creating sustainable change by providing equal opportunities and access to resources for children, women, and underprivileged communities.",
+    category: "General",
+  },
+  {
+    question: "How can I donate to JonoJivan Gramin Vikash Foundation?",
+    answer:
+      "You can easily donate through our website's Donate Now page. Simply select your preferred donation amount and complete the secure online payment using your chosen method.",
+    category: "Donation",
+  },
+  {
+    question: "What programs does JonoJivan Gramin Vikash Foundation support?",
+    answer:
+      "JonoJivan Gramin Vikash Foundation supports a wide range of initiatives, including: Girl Child Education, Women's Skill Development, Quality Tuition Programs, School Infrastructure Projects, and campaigns for Gender Equality and Women Empowerment.",
+    category: "Programs",
+  },
+  {
+    question: "How does my donation help?",
+    answer:
+      "Your donation directly fuels our programs by providing education, vocational training, mentorship, and critical infrastructure to uplift children and women in underserved areas.",
+    category: "Impact",
+  },
+  {
+    question: "How much does it cost to sponsor a child?",
+    answer:
+      "Sponsoring a child through JonoJivan Gramin Vikash Foundation costs ₹26,000 per year, covering school fees, uniforms, books, and all essential resources for one full academic year.",
+    category: "Sponsorship",
+  },
+];
+
 
   return (
     <div className=" bg-gray-100 py-16 px-4">

@@ -1,71 +1,57 @@
 "use client"
-import { Award, BookOpen, Globe, Lightbulb, Sparkles, Target, Users } from "lucide-react";
+import { Shield, Eye, Scale, FileCheck, Sparkles, Target, Users, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import CallToAction from "./CallToAction";
 
-
-
-// Additional Component - Mission & Vision Section
+// Updated Component - Human Rights & Anti-Corruption Section
 const MissionVisionSection = () => {
-  const [activeTab, setActiveTab] = useState('mission');
+  const [activeTab, setActiveTab] = useState('human-rights');
 
-  const missions = [
+  const initiatives = [
     {
-      id: 'mission',
-      title: 'Our Mission',
-      icon: <Target className="w-6 h-6" />,
-      content: 'To provide quality education and holistic development opportunities to underprivileged children, empowering them to break the cycle of poverty and build a brighter future.',
+      id: 'human-rights',
+      title: 'Human Rights Advocacy',
+      icon: <Scale className="w-6 h-6" />,
+      content: 'We work to incorporate and protect human rights as outlined in the Human Rights Act 1998, ensuring equal rights and dignity for all individuals in our communities.',
       highlights: [
-        'Quality Education for All',
-        'Breaking Poverty Cycles',
+        'Equal Rights Protection',
+        'Dignity for All',
         'Community Empowerment',
-        'Sustainable Development'
+        'Legal Advocacy'
       ]
     },
     {
-      id: 'vision',
-      title: 'Our Vision',
-      icon: <Lightbulb className="w-6 h-6" />,
-      content: 'A world where every child has access to quality education and the opportunity to reach their full potential, regardless of their socioeconomic background.',
+      id: 'anti-corruption',
+      title: 'Anti-Corruption Initiatives',
+      icon: <Shield className="w-6 h-6" />,
+      content: 'We expose corruption in tender processes and public procurement, implementing both preventive and reactive measures to ensure transparency and accountability.',
       highlights: [
-        'Equal Educational Opportunities',
-        'Global Impact',
-        'Future Leadership',
-        'Inclusive Society'
-      ]
-    },
-    {
-      id: 'values',
-      title: 'Our Values',
-      icon: <Award className="w-6 h-6" />,
-      content: 'Integrity, compassion, excellence, and innovation guide everything we do. We believe in transparency, accountability, and the power of community-driven change.',
-      highlights: [
-        'Integrity & Transparency',
-        'Compassion & Care',
-        'Excellence in Service',
-        'Innovation & Adaptation'
+        'Tender Process Monitoring',
+        'Public Procurement Oversight',
+        'Transparency Measures',
+        'Accountability Systems'
       ]
     }
   ];
 
   const programs = [
     {
-      icon: <BookOpen className="w-8 h-8" />,
-      title: 'Education Programs',
-      description: 'Comprehensive educational support including literacy, numeracy, and life skills development.',
+      icon: <Scale className="w-8 h-8" />,
+      title: 'Human Rights Protection',
+      description: 'Advocating for equal rights and dignity, ensuring compliance with Human Rights Act 1998 principles.',
       color: 'from-blue-500 to-blue-600'
     },
     {
-      icon: <Users className="w-8 h-8" />,
-      title: 'Community Outreach',
-      description: 'Engaging with local communities to create sustainable change through grassroots initiatives.',
+      icon: <Eye className="w-8 h-8" />,
+      title: 'Corruption Monitoring',
+      description: 'Exposing and preventing corruption in public processes through vigilant oversight and reporting.',
       color: 'from-blue-600 to-blue-700'
     },
     {
-      icon: <Globe className="w-8 h-8" />,
-      title: 'Digital Inclusion',
-      description: 'Bridging the digital divide by providing technology access and digital literacy training.',
+      icon: <FileCheck className="w-8 h-8" />,
+      title: 'Transparency Advocacy',
+      description: 'Implementing accountability measures and promoting transparent governance practices.',
       color: 'from-blue-700 to-blue-800'
     }
   ];
@@ -85,22 +71,22 @@ const MissionVisionSection = () => {
           <div className="inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mb-4">
             <Sparkles className="w-4 h-4 text-white mr-2" />
             <span className="text-white font-semibold text-sm uppercase tracking-wide">
-              Our Foundation
+              Our Core Work
             </span>
           </div>
           <h2 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent mb-4">
-            Mission, Vision & Values
+            Human Rights & Anti-Corruption
           </h2>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-            Discover what drives us forward and the principles that guide our work in transforming lives through education.
+            Protecting fundamental rights and promoting transparency through dedicated advocacy and oversight initiatives.
           </p>
         </motion.div>
 
-        {/* Mission/Vision/Values Tabs */}
+        {/* Human Rights/Anti-Corruption Tabs */}
         <div className="mb-16">
           {/* Tab Navigation */}
           <div className="flex flex-wrap justify-center mb-8 gap-2">
-            {missions.map((item) => (
+            {initiatives.map((item) => (
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
@@ -124,7 +110,7 @@ const MissionVisionSection = () => {
             transition={{ duration: 0.5 }}
             className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100"
           >
-            {missions.map((item) => (
+            {initiatives.map((item) => (
               activeTab === item.id && (
                 <div key={item.id} className="grid md:grid-cols-2 gap-8 items-center">
                   <div>
@@ -160,7 +146,7 @@ const MissionVisionSection = () => {
           viewport={{ once: true }}
         >
           <h3 className="text-2xl lg:text-3xl font-bold text-center bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent mb-12">
-            Our Key Programs
+            Our Key Initiatives
           </h3>
           
           <div className="grid md:grid-cols-3 gap-8">
@@ -183,9 +169,9 @@ const MissionVisionSection = () => {
             ))}
           </div>
         </motion.div>
+        
         <div className="my-10">
-
-        <CallToAction/>
+          <CallToAction/>
         </div>
       </div>
     </div>

@@ -51,7 +51,7 @@ const Footer = () => {
                   </div>
                   <div>
                     <h1 className="font-bold text-3xl bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                      JonoJivan
+                      JonoJivan Gramin Vikash Foundation
                     </h1>
                     <p className="text-sm text-gray-300 font-medium tracking-wider">
                       Empowering Lives • Building Futures
@@ -64,8 +64,8 @@ const Footer = () => {
               <div className="bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-600/30">
                 <p className="text-gray-300 leading-relaxed">
                   Dedicated to transforming communities through sustainable
-                  development, education, and empowerment initiatives across rural
-                  India.
+                  development, education, and empowerment initiatives across
+                  rural India.
                 </p>
               </div>
 
@@ -141,12 +141,17 @@ const Footer = () => {
 
               {/* Quick Links */}
               <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-white">Quick Links</h3>
+                <h3 className="text-lg font-semibold text-white">
+                  Quick Links
+                </h3>
                 <ul className="space-y-3">
                   {[
                     { href: "/become-member", label: "Become Member" },
                     { href: "/impactStories", label: "Id Card Download" },
-                    { href: "/jonojivan-garib-kalyan", label: "Jonojivan Garib Kalyan" },
+                    {
+                      href: "/jonojivan-garib-kalyan",
+                      label: "Jonojivan Garib Kalyan",
+                    },
                     { href: "/mediaGallery", label: "Press/Media Gallery" },
                   ].map((item) => (
                     <li key={item.href}>
@@ -164,7 +169,9 @@ const Footer = () => {
 
               {/* Enhanced CTA Section - Desktop */}
               <div className="space-y-6 hidden lg:block">
-                <h3 className="text-lg font-semibold text-white">Take Action</h3>
+                <h3 className="text-lg font-semibold text-white">
+                  Take Action
+                </h3>
                 <div className="space-y-4">
                   {/* Primary Donate Button */}
                   <Button
@@ -213,7 +220,7 @@ const Footer = () => {
 
                   {/* Sign In Button */}
                   <Link href="/auth/member-signIn" passHref>
-                    <Button 
+                    <Button
                       variant="outline"
                       className="w-full border-2 border-slate-500 text-white hover:bg-slate-600 hover:border-slate-400 font-semibold px-6 py-3 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 group relative overflow-hidden"
                     >
@@ -230,7 +237,9 @@ const Footer = () => {
 
           {/* Mobile CTA Section - Only visible on mobile */}
           <div className="mt-12 lg:hidden">
-            <h3 className="text-xl font-semibold text-white text-center mb-8">Take Action</h3>
+            <h3 className="text-xl font-semibold text-white text-center mb-8">
+              Take Action
+            </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Primary Donate Button - Mobile */}
               <Button
@@ -282,7 +291,7 @@ const Footer = () => {
             {/* Sign In Button - Mobile (Full Width) */}
             <div className="mt-4">
               <Link href="/auth/member-signIn" passHref>
-                <Button 
+                <Button
                   variant="outline"
                   className="w-full border-2 border-slate-500 text-white hover:bg-slate-600 hover:border-slate-400 font-semibold px-6 py-4 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 group relative overflow-hidden"
                 >
@@ -319,7 +328,8 @@ const Footer = () => {
               {/* Copyright */}
               <div className="text-center lg:text-right">
                 <p className="text-sm text-gray-500">
-                  © 2024 Jonojivan Foundation. All Rights Reserved.
+                  © 2024 JonoJivan Gramin Vikash Foundation . All Rights
+                  Reserved.
                 </p>
                 <p className="text-xs text-gray-600 mt-1">
                   Made with ❤️ for a better tomorrow

@@ -6,21 +6,21 @@ import Link from "next/link";
 
 const faqs = [
   {
-    question: "What is Jonojivan Foundation?",
+    question: "What is JonoJivan Gramin Vikash Foundation?",
     answer:
-      "Jonojivan Foundation is a non-profit organization dedicated to improving the lives of children, women, and communities through education, skill development, and empowerment. We focus on creating lasting change by providing access to education and equal opportunities for all.",
+      "JonoJivan Gramin Vikash Foundation is a non-profit organization dedicated to improving the lives of children, women, and communities through education, skill development, and empowerment. We focus on creating lasting change by providing access to education and equal opportunities for all.",
     category: "General",
   },
   {
-    question: "How can I donate to Jonojivan Foundation?",
+    question: "How can I donate to JonoJivan Gramin Vikash Foundation?",
     answer:
       "You can easily donate through our website's Donate Now page. Simply choose your donation amount and proceed with a secure online payment using your preferred method.",
     category: "Donation",
   },
   {
-    question: "What programs does Jonojivan Foundation support?",
+    question: "What programs does JonoJivan Gramin Vikash Foundation support?",
     answer:
-      "Jonojivan Foundation supports various programs, including: Girl Child Education, Skill Development for Women, Tuition Classes for Quality Education, School Building Projects, and Women Empowerment & Gender Equality initiatives.",
+      "JonoJivan Gramin Vikash Foundation supports various programs, including: Girl Child Education, Skill Development for Women, Tuition Classes for Quality Education, School Building Projects, and Women Empowerment & Gender Equality initiatives.",
     category: "Programs",
   },
   {
@@ -50,11 +50,11 @@ const faqs = [
   {
     question: "Is my donation tax-deductible?",
     answer:
-      "Yes, Jonojivan Foundation is a registered non-profit, and all donations are eligible for tax deductions under Section 80G of the Income Tax Act of 1961.",
+      "Yes, JonoJivan Gramin Vikash Foundation is a registered non-profit, and all donations are eligible for tax deductions under Section 80G of the Income Tax Act of 1961.",
     category: "Donation",
   },
   {
-    question: "How can I stay updated on Jonojivan Foundation’s progress?",
+    question: "How can I stay updated on JonoJivan Gramin Vikash Foundation’s progress?",
     answer:
       "Once you donate, we will send regular updates through emails, newsletters, and social media. You can also follow us on social media for real-time information about our programs and the impact of your donation.",
     category: "General",
@@ -84,13 +84,13 @@ const faqs = [
     category: "Impact",
   },
   {
-    question: "How can I volunteer with Jonojivan Foundation?",
+    question: "How can I volunteer with JonoJivan Gramin Vikash Foundation?",
     answer:
       "We are always looking for passionate volunteers. You can apply to volunteer on our Volunteer Page, where you can choose opportunities that match your skills and interests.",
     category: "General",
   },
   {
-    question: "Can I organize a fundraising event for Jonojivan Foundation?",
+    question: "Can I organize a fundraising event for JonoJivan Gramin Vikash Foundation?",
     answer:
       "Absolutely! We encourage individuals and organizations to host fundraising events to support our mission. Contact us to learn how we can assist in organizing and promoting your event.",
     category: "General",
@@ -102,7 +102,7 @@ const faqs = [
     category: "Impact",
   },
   {
-    question: "How can I share Jonojivan Foundation's mission with others?",
+    question: "How can I share JonoJivan Gramin Vikash Foundation's mission with others?",
     answer:
       "You can help spread the word by sharing our website, social media posts, and newsletters with your network. Every person you inspire to get involved makes a difference!",
     category: "General",
@@ -120,12 +120,13 @@ const faqs = [
     category: "Donation",
   },
   {
-    question: "What is the best way to contact Jonojivan Foundation for additional information?",
+    question: "What is the best way to contact JonoJivan Gramin Vikash Foundation for additional information?",
     answer:
       "You can contact us via email at contact@jonojivanfoundation.org or call us at [phone number]. We are happy to answer any questions and discuss how you can further support our mission.",
     category: "General",
   },
 ];
+
 
 
 

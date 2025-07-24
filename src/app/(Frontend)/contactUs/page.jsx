@@ -87,7 +87,8 @@ export default function Contact() {
   const contactInfo = [
     {
       title: "Foundation Office",
-      details: "UTTAR KHATOWAL PO UTTAR KHATOWAL PS RUPAHIHAT NAGAON ASSAM PIN 782124",
+      details:
+        "UTTAR KHATOWAL PO UTTAR KHATOWAL PS RUPAHIHAT NAGAON ASSAM PIN 782124",
       icon: <Building className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />,
       color: "from-blue-500 to-blue-600",
       bgColor: "bg-white/95",
@@ -132,7 +133,7 @@ export default function Contact() {
               </div>
             </div>
             <h1 className="text-4xl lg:text-5xl font-bold mb-4 leading-tight">
-              JONOJIVAN Foundation
+              JonoJivan Gramin Vikash Foundation
             </h1>
             <h2 className="text-3xl lg:text-4xl font-bold mb-6 leading-tight">
               Get in Touch
@@ -384,7 +385,7 @@ export default function Contact() {
         </motion.div>
 
         {/* Final CTA Banner */}
-        <CallToAction/>
+        <CallToAction />
       </div>
     </div>
   );

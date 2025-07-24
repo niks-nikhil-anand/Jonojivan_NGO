@@ -6,9 +6,7 @@ import {
   X,
   Heart,
   Sparkles,
-  User,
   FileText,
-  UserPlus,
   LogIn,
 } from "lucide-react";
 import Link from "next/link";
@@ -80,7 +78,10 @@ const Navbar = () => {
                 </div>
               </div>
               <div className="ml-3">
-                <h1 className="font-bold text-2xl text-blue-700">JonoJivan</h1>
+                <h1 className="font-bold text-sm md:text-base text-blue-700">
+                  {" "}
+                  JonoJivan Gramin Vikash Foundation
+                </h1>
                 <p className="text-xs text-gray-600 font-medium tracking-wide">
                   Empowering Lives
                 </p>
@@ -232,12 +233,12 @@ const Navbar = () => {
                         >
                           <Sparkles className="h-8 w-8 text-white" />
                         </motion.div>
-                        <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-blue-600 bg-clip-text text-transparent">
-                          JonoJivan
+                        <h2 className="text-xl font-bold bg-gradient-to-r from-blue-700 to-blue-600 bg-clip-text text-transparent">
+                          JonoJivan Gramin Vikash Foundation
                         </h2>
                       </div>
                     </SheetTitle>
-                    <SheetDescription className="text-center text-gray-600 font-medium text-sm">
+                    <SheetDescription className="text-center text-gray-600 font-medium text-xs">
                       Empowering communities through sustainable development
                     </SheetDescription>
                   </SheetHeader>

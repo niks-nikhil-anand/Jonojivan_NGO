@@ -119,7 +119,7 @@ const AboutPage = () => {
               <Shield className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 text-white" />
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-              Jonojivan Foundation
+              JonoJivan Gramin Vikash Foundation
             </h1>
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed opacity-95 px-2">
               Protecting human rights, combating corruption, and promoting
@@ -166,11 +166,11 @@ const AboutPage = () => {
             <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
               <div className="space-y-4 sm:space-y-6">
                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                  Jonojivan Foundation is dedicated to upholding human rights,
-                  fighting corruption, and ensuring transparency across various
-                  sectors. Our work is grounded in the principles of the Human
-                  Rights Act 1998, which aims to incorporate fundamental rights
-                  into law and practice.
+                  JonoJivan Gramin Vikash Foundation is dedicated to upholding
+                  human rights, fighting corruption, and ensuring transparency
+                  across various sectors. Our work is grounded in the principles
+                  of the Human Rights Act 1998, which aims to incorporate
+                  fundamental rights into law and practice.
                 </p>
                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
                   We operate as an anti-corruption body that exposes tender

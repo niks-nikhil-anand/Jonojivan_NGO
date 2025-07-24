@@ -4,10 +4,10 @@ import CountUp from "react-countup";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { 
-  Users, 
-  Heart, 
-  DollarSign, 
+import {
+  Users,
+  Heart,
+  DollarSign,
   TrendingUp,
   Sparkles,
   ArrowRight,
@@ -51,7 +51,7 @@ const OrganizationInfo = () => {
       icon: <Users className="w-8 h-8" />,
       color: "from-blue-500 to-blue-600",
       bgColor: "bg-blue-50",
-      borderColor: "border-blue-200"
+      borderColor: "border-blue-200",
     },
     {
       number: 2348195,
@@ -61,7 +61,7 @@ const OrganizationInfo = () => {
       icon: <Heart className="w-8 h-8" />,
       color: "from-yellow-500 to-yellow-600",
       bgColor: "bg-yellow-50",
-      borderColor: "border-yellow-200"
+      borderColor: "border-yellow-200",
     },
     {
       number: 16,
@@ -71,8 +71,8 @@ const OrganizationInfo = () => {
       icon: <DollarSign className="w-8 h-8" />,
       color: "from-blue-600 to-blue-700",
       bgColor: "bg-blue-50",
-      borderColor: "border-blue-200"
-    }
+      borderColor: "border-blue-200",
+    },
   ];
 
   const containerVariants = {
@@ -80,9 +80,9 @@ const OrganizationInfo = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
-      }
-    }
+        staggerChildren: 0.2,
+      },
+    },
   };
 
   const cardVariants = {
@@ -92,9 +92,9 @@ const OrganizationInfo = () => {
       y: 0,
       transition: {
         duration: 0.6,
-        ease: "easeOut"
-      }
-    }
+        ease: "easeOut",
+      },
+    },
   };
 
   const contentVariants = {
@@ -104,13 +104,16 @@ const OrganizationInfo = () => {
       x: 0,
       transition: {
         duration: 0.8,
-        ease: "easeOut"
-      }
-    }
+        ease: "easeOut",
+      },
+    },
   };
 
   return (
-    <div ref={sectionRef} className="bg-gradient-to-br from-blue-50 via-yellow-50 to-blue-100 py-16 px-4 relative overflow-hidden">
+    <div
+      ref={sectionRef}
+      className="bg-gradient-to-br from-blue-50 via-yellow-50 to-blue-100 py-16 px-4 relative overflow-hidden"
+    >
       {/* Background Image with Enhanced Overlay */}
       <div className="absolute inset-0">
         <Image
@@ -129,16 +132,15 @@ const OrganizationInfo = () => {
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
-          
           {/* Stats Section */}
-          <motion.div 
+          <motion.div
             className="w-full lg:w-2/5"
             variants={containerVariants}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
           >
             {/* Section Header */}
-            <motion.div 
+            <motion.div
               className="text-center lg:text-left mb-12"
               variants={cardVariants}
             >
@@ -159,21 +161,25 @@ const OrganizationInfo = () => {
                 <motion.div
                   key={index}
                   variants={cardVariants}
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.02,
-                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)"
+                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
                   }}
                   className={`${stat.bgColor} rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 ${stat.borderColor} border-2 group relative overflow-hidden`}
                 >
                   {/* Background Gradient Overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
-                  
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+                  ></div>
+
                   <div className="flex items-center space-x-4 relative z-10">
                     {/* Icon */}
-                    <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r ${stat.color} rounded-2xl text-white shadow-lg`}>
+                    <div
+                      className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r ${stat.color} rounded-2xl text-white shadow-lg`}
+                    >
                       {stat.icon}
                     </div>
-                    
+
                     {/* Content */}
                     <div className="flex-1">
                       <div className="flex items-baseline space-x-1">
@@ -185,11 +191,11 @@ const OrganizationInfo = () => {
                             transition={{ duration: 0.8, delay: index * 0.2 }}
                           >
                             {stat.title.includes("Funds") && "₹"}
-                            <CountUp 
-                              start={0} 
-                              end={stat.number} 
-                              duration={2.5} 
-                              separator="," 
+                            <CountUp
+                              start={0}
+                              end={stat.number}
+                              duration={2.5}
+                              separator=","
                               suffix={stat.suffix}
                             />
                           </motion.div>
@@ -209,14 +215,14 @@ const OrganizationInfo = () => {
           </motion.div>
 
           {/* Content Section */}
-          <motion.div 
+          <motion.div
             className="w-full lg:w-3/5"
             variants={contentVariants}
             initial="hidden"
             animate="visible"
           >
             {/* Mission Badge */}
-            <motion.div 
+            <motion.div
               className="inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-full mb-6"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -235,7 +241,7 @@ const OrganizationInfo = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Jonojivan Foundation
+              JonoJivan Gramin Vikash Foundation
             </motion.h1>
 
             {/* Description */}
@@ -246,9 +252,12 @@ const OrganizationInfo = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <p className="text-xl text-gray-700 leading-relaxed mb-4">
-                Jonojivan Foundation is a movement of hope and empowerment, transforming lives through education in Bihar&apos;s underprivileged regions, where poverty and discrimination often overshadow dreams.
+                Jonojivan Foundation is a movement of hope and empowerment,
+                transforming lives through education in Bihar&apos;s
+                underprivileged regions, where poverty and discrimination often
+                overshadow dreams.
               </p>
-              
+
               {/* Additional Context */}
               <div className="bg-gradient-to-r from-blue-50 to-yellow-50 rounded-2xl p-6 border border-blue-100">
                 <div className="flex items-start space-x-3">
@@ -256,9 +265,14 @@ const OrganizationInfo = () => {
                     <Sparkles className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-800 mb-2">Our Mission</h4>
+                    <h4 className="font-bold text-gray-800 mb-2">
+                      Our Mission
+                    </h4>
                     <p className="text-gray-700 leading-relaxed">
-                      We believe every child deserves access to quality education, regardless of their background. Through innovative programs and community partnerships, we&apos;re breaking barriers and creating pathways to success.
+                      We believe every child deserves access to quality
+                      education, regardless of their background. Through
+                      innovative programs and community partnerships, we&apos;re
+                      breaking barriers and creating pathways to success.
                     </p>
                   </div>
                 </div>
@@ -282,7 +296,7 @@ const OrganizationInfo = () => {
             </Link>
 
             {/* Trust Indicators */}
-            <motion.div 
+            <motion.div
               className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -291,9 +305,12 @@ const OrganizationInfo = () => {
               {[
                 { label: "Years Active", value: "10+" },
                 { label: "Districts Covered", value: "25+" },
-                { label: "Success Rate", value: "95%" }
+                { label: "Success Rate", value: "95%" },
               ].map((item, index) => (
-                <div key={index} className="text-center p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-white/40">
+                <div
+                  key={index}
+                  className="text-center p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-white/40"
+                >
                   <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-yellow-600 bg-clip-text text-transparent">
                     {item.value}
                   </div>
