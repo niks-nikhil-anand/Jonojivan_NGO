@@ -7,7 +7,7 @@ const FoodBhandara = () => {
   return (
     <section
       aria-labelledby="food-bhandara-title"
-      className="bbg-gray-50  py-16 px-4 sm:px-6 lg:px-12"
+      className="bg-gray-50 py-16 px-4 sm:px-6 lg:px-12"
     >
       <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-10 lg:gap-16">
         {/* Left: Image */}

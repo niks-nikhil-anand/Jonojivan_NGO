@@ -221,75 +221,9 @@ export default function JonojivanVolunteerPage() {
         </div>
       </header>
 
-      {/* Foundation Info */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="glass-card rounded-3xl shadow-2xl p-8 lg:p-12 mb-16">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-                About Jonojivan Foundation
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Empowering lives through education, healthcare, and community
-                development across Assam
-              </p>
-            </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="text-center">
-                <div className="bg-blue-100 p-4 rounded-full w-fit mx-auto mb-4">
-                  <Target className="w-8 h-8 text-blue-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  Our Mission
-                </h3>
-                <p className="text-gray-600">
-                  Breaking barriers to education and creating opportunities for
-                  underprivileged children
-                </p>
-              </div>
-
-              <div className="text-center">
-                <div className="bg-indigo-100 p-4 rounded-full w-fit mx-auto mb-4">
-                  <Globe className="w-8 h-8 text-indigo-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  Our Reach
-                </h3>
-                <p className="text-gray-600">
-                  Serving communities across Assam with focus on rural and
-                  marginalized areas
-                </p>
-              </div>
-
-              <div className="text-center">
-                <div className="bg-purple-100 p-4 rounded-full w-fit mx-auto mb-4">
-                  <Users className="w-8 h-8 text-purple-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  Our Impact
-                </h3>
-                <p className="text-gray-600">
-                  Over 1,000 children supported through education and skill
-                  development programs
-                </p>
-              </div>
-
-              <div className="text-center">
-                <div className="bg-green-100 p-4 rounded-full w-fit mx-auto mb-4">
-                  <Heart className="w-8 h-8 text-green-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  Our Values
-                </h3>
-                <p className="text-gray-600">
-                  Compassion, integrity, and commitment to sustainable community
-                  development
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+       <section className=" bg-white">
+        <VolunteerRegistrationForm />
       </section>
 
       {/* Volunteer Opportunities */}
@@ -371,6 +305,8 @@ export default function JonojivanVolunteerPage() {
         </div>
       </section>
 
+     
+
       {/* Success Stories Carousel */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
@@ -416,11 +352,8 @@ export default function JonojivanVolunteerPage() {
         </div>
       </section>
 
-      {/* Application Form */}
-      <VolunteerRegistrationForm />
-
       {/* Contact Information */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 ">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8">
             Get in Touch
