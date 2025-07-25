@@ -1,35 +1,47 @@
-import React, { useState } from 'react';
-import { Heart, ArrowRight, Upload, User, Phone, Mail, MapPin, Users, Lock, Eye, EyeOff } from 'lucide-react';
+import React, { useState } from "react";
+import {
+  Heart,
+  ArrowRight,
+  Upload,
+  User,
+  Phone,
+  Mail,
+  MapPin,
+  Users,
+  Lock,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 
 const VolunteerRegistrationForm = () => {
   const [formData, setFormData] = useState({
     // Personal Details
-    name: '',
-    gender: '',
-    mobile: '',
-    whatsapp: '',
-    email: '',
-    adhaar: '',
-    guardianName: '',
-    guardianMobile: '',
-    maritalStatus: '',
-    
+    name: "",
+    gender: "",
+    mobile: "",
+    whatsapp: "",
+    email: "",
+    adhaar: "",
+    guardianName: "",
+    guardianMobile: "",
+    maritalStatus: "",
+
     // Address Details
-    address: '',
-    country: 'India',
-    state: '',
-    district: '',
-    
+    address: "",
+    country: "India",
+    state: "",
+    district: "",
+
     // Joining Details
-    committee: '',
-    subCommittee: '',
-    joiningState: '',
-    post: '',
-    supportingAmount: '',
-    pincode: '',
-    password: '',
-    confirmPassword: '',
-    image: null
+    committee: "",
+    subCommittee: "",
+    joiningState: "",
+    post: "",
+    supportingAmount: "",
+    pincode: "",
+    password: "",
+    confirmPassword: "",
+    image: null,
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -37,57 +49,111 @@ const VolunteerRegistrationForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const committees = [
-    { name: 'Executive Committee', amount: 5100 },
-    { name: 'National Committee', amount: 5100 },
-    { name: 'State Committee', amount: 3100 },
-    { name: 'Mandal Committee', amount: 2100 },
-    { name: 'District Committee', amount: 1500 },
-    { name: 'Tehsil Committee', amount: 1251 },
-    { name: 'Block Committee', amount: 1100 },
-    { name: 'Board of Guardians', amount: 5000 },
-    { name: 'Member', amount: 251 },
-    { name: 'Chairman', amount: 2500 }
+    { name: "Executive Committee", amount: 5100 },
+    { name: "National Committee", amount: 5100 },
+    { name: "State Committee", amount: 3100 },
+    { name: "Mandal Committee", amount: 2100 },
+    { name: "District Committee", amount: 1500 },
+    { name: "Tehsil Committee", amount: 1251 },
+    { name: "Block Committee", amount: 1100 },
+    { name: "Board of Guardians", amount: 5000 },
+    { name: "Member", amount: 251 },
+    { name: "Chairman", amount: 2500 },
   ];
 
   const subCommittees = [
-    'Main Body',
-    'Women\'s Front',
-    'Youth Front',
-    'Minority Front'
+    "Main Body",
+    "Women's Front",
+    "Youth Front",
+    "Minority Front",
   ];
 
   const posts = [
-    'Chairman', 'Vice Chairman', 'General Secretary', 'Secretary', 'Legal Adviser',
-    'Financier', 'Spokesperson', 'Media In Charge', 'Co Media In Charge',
-    'IT Manager', 'Public Relations Head', 'Associate Public Relations Head',
-    'Training Manager', 'Co-head of Training', 'Event Manager', 'Assistant Event Manager',
-    'Executive Member', 'Member', 'General', 'Convener', 'Co-Convener', 'Nagar Chairman'
+    "Area District Manager",
+    "Assistant Event Manager",
+    "Assistant Manager",
+    "Associate Public Relations Head",
+    "Chairman",
+    "Co Media In Charge",
+    "Co-Convener",
+    "Co-head of Training",
+    "Committee President",
+    "Committee Puyun",
+    "Convener",
+    "District Manager",
+    "Event Manager",
+    "Executive Member",
+    "Financier",
+    "General",
+    "General Secretary",
+    "IT Manager",
+    "Legal Adviser",
+    "Media In Charge",
+    "Member",
+    "Nagar Chairman",
+    "Public Relations Head",
+    "Secretary",
+    "Spokesperson",
+    "Team Manager",
+    "Team Service Manager",
+    "Training Manager",
+    "Vice Chairman",
   ];
 
   const indianStates = [
-    'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa',
-    'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala',
-    'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland',
-    'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura',
-    'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Delhi', 'Jammu and Kashmir',
-    'Ladakh', 'Puducherry', 'Chandigarh', 'Dadra and Nagar Haveli', 'Daman and Diu',
-    'Lakshadweep', 'Andaman and Nicobar Islands'
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal",
+    "Delhi",
+    "Jammu and Kashmir",
+    "Ladakh",
+    "Puducherry",
+    "Chandigarh",
+    "Dadra and Nagar Haveli",
+    "Daman and Diu",
+    "Lakshadweep",
+    "Andaman and Nicobar Islands",
   ];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
 
     // Auto-update supporting amount based on committee selection
-    if (name === 'committee') {
-      const selectedCommittee = committees.find(c => c.name === value);
+    if (name === "committee") {
+      const selectedCommittee = committees.find((c) => c.name === value);
       if (selectedCommittee) {
-        setFormData(prev => ({
+        setFormData((prev) => ({
           ...prev,
-          supportingAmount: selectedCommittee.amount.toString()
+          supportingAmount: selectedCommittee.amount.toString(),
         }));
       }
     }
@@ -96,32 +162,47 @@ const VolunteerRegistrationForm = () => {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        image: file
+        image: file,
       }));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Password validation
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match!');
+      alert("Passwords do not match!");
       return;
     }
-    
+
     // Form validation
     const requiredFields = [
-      'name', 'gender', 'mobile', 'email', 'adhaar', 'guardianName', 'guardianMobile',
-      'maritalStatus', 'address', 'state', 'district', 'committee', 'subCommittee',
-      'joiningState', 'post', 'pincode', 'password', 'confirmPassword'
+      "name",
+      "gender",
+      "mobile",
+      "email",
+      "adhaar",
+      "guardianName",
+      "guardianMobile",
+      "maritalStatus",
+      "address",
+      "state",
+      "district",
+      "committee",
+      "subCommittee",
+      "joiningState",
+      "post",
+      "pincode",
+      "password",
+      "confirmPassword",
     ];
-    
-    const missingFields = requiredFields.filter(field => !formData[field]);
+
+    const missingFields = requiredFields.filter((field) => !formData[field]);
     if (missingFields.length > 0) {
-      alert(`Please fill in all required fields: ${missingFields.join(', ')}`);
+      alert(`Please fill in all required fields: ${missingFields.join(", ")}`);
       return;
     }
 
@@ -130,21 +211,21 @@ const VolunteerRegistrationForm = () => {
     try {
       // Create FormData object to handle file upload
       const submitData = new FormData();
-      
+
       // Append all form fields to FormData
-      Object.keys(formData).forEach(key => {
-        if (key === 'image' && formData[key]) {
+      Object.keys(formData).forEach((key) => {
+        if (key === "image" && formData[key]) {
           // Append image file
-          submitData.append('image', formData[key]);
-        } else if (key !== 'image' && key !== 'confirmPassword') {
+          submitData.append("image", formData[key]);
+        } else if (key !== "image" && key !== "confirmPassword") {
           // Append all other fields except confirmPassword (not needed on server)
           submitData.append(key, formData[key]);
         }
       });
 
       // Make API call using fetch
-      const response = await fetch('/api/member', {
-        method: 'POST',
+      const response = await fetch("/api/member", {
+        method: "POST",
         body: submitData, // FormData automatically sets correct Content-Type
       });
 
@@ -154,49 +235,50 @@ const VolunteerRegistrationForm = () => {
 
       const result = await response.json();
 
-      console.log('Registration successful:', response.data);
-      alert('Registration submitted successfully!');
-      
+      console.log("Registration successful:", response.data);
+      alert("Registration submitted successfully!");
+
       // Reset form after successful submission
       setFormData({
-        name: '',
-        gender: '',
-        mobile: '',
-        whatsapp: '',
-        email: '',
-        adhaar: '',
-        guardianName: '',
-        guardianMobile: '',
-        maritalStatus: '',
-        address: '',
-        country: 'India',
-        state: '',
-        district: '',
-        committee: '',
-        subCommittee: '',
-        joiningState: '',
-        post: '',
-        supportingAmount: '',
-        pincode: '',
-        password: '',
-        confirmPassword: '',
-        image: null
+        name: "",
+        gender: "",
+        mobile: "",
+        whatsapp: "",
+        email: "",
+        adhaar: "",
+        guardianName: "",
+        guardianMobile: "",
+        maritalStatus: "",
+        address: "",
+        country: "India",
+        state: "",
+        district: "",
+        committee: "",
+        subCommittee: "",
+        joiningState: "",
+        post: "",
+        supportingAmount: "",
+        pincode: "",
+        password: "",
+        confirmPassword: "",
+        image: null,
       });
-
     } catch (error) {
-      console.error('Registration failed:', error);
-      
+      console.error("Registration failed:", error);
+
       // Handle different types of errors
       if (error.response) {
         // Server responded with error status
-        const errorMessage = error.response.data?.message || 'Registration failed. Please try again.';
+        const errorMessage =
+          error.response.data?.message ||
+          "Registration failed. Please try again.";
         alert(`Error: ${errorMessage}`);
       } else if (error.request) {
         // Request was made but no response received
-        alert('Network error. Please check your connection and try again.');
+        alert("Network error. Please check your connection and try again.");
       } else {
         // Something else happened
-        alert('An unexpected error occurred. Please try again.');
+        alert("An unexpected error occurred. Please try again.");
       }
     } finally {
       setIsSubmitting(false);
@@ -221,9 +303,11 @@ const VolunteerRegistrationForm = () => {
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6">
               <div className="flex items-center gap-3 mb-6">
                 <User className="w-6 h-6 text-blue-600" />
-                <h3 className="text-2xl font-semibold text-gray-900">Personal Details</h3>
+                <h3 className="text-2xl font-semibold text-gray-900">
+                  Personal Details
+                </h3>
               </div>
-              
+
               <div className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
@@ -380,9 +464,11 @@ const VolunteerRegistrationForm = () => {
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6">
               <div className="flex items-center gap-3 mb-6">
                 <MapPin className="w-6 h-6 text-green-600" />
-                <h3 className="text-2xl font-semibold text-gray-900">Address Details</h3>
+                <h3 className="text-2xl font-semibold text-gray-900">
+                  Address Details
+                </h3>
               </div>
-              
+
               <div className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -428,7 +514,9 @@ const VolunteerRegistrationForm = () => {
                     >
                       <option value="">Select State</option>
                       {indianStates.map((state, index) => (
-                        <option key={index} value={state}>{state}</option>
+                        <option key={index} value={state}>
+                          {state}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -455,9 +543,11 @@ const VolunteerRegistrationForm = () => {
             <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-6">
               <div className="flex items-center gap-3 mb-6">
                 <Users className="w-6 h-6 text-purple-600" />
-                <h3 className="text-2xl font-semibold text-gray-900">Joining Details</h3>
+                <h3 className="text-2xl font-semibold text-gray-900">
+                  Joining Details
+                </h3>
               </div>
-              
+
               <div className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
@@ -493,7 +583,9 @@ const VolunteerRegistrationForm = () => {
                     >
                       <option value="">Select Sub Committee</option>
                       {subCommittees.map((subCommittee, index) => (
-                        <option key={index} value={subCommittee}>{subCommittee}</option>
+                        <option key={index} value={subCommittee}>
+                          {subCommittee}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -513,7 +605,9 @@ const VolunteerRegistrationForm = () => {
                     >
                       <option value="">Select Joining State</option>
                       {indianStates.map((state, index) => (
-                        <option key={index} value={state}>{state}</option>
+                        <option key={index} value={state}>
+                          {state}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -531,7 +625,9 @@ const VolunteerRegistrationForm = () => {
                     >
                       <option value="">Select Post</option>
                       {posts.map((post, index) => (
-                        <option key={index} value={post}>{post}</option>
+                        <option key={index} value={post}>
+                          {post}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -576,9 +672,11 @@ const VolunteerRegistrationForm = () => {
             <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl p-6">
               <div className="flex items-center gap-3 mb-6">
                 <Lock className="w-6 h-6 text-orange-600" />
-                <h3 className="text-2xl font-semibold text-gray-900">Security & Image</h3>
+                <h3 className="text-2xl font-semibold text-gray-900">
+                  Security & Image
+                </h3>
               </div>
-              
+
               <div className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
@@ -600,7 +698,11 @@ const VolunteerRegistrationForm = () => {
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                       >
-                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                        {showPassword ? (
+                          <EyeOff className="w-5 h-5" />
+                        ) : (
+                          <Eye className="w-5 h-5" />
+                        )}
                       </button>
                     </div>
                   </div>
@@ -621,10 +723,16 @@ const VolunteerRegistrationForm = () => {
                       />
                       <button
                         type="button"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                       >
-                        {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                        {showConfirmPassword ? (
+                          <EyeOff className="w-5 h-5" />
+                        ) : (
+                          <Eye className="w-5 h-5" />
+                        )}
                       </button>
                     </div>
                   </div>
@@ -649,7 +757,9 @@ const VolunteerRegistrationForm = () => {
                       >
                         <Upload className="w-5 h-5 text-gray-400 mr-2" />
                         <span className="text-gray-600">
-                          {formData.image ? formData.image.name : 'Click to upload image'}
+                          {formData.image
+                            ? formData.image.name
+                            : "Click to upload image"}
                         </span>
                       </label>
                     </div>
@@ -664,13 +774,13 @@ const VolunteerRegistrationForm = () => {
                 type="submit"
                 disabled={isSubmitting}
                 className={`${
-                  isSubmitting 
-                    ? 'bg-gray-400 cursor-not-allowed' 
-                    : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105'
+                  isSubmitting
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105"
                 } text-white px-12 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center gap-3 mx-auto shadow-lg hover:shadow-xl`}
               >
                 <Heart className="w-5 h-5" />
-                {isSubmitting ? 'Submitting...' : 'Submit Registration'}
+                {isSubmitting ? "Submitting..." : "Submit Registration"}
                 <ArrowRight className="w-5 h-5" />
               </button>
             </div>
