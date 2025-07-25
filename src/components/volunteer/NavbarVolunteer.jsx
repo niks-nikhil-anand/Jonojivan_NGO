@@ -15,14 +15,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import {
   Bell,
   Menu,
   Settings,
@@ -37,7 +29,7 @@ import {
   Loader2,
 } from "lucide-react";
 
-const NavbarVolunteer = () => {
+const NavbarVolunteer = ({ onMobileMenuToggle, isMobileMenuOpen }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -83,7 +75,6 @@ const NavbarVolunteer = () => {
           const memberData = await response.json();
           console.log("Member data fetched:", memberData);
           
-          // Transform the data for use in the component
           const transformedData = {
             name: memberData.user?.fullName || "N/A",
             email: memberData.user?.email || "N/A",
@@ -111,7 +102,6 @@ const NavbarVolunteer = () => {
         } else {
           const errorData = await response.json();
           toast.error(`Failed to fetch member data: ${errorData.msg}`);
-          // Redirect to login if unauthorized
           if (response.status === 401) {
             router.push("/member/login");
           }
@@ -182,7 +172,6 @@ const NavbarVolunteer = () => {
     }
   };
 
-  // Show loading state while fetching data
   if (loading) {
     return (
       <motion.nav
@@ -201,7 +190,6 @@ const NavbarVolunteer = () => {
     );
   }
 
-  // Show error state if no user data
   if (!userData) {
     return (
       <motion.nav
@@ -227,53 +215,33 @@ const NavbarVolunteer = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="flex items-center justify-between px-6 py-4">
-        {/* Left Section - Mobile Menu */}
+        {/* Left Section - Mobile Menu Toggle */}
         <div className="flex items-center space-x-4">
-          {/* Mobile Menu */}
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="lg:hidden h-10 w-10 p-0 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
-              >
-                <Menu className="h-5 w-5 text-gray-700 dark:text-gray-300" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-72 bg-white dark:bg-black border-r border-gray-200 dark:border-gray-800 shadow-xl">
-              <SheetHeader>
-                <SheetTitle className="text-left text-gray-900 dark:text-white">Member Portal</SheetTitle>
-                <SheetDescription className="text-left text-gray-600 dark:text-gray-400">
-                  {userData.membershipId} - {userData.membershipStatus}
-                </SheetDescription>
-              </SheetHeader>
-              {/* Mobile menu items would go here */}
-              <div className="mt-6 space-y-4">
-                <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 shadow-sm">
-                  <h4 className="font-semibold text-sm mb-2 text-gray-900 dark:text-white">Member Details</h4>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">
-                    Committee: {userData.committee}
-                  </p>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">
-                    Sub-Committee: {userData.subCommittee}
-                  </p>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">
-                    Post: {userData.post}
-                  </p>
-                </div>
-              </div>
-            </SheetContent>
-          </Sheet>
+          {/* Mobile Menu Toggle Button */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="md:hidden h-10 w-10 p-0 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
+            onClick={onMobileMenuToggle}
+          >
+            <Menu className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+          </Button>
+
+          {/* Logo/Brand for larger screens */}
+          <div className="hidden md:flex items-center">
+            <div className="w-8 h-8 bg-gray-900 dark:bg-white rounded-lg mr-3 flex items-center justify-center shadow-sm">
+              <div className="w-4 h-4 bg-white dark:bg-black rounded-sm"></div>
+            </div>
+            <div>
+              <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Member Portal
+              </h1>
+            </div>
+          </div>
         </div>
 
-        {/* Center Section - Member Stats */}
+        {/* Center Section - Member Stats (removed ID display) */}
         <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2 px-3 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg transition-all duration-200 shadow-sm border border-gray-200 dark:border-gray-700">
-            <Award className="h-4 w-4 text-gray-700 dark:text-gray-300" />
-            <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
-              ID: {userData.membershipId}
-            </span>
-          </div>
           <div className="hidden lg:flex items-center space-x-2 px-3 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg transition-all duration-200 shadow-sm border border-gray-200 dark:border-gray-700">
             <Heart className="h-4 w-4 text-gray-700 dark:text-gray-300" />
             <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
