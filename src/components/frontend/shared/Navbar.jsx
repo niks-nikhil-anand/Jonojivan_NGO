@@ -1,14 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  Menu,
-  X,
-  Heart,
-  Sparkles,
-  FileText,
-  LogIn,
-} from "lucide-react";
+import { Menu, X, Heart, Sparkles, FileText, LogIn } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -333,6 +326,26 @@ const Navbar = () => {
                             <span className="relative z-10 flex items-center justify-center">
                               <FaWhatsapp className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
                               Chat on whatsapp
+                            </span>
+                          </Button>
+                        </Link>
+                      </motion.div>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.5 }}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Link href="/auth/member-signIn" passHref>
+                          <Button
+                            className="w-full border-2 border-blue-200 bg-white text-blue-700 hover:bg-blue-50 hover:border-blue-300 shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-3.5 font-semibold text-base group relative overflow-hidden"
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-blue-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <span className="relative z-10 flex items-center justify-center">
+                              <LogIn className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
+                              Sign In
                             </span>
                           </Button>
                         </Link>
