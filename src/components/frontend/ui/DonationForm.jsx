@@ -2,11 +2,9 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-// Added missing imports
 import {
   Heart,
   X,
@@ -21,6 +19,8 @@ import {
 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import qr from "../../../../public/mediaGallery/QR.jpeg";
+// If you use next/image, import it and replace <img ... /> accordingly.
 
 const DonationForm = () => {
   const router = useRouter();
@@ -29,6 +29,7 @@ const DonationForm = () => {
   const [isCustom, setIsCustom] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("Online");
+  const [showQR, setShowQR] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -246,19 +247,16 @@ const DonationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate required fields
     if (!formData.fullName || !formData.email || !formData.phone) {
       toast.error("Please fill in all required fields.");
       return;
     }
 
-    // Validate phone number length
     if (formData.phone.length !== 10) {
       toast.error("Phone number must be exactly 10 digits.");
       return;
     }
 
-    // Validate PAN card format if provided
     if (formData.panCard && formData.panCard.length !== 10) {
       toast.error("PAN card number must be exactly 10 characters.");
       return;
@@ -276,7 +274,6 @@ const DonationForm = () => {
       closeModal();
     } else {
       setIsLoading(true);
-      // Fixed: Call the API function that was defined but never used
       const donationResponse = await makeDonationApiCall(payload);
 
       if (donationResponse.success) {
@@ -293,8 +290,7 @@ const DonationForm = () => {
   return (
     <>
       <motion.div
-        className="w-full bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400
- p-8 rounded-b-2xl shadow-2xl text-white mx-auto max-w-7xl z-20 relative overflow-hidden"
+        className="w-full bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 p-8 rounded-b-2xl shadow-2xl text-white mx-auto max-w-7xl z-20 relative overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
@@ -304,6 +300,7 @@ const DonationForm = () => {
           <Heart className="w-20 h-20" />
         </div>
 
+        {/* Main Content */}
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
@@ -385,70 +382,60 @@ const DonationForm = () => {
           >
             {isLoading ? "Processing..." : "DONATE NOW"}
           </motion.button>
-          {/* Payment Information Section */}
-          {/* Action Buttons Row - Moved above payment information */}
+
+          {/* Action Buttons */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-8">
-  {/* Become Member Button */}
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, delay: 0.6 }}
-    whileHover={{ scale: 1.02 }}
-    whileTap={{ scale: 0.98 }}
-  >
-    <Link href="/become-member" passHref>
-      <Button
-        className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-6 font-semibold text-sm group"
-      >
-        <span className="flex items-center justify-center">
-          <UserPlus className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
-          Become Member
-        </span>
-      </Button>
-    </Link>
-  </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Link href="/become-member" passHref>
+                <Button className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-6 font-semibold text-sm group">
+                  <span className="flex items-center justify-center">
+                    <UserPlus className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
+                    Become Member
+                  </span>
+                </Button>
+              </Link>
+            </motion.div>
 
-  {/* Member Sign In Button */}
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, delay: 0.7 }}
-    whileHover={{ scale: 1.02 }}
-    whileTap={{ scale: 0.98 }}
-  >
-    <Link href="/auth/member-signIn" passHref>
-      <Button
-        className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-6 font-semibold text-sm group"
-      >
-        <span className="flex items-center justify-center">
-          <LogIn className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
-          Sign In
-        </span>
-      </Button>
-    </Link>
-  </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Link href="/auth/member-signIn" passHref>
+                <Button className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-6 font-semibold text-sm group">
+                  <span className="flex items-center justify-center">
+                    <LogIn className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
+                    Sign In
+                  </span>
+                </Button>
+              </Link>
+            </motion.div>
 
-  {/* Apply for Jonojivan Garib Kalyan Button */}
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, delay: 0.8 }}
-    whileHover={{ scale: 1.02 }}
-    whileTap={{ scale: 0.98 }}
-  >
-    <Link href="/jonojivan-garib-kalyan" passHref>
-      <Button
-        className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-6 font-semibold text-sm group"
-      >
-        <span className="flex items-center justify-center">
-          <FileText className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
-          Apply for Jonojivan Garib Kalyan
-        </span>
-      </Button>
-    </Link>
-  </motion.div>
-</div>
-
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Link href="/jonojivan-garib-kalyan" passHref>
+                <Button className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-6 font-semibold text-sm group">
+                  <span className="flex items-center justify-center">
+                    <FileText className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
+                    Apply for Jonojivan Garib Kalyan
+                  </span>
+                </Button>
+              </Link>
+            </motion.div>
+          </div>
 
           {/* Payment Information Section */}
           <motion.div
@@ -461,7 +448,6 @@ const DonationForm = () => {
               <CreditCard className="w-5 h-5" />
               Payment Information
             </h4>
-
             <div className="grid md:grid-cols-2 gap-4 text-left">
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
@@ -515,11 +501,51 @@ const DonationForm = () => {
                 </div>
               </div>
             </div>
+            {/* View QR Code Button */}
+            <div className="flex justify-center mt-3">
+              <button
+                type="button"
+                className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg shadow hover:from-blue-600 hover:to-blue-800 transition-all font-semibold"
+                onClick={() => setShowQR(true)}
+              >
+                View QR Code
+              </button>
+            </div>
           </motion.div>
         </div>
       </motion.div>
 
-      {/* Enhanced Modal */}
+      {/* QR Modal Overlay (fullscreen, blurred/dark background) */}
+      {showQR && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 z-[999] bg-black/80 backdrop-blur-md flex flex-col items-center justify-center"
+        >
+          <div className="relative bg-white rounded-2xl shadow-2xl p-6 max-w-[90vw] max-h-[90vh] flex flex-col items-center">
+            <button
+              className="absolute top-4 right-4 bg-gray-200/60 hover:bg-gray-300 text-gray-900 rounded-full p-2 transition"
+              onClick={() => setShowQR(false)}
+              aria-label="Close QR"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <h2 className="text-xl font-bold mb-4 text-blue-700">
+              Scan to Donate (QR)
+            </h2>
+            <img
+              src={typeof qr === "string" ? qr : qr.src}
+              alt="QR Code"
+              className="max-w-full max-h-[70vh] border-4 border-blue-200 rounded-lg shadow-xl"
+            />
+            <div className="mt-3 text-gray-600 text-sm">
+              Scan this code with any UPI app
+            </div>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Donation Modal */}
       {isModalOpen && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -584,62 +610,66 @@ const DonationForm = () => {
                     required: false,
                     placeholder: "Enter address",
                   },
-                ].map(({ label, field, type, required, placeholder }) => (
-                  <div key={field}>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      {label}{" "}
-                      {required && <span className="text-red-500">*</span>}
-                      {field === "phone" && (
-                        <span className="text-gray-500 text-xs ml-1">
-                          (10 digits only)
-                        </span>
-                      )}
+                ].map(
+                  ({ label, field, type, required, placeholder }) => (
+                    <div key={field}>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        {label}{" "}
+                        {required && (
+                          <span className="text-red-500">*</span>
+                        )}
+                        {field === "phone" && (
+                          <span className="text-gray-500 text-xs ml-1">
+                            (10 digits only)
+                          </span>
+                        )}
+                        {field === "panCard" && (
+                          <span className="text-gray-500 text-xs ml-1">
+                            (10 characters)
+                          </span>
+                        )}
+                      </label>
+                      <input
+                        type={type}
+                        name={field}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        placeholder={placeholder}
+                        value={formData[field] || ""}
+                        onChange={handleInputChange}
+                        required={required}
+                        maxLength={
+                          field === "phone" || field === "panCard"
+                            ? 10
+                            : undefined
+                        }
+                      />
                       {field === "panCard" && (
-                        <span className="text-gray-500 text-xs ml-1">
-                          (10 characters)
-                        </span>
-                      )}
-                    </label>
-                    <input
-                      type={type}
-                      name={field}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                      placeholder={placeholder}
-                      value={formData[field] || ""}
-                      onChange={handleInputChange}
-                      required={required}
-                      maxLength={
-                        field === "phone" || field === "panCard"
-                          ? 10
-                          : undefined
-                      }
-                    />
-                    {field === "panCard" && (
-                      <p className="text-xs text-amber-600 mt-1 font-medium">
-                        <strong>Note:</strong> If you do not provide your PAN
-                        Number, you will not be able to claim 50% tax exemption
-                        u/s 80G in India
-                      </p>
-                    )}
-                    {field === "phone" &&
-                      formData.phone &&
-                      formData.phone.length < 10 && (
-                        <p className="text-xs text-red-500 mt-1">
-                          Phone number must be exactly 10 digits (
-                          {formData.phone.length}/10)
+                        <p className="text-xs text-amber-600 mt-1 font-medium">
+                          <strong>Note:</strong> If you do not provide your PAN
+                          Number, you will not be able to claim 50% tax exemption
+                          u/s 80G in India
                         </p>
                       )}
-                    {field === "panCard" &&
-                      formData.panCard &&
-                      formData.panCard.length > 0 &&
-                      formData.panCard.length < 10 && (
-                        <p className="text-xs text-red-500 mt-1">
-                          PAN card must be exactly 10 characters (
-                          {formData.panCard.length}/10)
-                        </p>
-                      )}
-                  </div>
-                ))}
+                      {field === "phone" &&
+                        formData.phone &&
+                        formData.phone.length < 10 && (
+                          <p className="text-xs text-red-500 mt-1">
+                            Phone number must be exactly 10 digits (
+                            {formData.phone.length}/10)
+                          </p>
+                        )}
+                      {field === "panCard" &&
+                        formData.panCard &&
+                        formData.panCard.length > 0 &&
+                        formData.panCard.length < 10 && (
+                          <p className="text-xs text-red-500 mt-1">
+                            PAN card must be exactly 10 characters (
+                            {formData.panCard.length}/10)
+                          </p>
+                        )}
+                    </div>
+                  )
+                )}
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">

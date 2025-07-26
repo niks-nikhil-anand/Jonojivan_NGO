@@ -185,7 +185,6 @@ export default function JonojivanVolunteerPage() {
           border: 1px solid rgba(255, 255, 255, 0.2);
         }
       `}</style>
-
       {/* Hero Section */}
       <header className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white">
         <div className="absolute inset-0 bg-black/20"></div>
