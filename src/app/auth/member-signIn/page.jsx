@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import {
   Eye,
@@ -10,6 +10,7 @@ import {
   Lock,
   Sparkles,
 } from "lucide-react";
+import Image from "next/image";
 
 const Page = () => {
   const [email, setEmail] = useState("");
@@ -33,7 +34,6 @@ const Page = () => {
     }
 
     try {
-
       const response = await fetch("/api/member/auth/SignIn", {
         method: "POST",
         headers: {
@@ -49,7 +49,7 @@ const Page = () => {
         setEmail("");
         setPassword("");
         setSuccess("Sign in successful! Redirecting...");
-        
+
         // Add a small delay before redirect for better UX
         setTimeout(() => {
           window.location.href = "/member";
@@ -72,9 +72,16 @@ const Page = () => {
       <div className="max-w-md w-full">
         {/* Header Section */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full mb-6 shadow-xl transform hover:scale-110 transition-all duration-300 relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full opacity-50 blur-sm"></div>
-            <Sparkles className="w-10 h-10 text-white relative z-10" />
+          <div className="flex flex-col items-center mb-6">
+            {/* Logo displayed above the Sparkles icon */}
+            <Image
+              src="/logo/logo.png"
+              alt="Jonojivan Foundation Logo"
+              width={80} // Adjust size as desired
+              height={80}
+              className="mb-2"
+              priority
+            />
           </div>
           <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-800 via-blue-700 to-blue-600 bg-clip-text text-transparent mb-3">
             Welcome Back
@@ -90,7 +97,7 @@ const Page = () => {
         <div className="bg-white rounded-3xl p-8 shadow-2xl border border-blue-200 relative overflow-hidden group hover:shadow-3xl transition-all duration-500">
           {/* Background Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-600 opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
-          
+
           {/* Decorative Elements */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full opacity-20 transform translate-x-16 -translate-y-16"></div>
           <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-100 to-blue-200 rounded-full opacity-20 transform -translate-x-12 translate-y-12"></div>
@@ -178,7 +185,7 @@ const Page = () => {
                 {!loading && (
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20 transform -skew-x-12 group-hover:translate-x-full transition-all duration-700"></div>
                 )}
-                
+
                 {loading ? (
                   <div className="flex items-center space-x-2">
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -257,4 +264,4 @@ const Page = () => {
 };
 
 export default Page;
-``
+``;

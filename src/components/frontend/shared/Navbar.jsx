@@ -64,15 +64,19 @@ const Navbar = () => {
             className="flex items-center space-x-3"
           >
             <Link href="/" className="flex items-center group">
-              <div className="relative">
-                <div className="absolute -inset-1 bg-blue-500 rounded-full opacity-20 group-hover:opacity-30 blur-sm transition-opacity duration-300"></div>
-                <div className="relative bg-blue-600 p-2 rounded-full shadow-lg">
-                  <Sparkles className="h-6 w-6 text-white" />
-                </div>
+              {/* Logo inserted here */}
+              <div className="mr-3 flex items-center">
+                <Image
+                  src="/logo/logo.png"
+                  alt="JonoJivan Gramin Vikash Foundation Logo"
+                  width={36} // Adjust size as desired
+                  height={36}
+                  className="rounded-full bg-white" // Optional: for circular or white background
+                  priority
+                />
               </div>
               <div className="ml-3">
                 <h1 className="font-bold text-sm md:text-base text-blue-700">
-                  {" "}
                   JonoJivan Gramin Vikash Foundation
                 </h1>
                 <p className="text-xs text-gray-600 font-medium tracking-wide">
@@ -218,14 +222,15 @@ const Navbar = () => {
                   <SheetHeader className="pt-4 pb-6">
                     <SheetTitle className="flex items-center justify-center">
                       <div className="text-center">
-                        <motion.div
-                          initial={{ scale: 0, rotate: -180 }}
-                          animate={{ scale: 1, rotate: 0 }}
-                          transition={{ duration: 0.6, type: "spring" }}
-                          className="bg-gradient-to-r from-blue-600 to-blue-700 p-4 rounded-2xl inline-block mb-4 shadow-lg"
-                        >
-                          <Sparkles className="h-8 w-8 text-white" />
-                        </motion.div>
+                        {/* Logo placed above the icon */}
+                        <Image
+                          src="/logo/logo.png"
+                          alt="JonoJivan Gramin Vikash Foundation Logo"
+                          width={64} // Adjust size as needed
+                          height={64}
+                          className="mx-auto mb-2"
+                          priority
+                        />
                         <h2 className="text-xl font-bold bg-gradient-to-r from-blue-700 to-blue-600 bg-clip-text text-transparent">
                           JonoJivan Gramin Vikash Foundation
                         </h2>
@@ -235,7 +240,6 @@ const Navbar = () => {
                       Empowering communities through sustainable development
                     </SheetDescription>
                   </SheetHeader>
-
                   <div className="flex-1 overflow-y-auto">
                     {/* Mobile Menu Items */}
                     <div className="space-y-2 mb-8">

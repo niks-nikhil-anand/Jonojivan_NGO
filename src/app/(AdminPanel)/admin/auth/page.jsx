@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation"; // Fixed: Added missing import
 import axios from "axios"; // Fixed: Added missing import
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -23,7 +24,7 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  
+
   const router = useRouter(); // Fixed: Initialize router
 
   const handleLogin = async (e) => {
@@ -52,7 +53,7 @@ const LoginForm = () => {
         setPassword("");
         setSuccess("Login successful! Redirecting...");
         toast.success("Login successful! Redirecting...");
-        
+
         // Add a small delay before redirect for better UX
         setTimeout(() => {
           router.push("/admin/dashboard");
@@ -60,11 +61,12 @@ const LoginForm = () => {
       }
     } catch (error) {
       console.error("Login error:", error);
-      
+
       // Better error handling
       if (error.response) {
         // Server responded with error status
-        const errorMessage = error.response.data?.message || "Invalid credentials";
+        const errorMessage =
+          error.response.data?.message || "Invalid credentials";
         setError(errorMessage);
         toast.error(errorMessage);
       } else if (error.request) {
@@ -106,17 +108,26 @@ const LoginForm = () => {
   };
 
   return (
-     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-100 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-100 flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
         {/* Header Section */}
+
         <motion.div
           className="text-center mb-8"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mb-6 shadow-lg">
-            <Heart className="w-8 h-8 text-white" />
+          <div className="flex flex-col items-center mb-6">
+            {/* Logo above the Heart icon */}
+            <Image
+              src="/logo/logo.png"
+              alt="Jonojivan Foundation Logo"
+              width={96} // Adjust as desired
+              height={96}
+              className="mb-2"
+              priority
+            />
           </div>
           <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent mb-2">
             Welcome Back

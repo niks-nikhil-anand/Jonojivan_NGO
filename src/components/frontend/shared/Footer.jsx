@@ -16,6 +16,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import CustomDonationForm from "../ui/CustomDonationForm";
+import Image from "next/image";
 
 const Footer = () => {
   const [isDonationFormOpen, setIsDonationFormOpen] = useState(false);
@@ -45,8 +46,17 @@ const Footer = () => {
                 <div className="flex items-center space-x-4 mb-4">
                   <div className="relative">
                     <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full opacity-20 group-hover:opacity-40 blur-md transition-all duration-500"></div>
-                    <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-3 rounded-full shadow-2xl transform group-hover:scale-110 transition-transform duration-300">
-                      <Sparkles className="h-8 w-8 text-white" />
+                    <div className="relative ">
+                      {/* Logo Image */}
+                      <Image
+                        src="/logo/logo.png"
+                        alt="JonoJivan Gramin Vikash Foundation Logo"
+                        width={180} // Adjust as needed
+                        height={180}
+                        priority
+                      />
+                      {/* If you want to use the Sparkles icon on top of or next to the logo, add it here: */}
+                      {/* <Sparkles className="h-8 w-8 text-white absolute inset-0 m-auto" /> */}
                     </div>
                   </div>
                   <div>

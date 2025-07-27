@@ -6,15 +6,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Calendar, 
+import {
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  Calendar,
   CreditCard,
   Shield,
-  Building
+  Building,
 } from "lucide-react";
 
 const MembershipPage = () => {
@@ -34,21 +34,27 @@ const MembershipPage = () => {
         if (response.ok) {
           const memberData = await response.json();
           console.log("Member data fetched:", memberData);
-          
+
           const transformedData = {
             name: memberData.user?.fullName || "N/A",
             email: memberData.user?.email || "N/A",
-            avatar: memberData.profileImage || memberData.user?.profilePic || "/api/placeholder/40/40",
+            avatar:
+              memberData.profileImage ||
+              memberData.user?.profilePic ||
+              "/api/placeholder/40/40",
             role: `${memberData.post} - ${memberData.committee}`,
             committee: memberData.committee,
             subCommittee: memberData.subCommittee,
             post: memberData.post,
             membershipId: memberData.membershipId,
             membershipStatus: memberData.membershipStatus,
-            joinDate: new Date(memberData.registrationDate).toLocaleDateString('en-US', { 
-              year: 'numeric', 
-              month: 'long' 
-            }),
+            joinDate: new Date(memberData.registrationDate).toLocaleDateString(
+              "en-US",
+              {
+                year: "numeric",
+                month: "long",
+              }
+            ),
             supportingAmount: memberData.supportingAmount || 0,
             paymentStatus: memberData.paymentStatus,
             state: memberData.state,
@@ -57,7 +63,7 @@ const MembershipPage = () => {
             mobileNumber: memberData.user?.mobileNumber,
             whatsappNumber: memberData.whatsappNumber,
           };
-          
+
           setUserData(transformedData);
         } else {
           const errorData = await response.json();
@@ -80,25 +86,25 @@ const MembershipPage = () => {
   const getStatusColor = (status) => {
     switch (status) {
       // Membership Status Colors
-      case 'Active':
-        return 'bg-green-100 text-green-800 border-green-200 hover:bg-green-200';
-      case 'Pending':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200 hover:bg-yellow-200';
-      case 'Suspended':
-        return 'bg-red-100 text-red-800 border-red-200 hover:bg-red-200';
-      case 'Inactive':
-        return 'bg-gray-100 text-gray-800 border-gray-200 hover:bg-gray-200';
-      
+      case "Active":
+        return "bg-green-100 text-green-800 border-green-200 hover:bg-green-200";
+      case "Pending":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200 hover:bg-yellow-200";
+      case "Suspended":
+        return "bg-red-100 text-red-800 border-red-200 hover:bg-red-200";
+      case "Inactive":
+        return "bg-gray-100 text-gray-800 border-gray-200 hover:bg-gray-200";
+
       // Payment Status Colors
-      case 'Paid':
-        return 'bg-green-100 text-green-800 border-green-200 hover:bg-green-200';
-      case 'Partial':
-        return 'bg-orange-100 text-orange-800 border-orange-200 hover:bg-orange-200';
-      case 'Failed':
-        return 'bg-red-100 text-red-800 border-red-200 hover:bg-red-200';
-      
+      case "Paid":
+        return "bg-green-100 text-green-800 border-green-200 hover:bg-green-200";
+      case "Partial":
+        return "bg-orange-100 text-orange-800 border-orange-200 hover:bg-orange-200";
+      case "Failed":
+        return "bg-red-100 text-red-800 border-red-200 hover:bg-red-200";
+
       default:
-        return 'bg-gray-100 text-gray-700 border-gray-200 hover:bg-gray-200';
+        return "bg-gray-100 text-gray-700 border-gray-200 hover:bg-gray-200";
     }
   };
 
@@ -145,13 +151,14 @@ const MembershipPage = () => {
       <div className="mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Membership Dashboard</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Membership Dashboard
+          </h1>
           <p className="text-gray-600">Welcome back, {userData.name}</p>
         </div>
 
         {/* Cards Grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          
           {/* Registration Details */}
           <Card className="border-gray-200 shadow-sm">
             <CardHeader className="pb-3">
@@ -163,12 +170,18 @@ const MembershipPage = () => {
             <CardContent className="space-y-3">
               <div>
                 <p className="text-sm text-gray-600">Membership ID</p>
-                <p className="font-semibold text-gray-900">{userData.membershipId}</p>
+                <p className="font-semibold text-gray-900">
+                  {userData.membershipId}
+                </p>
               </div>
               <Separator className="bg-gray-200" />
               <div>
                 <p className="text-sm text-gray-600">Status</p>
-                <Badge className={`${getStatusColor(userData.membershipStatus)} border`}>
+                <Badge
+                  className={`${getStatusColor(
+                    userData.membershipStatus
+                  )} border`}
+                >
                   {userData.membershipStatus}
                 </Badge>
               </div>
@@ -196,12 +209,16 @@ const MembershipPage = () => {
               <Separator className="bg-gray-200" />
               <div>
                 <p className="text-sm text-gray-600">Email</p>
-                <p className="font-medium text-gray-900 text-sm">{userData.email}</p>
+                <p className="font-medium text-gray-900 text-sm">
+                  {userData.email}
+                </p>
               </div>
               <Separator className="bg-gray-200" />
               <div>
                 <p className="text-sm text-gray-600">Mobile Number</p>
-                <p className="font-medium text-gray-900">{userData.mobileNumber || 'N/A'}</p>
+                <p className="font-medium text-gray-900">
+                  {userData.mobileNumber || "N/A"}
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -222,12 +239,16 @@ const MembershipPage = () => {
               <Separator className="bg-gray-200" />
               <div>
                 <p className="text-sm text-gray-600">Committee</p>
-                <p className="font-medium text-gray-900">{userData.committee}</p>
+                <p className="font-medium text-gray-900">
+                  {userData.committee}
+                </p>
               </div>
               <Separator className="bg-gray-200" />
               <div>
                 <p className="text-sm text-gray-600">Sub Committee</p>
-                <p className="font-medium text-gray-900">{userData.subCommittee || 'N/A'}</p>
+                <p className="font-medium text-gray-900">
+                  {userData.subCommittee || "N/A"}
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -253,7 +274,9 @@ const MembershipPage = () => {
               <Separator className="bg-gray-200" />
               <div>
                 <p className="text-sm text-gray-600">Joining State</p>
-                <p className="font-medium text-gray-900">{userData.joiningState}</p>
+                <p className="font-medium text-gray-900">
+                  {userData.joiningState}
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -269,12 +292,16 @@ const MembershipPage = () => {
             <CardContent className="space-y-3">
               <div>
                 <p className="text-sm text-gray-600">Supporting Amount</p>
-                <p className="font-semibold text-gray-900">₹{userData.supportingAmount}</p>
+                <p className="font-semibold text-gray-900">
+                  ₹{userData.supportingAmount}
+                </p>
               </div>
               <Separator className="bg-gray-200" />
               <div>
                 <p className="text-sm text-gray-600">Payment Status</p>
-                <Badge className={`${getStatusColor(userData.paymentStatus)} border`}>
+                <Badge
+                  className={`${getStatusColor(userData.paymentStatus)} border`}
+                >
                   {userData.paymentStatus}
                 </Badge>
               </div>
@@ -292,21 +319,26 @@ const MembershipPage = () => {
             <CardContent className="space-y-3">
               <div>
                 <p className="text-sm text-gray-600">Mobile</p>
-                <p className="font-semibold text-gray-900">{userData.mobileNumber || 'N/A'}</p>
+                <p className="font-semibold text-gray-900">
+                  {userData.mobileNumber || "N/A"}
+                </p>
               </div>
               <Separator className="bg-gray-200" />
               <div>
                 <p className="text-sm text-gray-600">WhatsApp</p>
-                <p className="font-medium text-gray-900">{userData.whatsappNumber || 'N/A'}</p>
+                <p className="font-medium text-gray-900">
+                  {userData.whatsappNumber || "N/A"}
+                </p>
               </div>
               <Separator className="bg-gray-200" />
               <div>
                 <p className="text-sm text-gray-600">Email</p>
-                <p className="font-medium text-gray-900 text-sm">{userData.email}</p>
+                <p className="font-medium text-gray-900 text-sm">
+                  {userData.email}
+                </p>
               </div>
             </CardContent>
           </Card>
-
         </div>
       </div>
     </div>
