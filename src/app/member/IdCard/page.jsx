@@ -49,7 +49,7 @@ const CONTACT_DETAILS = {
   },
   communication: {
     email: "help@jonojivan.org",
-    phone: "+91 94352 66783",
+    phone: "+91 8133997722",
     website: "www.jonojivan.in",
     whatsapp: "+91 9435266783",
   },
@@ -202,9 +202,9 @@ export default function IDCard() {
         background: "linear-gradient(135deg,#ddeeff 0%,#f8fafc 80%)",
       }}
     >
-       <div className="flex items-center justify-center bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400 h-[80px] px-6 py-3 text-white">
+      <div className="flex items-center justify-center bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400 h-[80px] px-6 py-3 text-white">
         <div className="w-14 h-14 rounded-full flex items-center justify-center bg-white shadow-md mr-4">
-          <Image
+          <img
             src="/logo/logo.png"
             alt="JonoJivan Gramin Vikash Foundation Logo"
             width={32}
@@ -320,7 +320,7 @@ export default function IDCard() {
       {/* Header */}
       <div className="flex items-center justify-center bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400 h-[80px] px-6 py-3 text-white">
         <div className="w-14 h-14 rounded-full flex items-center justify-center bg-white shadow-md mr-4">
-          <Image
+          <img
             src="/logo/logo.png"
             alt="JonoJivan Gramin Vikash Foundation Logo"
             width={32}
