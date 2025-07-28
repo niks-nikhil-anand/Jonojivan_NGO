@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "Jonojivan | Empower Lives Through Your Donation",
   description:
-    "Jonojivan is dedicated to improving lives by supporting education, healthcare, and essential needs for underserved communities. Your contribution can make a real difference—donate today.",
+    "Jonojivan is dedicated to improving lives by supporting education, healthcare, and essential needs for underserved communities. Your contribution can make a real difference—donate today. Jonojivan Gramin Vikash Foundation also advocates for Human Rights & Anti-Corruption, protecting fundamental rights and promoting transparency.",
   keywords:
     "Jonojivan, jonojivan.org, donate, NGO, charity, nonprofit, support education, healthcare access, feed the poor, empower communities, India NGO, social welfare, humanitarian aid, donation platform",
   author: "Jonojivan Team",

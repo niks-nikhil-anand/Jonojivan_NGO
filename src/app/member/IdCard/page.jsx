@@ -21,6 +21,7 @@ import {
 // Using jsPDF for proper PDF generation
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import Image from "next/image";
 
 const CONTACTS = [
   {
@@ -41,21 +42,16 @@ const TERMS_AND_CONDITIONS = [
 
 const CONTACT_DETAILS = {
   headquarters: {
-    title: "HEADQUARTERS",
-    address: "Jonojivan Foundation Building",
-    location: "Mahakal Road, Ujjain - 456001",
-    state: "Madhya Pradesh, India",
+    title: "Jonojivan Gramin Vikash  Foundation",
+    address: "Uttar Khatowal, PO- Uttar Khatowal",
+    location: "PS- Rupahihat, Nagaon - 782124",
+    state: " Assam, India",
   },
   communication: {
     email: "help@jonojivan.org",
-    phone: "+91-1800-XXX-XXXX",
-    website: "www.jonojivan.org",
-    whatsapp: "+91-98XXX-XXXXX",
-  },
-  emergency: {
-    title: "24/7 EMERGENCY HELPLINE",
-    phone: "+91-1800-XXX-XXXX",
-    email: "emergency@jonojivan.org",
+    phone: "+91 94352 66783",
+    website: "www.jonojivan.in",
+    whatsapp: "+91 9435266783",
   },
   office_hours: {
     weekdays: "Monday - Friday: 9:00 AM - 6:00 PM",
@@ -109,7 +105,7 @@ export default function IDCard() {
             state: member.state,
             phone: member.user?.mobileNumber,
             issueDate: new Date(member.registrationDate).toLocaleDateString(),
-            validUntil: member.validUntil || "---",
+            validUntil: member.validUntil || "08/25/2030",
             qrStr: `${member.user?.fullName || ""}\nID: ${
               member.membershipId || ""
             }\nPhone: ${member.user?.mobileNumber || ""}\nCommittee: ${
@@ -206,13 +202,23 @@ export default function IDCard() {
         background: "linear-gradient(135deg,#ddeeff 0%,#f8fafc 80%)",
       }}
     >
-      {/* Header */}
-      <div className="flex items-center bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400 h-[80px] px-6 py-3 text-white">
-        <Building className="w-8 h-8 mr-3 opacity-90" />
-        <div>
-          <h1 className="text-xl font-bold tracking-wide">
-            JONOJIVAN Foundation
+       <div className="flex items-center justify-center bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400 h-[80px] px-6 py-3 text-white">
+        <div className="w-14 h-14 rounded-full flex items-center justify-center bg-white shadow-md mr-4">
+          <Image
+            src="/logo/logo.png"
+            alt="JonoJivan Gramin Vikash Foundation Logo"
+            width={32}
+            height={32}
+            className="w-8 h-8"
+          />
+        </div>{" "}
+        <div className="text-center">
+          <h1 className="text-lg font-bold tracking-wide">
+            Jonojivan Foundation
           </h1>
+          <p className="font-light text-xs uppercase tracking-widest">
+            Gramin Vikash
+          </p>
         </div>
       </div>
 
@@ -313,7 +319,15 @@ export default function IDCard() {
     >
       {/* Header */}
       <div className="flex items-center justify-center bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400 h-[80px] px-6 py-3 text-white">
-        <FileText className="w-8 h-8 mr-3 opacity-90" />
+        <div className="w-14 h-14 rounded-full flex items-center justify-center bg-white shadow-md mr-4">
+          <Image
+            src="/logo/logo.png"
+            alt="JonoJivan Gramin Vikash Foundation Logo"
+            width={32}
+            height={32}
+            className="w-8 h-8"
+          />
+        </div>{" "}
         <div className="text-center">
           <h1 className="text-lg font-bold tracking-wide">
             TERMS & CONDITIONS
@@ -398,17 +412,6 @@ export default function IDCard() {
             </div>
           </div>
 
-          {/* Emergency Contact */}
-          <div className="mb-3 p-2 bg-red-50 border border-red-200 rounded">
-            <h5 className="text-[10px] font-bold text-red-700 mb-1">
-              {CONTACT_DETAILS.emergency.title}
-            </h5>
-            <div className="text-[9px] text-red-600">
-              <div>📞 {CONTACT_DETAILS.emergency.phone}</div>
-              <div>✉️ {CONTACT_DETAILS.emergency.email}</div>
-            </div>
-          </div>
-
           {/* Office Hours */}
           <div className="text-center">
             <h5 className="text-[10px] font-bold text-gray-700 mb-1">
@@ -462,7 +465,7 @@ export default function IDCard() {
 
       {!loading && userData && (
         <>
-          <div className="flex flex-row justify-center w-full gap-8">
+          <div className="flex flex-col lg:flex-row justify-center w-full gap-8">
             {/* Front Side */}
             <div className="flex-1 max-w-[380px]">
               <div className="text-center mb-4">
@@ -481,7 +484,6 @@ export default function IDCard() {
           </div>
 
           <div className="flex justify-center gap-4 my-10">
-
             <button
               onClick={handleDownloadPDF}
               disabled={isGeneratingPDF}
