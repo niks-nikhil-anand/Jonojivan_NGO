@@ -6,76 +6,31 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { toast } from "react-toastify";
-import { Award, Download, User, FileText, Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { Award, Download, User, Mail, FileText, Loader2, Sparkles, Star, Check } from "lucide-react";
 
 const CertificateGeneratorPage = () => {
   const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCertificate, setSelectedCertificate] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const certificateCategories = {
-    "educational": {
-      title: "🎓 Educational & Training",
-      certificates: [
-        "Certificate of Participation",
-        "Certificate of Completion",
-        "Certificate of Achievement",
-        "Certificate of Excellence",
-        "Skill Development Certificate",
-        "Workshop Attendance Certificate",
-        "Training Program Certificate",
-        "Internship Completion Certificate"
-      ]
-    },
-    "volunteering": {
-      title: "❤️ Volunteering & Service",
-      certificates: [
-        "Volunteer Appreciation Certificate",
-        "Social Service Recognition Certificate",
-        "Community Service Certificate",
-        "Youth Empowerment Certificate",
-        "Certificate of Contribution",
-        "Leadership in Service Certificate"
-      ]
-    },
-    "recognition": {
-      title: "🏆 Recognition & Awards",
-      certificates: [
-        "Best Volunteer Award",
-        "Change-Maker Certificate",
-        "Outstanding Dedication Certificate",
-        "Role Model Award",
-        "Certificate of Honor",
-        "Certificate of Recognition"
-      ]
-    },
-    "event": {
-      title: "👩‍🏫 Event & Campaign Based",
-      certificates: [
-        "Health Camp Participation Certificate",
-        "Awareness Campaign Certificate",
-        "Environment Drive Participation Certificate",
-        "Blood Donation Certificate",
-        "Educational Seminar Certificate",
-        "Women's Empowerment Workshop Certificate"
-      ]
-    },
-    "custom": {
-      title: "📜 Custom & Thematic",
-      certificates: [
-        "Jono Garib Kalyan Certificate",
-        "Nari Shakti Certificate (for women empowerment)",
-        "Bal Vikas Samman Patra (Child development appreciation)",
-        "Senior Citizen Support Certificate"
-      ]
-    }
-  };
-
   const handleGenerateCertificate = async () => {
     if (!fullName.trim()) {
       toast.error("Please enter your full name");
+      return;
+    }
+
+    if (!email.trim()) {
+      toast.error("Please enter your email address");
+      return;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address");
       return;
     }
 
@@ -95,6 +50,7 @@ const CertificateGeneratorPage = () => {
         credentials: "include",
         body: JSON.stringify({
           fullName: fullName.trim(),
+          email: email.trim(),
           certificateType: selectedCertificate,
           category: selectedCategory
         }),
@@ -127,108 +83,186 @@ const CertificateGeneratorPage = () => {
   };
 
   return (
-    <div className="min-h-screen h-screen bg-gradient-to-br from-blue-50 to-indigo-100 overflow-y-auto scrollbar-hide">
-      <div className="w-full mx-auto py-8 px-4">       
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 overflow-x-hidden">
+      {/* Decorative Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse animation-delay-2000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
+      </div>
 
-        {/* Main Content Layout - Form Left, Cards Right */}
-        <div className="flex flex-col lg:flex-row gap-8">
-            
-          {/* Form Section - Left Side */}
-          <div className="w-full lg:w-1/2 xl:w-2/5">
-           <div className="text-center mb-8">
-          <div className="flex justify-center items-center space-x-3 mb-4">
-            <div className="p-3 bg-blue-600 rounded-full">
-              <Award className="w-8 h-8 text-white" />
+      <div className="relative z-10 container mx-auto px-4 py-8 lg:py-12 min-h-screen flex flex-col">
+        {/* Hero Section */}
+        <div className="text-center">
+          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
+            <div className="relative flex-shrink-0">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full blur-lg opacity-30 animate-pulse"></div>
             </div>
-            <h1 className="text-4xl font-bold text-gray-800 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Certificate Generator
-            </h1>
+            <div className="text-center sm:text-left">
+              <div className="relative inline-block">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-indigo-600/20 rounded-xl sm:rounded-2xl blur-xl"></div>
+                <h1 className="relative text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent px-4 sm:px-6 py-3 sm:py-4 bg-white/50 rounded-xl sm:rounded-2xl backdrop-blur-sm border border-white/30 shadow-lg">
+                  Certificate Generator
+                </h1>
+              </div>
+              <div className="flex items-center justify-center space-x-2 mt-3 sm:mt-4">
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500 flex-shrink-0" />
+                <p className="text-sm sm:text-base lg:text-lg text-gray-600 bg-white/60 px-3 sm:px-4 py-2 rounded-full backdrop-blur-sm text-center">
+                  Generate your personalized certificate with ease
+                </p>
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500 flex-shrink-0" />
+              </div>
+            </div>
           </div>
-          <p className="text-gray-600 text-lg">Generate your personalized certificate with ease</p>
         </div>
-            <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
-              <CardHeader className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-t-lg">
-                <CardTitle className="flex items-center space-x-2 text-xl">
-                  <FileText className="w-6 h-6" />
+
+        {/* Main Content - Centered Form */}
+        <div className="flex-1 flex items-center justify-center">
+          <div className="w-full max-w-md sm:max-w-lg lg:max-w-xl xl:max-w-2xl">
+            <Card className="shadow-2xl border-0 bg-white/90 backdrop-blur-lg overflow-hidden">
+              <CardHeader className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white p-4 sm:p-6">
+                <CardTitle className="flex items-center space-x-3 text-lg sm:text-xl">
+                  <div className="p-2 bg-white/20 rounded-lg">
+                    <FileText className="w-5 h-5 sm:w-6 sm:h-6" />
+                  </div>
                   <span>Certificate Details</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-8 space-y-6">
+              <CardContent className="p-6 sm:p-8 space-y-6 sm:space-y-8">
                 {/* Full Name Input */}
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <Label htmlFor="fullName" className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
-                    <User className="w-4 h-4 text-blue-600" />
+                    <div className="p-1 bg-blue-100 rounded">
+                      <User className="w-4 h-4 text-blue-600" />
+                    </div>
                     <span>Full Name</span>
                   </Label>
-                  <Input
-                    id="fullName"
-                    type="text"
-                    placeholder="Enter your full name"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    className="w-full px-4 py-3 bg-white border-2 border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800 placeholder:text-gray-400 transition-all duration-200"
-                  />
+                  <div className="relative">
+                    <Input
+                      id="fullName"
+                      type="text"
+                      placeholder="Enter your full name"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="w-full px-4 py-3 sm:py-4 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800 placeholder:text-gray-400 transition-all duration-300 hover:border-blue-300 text-sm sm:text-base"
+                    />
+                    {fullName && (
+                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                        <Check className="w-5 h-5 text-green-500" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Email Input */}
+                <div className="space-y-3">
+                  <Label htmlFor="email" className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
+                    <div className="p-1 bg-green-100 rounded">
+                      <Mail className="w-4 h-4 text-green-600" />
+                    </div>
+                    <span>Email Address</span>
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Enter your email address"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full px-4 py-3 sm:py-4 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 placeholder:text-gray-400 transition-all duration-300 hover:border-green-300 text-sm sm:text-base"
+                    />
+                    {email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && (
+                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                        <Check className="w-5 h-5 text-green-500" />
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Certificate Category Selection */}
-                <div className="space-y-2">
-                  <Label className="text-sm font-semibold text-gray-700">Certificate Category</Label>
+                <div className="space-y-3">
+                  <Label className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
+                    <div className="p-1 bg-purple-100 rounded">
+                      <Star className="w-4 h-4 text-purple-600" />
+                    </div>
+                    <span>Certificate Category</span>
+                  </Label>
                   <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-                    <SelectTrigger className="w-full px-4 py-3 bg-white border-2 border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
-                      <SelectValue placeholder="Select a certificate category" />
+                    <SelectTrigger className="w-full px-4 py-3 sm:py-4 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-800 transition-all duration-300 hover:border-purple-300 text-sm sm:text-base">
+                      <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
-                    <SelectContent className="bg-white border-2 border-blue-200 shadow-xl rounded-lg max-h-60 overflow-y-auto">
-                      {Object.entries(certificateCategories).map(([key, category]) => (
-                        <SelectItem 
-                          key={key} 
-                          value={key} 
-                          className="hover:bg-blue-50 focus:bg-blue-100 text-gray-800 cursor-pointer py-3 px-4 transition-colors duration-150"
-                        >
-                          {category.title}
-                        </SelectItem>
-                      ))}
+                    <SelectContent className="bg-white border-2 border-gray-200 rounded-xl shadow-xl">
+                      <SelectItem value="completion" className="hover:bg-purple-50 text-sm sm:text-base">Course Completion</SelectItem>
+                      <SelectItem value="achievement" className="hover:bg-purple-50 text-sm sm:text-base">Achievement</SelectItem>
+                      <SelectItem value="participation" className="hover:bg-purple-50 text-sm sm:text-base">Participation</SelectItem>
+                      <SelectItem value="excellence" className="hover:bg-purple-50 text-sm sm:text-base">Excellence</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 {/* Certificate Type Selection */}
                 {selectedCategory && (
-                  <div className="space-y-2 animate-in slide-in-from-top-2 duration-300">
-                    <Label className="text-sm font-semibold text-gray-700">Certificate Type</Label>
+                  <div className="space-y-3">
+                    <Label className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
+                      <div className="p-1 bg-indigo-100 rounded">
+                        <Award className="w-4 h-4 text-indigo-600" />
+                      </div>
+                      <span>Certificate Type</span>
+                    </Label>
                     <Select value={selectedCertificate} onValueChange={setSelectedCertificate}>
-                      <SelectTrigger className="w-full px-4 py-3 bg-white border-2 border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
-                        <SelectValue placeholder="Select a certificate type" />
+                      <SelectTrigger className="w-full px-4 py-3 sm:py-4 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-800 transition-all duration-300 hover:border-indigo-300 text-sm sm:text-base">
+                        <SelectValue placeholder="Select certificate type" />
                       </SelectTrigger>
-                      <SelectContent className="bg-white border-2 border-blue-200 shadow-xl rounded-lg max-h-60 overflow-y-auto">
-                        {certificateCategories[selectedCategory].certificates.map((cert, index) => (
-                          <SelectItem 
-                            key={index} 
-                            value={cert} 
-                            className="hover:bg-blue-50 focus:bg-blue-100 text-gray-800 cursor-pointer py-3 px-4 transition-colors duration-150"
-                          >
-                            {cert}
-                          </SelectItem>
-                        ))}
+                      <SelectContent className="bg-white border-2 border-gray-200 rounded-xl shadow-xl">
+                        {selectedCategory === "completion" && (
+                          <>
+                            <SelectItem value="web-development" className="hover:bg-indigo-50 text-sm sm:text-base">Web Development</SelectItem>
+                            <SelectItem value="data-science" className="hover:bg-indigo-50 text-sm sm:text-base">Data Science</SelectItem>
+                            <SelectItem value="mobile-app" className="hover:bg-indigo-50 text-sm sm:text-base">Mobile App Development</SelectItem>
+                          </>
+                        )}
+                        {selectedCategory === "achievement" && (
+                          <>
+                            <SelectItem value="top-performer" className="hover:bg-indigo-50 text-sm sm:text-base">Top Performer</SelectItem>
+                            <SelectItem value="innovation" className="hover:bg-indigo-50 text-sm sm:text-base">Innovation Award</SelectItem>
+                            <SelectItem value="leadership" className="hover:bg-indigo-50 text-sm sm:text-base">Leadership Excellence</SelectItem>
+                          </>
+                        )}
+                        {selectedCategory === "participation" && (
+                          <>
+                            <SelectItem value="workshop" className="hover:bg-indigo-50 text-sm sm:text-base">Workshop Participation</SelectItem>
+                            <SelectItem value="hackathon" className="hover:bg-indigo-50 text-sm sm:text-base">Hackathon Participation</SelectItem>
+                            <SelectItem value="seminar" className="hover:bg-indigo-50 text-sm sm:text-base">Seminar Attendance</SelectItem>
+                          </>
+                        )}
+                        {selectedCategory === "excellence" && (
+                          <>
+                            <SelectItem value="academic" className="hover:bg-indigo-50 text-sm sm:text-base">Academic Excellence</SelectItem>
+                            <SelectItem value="research" className="hover:bg-indigo-50 text-sm sm:text-base">Research Excellence</SelectItem>
+                            <SelectItem value="project" className="hover:bg-indigo-50 text-sm sm:text-base">Project Excellence</SelectItem>
+                          </>
+                        )}
                       </SelectContent>
                     </Select>
                   </div>
                 )}
 
                 {/* Generate Button */}
-                <div className="pt-6">
+                <div className="pt-4 sm:pt-6">
                   <Button
                     onClick={handleGenerateCertificate}
-                    disabled={loading || !fullName.trim() || !selectedCertificate}
-                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-4 rounded-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-lg"
+                    disabled={loading || !fullName.trim() || !email.trim() || !selectedCertificate}
+                    className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 hover:from-blue-700 hover:via-purple-700 hover:to-indigo-700 text-white py-4 sm:py-5 rounded-xl font-semibold text-base sm:text-lg transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-xl relative overflow-hidden group"
                   >
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                     {loading ? (
-                      <div className="flex items-center space-x-2">
-                        <Loader2 className="w-5 h-5 animate-spin" />
+                      <div className="flex items-center justify-center space-x-3">
+                        <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin" />
                         <span>Generating Certificate...</span>
                       </div>
                     ) : (
-                      <div className="flex items-center space-x-2">
-                        <Download className="w-5 h-5" />
+                      <div className="flex items-center justify-center space-x-3">
+                        <Download className="w-5 h-5 sm:w-6 sm:h-6" />
                         <span>Generate Certificate</span>
                       </div>
                     )}
@@ -236,52 +270,6 @@ const CertificateGeneratorPage = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>
-
-          {/* Certificate Categories Preview Cards - Right Side */}
-          <div className="w-full lg:w-1/2 xl:w-3/5 flex flex-col">
-            <div className="mb-6 flex flex-col justify-center items-center">
-              <h2 className="text-2xl font-bold text-gray-800 mb-2 text-center lg:text-left">
-                Available Certificate Categories
-              </h2>
-              <p className="text-gray-600 text-center lg:text-left">
-                Choose from our wide range of certificate types
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-50 pr-2">
-              {Object.entries(certificateCategories).map(([key, category]) => (
-                <Card 
-                  key={key} 
-                  className={`hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 bg-white/70 backdrop-blur-sm border-0 cursor-pointer ${
-                    selectedCategory === key ? 'ring-2 ring-blue-500 shadow-lg' : ''
-                  }`}
-                  onClick={() => handleCategoryChange(key)}
-                >
-                  <CardHeader className="pb-3 bg-gradient-to-br from-blue-500 to-indigo-500 text-white rounded-t-lg">
-                    <CardTitle className="text-lg font-semibold">
-                      {category.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="pt-4">
-                    <div className="space-y-2">
-                      {category.certificates.slice(0, 4).map((cert, index) => (
-                        <p key={index} className="text-sm text-gray-600 flex items-start">
-                          <span className="text-blue-500 mr-2 flex-shrink-0">•</span>
-                          <span className="line-clamp-1">{cert}</span>
-                        </p>
-                      ))}
-                      {category.certificates.length > 4 && (
-                        <p className="text-sm text-blue-600 font-semibold flex items-center pt-1">
-                          <span className="text-blue-500 mr-2">+</span>
-                          {category.certificates.length - 4} more certificates...
-                        </p>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
           </div>
         </div>
       </div>
