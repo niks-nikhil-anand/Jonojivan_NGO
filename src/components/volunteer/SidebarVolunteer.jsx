@@ -109,7 +109,7 @@ const SidebarVolunteer = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
         {
           icon: Award,
           label: "Our Certificate",
-          href: "/volunteer/membership/certificate",
+          href: "/member/certificate/allCertificate",
           badge: null,
         },
       ],
