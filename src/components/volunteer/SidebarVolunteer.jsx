@@ -123,23 +123,11 @@ const SidebarVolunteer = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           href: "/member/profile",
           badge: null,
         },
-        {
-          icon: Settings,
-          label: "Account",
-          href: "/volunteer/profile/account",
-          badge: null,
-        },
       ],
     },
     {
       title: "Actions",
       items: [
-        {
-          icon: Heart,
-          label: "Donate Now",
-          href: "/volunteer/donations/donate",
-          badge: "New",
-        },
         {
           icon: Receipt,
           label: "Receipt",

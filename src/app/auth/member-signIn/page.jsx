@@ -89,9 +89,6 @@ const Page = () => {
           <h3 className="text-xl font-semibold text-blue-700 mb-2">
             Jonojivan Member SignIn
           </h3>
-          <p className="text-blue-600 text-base font-medium">
-            Jonojivan Foundation
-          </p>
         </div>
 
         <div className="bg-white rounded-3xl p-8 shadow-2xl border border-blue-200 relative overflow-hidden group hover:shadow-3xl transition-all duration-500">

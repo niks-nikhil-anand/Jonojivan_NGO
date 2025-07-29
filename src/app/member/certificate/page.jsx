@@ -1,18 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
+import axios from "axios";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Award, Download, User, Mail, FileText, Loader2, Sparkles, Star, Check } from "lucide-react";
+import { Award, Send, User, Mail, FileText, Loader2, Sparkles, Check } from "lucide-react";
 
 const CertificateGeneratorPage = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCertificate, setSelectedCertificate] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -41,45 +41,67 @@ const CertificateGeneratorPage = () => {
 
     try {
       setLoading(true);
+      
+      // Show loading toast
+      const loadingToast = toast.loading("Submitting certificate request...", {
+        description: "Please wait while we process your request"
+      });
 
-      const response = await fetch("/api/member/certificate", {
-        method: "POST",
+      const response = await axios.post("/api/member/certificate", {
+        fullName: fullName.trim(),
+        email: email.trim(),
+        certificateType: selectedCertificate
+      }, {
+        withCredentials: true,
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
-        body: JSON.stringify({
-          fullName: fullName.trim(),
-          email: email.trim(),
-          certificateType: selectedCertificate,
-          category: selectedCategory
-        }),
+        timeout: 30000, // 30 second timeout
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        toast.success("Certificate generated successfully!");
+      // Dismiss loading toast
+      toast.dismiss(loadingToast);
+
+      if (response.status === 200) {
+        toast.success("Certificate request submitted successfully!", {
+          description: "Your certificate has been sent for review. You will be notified once it's approved.",
+          duration: 5000
+        });
         
-        if (result.downloadUrl) {
-          window.open(result.downloadUrl, '_blank');
-        } else if (result.certificateData) {
-          console.log("Certificate data:", result.certificateData);
-        }
-      } else {
-        const errorData = await response.json();
-        toast.error(`Failed to generate certificate: ${errorData.msg || 'Unknown error'}`);
+        // Reset form after successful submission
+        setFullName("");
+        setEmail("");
+        setSelectedCertificate("");
       }
     } catch (error) {
-      console.error("Error generating certificate:", error);
-      toast.error("Failed to generate certificate");
+      console.error("Error submitting certificate request:", error);
+      
+      if (axios.isCancel(error)) {
+        toast.error("Request was cancelled");
+      } else if (error.code === 'ECONNABORTED') {
+        toast.error("Request timeout", {
+          description: "The server took too long to respond. Please try again."
+        });
+      } else if (error.response) {
+        // Server responded with error status
+        const errorMessage = error.response.data?.msg || error.response.data?.message || 'Unknown error';
+        toast.error(`Failed to submit certificate request`, {
+          description: errorMessage
+        });
+      } else if (error.request) {
+        // Network error
+        toast.error("Network error", {
+          description: "Please check your internet connection and try again"
+        });
+      } else {
+        // Something else happened
+        toast.error("Failed to submit certificate request", {
+          description: "An unexpected error occurred"
+        });
+      }
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-    setSelectedCertificate("");
   };
 
   return (
@@ -91,7 +113,7 @@ const CertificateGeneratorPage = () => {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 py-8 lg:py-12 min-h-screen flex flex-col">
+      <div className="relative z-10 container mx-auto px-4 py-8 lg:py-12 min-h-screen flex flex-col ">
         {/* Hero Section */}
         <div className="text-center">
           <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
@@ -102,13 +124,13 @@ const CertificateGeneratorPage = () => {
               <div className="relative inline-block">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-indigo-600/20 rounded-xl sm:rounded-2xl blur-xl"></div>
                 <h1 className="relative text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent px-4 sm:px-6 py-3 sm:py-4 bg-white/50 rounded-xl sm:rounded-2xl backdrop-blur-sm border border-white/30 shadow-lg">
-                  Certificate Generator
+                  Certificate Request
                 </h1>
               </div>
               <div className="flex items-center justify-center space-x-2 mt-3 sm:mt-4">
                 <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500 flex-shrink-0" />
                 <p className="text-sm sm:text-base lg:text-lg text-gray-600 bg-white/60 px-3 sm:px-4 py-2 rounded-full backdrop-blur-sm text-center">
-                  Generate your personalized certificate with ease
+                  Submit your certificate request for review
                 </p>
                 <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500 flex-shrink-0" />
               </div>
@@ -125,7 +147,7 @@ const CertificateGeneratorPage = () => {
                   <div className="p-2 bg-white/20 rounded-lg">
                     <FileText className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
-                  <span>Certificate Details</span>
+                  <span>Certificate Request Form</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6 sm:p-8 space-y-6 sm:space-y-8">
@@ -179,75 +201,27 @@ const CertificateGeneratorPage = () => {
                   </div>
                 </div>
 
-                {/* Certificate Category Selection */}
+                {/* Certificate Type Selection - FIXED */}
                 <div className="space-y-3">
                   <Label className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
-                    <div className="p-1 bg-purple-100 rounded">
-                      <Star className="w-4 h-4 text-purple-600" />
+                    <div className="p-1 bg-indigo-100 rounded">
+                      <Award className="w-4 h-4 text-indigo-600" />
                     </div>
-                    <span>Certificate Category</span>
+                    <span>Certificate Type</span>
                   </Label>
-                  <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-                    <SelectTrigger className="w-full px-4 py-3 sm:py-4 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-800 transition-all duration-300 hover:border-purple-300 text-sm sm:text-base">
-                      <SelectValue placeholder="Select a category" />
+                  <Select value={selectedCertificate} onValueChange={setSelectedCertificate}>
+                    <SelectTrigger className="w-full px-4 py-3 sm:py-4 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-800 transition-all duration-300 hover:border-indigo-300 text-sm sm:text-base">
+                      <SelectValue placeholder="Select certificate type" />
                     </SelectTrigger>
                     <SelectContent className="bg-white border-2 border-gray-200 rounded-xl shadow-xl">
-                      <SelectItem value="completion" className="hover:bg-purple-50 text-sm sm:text-base">Course Completion</SelectItem>
-                      <SelectItem value="achievement" className="hover:bg-purple-50 text-sm sm:text-base">Achievement</SelectItem>
-                      <SelectItem value="participation" className="hover:bg-purple-50 text-sm sm:text-base">Participation</SelectItem>
-                      <SelectItem value="excellence" className="hover:bg-purple-50 text-sm sm:text-base">Excellence</SelectItem>
+                      <SelectItem value="Achievement" className="hover:bg-indigo-50 text-sm sm:text-base">Achievement</SelectItem>
+                      <SelectItem value="Participation" className="hover:bg-indigo-50 text-sm sm:text-base">Participation</SelectItem>
+                      <SelectItem value="Excellence" className="hover:bg-indigo-50 text-sm sm:text-base">Excellence</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
-                {/* Certificate Type Selection */}
-                {selectedCategory && (
-                  <div className="space-y-3">
-                    <Label className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
-                      <div className="p-1 bg-indigo-100 rounded">
-                        <Award className="w-4 h-4 text-indigo-600" />
-                      </div>
-                      <span>Certificate Type</span>
-                    </Label>
-                    <Select value={selectedCertificate} onValueChange={setSelectedCertificate}>
-                      <SelectTrigger className="w-full px-4 py-3 sm:py-4 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-800 transition-all duration-300 hover:border-indigo-300 text-sm sm:text-base">
-                        <SelectValue placeholder="Select certificate type" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white border-2 border-gray-200 rounded-xl shadow-xl">
-                        {selectedCategory === "completion" && (
-                          <>
-                            <SelectItem value="web-development" className="hover:bg-indigo-50 text-sm sm:text-base">Web Development</SelectItem>
-                            <SelectItem value="data-science" className="hover:bg-indigo-50 text-sm sm:text-base">Data Science</SelectItem>
-                            <SelectItem value="mobile-app" className="hover:bg-indigo-50 text-sm sm:text-base">Mobile App Development</SelectItem>
-                          </>
-                        )}
-                        {selectedCategory === "achievement" && (
-                          <>
-                            <SelectItem value="top-performer" className="hover:bg-indigo-50 text-sm sm:text-base">Top Performer</SelectItem>
-                            <SelectItem value="innovation" className="hover:bg-indigo-50 text-sm sm:text-base">Innovation Award</SelectItem>
-                            <SelectItem value="leadership" className="hover:bg-indigo-50 text-sm sm:text-base">Leadership Excellence</SelectItem>
-                          </>
-                        )}
-                        {selectedCategory === "participation" && (
-                          <>
-                            <SelectItem value="workshop" className="hover:bg-indigo-50 text-sm sm:text-base">Workshop Participation</SelectItem>
-                            <SelectItem value="hackathon" className="hover:bg-indigo-50 text-sm sm:text-base">Hackathon Participation</SelectItem>
-                            <SelectItem value="seminar" className="hover:bg-indigo-50 text-sm sm:text-base">Seminar Attendance</SelectItem>
-                          </>
-                        )}
-                        {selectedCategory === "excellence" && (
-                          <>
-                            <SelectItem value="academic" className="hover:bg-indigo-50 text-sm sm:text-base">Academic Excellence</SelectItem>
-                            <SelectItem value="research" className="hover:bg-indigo-50 text-sm sm:text-base">Research Excellence</SelectItem>
-                            <SelectItem value="project" className="hover:bg-indigo-50 text-sm sm:text-base">Project Excellence</SelectItem>
-                          </>
-                        )}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                )}
-
-                {/* Generate Button */}
+                {/* Submit Button */}
                 <div className="pt-4 sm:pt-6">
                   <Button
                     onClick={handleGenerateCertificate}
@@ -258,12 +232,12 @@ const CertificateGeneratorPage = () => {
                     {loading ? (
                       <div className="flex items-center justify-center space-x-3">
                         <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin" />
-                        <span>Generating Certificate...</span>
+                        <span>Submitting Request...</span>
                       </div>
                     ) : (
                       <div className="flex items-center justify-center space-x-3">
-                        <Download className="w-5 h-5 sm:w-6 sm:h-6" />
-                        <span>Generate Certificate</span>
+                        <Send className="w-5 h-5 sm:w-6 sm:h-6" />
+                        <span>Submit Certificate Request</span>
                       </div>
                     )}
                   </Button>

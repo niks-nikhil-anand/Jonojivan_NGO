@@ -1,6 +1,7 @@
 import connectDB from "@/lib/dbConnect";
 import { NextResponse } from "next/server";
 import Campaign from "@/models/campaignModels"; // Capitalize model name for consistency
+import certificateModels from "@/models/certificateModels";
 
 // GET request to fetch a campaign by its ID
 export const GET = async (request, { params }) => {
@@ -20,7 +21,7 @@ export const GET = async (request, { params }) => {
     await connectDB();
     console.log("Database connection successful");
 
-    const campaignData = await Campaign.findById(id);
+    const campaignData = await certificateModels.findById(id);
     if (!campaignData) {
       console.warn("GET Request: Campaign not found for ID:", id);
       return NextResponse.json({ msg: "Campaign not found" }, { status: 404 });
