@@ -26,6 +26,7 @@ import {
   Loader2,
 } from "lucide-react";
 import Initiatives from "@/components/frontend/shared/Initiatives";
+import IdCardGenerator from "@/lib/garibKalyanCertificate";
 
 export default function JonojivanMembershipPage() {
   const [formData, setFormData] = useState({
@@ -47,12 +48,23 @@ export default function JonojivanMembershipPage() {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showIdCard, setShowIdCard] = useState(false);
+  const [membershipData, setMembershipData] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    let filteredValue = value;
+
+    // Only allow numbers for contact number and account number
+    if (name === "contactNumber") {
+      filteredValue = value.replace(/\D/g, "").slice(0, 10); // Only digits, max 10
+    } else if (name === "accountNumber") {
+      filteredValue = value.replace(/\D/g, "").slice(0, 16); // Only digits, max 16
+    }
+
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: filteredValue,
     }));
 
     // Clear error when user starts typing
@@ -103,8 +115,8 @@ export default function JonojivanMembershipPage() {
 
     if (!formData.contactNumber.trim()) {
       newErrors.contactNumber = "Contact number is required";
-    } else if (!/^\d{10}$/.test(formData.contactNumber)) {
-      newErrors.contactNumber = "Please enter a valid 10-digit phone number";
+    } else if (formData.contactNumber.length !== 10) {
+      newErrors.contactNumber = "Please enter exactly 10 digits";
     }
 
     if (!formData.documentNumber.trim()) {
@@ -113,6 +125,8 @@ export default function JonojivanMembershipPage() {
 
     if (!formData.accountNumber.trim()) {
       newErrors.accountNumber = "Account number is required";
+    } else if (formData.accountNumber.length !== 16) {
+      newErrors.accountNumber = "Please enter exactly 16 digits";
     }
 
     if (!formData.photoUpload) {
@@ -129,6 +143,12 @@ export default function JonojivanMembershipPage() {
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
+  };
+
+  const generateMembershipId = () => {
+    const timestamp = Date.now().toString();
+    const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+    return `JGK${timestamp.slice(-6)}${randomNum}`;
   };
 
   const handleSubmit = async (e) => {
@@ -169,7 +189,6 @@ export default function JonojivanMembershipPage() {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        // Optional: Add upload progress tracking
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round(
             (progressEvent.loaded * 100) / progressEvent.total
@@ -180,8 +199,25 @@ export default function JonojivanMembershipPage() {
 
       // Handle successful response
       if (response.status === 200 || response.status === 201) {
+        // Generate membership data for ID card
+        const membershipId = generateMembershipId();
+        const membershipDataForId = {
+          membershipId,
+          memberName: formData.memberName,
+          contactNumber: formData.contactNumber,
+          documentNumber: formData.documentNumber,
+          accountNumber: formData.accountNumber,
+          referLinkIdCard: formData.referLinkIdCard,
+          photoUpload: formData.photoUpload,
+          issueDate: new Date().toLocaleDateString('en-IN'),
+          expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toLocaleDateString('en-IN'), // 1 year from now
+        };
+
+        setMembershipData(membershipDataForId);
+        setShowIdCard(true);
+
         alert(
-          "Membership application submitted successfully! We will review your application and contact you soon."
+          "Membership application submitted successfully! Your ID card will be generated and downloaded automatically."
         );
         
         // Reset form
@@ -210,18 +246,14 @@ export default function JonojivanMembershipPage() {
     } catch (error) {
       console.error('Error submitting form:', error);
       
-      // Handle different types of errors
       if (error.response) {
-        // Server responded with error status
         const errorMessage = error.response.data?.message || 
                            error.response.data?.error || 
                            `Server error: ${error.response.status}`;
         alert(`Failed to submit application: ${errorMessage}`);
       } else if (error.request) {
-        // Request was made but no response received
         alert("Network error: Please check your internet connection and try again.");
       } else {
-        // Something else happened
         alert("An unexpected error occurred. Please try again.");
       }
     } finally {
@@ -307,7 +339,9 @@ export default function JonojivanMembershipPage() {
             </p>
             <div className="flex justify-center">
               <div className="bg-white/20 px-6 py-3 rounded-full backdrop-blur-sm">
-                <p className="text-white font-semibold">Jonojivan Garib Kalyan </p>
+                <p className="text-white font-semibold">
+                  Jonojivan Garib Kalyan{" "}
+                </p>
               </div>
             </div>
           </div>
@@ -362,19 +396,23 @@ export default function JonojivanMembershipPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <Phone className="w-4 h-4 inline mr-2" />
-                  Contact Number *
+                  Contact Number * (10 digits only)
                 </label>
                 <input
-                  type="tel"
+                  type="text"
                   name="contactNumber"
                   value={formData.contactNumber}
                   onChange={handleInputChange}
                   disabled={isSubmitting}
+                  maxLength="10"
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed ${
                     errors.contactNumber ? "border-red-500" : "border-gray-300"
                   }`}
                   placeholder="Enter your 10-digit phone number"
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  {formData.contactNumber.length}/10 digits
+                </p>
                 {errors.contactNumber && (
                   <p className="mt-1 text-sm text-red-600 flex items-center">
                     <AlertCircle className="w-4 h-4 mr-1" />
@@ -412,7 +450,7 @@ export default function JonojivanMembershipPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <Banknote className="w-4 h-4 inline mr-2" />
-                  Account Number *
+                  Account Number * (16 digits only)
                 </label>
                 <input
                   type="text"
@@ -420,11 +458,15 @@ export default function JonojivanMembershipPage() {
                   value={formData.accountNumber}
                   onChange={handleInputChange}
                   disabled={isSubmitting}
+                  maxLength="16"
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed ${
                     errors.accountNumber ? "border-red-500" : "border-gray-300"
                   }`}
-                  placeholder="Enter your bank account number"
+                  placeholder="Enter your 16-digit bank account number"
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  {formData.accountNumber.length}/16 digits
+                </p>
                 {errors.accountNumber && (
                   <p className="mt-1 text-sm text-red-600 flex items-center">
                     <AlertCircle className="w-4 h-4 mr-1" />
@@ -617,6 +659,12 @@ export default function JonojivanMembershipPage() {
             </form>
           </div>
         </div>
+         {showIdCard && membershipData && (
+        <IdCardGenerator 
+          membershipData={membershipData}
+          onClose={() => setShowIdCard(false)}
+        />
+      )}
       </section>
 
       {/* Contact Information */}

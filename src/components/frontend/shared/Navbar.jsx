@@ -30,7 +30,6 @@ const Navbar = () => {
     { href: "/", label: "Home" },
     { href: "/aboutUs", label: "Certification" },
     { href: "/how-we-work", label: "Our Projects" },
-    { href: "/impactStories", label: "Id Card Download" },
     { href: "/jonojivan-garib-kalyan", label: "Jonojivan Garib Kalyan" },
     { href: "/become-member", label: "Become a member" },
     { href: "/mediaGallery", label: "Press/Media Gallery" },
