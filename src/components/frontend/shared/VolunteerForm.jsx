@@ -636,7 +636,7 @@ const VolunteerRegistrationForm = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Supporting Amount *
+                     Supporting Amount (Non-Refundable)*
                     </label>
                     <input
                       type="number"
