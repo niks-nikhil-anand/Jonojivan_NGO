@@ -561,7 +561,7 @@ const VolunteerRegistrationForm = () => {
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     >
-                      <option value="">Select Committee(Non-Refundable)</option>
+                      <option value="">Select Committee</option>
                       {committees.map((committee, index) => (
                         <option key={index} value={committee.name}>
                           {committee.name} - ₹{committee.amount}
