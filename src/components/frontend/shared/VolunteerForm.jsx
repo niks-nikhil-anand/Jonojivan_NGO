@@ -544,7 +544,7 @@ const VolunteerRegistrationForm = () => {
               <div className="flex items-center gap-3 mb-6">
                 <Users className="w-6 h-6 text-purple-600" />
                 <h3 className="text-2xl font-semibold text-gray-900">
-                  Joining Details
+                  Joining Details*(Amount Non-Refundable)
                 </h3>
               </div>
 
