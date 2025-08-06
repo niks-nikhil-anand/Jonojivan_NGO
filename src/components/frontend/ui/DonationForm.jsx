@@ -413,7 +413,7 @@ const DonationForm = () => {
                 <Button className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-6 font-semibold text-sm group">
                   <span className="flex items-center justify-center">
                     <LogIn className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
-                    Sign In
+                    Member Login 
                   </span>
                 </Button>
               </Link>
