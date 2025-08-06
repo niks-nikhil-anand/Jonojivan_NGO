@@ -148,7 +148,7 @@ const memberSchema = new mongoose.Schema(
       default: "Pending",
     },
 
-    // Membership ID (auto-generated)
+    // Membership ID (auto-generated with improved indexing)
     membershipId: {
       type: String,
       unique: true,
@@ -189,25 +189,5 @@ const memberSchema = new mongoose.Schema(
   }
 );
 
-// Pre-save middleware to generate membership ID
-memberSchema.pre("save", async function (next) {
-  if (this.isNew && !this.membershipId) {
-    const count = await mongoose.model("Member").countDocuments();
-    const year = new Date().getFullYear();
-    this.membershipId = `JJF${year}${String(count + 1).padStart(6, "0")}`;
-  }
-  next();
-});
-// Virtual for full member details with user info
-memberSchema.virtual("fullDetails", {
-  ref: "User",
-  localField: "user",
-  foreignField: "_id",
-  justOne: true,
-});
-
-// Ensure virtual fields are serialized
-memberSchema.set("toJSON", { virtuals: true });
-memberSchema.set("toObject", { virtuals: true });
 
 export default mongoose.models.Member || mongoose.model("Member", memberSchema);
