@@ -6,14 +6,14 @@ import bcrypt from 'bcrypt';
 import memberModels from "@/models/memberModels";
 
 async function generateMembershipId() {
-  const prefix = "JM"; // Jonojivan Member
+  const prefix = "JJGVF"; // Jonojivan Member
   const year = new Date().getFullYear();
 
   let unique = false;
   let membershipId = "";
 
   while (!unique) {
-    const randomDigits = Math.floor(100000 + Math.random() * 900000); // 6-digit random number
+    const randomDigits = Math.floor(100000 + Math.random() * 900000); 
     membershipId = `${prefix}-${year}-${randomDigits}`;
 
     const existing = await memberModels.findOne({ membershipId });
