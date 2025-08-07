@@ -62,13 +62,12 @@ const VolunteerRegistrationForm = () => {
   ];
 
   const subCommittees = [
-  "Main Body",
-  "National Body",
-  "State Body",
-  "District Body",
-  "Sub Body",
-];
-
+    "Main Body",
+    "National Body",
+    "State Body",
+    "District Body",
+    "Sub Body",
+  ];
 
   const posts = [
     "Area District Manager",
@@ -100,8 +99,41 @@ const VolunteerRegistrationForm = () => {
     "Team Service Manager",
     "Training Manager",
     "Vice Chairman",
-  ];
 
+    // Human Rights Committee
+    "HUMAN RIGHTS COMMITTEE PRESIDENT",
+    "HUMAN RIGHTS COMMITTEE SECRETARY",
+    "HUMAN RIGHTS COMMITTEE MEMBER",
+
+    // Anti-Corruption Committee
+    "ANTI CORRUPTION COMMITTEE PRESIDENT",
+    "ANTI CORRUPTION COMMITTEE SECRETARY",
+    "ANTI CORRUPTION COMMITTEE MEMBER",
+
+    // School Committee
+    "SCHOOL COMMITTEE PRESIDENT",
+    "SCHOOL COMMITTEE SECRETARY",
+    "SCHOOL COMMITTEE MEMBER",
+
+    // Social Welfare Committee
+    "SOCIAL WELFARE COMMITTEE PRESIDENT",
+    "SOCIAL WELFARE COMMITTEE SECRETARY",
+    "SOCIAL WELFARE MEMBER",
+
+    // Sarva Shiksha
+    "SARVA SHIKSHA SCHOOL TEACHER",
+    "SARVA SHIKSHA SCHOOL STUDENT",
+
+    // Nari Shakti Group
+    "NARI SHAKTI GROUP PRESIDENT",
+    "NARI SHAKTI GROUP SECRETARY",
+    "NARI SHAKTI GROUP MEMBER",
+
+    // Garib Kalyan Seva Committee
+    "GARIB KALYAN SEVA COMMITTEE PRESIDENT",
+    "GARIB KALYAN SEVA COMMITTEE SECRETARY",
+    "GARIB KALYAN SEVA COMMITTEE MEMBER",
+  ];
   const indianStates = [
     "Andhra Pradesh",
     "Arunachal Pradesh",
@@ -638,7 +670,7 @@ const VolunteerRegistrationForm = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                     Supporting Amount (Non-Refundable)*
+                      Supporting Amount (Non-Refundable)*
                     </label>
                     <input
                       type="number"
