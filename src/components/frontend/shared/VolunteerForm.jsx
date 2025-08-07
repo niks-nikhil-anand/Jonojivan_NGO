@@ -62,11 +62,13 @@ const VolunteerRegistrationForm = () => {
   ];
 
   const subCommittees = [
-    "Main Body",
-    "Women's Front",
-    "Youth Front",
-    "Minority Front",
-  ];
+  "Main Body",
+  "National Body",
+  "State Body",
+  "District Body",
+  "Sub Body",
+];
+
 
   const posts = [
     "Area District Manager",

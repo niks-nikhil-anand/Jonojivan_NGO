@@ -88,7 +88,7 @@ const memberSchema = new mongoose.Schema(
     subCommittee: {
       type: String,
       required: [true, "Sub committee is required"],
-      enum: ["Main Body", "Women's Front", "Youth Front", "Minority Front"],
+      enum: ["Main Body", "National Body", "State Body", "District Body" , "Sub Body"],
     },
     joiningState: {
       type: String,
@@ -147,8 +147,6 @@ const memberSchema = new mongoose.Schema(
       enum: ["Pending", "Active", "Suspended", "Inactive"],
       default: "Pending",
     },
-
-    // Membership ID (auto-generated with improved indexing)
     membershipId: {
       type: String,
       unique: true,
