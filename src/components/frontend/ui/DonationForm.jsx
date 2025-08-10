@@ -457,7 +457,7 @@ const DonationForm = () => {
                       Bank Details
                     </p>
                     <p className="text-white font-semibold">
-                      AU SMALL FINANCE BANK
+                      Jio Payment Bank
                     </p>
                   </div>
                 </div>
@@ -469,7 +469,7 @@ const DonationForm = () => {
                       Account Number
                     </p>
                     <p className="text-white font-mono font-semibold">
-                      2211260142868327
+                     0004 2041 1036 636
                     </p>
                   </div>
                 </div>
@@ -483,7 +483,7 @@ const DonationForm = () => {
                       IFSC Code
                     </p>
                     <p className="text-white font-mono font-semibold">
-                      AUBL0002601
+                      JIOP0000001
                     </p>
                   </div>
                 </div>
