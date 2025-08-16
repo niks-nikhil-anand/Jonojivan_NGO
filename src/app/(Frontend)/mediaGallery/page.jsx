@@ -71,6 +71,18 @@ const images = [
     title: "Future Leaders",
     description: "Empowering tomorrow's changemakers",
   },
+  {
+    src: "/mediaGallery/img11.jpeg",
+    alt: "Gallery Image 10",
+    title: "Jonojivan",
+    description: "Empowering tomorrow's changemakers",
+  },
+  {
+    src: "/mediaGallery/img12.jpeg",
+    alt: "Gallery Image 10",
+    title: "Jonojivan",
+    description: "Empowering tomorrow's changemakers",
+  },
 ];
 
 export default function MediaGallery() {
