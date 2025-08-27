@@ -135,7 +135,6 @@ const memberSchema = new mongoose.Schema(
         "Training Manager",
         "Vice Chairman",
         "Sabalambi Member",
-
         // Human Rights Committee
         "HUMAN RIGHTS COMMITTEE PRESIDENT",
         "HUMAN RIGHTS COMMITTEE SECRETARY",
