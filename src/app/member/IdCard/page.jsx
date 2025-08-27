@@ -221,10 +221,10 @@ export default function IDCard() {
         </div>{" "}
         <div className="text-center">
           <h2 className="text-lg font-bold tracking-wide text-white">
-            Jonojivan Foundation
+            Jonojivan Gramin Vikash 
           </h2>
           <h2 className="text-lg font-bold tracking-wide text-white">
-            Gramin Vikash
+            Foundation
           </h2>
         </div>
       </div>
