@@ -10,6 +10,7 @@ import MissionVisionSection from "@/components/frontend/ui/MissionVisionSection"
 import VolunteerOpportunities from "@/components/frontend/shared/VolunteerOpportunities";
 import Initiatives from "@/components/frontend/shared/Initiatives";
 import FoodBhandara from "@/components/frontend/shared/FoodBhandara";
+import CardSlider from "@/components/frontend/ui/CardSlider";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <DonationForm/>
       <FoodBhandara/>
       <Initiatives/>
+      <CardSlider/>
       <VolunteerOpportunities/>
       {/* <ProgramsSections/>   */}
       <CausesSection/>
