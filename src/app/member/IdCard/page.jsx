@@ -93,6 +93,13 @@ export default function IDCard() {
         });
         if (res.ok) {
           const member = await res.json();
+
+          const issueDate = new Date(member.registrationDate);
+
+          // ✅ Add 11 months for validUntil
+          const validUntilDate = new Date(issueDate);
+          validUntilDate.setMonth(validUntilDate.getMonth() + 11);
+
           setUserData({
             name: member.user?.fullName || "N/A",
             email: member.user?.email || "N/A",
@@ -104,8 +111,8 @@ export default function IDCard() {
             district: member.district,
             state: member.state,
             phone: member.user?.mobileNumber,
-            issueDate: new Date(member.registrationDate).toLocaleDateString(),
-            validUntil: member.validUntil || "08/25/2030",
+            issueDate: issueDate.toLocaleDateString(), // format as needed
+            validUntil: validUntilDate.toLocaleDateString(), // format as needed
             qrStr: `${member.user?.fullName || ""}\nID: ${
               member.membershipId || ""
             }\nPhone: ${member.user?.mobileNumber || ""}\nCommittee: ${
@@ -204,7 +211,7 @@ export default function IDCard() {
     >
       <div className="flex items-center justify-center bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400 h-[80px] px-6 py-3 text-white">
         <div className="w-14 h-14 rounded-full flex items-center justify-center bg-white shadow-md mr-4">
-          <img
+          <Image
             src="/logo/logo.png"
             alt="JonoJivan Gramin Vikash Foundation Logo"
             width={32}
@@ -213,12 +220,12 @@ export default function IDCard() {
           />
         </div>{" "}
         <div className="text-center">
-          <h1 className="text-lg font-bold tracking-wide">
+          <h2 className="text-lg font-bold tracking-wide text-white">
             Jonojivan Foundation
-          </h1>
-          <p className="font-light text-xs uppercase tracking-widest">
+          </h2>
+          <h2 className="text-lg font-bold tracking-wide text-white">
             Gramin Vikash
-          </p>
+          </h2>
         </div>
       </div>
 
@@ -228,10 +235,12 @@ export default function IDCard() {
         <div className="flex items-center justify-between mb-4 px-6">
           <div className="border-4 border-blue-300 rounded-full w-24 h-24 bg-white flex items-center justify-center shadow-lg overflow-hidden">
             {userData.avatar ? (
-              <img
+              <Image
                 src={userData.avatar}
                 alt="avatar"
                 className="w-full h-full object-cover"
+                width={400}
+                height={400}
               />
             ) : (
               <User className="w-14 h-14 text-blue-200" />
@@ -297,138 +306,8 @@ export default function IDCard() {
             Valid: {userData.validUntil}
           </span>
         </div>
-
-        {/* QR Code Section */}
       </CardContent>
 
-      {/* Footer */}
-      <div className="w-full text-center text-[11px] text-gray-500 px-4  bg-blue-50 border-t border-blue-200">
-        © {new Date().getFullYear()} Jonojivan Foundation. All rights reserved.
-      </div>
-    </div>
-  );
-
-  const IDCardBack = ({ userData }) => (
-    <div
-      ref={backCardRef}
-      className="w-[380px] h-[580px] flex flex-col rounded-2xl shadow-2xl border border-blue-300 overflow-hidden bg-white relative mx-auto"
-      style={{
-        padding: 0,
-        background: "linear-gradient(135deg,#f8fafc 0%,#ddeeff 80%)",
-      }}
-    >
-      {/* Header */}
-      <div className="flex items-center justify-center bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400 h-[80px] px-6 py-3 text-white">
-        <div className="w-14 h-14 rounded-full flex items-center justify-center bg-white shadow-md mr-4">
-          <img
-            src="/logo/logo.png"
-            alt="JonoJivan Gramin Vikash Foundation Logo"
-            width={32}
-            height={32}
-            className="w-8 h-8"
-          />
-        </div>{" "}
-        <div className="text-center">
-          <h1 className="text-lg font-bold tracking-wide">
-            TERMS & CONDITIONS
-          </h1>
-          <p className="font-light text-xs uppercase tracking-widest">
-            Membership Guidelines
-          </p>
-        </div>
-      </div>
-
-      <CardContent className="flex-1 flex flex-col px-8 pt-6 pb-4">
-        {/* Terms and Conditions */}
-        <div className="flex-1">
-          <div className="mb-4">
-            <h3 className="text-sm font-bold text-gray-800 mb-3 text-center border-b border-gray-300 pb-2">
-              MEMBERSHIP TERMS & CONDITIONS
-            </h3>
-          </div>
-
-          <div className="space-y-2.5 text-[9px] text-gray-700 leading-relaxed">
-            {TERMS_AND_CONDITIONS.map((term, index) => (
-              <div
-                key={index}
-                className="flex items-start border-b border-gray-100 pb-1.5"
-              >
-                <span className="font-bold text-blue-600 mr-2 mt-0.5 text-[8px] bg-blue-100 rounded-full w-4 h-4 flex items-center justify-center">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="flex-1">{term}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Contact Information */}
-        <div className="mt-4 border-t border-gray-300 pt-4">
-          <h4 className="text-[11px] font-bold text-gray-800 mb-3 text-center">
-            CONTACT INFORMATION
-          </h4>
-
-          {/* Headquarters */}
-          <div className="mb-3 p-2 bg-gray-50 rounded border">
-            <h5 className="text-[10px] font-bold text-blue-700 mb-1">
-              {CONTACT_DETAILS.headquarters.title}
-            </h5>
-            <div className="text-[9px] text-gray-600 leading-tight">
-              <div>{CONTACT_DETAILS.headquarters.address}</div>
-              <div>{CONTACT_DETAILS.headquarters.location}</div>
-              <div>{CONTACT_DETAILS.headquarters.state}</div>
-            </div>
-          </div>
-
-          {/* Communication Details */}
-          <div className="grid grid-cols-1 gap-1.5 text-[9px] text-gray-600 mb-3">
-            <div className="flex items-center">
-              <Mail className="w-3 h-3 mr-2 text-blue-500" />
-              <span className="font-medium">Email:</span>
-              <span className="ml-1">
-                {CONTACT_DETAILS.communication.email}
-              </span>
-            </div>
-            <div className="flex items-center">
-              <Phone className="w-3 h-3 mr-2 text-blue-500" />
-              <span className="font-medium">Phone:</span>
-              <span className="ml-1">
-                {CONTACT_DETAILS.communication.phone}
-              </span>
-            </div>
-            <div className="flex items-center">
-              <QrCode className="w-3 h-3 mr-2 text-blue-500" />
-              <span className="font-medium">Website:</span>
-              <span className="ml-1">
-                {CONTACT_DETAILS.communication.website}
-              </span>
-            </div>
-            <div className="flex items-center">
-              <Phone className="w-3 h-3 mr-2 text-green-500" />
-              <span className="font-medium">WhatsApp:</span>
-              <span className="ml-1">
-                {CONTACT_DETAILS.communication.whatsapp}
-              </span>
-            </div>
-          </div>
-
-          {/* Office Hours */}
-          <div className="text-center">
-            <h5 className="text-[10px] font-bold text-gray-700 mb-1">
-              OFFICE HOURS
-            </h5>
-            <div className="text-[8px] text-gray-500 leading-tight">
-              <div>{CONTACT_DETAILS.office_hours.weekdays}</div>
-              <div>{CONTACT_DETAILS.office_hours.saturday}</div>
-              <div className="text-red-500 font-medium">
-                {CONTACT_DETAILS.office_hours.sunday}
-              </div>
-            </div>
-          </div>
-        </div>
-      </CardContent>
-
-      {/* Footer */}
       <div className="w-full text-center text-[10px] text-gray-500 px-4 py-2 bg-blue-50 border-t border-blue-200">
         <div className="mb-1">
           <span className="font-bold">Member ID:</span> {userData?.membershipId}
@@ -439,6 +318,120 @@ export default function IDCard() {
         </div>
       </div>
     </div>
+  );
+
+  const IDCardBack = ({ userData }) => (
+    <div
+  ref={backCardRef}
+  className="w-[380px] h-[580px] flex flex-col rounded-2xl shadow-2xl border border-blue-300 overflow-hidden bg-white relative mx-auto"
+  style={{
+    padding: 0,
+    background: "linear-gradient(135deg,#f8fafc 0%,#ddeeff 80%)",
+  }}
+>
+  {/* Header */}
+  <div className="flex items-center justify-center bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400 h-[75px] px-5 py-2 text-white">
+    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-white shadow-md mr-3">
+      <Image
+        src="/logo/logo.png"
+        alt="JonoJivan Logo"
+        width={28}
+        height={28}
+        className="w-7 h-7"
+      />
+    </div>
+    <div className="text-center">
+      <h1 className="text-base font-bold tracking-wide text-white">TERMS & CONDITIONS</h1>
+      <h2 className="text-xs font-semibold tracking-wide text-white">Membership Guidelines</h2>
+    </div>
+  </div>
+
+  <CardContent className="flex-1 flex flex-col px-6 pt-4 pb-3">
+    {/* About Section */}
+    <div className="mb-3">
+      <h3 className="text-[11px] font-bold text-gray-800 mb-1 text-center border-b border-gray-300 pb-1">
+        ABOUT JONOJIVAN JIVAN FOUNDATION
+      </h3>
+      <p className="text-[9px] text-gray-700 leading-snug text-center">
+        Jonojivan Jivan Foundation promotes human rights, fights corruption, and advances social welfare through equality and community-driven initiatives. Members are encouraged to actively participate in building a transparent and compassionate society.
+      </p>
+    </div>
+
+    {/* Terms and Conditions */}
+    <div className="">
+      <h3 className="text-[11px] font-bold text-gray-800 mb-1 text-center border-b border-gray-300 pb-1 ">
+        MEMBERSHIP TERMS & CONDITIONS
+      </h3>
+      <div className="space-y-2 text-[9px] text-gray-700 leading-snug">
+        {TERMS_AND_CONDITIONS.map((term, index) => (
+          <div key={index} className="flex items-start border-b border-gray-100 pb-1.5">
+            <span className="font-bold text-blue-600 mr-2 mt-0.5 text-[8px] bg-blue-100 rounded-full w-4 h-4 flex items-center justify-center">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span className="flex-1">{term}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Contact Information */}
+    <div className="mt-3 border-t border-gray-300 pt-3">
+      <h4 className="text-[11px] font-bold text-gray-800 mb-2 text-center">CONTACT INFORMATION</h4>
+
+      {/* Headquarters */}
+      <div className="mb-2 p-2 bg-gray-50 rounded border">
+        <h5 className="text-[10px] font-bold text-blue-700 mb-1">
+          {CONTACT_DETAILS.headquarters.title}
+        </h5>
+        <div className="text-[9px] text-gray-600 leading-tight">
+          <div>{CONTACT_DETAILS.headquarters.address}</div>
+          <div>{CONTACT_DETAILS.headquarters.location}</div>
+          <div>{CONTACT_DETAILS.headquarters.state}</div>
+        </div>
+      </div>
+
+      {/* Communication Details */}
+      <div className="grid grid-cols-1 gap-1.5 text-[9px] text-gray-600 mb-2">
+        <div className="flex items-center">
+          <Mail className="w-3 h-3 mr-2 text-blue-500" />
+          <span className="font-medium">Email:</span>
+          <span className="ml-1">{CONTACT_DETAILS.communication.email}</span>
+        </div>
+        <div className="flex items-center">
+          <Phone className="w-3 h-3 mr-2 text-blue-500" />
+          <span className="font-medium">Phone:</span>
+          <span className="ml-1">{CONTACT_DETAILS.communication.phone}</span>
+        </div>
+        <div className="flex items-center">
+          <QrCode className="w-3 h-3 mr-2 text-blue-500" />
+          <span className="font-medium">Website:</span>
+          <span className="ml-1">{CONTACT_DETAILS.communication.website}</span>
+        </div>
+        <div className="flex items-center">
+          <Phone className="w-3 h-3 mr-2 text-green-500" />
+          <span className="font-medium">WhatsApp:</span>
+          <span className="ml-1">{CONTACT_DETAILS.communication.whatsapp}</span>
+        </div>
+      </div>
+
+      {/* Office Hours */}
+      <div className="text-center text-[8px] text-gray-500 leading-tight mt-4">
+        <div>{CONTACT_DETAILS.office_hours.weekdays}</div>
+        <div>{CONTACT_DETAILS.office_hours.saturday}</div>
+        <div className="text-red-500 font-medium">{CONTACT_DETAILS.office_hours.sunday}</div>
+      </div>
+    </div>
+  </CardContent>
+
+  {/* Footer */}
+  <div className="w-full text-center text-[10px] text-gray-500 px-3 py-1 bg-blue-50 border-t border-blue-200">
+    <div className="mb-1">
+      <span className="font-bold">Member ID:</span> {userData?.membershipId}
+    </div>
+    <div>© {new Date().getFullYear()} Jonojivan Foundation. All rights reserved.</div>
+  </div>
+</div>
+
   );
 
   return (
@@ -493,8 +486,6 @@ export default function IDCard() {
               {isGeneratingPDF ? "Generating..." : "Download PDF"}
             </button>
           </div>
-
-          {/* Remove the hidden elements section since both sides are now visible */}
         </>
       )}
     </div>
