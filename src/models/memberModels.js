@@ -88,7 +88,13 @@ const memberSchema = new mongoose.Schema(
     subCommittee: {
       type: String,
       required: [true, "Sub committee is required"],
-      enum: ["Main Body", "National Body", "State Body", "District Body" , "Sub Body"],
+      enum: [
+        "Main Body",
+        "National Body",
+        "State Body",
+        "District Body",
+        "Sub Body",
+      ],
     },
     joiningState: {
       type: String,
@@ -98,71 +104,73 @@ const memberSchema = new mongoose.Schema(
     post: {
       type: String,
       required: [true, "Post is required"],
-      enum : [
-  "Area District Manager",
-  "Assistant Event Manager",
-  "Assistant Manager",
-  "Associate Public Relations Head",
-  "Chairman",
-  "Co Media In Charge",
-  "Co-Convener",
-  "Co-head of Training",
-  "Committee President",
-  "Committee Puyun",
-  "Convener",
-  "District Manager",
-  "Event Manager",
-  "Executive Member",
-  "Financier",
-  "General",
-  "General Secretary",
-  "IT Manager",
-  "Legal Adviser",
-  "Media In Charge",
-  "Member",
-  "Nagar Chairman",
-  "Public Relations Head",
-  "Secretary",
-  "Spokesperson",
-  "Team Manager",
-  "Team Service Manager",
-  "Training Manager",
-  "Vice Chairman",
+      enum: [
+        "Area District Manager",
+        "Assistant Event Manager",
+        "Assistant Manager",
+        "Associate Public Relations Head",
+        "Chairman",
+        "Co Media In Charge",
+        "Co-Convener",
+        "Co-head of Training",
+        "Committee President",
+        "Committee Puyun",
+        "Convener",
+        "District Manager",
+        "Event Manager",
+        "Executive Member",
+        "Financier",
+        "General",
+        "General Secretary",
+        "IT Manager",
+        "Legal Adviser",
+        "Media In Charge",
+        "Member",
+        "Nagar Chairman",
+        "Public Relations Head",
+        "Secretary",
+        "Spokesperson",
+        "Team Manager",
+        "Team Service Manager",
+        "Training Manager",
+        "Vice Chairman",
+        "Sabalambi Member",
 
-  // Human Rights Committee
-  "HUMAN RIGHTS COMMITTEE PRESIDENT",
-  "HUMAN RIGHTS COMMITTEE SECRETARY",
-  "HUMAN RIGHTS COMMITTEE MEMBER",
+        // Human Rights Committee
+        "HUMAN RIGHTS COMMITTEE PRESIDENT",
+        "HUMAN RIGHTS COMMITTEE SECRETARY",
+        "HUMAN RIGHTS COMMITTEE MEMBER",
 
-  // Anti-Corruption Committee
-  "ANTI CORRUPTION COMMITTEE PRESIDENT",
-  "ANTI CORRUPTION COMMITTEE SECRETARY",
-  "ANTI CORRUPTION COMMITTEE MEMBER",
+        // Anti-Corruption Committee
+        "ANTI CORRUPTION COMMITTEE PRESIDENT",
+        "ANTI CORRUPTION COMMITTEE SECRETARY",
+        "ANTI CORRUPTION COMMITTEE MEMBER",
 
-  // School Committee
-  "SCHOOL COMMITTEE PRESIDENT",
-  "SCHOOL COMMITTEE SECRETARY",
-  "SCHOOL COMMITTEE MEMBER",
+        // School Committee
+        "SCHOOL COMMITTEE PRESIDENT",
+        "SCHOOL COMMITTEE SECRETARY",
+        "SCHOOL COMMITTEE MEMBER",
 
-  // Social Welfare Committee
-  "SOCIAL WELFARE COMMITTEE PRESIDENT",
-  "SOCIAL WELFARE COMMITTEE SECRETARY",
-  "SOCIAL WELFARE MEMBER",
+        // Social Welfare Committee
+        "SOCIAL WELFARE COMMITTEE PRESIDENT",
+        "SOCIAL WELFARE COMMITTEE SECRETARY",
+        "SOCIAL WELFARE MEMBER",
 
-  // Sarva Shiksha
-  "SARVA SHIKSHA SCHOOL TEACHER",
-  "SARVA SHIKSHA SCHOOL STUDENT",
+        // Sarva Shiksha
+        "SARVA SHIKSHA SCHOOL TEACHER",
+        "SARVA SHIKSHA SCHOOL STUDENT",
 
-  // Nari Shakti Group
-  "NARI SHAKTI GROUP PRESIDENT",
-  "NARI SHAKTI GROUP SECRETARY",
-  "NARI SHAKTI GROUP MEMBER",
+        // Nari Shakti Group
+        "NARI SHAKTI GROUP PRESIDENT",
+        "NARI SHAKTI GROUP SECRETARY",
+        "NARI SHAKTI GROUP MEMBER",
 
-  // Garib Kalyan Seva Committee
-  "GARIB KALYAN SEVA COMMITTEE PRESIDENT",
-  "GARIB KALYAN SEVA COMMITTEE SECRETARY",
-  "GARIB KALYAN SEVA COMMITTEE MEMBER",
-]},
+        // Garib Kalyan Seva Committee
+        "GARIB KALYAN SEVA COMMITTEE PRESIDENT",
+        "GARIB KALYAN SEVA COMMITTEE SECRETARY",
+        "GARIB KALYAN SEVA COMMITTEE MEMBER",
+      ],
+    },
     supportingAmount: {
       type: Number,
       required: [true, "Supporting amount is required"],
@@ -219,6 +227,5 @@ const memberSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
 
 export default mongoose.models.Member || mongoose.model("Member", memberSchema);

@@ -99,6 +99,7 @@ const VolunteerRegistrationForm = () => {
     "Team Service Manager",
     "Training Manager",
     "Vice Chairman",
+    "Sabalambi Member",
 
     // Human Rights Committee
     "HUMAN RIGHTS COMMITTEE PRESIDENT",
