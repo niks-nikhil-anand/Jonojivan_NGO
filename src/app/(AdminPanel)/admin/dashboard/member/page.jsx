@@ -279,7 +279,9 @@ export default function MemberManagement() {
   };
 
   return (
-    <div className="space-y-6 p-6 bg-gray-50 min-h-screen">
+   <>
+    <div className=" min-h-[80vh]">
+      <div className="space-y-6 p-6 ">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <h2 className="text-3xl font-bold text-black">
@@ -978,5 +980,7 @@ export default function MemberManagement() {
         </Dialog>
       )}
     </div>
+    </div>
+   </>
   );
 }
