@@ -49,16 +49,16 @@ const VolunteerRegistrationForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const committees = [
-    { name: "Executive Committee", amount: 299 },
-    { name: "National Committee", amount: 299 },
-    { name: "State Committee", amount: 299 },
-    { name: "Mandal Committee", amount: 299 },
-    { name: "District Committee", amount: 299 },
-    { name: "Tehsil Committee", amount: 299 },
-    { name: "Block Committee", amount: 299 },
-    { name: "Board of Guardians", amount: 299 },
-    { name: "Member", amount: 299 },
-    { name: "Chairman", amount: 299 },
+    { name: "Executive Committee", amount: 499 },
+    { name: "National Committee", amount: 499 },
+    { name: "State Committee", amount: 499 },
+    { name: "Mandal Committee", amount: 499 },
+    { name: "District Committee", amount: 499 },
+    { name: "Tehsil Committee", amount: 499 },
+    { name: "Block Committee", amount: 499 },
+    { name: "Board of Guardians", amount: 499 },
+    { name: "Member", amount: 499 },
+    { name: "Chairman", amount: 499 },
   ];
 
   const subCommittees = [
