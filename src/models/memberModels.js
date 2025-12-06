@@ -19,9 +19,15 @@ const memberSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    adhaarNumber: {
+    documentType: {
       type: String,
-      required: [true, "Adhaar number is required"],
+      required: [true, "Document type is required"],
+      enum: ["Aadhaar Card", "PAN Card", "Bank Passbook", "Voter ID Card"],
+      default: "Aadhaar Card",
+    },
+    documentNumber: {
+      type: String,
+      required: [true, "Document number is required"],
       unique: true,
       trim: true,
     },

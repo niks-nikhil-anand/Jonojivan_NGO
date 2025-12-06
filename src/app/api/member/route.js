@@ -37,7 +37,8 @@ export const POST = async (req) => {
     const mobile = formData.get("mobile");
     const whatsapp = formData.get("whatsapp");
     const email = formData.get("email");
-    const adhaar = formData.get("adhaar");
+    const documentType = formData.get("documentType");
+    const documentNumber = formData.get("documentNumber");
     const guardianName = formData.get("guardianName");
     const guardianMobile = formData.get("guardianMobile");
     const maritalStatus = formData.get("maritalStatus");
@@ -55,7 +56,7 @@ export const POST = async (req) => {
     const image = formData.get("image");
 
     const requiredFields = {
-      name, gender, mobile, email, adhaar, guardianName, guardianMobile,
+      name, gender, mobile, email, documentType, documentNumber, guardianName, guardianMobile,
       maritalStatus, address, state, district, committee, subCommittee,
       joiningState, post, supportingAmount, pincode, password
     };
@@ -81,12 +82,12 @@ export const POST = async (req) => {
       }, { status: 400 });
     }
 
-    const existingMember = await memberModels.findOne({ adhaarNumber: adhaar });
+    const existingMember = await memberModels.findOne({ documentNumber });
     if (existingMember) {
-      console.warn("Member already exists with Adhaar:", adhaar);
+      console.warn("Member already exists with document number:", documentNumber);
       return NextResponse.json({
-        message: "A member with this Adhaar number already exists.",
-        error: "Adhaar already exists"
+        message: "A member with this document number already exists.",
+        error: "Document already exists"
       }, { status: 400 });
     }
 
@@ -129,7 +130,8 @@ export const POST = async (req) => {
       user: newUser._id,
       gender,
       whatsappNumber: whatsapp || '',
-      adhaarNumber: adhaar,
+      documentType,
+      documentNumber,
       guardianName,
       guardianMobile,
       maritalStatus,

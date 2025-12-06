@@ -384,7 +384,7 @@ export default function MemberManagement() {
         (member.user?.email?.toLowerCase() || "").includes(
           searchTerm.toLowerCase()
         ) ||
-        (member.adhaarNumber || "").includes(searchTerm) ||
+        (member.documentNumber || "").includes(searchTerm) ||
         (member.membershipId || "").includes(searchTerm) ||
         (member.guardianName?.toLowerCase() || "").includes(
           searchTerm.toLowerCase()
@@ -504,7 +504,7 @@ export default function MemberManagement() {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
-                placeholder="Search by name, email, membership ID, Aadhaar number..."
+                placeholder="Search by name, email, membership ID, document number..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10 bg-white border-gray-300 text-black placeholder-gray-400"

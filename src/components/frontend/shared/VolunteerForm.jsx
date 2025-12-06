@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import {
-  Heart,
-  ArrowRight,
-  Upload,
   User,
   Phone,
   Mail,
   MapPin,
   Users,
   Lock,
-  Eye,
-  EyeOff,
+  FileText,
+  Upload,
+  ArrowRight,
+  ArrowLeft,
+  CheckCircle2,
+  Check,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const VolunteerRegistrationForm = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [direction, setDirection] = useState(0);
   const [formData, setFormData] = useState({
     // Personal Details
     name: "",
@@ -21,7 +25,6 @@ const VolunteerRegistrationForm = () => {
     mobile: "",
     whatsapp: "",
     email: "",
-    adhaar: "",
     guardianName: "",
     guardianMobile: "",
     maritalStatus: "",
@@ -31,6 +34,11 @@ const VolunteerRegistrationForm = () => {
     country: "India",
     state: "",
     district: "",
+    pincode: "",
+
+    // Identity
+    documentType: "Aadhaar Card",
+    documentNumber: "",
 
     // Joining Details
     committee: "",
@@ -38,16 +46,17 @@ const VolunteerRegistrationForm = () => {
     joiningState: "",
     post: "",
     supportingAmount: "",
-    pincode: "",
+
+    // Security & Image
     password: "",
     confirmPassword: "",
     image: null,
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Data Constants
   const committees = [
     { name: "Executive Committee", amount: 499 },
     { name: "National Committee", amount: 499 },
@@ -100,8 +109,6 @@ const VolunteerRegistrationForm = () => {
     "Training Manager",
     "Vice Chairman",
     "Sabalambi Member",
-
-    // New Posts
     "AREA DEVELOPED MANAGER (ADM)",
     "AREA SALES MANAGER (ASM)",
     "BUSINESS DEVELOPED MANAGER (BDM)",
@@ -110,41 +117,28 @@ const VolunteerRegistrationForm = () => {
     "SARVA SHIKSHA SCHOOL RELATIONSHIP (SSSR)",
     "SARVA SHIKSHA SCHOOL HEAD TEACHER (SSSHT)",
     "COMMITTEE RELATIONSHIP PRESIDENT (CRP)",
-
-    // Human Rights Committee
     "HUMAN RIGHTS COMMITTEE PRESIDENT",
     "HUMAN RIGHTS COMMITTEE SECRETARY",
     "HUMAN RIGHTS COMMITTEE MEMBER",
-
-    // Anti-Corruption Committee
     "ANTI CORRUPTION COMMITTEE PRESIDENT",
     "ANTI CORRUPTION COMMITTEE SECRETARY",
     "ANTI CORRUPTION COMMITTEE MEMBER",
-
-    // School Committee
     "SCHOOL COMMITTEE PRESIDENT",
     "SCHOOL COMMITTEE SECRETARY",
     "SCHOOL COMMITTEE MEMBER",
-
-    // Social Welfare Committee
     "SOCIAL WELFARE COMMITTEE PRESIDENT",
     "SOCIAL WELFARE COMMITTEE SECRETARY",
     "SOCIAL WELFARE MEMBER",
-
-    // Sarva Shiksha
     "SARVA SHIKSHA SCHOOL TEACHER",
     "SARVA SHIKSHA SCHOOL STUDENT",
-
-    // Nari Shakti Group
     "NARI SHAKTI GROUP PRESIDENT",
     "NARI SHAKTI GROUP SECRETARY",
     "NARI SHAKTI GROUP MEMBER",
-
-    // Garib Kalyan Seva Committee
     "GARIB KALYAN SEVA COMMITTEE PRESIDENT",
     "GARIB KALYAN SEVA COMMITTEE SECRETARY",
     "GARIB KALYAN SEVA COMMITTEE MEMBER",
   ];
+
   const indianStates = [
     "Andhra Pradesh",
     "Arunachal Pradesh",
@@ -185,6 +179,21 @@ const VolunteerRegistrationForm = () => {
     "Andaman and Nicobar Islands",
   ];
 
+  const documentTypes = [
+    "Aadhaar Card",
+    "PAN Card",
+    "Bank Passbook",
+    "Voter ID Card",
+  ];
+
+  const steps = [
+    { id: 1, title: "Personal Details", icon: User },
+    { id: 2, title: "Address Details", icon: MapPin },
+    { id: 3, title: "Identity", icon: FileText },
+    { id: 4, title: "Membership", icon: Users },
+    { id: 5, title: "Security", icon: Lock },
+  ];
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -192,7 +201,6 @@ const VolunteerRegistrationForm = () => {
       [name]: value,
     }));
 
-    // Auto-update supporting amount based on committee selection
     if (name === "committee") {
       const selectedCommittee = committees.find((c) => c.name === value);
       if (selectedCommittee) {
@@ -214,623 +222,350 @@ const VolunteerRegistrationForm = () => {
     }
   };
 
+  const validateStep = (step) => {
+    const required = [];
+    switch (step) {
+      case 1:
+        required.push("name", "gender", "mobile", "email", "guardianName", "guardianMobile", "maritalStatus");
+        break;
+      case 2:
+        required.push("address", "state", "district", "pincode");
+        break;
+      case 3:
+        required.push("documentType", "documentNumber");
+        break;
+      case 4:
+        required.push("committee", "subCommittee", "joiningState", "post");
+        break;
+      case 5:
+        required.push("password", "confirmPassword");
+        // Image is optional but recommended? Let's keep it optional to match previous logic or enforce if needed. 
+        // Previous logic didn't strictly enforce image existence in requiredFields array check, but let's assume valid form needs passwords matching.
+        if (formData.password !== formData.confirmPassword) {
+          alert("Passwords do not match!");
+          return false;
+        }
+        break;
+      default:
+        break;
+    }
+
+    const missing = required.filter(field => !formData[field]);
+    if (missing.length > 0) {
+      alert(`Please fill in all required fields.`);
+      return false;
+    }
+    return true;
+  };
+
+  const nextStep = () => {
+    if (validateStep(currentStep)) {
+      setDirection(1);
+      setCurrentStep((prev) => Math.min(prev + 1, 5));
+    }
+  };
+
+  const prevStep = () => {
+    setDirection(-1);
+    setCurrentStep((prev) => Math.max(prev - 1, 1));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Password validation
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-
-    // Form validation
-    const requiredFields = [
-      "name",
-      "gender",
-      "mobile",
-      "email",
-      "adhaar",
-      "guardianName",
-      "guardianMobile",
-      "maritalStatus",
-      "address",
-      "state",
-      "district",
-      "committee",
-      "subCommittee",
-      "joiningState",
-      "post",
-      "pincode",
-      "password",
-      "confirmPassword",
-    ];
-
-    const missingFields = requiredFields.filter((field) => !formData[field]);
-    if (missingFields.length > 0) {
-      alert(`Please fill in all required fields: ${missingFields.join(", ")}`);
-      return;
-    }
+    if (!validateStep(5)) return;
 
     setIsSubmitting(true);
 
     try {
-      // Create FormData object to handle file upload
       const submitData = new FormData();
-
-      // Append all form fields to FormData
       Object.keys(formData).forEach((key) => {
         if (key === "image" && formData[key]) {
-          // Append image file
           submitData.append("image", formData[key]);
         } else if (key !== "image" && key !== "confirmPassword") {
-          // Append all other fields except confirmPassword (not needed on server)
           submitData.append(key, formData[key]);
         }
       });
 
-      // Make API call using fetch
       const response = await fetch("/api/member", {
         method: "POST",
-        body: submitData, // FormData automatically sets correct Content-Type
+        body: submitData,
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
       const result = await response.json();
-
-      console.log("Registration successful:", response.data);
+      console.log("Registration successful:", result);
       alert("Registration submitted successfully!");
-
-      // Reset form after successful submission
-      setFormData({
-        name: "",
-        gender: "",
-        mobile: "",
-        whatsapp: "",
-        email: "",
-        adhaar: "",
-        guardianName: "",
-        guardianMobile: "",
-        maritalStatus: "",
-        address: "",
-        country: "India",
-        state: "",
-        district: "",
-        committee: "",
-        subCommittee: "",
-        joiningState: "",
-        post: "",
-        supportingAmount: "",
-        pincode: "",
-        password: "",
-        confirmPassword: "",
-        image: null,
-      });
+      
+      // Reset or Redirect
+      window.location.reload(); 
     } catch (error) {
       console.error("Registration failed:", error);
-
-      // Handle different types of errors
-      if (error.response) {
-        // Server responded with error status
-        const errorMessage =
-          error.response.data?.message ||
-          "Registration failed. Please try again.";
-        alert(`Error: ${errorMessage}`);
-      } else if (error.request) {
-        // Request was made but no response received
-        alert("Network error. Please check your connection and try again.");
-      } else {
-        // Something else happened
-        alert("An unexpected error occurred. Please try again.");
-      }
+      alert("An unexpected error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const variants = {
+    enter: (direction) => ({
+      x: direction > 0 ? 100 : -100,
+      opacity: 0,
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction) => ({
+      zIndex: 0,
+      x: direction < 0 ? 100 : -100,
+      opacity: 0,
+    }),
+  };
+
+  const renderField = (label, name, type = "text", placeholder, required = true, options = null, readOnly = false, fullWidth = false) => (
+    <div className={fullWidth ? "col-span-2" : ""}>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        {label} {required && <span className="text-red-500">*</span>}
+      </label>
+      {options ? (
+        <select
+          name={name}
+          value={formData[name]}
+          onChange={handleInputChange}
+          required={required}
+          className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
+        >
+          <option value="">Select {label}</option>
+          {options.map((opt) => (
+            <option key={opt.value || opt} value={opt.value || opt}>
+              {opt.label || opt.name || opt} {opt.amount ? `- ₹${opt.amount}` : ""}
+            </option>
+          ))}
+        </select>
+      ) : type === "textarea" ? (
+        <textarea
+          name={name}
+          value={formData[name]}
+          onChange={handleInputChange}
+          required={required}
+          rows={3}
+          className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
+          placeholder={placeholder}
+        />
+      ) : (
+        <input
+          type={type}
+          name={name}
+          value={formData[name]}
+          onChange={handleInputChange}
+          required={required}
+          readOnly={readOnly}
+          className={`w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white ${readOnly ? 'cursor-not-allowed opacity-75' : ''}`}
+          placeholder={placeholder}
+        />
+      )}
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 lg:p-12 border border-white/20">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-              Member Registration Form
-            </h2>
-            <p className="text-xl text-gray-600">
-              Join Jonojivan Foundation - Complete your registration below
-            </p>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+      <div className="max-w-5xl w-full">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
+            Member Registration
+          </h1>
+          <p className="text-gray-600 text-lg">Join us in making a difference. Complete your profile in 5 simple steps.</p>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Personal Details Section */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <User className="w-6 h-6 text-blue-600" />
-                <h3 className="text-2xl font-semibold text-gray-900">
-                  Personal Details
-                </h3>
-              </div>
+        {/* Stepper */}
+        <div className="mb-12">
+          <div className="flex justify-between items-center relative max-w-3xl mx-auto">
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-gray-200 rounded-full -z-10"></div>
+            <div 
+              className="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full -z-10 transition-all duration-500"
+              style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
+            ></div>
+            
+            {steps.map((step) => {
+              const Icon = step.icon;
+              const isActive = step.id === currentStep;
+              const isCompleted = step.id < currentStep;
 
-              <div className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      placeholder="Enter your full name"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Gender *
-                    </label>
-                    <select
-                      name="gender"
-                      value={formData.gender}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    >
-                      <option value="">Select Gender</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Mobile Number *
-                    </label>
-                    <input
-                      type="tel"
-                      name="mobile"
-                      value={formData.mobile}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      placeholder="Enter mobile number"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      WhatsApp Number
-                    </label>
-                    <input
-                      type="tel"
-                      name="whatsapp"
-                      value={formData.whatsapp}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      placeholder="Enter WhatsApp number"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address *
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      placeholder="Enter email address"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Adhaar Card Number *
-                    </label>
-                    <input
-                      type="text"
-                      name="adhaar"
-                      value={formData.adhaar}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      placeholder="Enter Adhaar number"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Father/Mother/Wife Name *
-                    </label>
-                    <input
-                      type="text"
-                      name="guardianName"
-                      value={formData.guardianName}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      placeholder="Enter guardian name"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Guardian Mobile Number *
-                    </label>
-                    <input
-                      type="tel"
-                      name="guardianMobile"
-                      value={formData.guardianMobile}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      placeholder="Enter guardian mobile number"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Marital Status *
-                  </label>
-                  <select
-                    name="maritalStatus"
-                    value={formData.maritalStatus}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              return (
+                <div key={step.id} className="flex flex-col items-center gap-2 bg-white px-2">
+                  <div 
+                    className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
+                      isActive || isCompleted 
+                        ? "border-transparent bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg scale-110" 
+                        : "border-gray-200 text-gray-400 bg-white"
+                    }`}
                   >
-                    <option value="">Select Marital Status</option>
-                    <option value="single">Single</option>
-                    <option value="married">Married</option>
-                    <option value="divorced">Divorced</option>
-                    <option value="widowed">Widowed</option>
-                  </select>
+                    {isCompleted ? <Check className="w-6 h-6" /> : <Icon className="w-5 h-5" />}
+                  </div>
+                  <span className={`text-xs font-semibold uppercase tracking-wider ${isActive ? "text-blue-600" : "text-gray-400"}`}>
+                    {step.title}
+                  </span>
                 </div>
-              </div>
-            </div>
+              );
+            })}
+          </div>
+        </div>
 
-            {/* Address Details Section */}
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <MapPin className="w-6 h-6 text-green-600" />
-                <h3 className="text-2xl font-semibold text-gray-900">
-                  Address Details
-                </h3>
-              </div>
-
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Address *
-                  </label>
-                  <textarea
-                    name="address"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    required
-                    rows={3}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    placeholder="Enter complete address"
-                  />
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Country *
-                    </label>
-                    <input
-                      type="text"
-                      name="country"
-                      value={formData.country}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50"
-                      readOnly
-                    />
+        {/* Form Card */}
+        <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 relative min-h-[500px]">
+          <form onSubmit={handleSubmit} className="p-8 lg:p-12 h-full flex flex-col justify-between">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={currentStep}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 30 }}
+                className="w-full"
+              >
+                {/* Step 1: Personal Details */}
+                {currentStep === 1 && (
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {renderField("Full Name", "name", "text", "Enter full name")}
+                    {renderField("Gender", "gender", "select", "", true, ["Male", "Female", "Other"])}
+                    {renderField("Mobile Number", "mobile", "tel", "Enter mobile number")}
+                    {renderField("WhatsApp Number", "whatsapp", "tel", "Enter WhatsApp number", false)}
+                    {renderField("Email Address", "email", "email", "Enter email address")}
+                    {renderField("Marital Status", "maritalStatus", "select", "", true, ["Single", "Married", "Divorced", "Widowed"])}
+                    {renderField("Guardian Name", "guardianName", "text", "Father/Mother/Wife Name")}
+                    {renderField("Guardian Mobile", "guardianMobile", "tel", "Guardian contact number")}
                   </div>
+                )}
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      State *
-                    </label>
-                    <select
-                      name="state"
-                      value={formData.state}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    >
-                      <option value="">Select State</option>
-                      {indianStates.map((state, index) => (
-                        <option key={index} value={state}>
-                          {state}
-                        </option>
-                      ))}
-                    </select>
+                {/* Step 2: Address Details */}
+                {currentStep === 2 && (
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {renderField("Address", "address", "textarea", "Complete address", true, null, false, true)}
+                    {renderField("Country", "country", "text", "", true, null, true)}
+                    {renderField("State", "state", "select", "Select state", true, indianStates)}
+                    {renderField("District", "district", "text", "Enter district")}
+                    {renderField("Pincode", "pincode", "text", "Enter pincode")}
                   </div>
-                </div>
+                )}
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    District *
-                  </label>
-                  <input
-                    type="text"
-                    name="district"
-                    value={formData.district}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    placeholder="Enter district"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Joining Details Section */}
-            <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <Users className="w-6 h-6 text-purple-600" />
-                <h3 className="text-2xl font-semibold text-gray-900">
-                  Joining Details*(Amount Non-Refundable)
-                </h3>
-              </div>
-
-              <div className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Committee *
-                    </label>
-                    <select
-                      name="committee"
-                      value={formData.committee}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    >
-                      <option value="">Select Committee</option>
-                      {committees.map((committee, index) => (
-                        <option key={index} value={committee.name}>
-                          {committee.name} - ₹{committee.amount}
-                        </option>
-                      ))}
-                    </select>
+                {/* Step 3: Identity Verification */}
+                {currentStep === 3 && (
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {renderField("Document Type", "documentType", "select", "", true, documentTypes)}
+                    {renderField(
+                      formData.documentType === "Aadhaar Card" ? "Aadhaar Number" : 
+                      formData.documentType === "PAN Card" ? "PAN Number" : 
+                      formData.documentType === "Bank Passbook" ? "Account Number" : "Voter ID Number",
+                      "documentNumber",
+                      "text",
+                      "Enter document number"
+                    )}
                   </div>
+                )}
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Sub Committee *
-                    </label>
-                    <select
-                      name="subCommittee"
-                      value={formData.subCommittee}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    >
-                      <option value="">Select Sub Committee</option>
-                      {subCommittees.map((subCommittee, index) => (
-                        <option key={index} value={subCommittee}>
-                          {subCommittee}
-                        </option>
-                      ))}
-                    </select>
+                {/* Step 4: Membership Details */}
+                {currentStep === 4 && (
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {renderField("Committee", "committee", "select", "", true, committees)}
+                    {renderField("Sub Committee", "subCommittee", "select", "", true, subCommittees)}
+                    {renderField("Joining State", "joiningState", "select", "", true, indianStates)}
+                    {renderField("Post", "post", "select", "", true, posts)}
+                    {renderField("Supporting Amount (Non-Refundable)", "supportingAmount", "number", "Auto-filled", true, null, true)}
                   </div>
-                </div>
+                )}
 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Joining State *
-                    </label>
-                    <select
-                      name="joiningState"
-                      value={formData.joiningState}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    >
-                      <option value="">Select Joining State</option>
-                      {indianStates.map((state, index) => (
-                        <option key={index} value={state}>
-                          {state}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Post *
-                    </label>
-                    <select
-                      name="post"
-                      value={formData.post}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    >
-                      <option value="">Select Post</option>
-                      {posts.map((post, index) => (
-                        <option key={index} value={post}>
-                          {post}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Supporting Amount (Non-Refundable)*
-                    </label>
-                    <input
-                      type="number"
-                      name="supportingAmount"
-                      value={formData.supportingAmount}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50"
-                      placeholder="Amount will be auto-filled"
-                      readOnly
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Pincode *
-                    </label>
-                    <input
-                      type="text"
-                      name="pincode"
-                      value={formData.pincode}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      placeholder="Enter pincode"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Security & Image Section */}
-            <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <Lock className="w-6 h-6 text-orange-600" />
-                <h3 className="text-2xl font-semibold text-gray-900">
-                  Security & Image
-                </h3>
-              </div>
-
-              <div className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Password *
-                    </label>
-                    <div className="relative">
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        name="password"
-                        value={formData.password}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 pr-12"
-                        placeholder="Enter password"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                      >
-                        {showPassword ? (
-                          <EyeOff className="w-5 h-5" />
-                        ) : (
-                          <Eye className="w-5 h-5" />
-                        )}
-                      </button>
+                {/* Step 5: Security & Image */}
+                {currentStep === 5 && (
+                  <div className="space-y-8">
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div className="relative">
+                        {renderField("Password", "password", showPassword ? "text" : "password", "Create a strong password")}
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-4 top-[38px] text-gray-400 hover:text-blue-600 transition-colors"
+                        >
+                          {showPassword ? "Hide" : "Show"}
+                        </button>
+                      </div>
+                      {renderField("Confirm Password", "confirmPassword", "password", "Repeat password")}
                     </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Confirm Password *
-                    </label>
-                    <div className="relative">
-                      <input
-                        type={showConfirmPassword ? "text" : "password"}
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 pr-12"
-                        placeholder="Confirm password"
-                      />
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setShowConfirmPassword(!showConfirmPassword)
-                        }
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                      >
-                        {showConfirmPassword ? (
-                          <EyeOff className="w-5 h-5" />
-                        ) : (
-                          <Eye className="w-5 h-5" />
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Profile Image
-                  </label>
-                  <div className="flex items-center space-x-4">
-                    <div className="flex-1">
+                    
+                    <div className="border-2 border-dashed border-gray-200 rounded-2xl p-8 text-center hover:border-blue-400 hover:bg-blue-50 transition-all duration-300">
                       <input
                         type="file"
-                        accept="image/*"
                         onChange={handleImageUpload}
+                        accept="image/*"
                         className="hidden"
-                        id="image-upload"
+                        id="profile-upload"
                       />
-                      <label
-                        htmlFor="image-upload"
-                        className="flex items-center justify-center w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-xl hover:border-blue-400 transition-colors cursor-pointer"
-                      >
-                        <Upload className="w-5 h-5 text-gray-400 mr-2" />
-                        <span className="text-gray-600">
-                          {formData.image
-                            ? formData.image.name
-                            : "Click to upload image"}
-                        </span>
+                      <label htmlFor="profile-upload" className="cursor-pointer flex flex-col items-center gap-4">
+                        <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                          {formData.image ? <CheckCircle2 className="w-8 h-8" /> : <Upload className="w-8 h-8" />}
+                        </div>
+                        <div>
+                          <p className="text-lg font-semibold text-gray-700">
+                            {formData.image ? "Image Selected" : "Upload Profile Photo"}
+                          </p>
+                          <p className="text-sm text-gray-500 mt-1">
+                            {formData.image ? formData.image.name : "Click to browse or drag and drop"}
+                          </p>
+                        </div>
                       </label>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
 
-            {/* Submit Button */}
-            <div className="text-center pt-6">
+            {/* Navigation Buttons */}
+            <div className="flex justify-between items-center mt-12 pt-6 border-t border-gray-100">
               <button
-                type="submit"
-                disabled={isSubmitting}
-                className={`${
-                  isSubmitting
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105"
-                } text-white px-12 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center gap-3 mx-auto shadow-lg hover:shadow-xl`}
+                type="button"
+                onClick={prevStep}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
+                  currentStep === 1 
+                    ? "opacity-0 pointer-events-none" 
+                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                }`}
               >
-                <Heart className="w-5 h-5" />
-                {isSubmitting ? "Submitting..." : "Submit Registration"}
-                <ArrowRight className="w-5 h-5" />
+                <ArrowLeft className="w-5 h-5" /> Back
               </button>
+
+              {currentStep < 5 ? (
+                <button
+                  type="button"
+                  onClick={nextStep}
+                  className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  Next Step <ArrowRight className="w-5 h-5" />
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-70 disabled:transform-none"
+                >
+                  {isSubmitting ? (
+                    "Processing..."
+                  ) : (
+                    <>Complete Registration <CheckCircle2 className="w-5 h-5" /></>
+                  )}
+                </button>
+              )}
             </div>
           </form>
         </div>
+        
+        {/* Footer */}
+        <p className="text-center text-gray-400 mt-8 text-sm">
+          Protected by Jonojivan Foundation &copy; 2024
+        </p>
       </div>
     </div>
   );

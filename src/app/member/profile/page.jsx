@@ -51,7 +51,8 @@ const ProfilePage = () => {
             mobileNumber: memberData.user?.mobileNumber,
             whatsappNumber: memberData.whatsappNumber,
             gender: memberData.gender,
-            adhaarNumber: memberData.adhaarNumber,
+            documentType: memberData.documentType,
+            documentNumber: memberData.documentNumber,
             guardianName: memberData.guardianName,
             guardianMobile: memberData.guardianMobile,
             maritalStatus: memberData.maritalStatus,
@@ -288,8 +289,8 @@ const ProfilePage = () => {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-foreground">Adhaar Number</label>
-                  <p className="text-foreground">{userData.adhaarNumber}</p>
+                  <label className="text-sm font-medium text-foreground">{userData.documentType || "Document Number"}</label>
+                  <p className="text-foreground">{userData.documentNumber}</p>
                 </div>
               </div>
             </CardContent>
