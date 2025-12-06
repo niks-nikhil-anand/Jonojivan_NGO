@@ -191,7 +191,9 @@ export const POST = async (req) => {
 
     return NextResponse.json({
       message: "Error submitting registration. Please try again.",
-      error: error.message
+      error: error.message,
+      stack: error.stack,
+      details: error
     }, { status: 500 });
   }
 };

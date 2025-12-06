@@ -235,7 +235,7 @@ const VolunteerRegistrationForm = () => {
         required.push("documentType", "documentNumber");
         break;
       case 4:
-        required.push("committee", "subCommittee", "joiningState", "post");
+        required.push("committee", "subCommittee", "joiningState", "post", "supportingAmount");
         break;
       case 5:
         required.push("password", "confirmPassword");
@@ -339,7 +339,7 @@ const VolunteerRegistrationForm = () => {
         >
           <option value="">Select {label}</option>
           {options.map((opt) => (
-            <option key={opt.value || opt} value={opt.value || opt}>
+            <option key={opt.value || opt.name || opt} value={opt.value || opt.name || opt}>
               {opt.label || opt.name || opt} {opt.amount ? `- ₹${opt.amount}` : ""}
             </option>
           ))}
@@ -432,11 +432,20 @@ const VolunteerRegistrationForm = () => {
                 {currentStep === 1 && (
                   <div className="grid md:grid-cols-2 gap-6">
                     {renderField("Full Name", "name", "text", "Enter full name")}
-                    {renderField("Gender", "gender", "select", "", true, ["Male", "Female", "Other"])}
+                    {renderField("Gender", "gender", "select", "", true, [
+                      { value: "male", label: "Male" },
+                      { value: "female", label: "Female" },
+                      { value: "other", label: "Other" }
+                    ])}
                     {renderField("Mobile Number", "mobile", "tel", "Enter mobile number")}
                     {renderField("WhatsApp Number", "whatsapp", "tel", "Enter WhatsApp number", false)}
                     {renderField("Email Address", "email", "email", "Enter email address")}
-                    {renderField("Marital Status", "maritalStatus", "select", "", true, ["Single", "Married", "Divorced", "Widowed"])}
+                    {renderField("Marital Status", "maritalStatus", "select", "", true, [
+                      { value: "single", label: "Single" },
+                      { value: "married", label: "Married" },
+                      { value: "divorced", label: "Divorced" },
+                      { value: "widowed", label: "Widowed" }
+                    ])}
                     {renderField("Guardian Name", "guardianName", "text", "Father/Mother/Wife Name")}
                     {renderField("Guardian Mobile", "guardianMobile", "tel", "Guardian contact number")}
                   </div>
