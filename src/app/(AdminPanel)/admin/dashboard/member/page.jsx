@@ -621,6 +621,8 @@ export default function MemberManagement() {
                       <TableHead className="text-gray-700">
                         Membership ID
                       </TableHead>
+                      <TableHead className="text-gray-700">Document Type</TableHead>
+                      <TableHead className="text-gray-700">Document Number</TableHead>
                       <TableHead className="text-gray-700">Committee</TableHead>
                       <TableHead className="text-gray-700">Post</TableHead>
                       <TableHead className="text-gray-700">Status</TableHead>
@@ -654,6 +656,12 @@ export default function MemberManagement() {
                         </TableCell>
                         <TableCell className="font-mono text-sm text-gray-700">
                           {member.membershipId}
+                        </TableCell>
+                        <TableCell className="text-sm text-gray-700">
+                          {member.documentType || "N/A"}
+                        </TableCell>
+                        <TableCell className="font-mono text-sm text-gray-700">
+                          {member.documentNumber || "N/A"}
                         </TableCell>
                         <TableCell className="text-sm text-gray-700">
                           {member.committee}
@@ -945,11 +953,20 @@ export default function MemberManagement() {
                           </div>
                           <div className="group">
                             <label className="text-sm font-semibold text-gray-600 flex items-center gap-1">
+                              <span className="text-indigo-500">📄</span>
+                              Document Type
+                            </label>
+                            <p className="text-gray-800 font-medium mt-1 bg-indigo-50 px-3 py-2 rounded-lg border-l-4 border-indigo-400 capitalize">
+                              {selectedMember.documentType}
+                            </p>
+                          </div>
+                          <div className="group">
+                            <label className="text-sm font-semibold text-gray-600 flex items-center gap-1">
                               <span className="text-indigo-500">🆔</span>
-                              Aadhaar Number
+                              Document Number
                             </label>
                             <p className="text-gray-800 font-mono font-medium mt-1 bg-indigo-50 px-3 py-2 rounded-lg border-l-4 border-indigo-400">
-                              {selectedMember.adhaarNumber}
+                              {selectedMember.documentNumber}
                             </p>
                           </div>
                           <div className="group">
