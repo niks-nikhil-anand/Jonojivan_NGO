@@ -196,9 +196,24 @@ const VolunteerRegistrationForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    // Input sanitization and restriction
+    let processedValue = value;
+
+    if (["mobile", "whatsapp", "guardianMobile"].includes(name)) {
+      // Allow only numbers and max 10 digits
+      processedValue = value.replace(/\D/g, "").slice(0, 10);
+    } else if (name === "pincode") {
+      // Allow only numbers and max 6 digits
+      processedValue = value.replace(/\D/g, "").slice(0, 6);
+    } else if (name === "documentNumber") {
+      // Allow only numbers and max 20 digits
+      processedValue = value.replace(/\D/g, "").slice(0, 20);
+    }
+
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: processedValue,
     }));
 
     if (name === "committee") {
@@ -239,8 +254,6 @@ const VolunteerRegistrationForm = () => {
         break;
       case 5:
         required.push("password", "confirmPassword");
-        // Image is optional but recommended? Let's keep it optional to match previous logic or enforce if needed. 
-        // Previous logic didn't strictly enforce image existence in requiredFields array check, but let's assume valid form needs passwords matching.
         if (formData.password !== formData.confirmPassword) {
           alert("Passwords do not match!");
           return false;
@@ -255,6 +268,38 @@ const VolunteerRegistrationForm = () => {
       alert(`Please fill in all required fields.`);
       return false;
     }
+
+    // Specific Validations
+    if (step === 1) {
+      if (!/^\d{10}$/.test(formData.mobile)) {
+        alert("Mobile Number must be exactly 10 digits.");
+        return false;
+      }
+      if (formData.whatsapp && !/^\d{10}$/.test(formData.whatsapp)) {
+        alert("WhatsApp Number must be exactly 10 digits.");
+        return false;
+      }
+      if (!/^\d{10}$/.test(formData.guardianMobile)) {
+        alert("Guardian Mobile Number must be exactly 10 digits.");
+        return false;
+      }
+    }
+
+    if (step === 2) {
+      if (!/^\d{6}$/.test(formData.pincode)) {
+        alert("Pincode must be exactly 6 digits.");
+        return false;
+      }
+    }
+
+    if (step === 3) {
+      // Validating Document Number: Numeric and up to 20 digits
+      if (!/^\d{1,20}$/.test(formData.documentNumber)) {
+        alert("Document Number must be numeric and up to 20 digits.");
+        return false;
+      }
+    }
+
     return true;
   };
 
