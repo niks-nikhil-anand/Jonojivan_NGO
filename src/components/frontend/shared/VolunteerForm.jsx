@@ -55,6 +55,7 @@ const VolunteerRegistrationForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   // Data Constants
   const committees = [
@@ -207,24 +208,36 @@ const VolunteerRegistrationForm = () => {
       // Allow only numbers and max 6 digits
       processedValue = value.replace(/\D/g, "").slice(0, 6);
     } else if (name === "documentNumber") {
-      // Allow only numbers and max 20 digits
-      processedValue = value.replace(/\D/g, "").slice(0, 20);
-    }
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: processedValue,
-    }));
-
-    if (name === "committee") {
-      const selectedCommittee = committees.find((c) => c.name === value);
-      if (selectedCommittee) {
-        setFormData((prev) => ({
-          ...prev,
-          supportingAmount: selectedCommittee.amount.toString(),
-        }));
+      // Validation based on document type
+      if (formData.documentType === "Aadhaar Card") {
+         processedValue = value.replace(/\D/g, "").slice(0, 12);
+      } else if (formData.documentType === "PAN Card") {
+         processedValue = value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 10);
+      } else {
+         // Default alphanumeric for others (Voter ID, Bank)
+         processedValue = value.slice(0, 20);
       }
     }
+
+    setFormData((prev) => {
+      const updates = { [name]: processedValue };
+      
+      if (name === "committee") {
+        const selectedCommittee = committees.find((c) => c.name === processedValue);
+        if (selectedCommittee) {
+          updates.supportingAmount = selectedCommittee.amount.toString();
+        } else {
+          updates.supportingAmount = "";
+        }
+      }
+      
+      // Clear document number when document type changes
+      if (name === "documentType") {
+        updates.documentNumber = "";
+      }
+      
+      return { ...prev, ...updates };
+    });
   };
 
   const handleImageUpload = (e) => {
@@ -265,7 +278,12 @@ const VolunteerRegistrationForm = () => {
 
     const missing = required.filter(field => !formData[field]);
     if (missing.length > 0) {
-      alert(`Please fill in all required fields.`);
+      // Format field names for better readability (e.g., "confirmPassword" -> "Confirm Password")
+      const formattedMissing = missing.map(field => 
+        field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())
+      ).join(", ");
+      
+      alert(`Please fill in the following required fields: ${formattedMissing}`);
       return false;
     }
 
@@ -283,6 +301,10 @@ const VolunteerRegistrationForm = () => {
         alert("Guardian Mobile Number must be exactly 10 digits.");
         return false;
       }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        alert("Please enter a valid email address.");
+        return false;
+      }
     }
 
     if (step === 2) {
@@ -293,30 +315,57 @@ const VolunteerRegistrationForm = () => {
     }
 
     if (step === 3) {
-      // Validating Document Number: Numeric and up to 20 digits
-      if (!/^\d{1,20}$/.test(formData.documentNumber)) {
-        alert("Document Number must be numeric and up to 20 digits.");
-        return false;
+      const { documentType, documentNumber } = formData;
+      
+      if (documentType === "Aadhaar Card") {
+        if (!/^\d{12}$/.test(documentNumber)) {
+          alert("Aadhaar Number must be exactly 12 digits.");
+          return false;
+        }
+      } else if (documentType === "PAN Card") {
+        if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(documentNumber)) {
+          alert("Invalid PAN Card Number format.");
+          return false;
+        }
+      } else if (documentType === "Voter ID Card") {
+        // Basic length check for Voter ID (usually 10 chars)
+        if (documentNumber.length < 10) {
+          alert("Voter ID Card number seems too short.");
+          return false;
+        }
       }
+      // Bank Passbook check (just presence which is already done)
     }
 
     return true;
   };
 
   const nextStep = () => {
+    if (isNavigating) return;
     if (validateStep(currentStep)) {
       setDirection(1);
+      setIsNavigating(true);
       setCurrentStep((prev) => Math.min(prev + 1, 5));
+      setTimeout(() => setIsNavigating(false), 400); // Reset after transition
     }
   };
 
   const prevStep = () => {
+    if (isNavigating) return;
     setDirection(-1);
+    setIsNavigating(true);
     setCurrentStep((prev) => Math.max(prev - 1, 1));
+    setTimeout(() => setIsNavigating(false), 400); // Reset after transition
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (currentStep < 5) {
+      nextStep();
+      return;
+    }
+
     if (!validateStep(5)) return;
 
     setIsSubmitting(true);
@@ -582,6 +631,7 @@ const VolunteerRegistrationForm = () => {
               <button
                 type="button"
                 onClick={prevStep}
+                disabled={isNavigating || isSubmitting}
                 className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
                   currentStep === 1 
                     ? "opacity-0 pointer-events-none" 
@@ -595,14 +645,15 @@ const VolunteerRegistrationForm = () => {
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+                  disabled={isNavigating || isSubmitting}
+                  className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-70 disabled:transform-none"
                 >
                   Next Step <ArrowRight className="w-5 h-5" />
                 </button>
               ) : (
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isNavigating}
                   className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-70 disabled:transform-none"
                 >
                   {isSubmitting ? (
