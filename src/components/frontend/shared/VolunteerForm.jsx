@@ -59,15 +59,16 @@ const VolunteerRegistrationForm = () => {
 
   // Data Constants
   const committees = [
-    { name: "Executive Committee", amount: 499 },
-    { name: "National Committee", amount: 499 },
-    { name: "State Committee", amount: 499 },
-    { name: "Mandal Committee", amount: 499 },
-    { name: "District Committee", amount: 499 },
-    { name: "Tehsil Committee", amount: 499 },
-    { name: "Block Committee", amount: 499 },
+    { name: "Executive Committee", amount: 15200 },
+    { name: "National Committee", amount: 12500 },
+    { name: "State Committee", amount: 11800 },
+    { name: "Mandal Committee", amount: 9000 },
+    { name: "District Committee", amount: 7500 },
+    { name: "Tehsil Committee", amount: 1500 },
+    { name: "Block Committee", amount: 2500 },
+    { name: "GP AREA CRP", amount: 2500 },
     { name: "Board of Guardians", amount: 499 },
-    { name: "Member", amount: 499 },
+    { name: "Member", amount: 1180 },
     { name: "Chairman", amount: 499 },
   ];
 
