@@ -134,74 +134,53 @@ export default function MemberManagement() {
     try {
       setUpdateLoading(true);
 
-      // Separate user data from member data
-      const { user, ...memberData } = updatedData;
-
-      let userUpdateSuccess = true;
-
-      // Update user information first if user data exists
-      if (user && editFormData.user?._id) {
-        try {
-          // Only send name, email, and mobile to user API
-          const userDataToUpdate = {
-            fullName: user.fullName,
-            email: user.email,
-            mobileNumber: user.mobileNumber,
-          };
-
-          // Call PATCH API for user update
-          const userResponse = await fetch(
-            `/api/user/${editFormData.user._id}`,
-            {
-              method: "PATCH",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(userDataToUpdate),
-            }
-          );
-
-          const userData = await userResponse.json();
-
-          if (userResponse.ok) {
-            console.log("User information updated successfully");
-          } else {
-            userUpdateSuccess = false;
-            console.error(
-              "User update failed:",
-              userData.msg || "Unknown error"
-            );
-          }
-        } catch (userError) {
-          userUpdateSuccess = false;
-          console.error("User update failed:", userError);
-        }
+      const formData = new FormData();
+      
+      // Append Image if exists
+      if (updatedData.imageFile) {
+        formData.append("image", updatedData.imageFile);
       }
 
-      // Update member information (everything except user data)
+      // Append all other fields
+      // We iterate through available fields and append standard ones
+      Object.keys(updatedData).forEach(key => {
+        if (key === 'user' && typeof updatedData[key] === 'object') {
+          // Flatten user object: user.fullName -> user.fullName (or backend handles it)
+          // Actually, our backend logic splits `updates` and `userUpdates`.
+          // We can append flattened keys for user:
+          if(updatedData.user.fullName) formData.append("user.fullName", updatedData.user.fullName);
+          if(updatedData.user.email) formData.append("user.email", updatedData.user.email);
+          if(updatedData.user.mobileNumber) formData.append("user.mobileNumber", updatedData.user.mobileNumber);
+          // And profilePic might be just a string if not changing, but we only send image file if changing
+        } else if (key !== 'imageFile' && key !== 'previewImage' && key !== '_removeProfilePic') {
+           // Append standard fields
+           if (updatedData[key] !== null && updatedData[key] !== undefined) {
+             formData.append(key, updatedData[key]);
+           }
+        }
+      });
+
+      // Handle explicit profile pic removal if no new file
+      if (updatedData._removeProfilePic && !updatedData.imageFile) {
+        formData.append("profileImage", ""); // Send empty string to indicate removal
+      }
+
       const response = await fetch(`/api/member/${id}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(memberData),
+        body: formData, 
+        // Note: Do NOT set Content-Type header when using FormData, browser sets it with boundary
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        if (userUpdateSuccess && user) {
-          toast.success("Member and user updated successfully");
-        } else if (!user) {
-          toast.success("Member updated successfully");
-        } else {
-          toast.success("Member updated successfully (user update failed)");
-        }
+        toast.success("Member updated successfully");
         await fetchMembers(); // Refresh the members list
         setEditMember(null); // Close the edit modal
         setEditFormData({});
       } else {
         toast.error(data.msg || "Failed to update member");
+        console.error("Update failed:", data);
       }
     } catch (error) {
       console.error("Error updating member:", error);
@@ -603,8 +582,8 @@ export default function MemberManagement() {
           )}
 
           {/* Table */}
-          {!loading && (
-            <Card className="bg-white border-gray-200">
+          {!loading && (<>
+            <Card className="bg-white border-gray-200 h-[50vh] overflow-y-auto">
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
@@ -747,6 +726,7 @@ export default function MemberManagement() {
                   </div>
                 )}
               </div>
+            </Card>
 
               {/* Pagination */}
               {filteredMembers.length > 0 && (
@@ -852,8 +832,7 @@ export default function MemberManagement() {
                   </div>
                 </div>
               )}
-            </Card>
-          )}
+          </>)}
 
           {/* Member Detail Modal */}
           {selectedMember && (
@@ -1157,267 +1136,371 @@ export default function MemberManagement() {
               open={!!editMember}
               onOpenChange={() => setEditMember(null)}
             >
-              <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white border-gray-300">
-                <DialogHeader className="border-b border-gray-200 pb-4">
-                  <DialogTitle className="text-xl font-semibold text-black">
-                    Edit Member: {editMember.user?.fullName}
+              <DialogContent className="max-w-5xl max-h-[95vh] overflow-y-auto bg-gradient-to-br from-indigo-50 to-purple-50 p-0 border-0 shadow-2xl rounded-2xl">
+                <DialogHeader className="p-6 bg-white border-b border-gray-100 sticky top-0 z-10 rounded-t-2xl shadow-sm">
+                  <DialogTitle className="text-2xl font-bold flex items-center gap-3 text-gray-800">
+                    <div className="bg-indigo-100 p-2 rounded-lg text-indigo-600">
+                      <Pencil className="h-6 w-6" />
+                    </div>
+                    <div>
+                      Edit Member Details
+                      <p className="text-sm font-normal text-gray-500 mt-1">
+                        Editing: <span className="font-semibold text-indigo-600">{editMember.user?.fullName}</span>
+                      </p>
+                    </div>
                   </DialogTitle>
                 </DialogHeader>
 
-                <form onSubmit={handleEditSubmit} className="space-y-6 p-6">
-                  {/* Personal Information Section */}
-                  <div>
-                    <h3 className="text-lg font-semibold text-black mb-4">
-                      Personal Information
+                <form onSubmit={handleEditSubmit} className="p-8 space-y-8">
+                  
+                  {/* Profile Picture Section */}
+                  <div className="flex flex-col items-center justify-center space-y-4 bg-white p-8 rounded-2xl shadow-sm border border-indigo-100">
+                    <div className="relative group">
+                      <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg ring-4 ring-indigo-50">
+                        {editFormData.previewImage ? (
+                          <img
+                            src={editFormData.previewImage}
+                            alt="Preview"
+                            className="w-full h-full object-cover"
+                          />
+                        ) : editFormData.user?.profilePic ? (
+                          <img
+                            src={editFormData.user.profilePic}
+                            alt="Profile"
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
+                            <User className="w-16 h-16" />
+                          </div>
+                        )}
+                        
+                        {/* Overlay for hover */}
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <label htmlFor="profile-upload" className="cursor-pointer text-white text-xs font-semibold flex flex-col items-center">
+                            <Pencil className="h-6 w-6 mb-1" />
+                            Change
+                          </label>
+                        </div>
+                      </div>
+                      
+                      {/* Remove Button */}
+                      {(editFormData.previewImage || editFormData.user?.profilePic) && (
+                         <button
+                           type="button"
+                           onClick={() => {
+                             setEditFormData(prev => ({
+                               ...prev,
+                               imageFile: null,
+                               previewImage: null,
+                               user: { ...prev.user, profilePic: "" },
+                               _removeProfilePic: true // Flag to tell backend to remove if needed, or just send empty
+                             }));
+                           }}
+                           className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full shadow-md hover:bg-red-600 transition-colors"
+                           title="Remove Photo"
+                         >
+                           <Minus className="h-4 w-4" />
+                         </button>
+                      )}
+                    </div>
+                    
+                    <input
+                      type="file"
+                      id="profile-upload"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                          setEditFormData(prev => ({
+                            ...prev,
+                            imageFile: file,
+                            previewImage: URL.createObjectURL(file), 
+                            _removeProfilePic: false
+                          }));
+                        }
+                      }}
+                    />
+                    <div className="text-center">
+                       <label htmlFor="profile-upload" className="cursor-pointer px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium shadow-md">
+                        Upload New Photo
+                       </label>
+                       <p className="text-xs text-gray-500 mt-2">Recommended: Square JPG, PNG. Max 2MB.</p>
+                    </div>
+                  </div>
+
+                  {/* Personal Information */}
+                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2 border-b border-gray-100 pb-2">
+                      <span className="text-blue-500 text-xl">👤</span> Personal Information
                     </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          Full Name
-                        </label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Full Name</label>
                         <Input
-                          type="text"
                           name="user.fullName"
                           value={editFormData.user?.fullName || ""}
                           onChange={handleEditInputChange}
-                          className="mt-1 bg-white border-gray-300 text-black"
+                          className="bg-gray-50 border-gray-200 focus:bg-white transition-colors"
                         />
                       </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          Email
-                        </label>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Email</label>
                         <Input
-                          type="email"
                           name="user.email"
                           value={editFormData.user?.email || ""}
                           onChange={handleEditInputChange}
-                          className="mt-1 bg-white border-gray-300 text-black"
+                          className="bg-gray-50 border-gray-200 focus:bg-white transition-colors"
                         />
                       </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          Mobile Number
-                        </label>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Mobile Number</label>
                         <Input
-                          type="tel"
                           name="user.mobileNumber"
                           value={editFormData.user?.mobileNumber || ""}
                           onChange={handleEditInputChange}
-                          className="mt-1 bg-white border-gray-300 text-black"
+                          className="bg-gray-50 border-gray-200 focus:bg-white transition-colors"
                         />
                       </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          WhatsApp Number
-                        </label>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">WhatsApp Number</label>
                         <Input
-                          type="tel"
                           name="whatsappNumber"
                           value={editFormData.whatsappNumber || ""}
                           onChange={handleEditInputChange}
-                          className="mt-1 bg-white border-gray-300 text-black"
+                          className="bg-gray-50 border-gray-200 focus:bg-white transition-colors"
                         />
                       </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          Gender
-                        </label>
-                        <Select
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Gender</label>
+                         <Select
                           value={editFormData.gender || ""}
-                          onValueChange={(value) =>
-                            setEditFormData((prev) => ({
-                              ...prev,
-                              gender: value,
-                            }))
-                          }
+                          onValueChange={(value) => setEditFormData(prev => ({ ...prev, gender: value }))}
                         >
-                          <SelectTrigger className="mt-1 bg-white border-gray-300 text-black">
-                            <SelectValue placeholder="Select gender" />
+                          <SelectTrigger className="bg-gray-50 border-gray-200">
+                            <SelectValue placeholder="Select Gender" />
                           </SelectTrigger>
-                          <SelectContent className="bg-white border-gray-300">
+                          <SelectContent>
                             <SelectItem value="male">Male</SelectItem>
                             <SelectItem value="female">Female</SelectItem>
                             <SelectItem value="other">Other</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          Aadhaar Number
-                        </label>
-                        <Input
-                          type="text"
-                          name="adhaarNumber"
-                          value={editFormData.adhaarNumber || ""}
-                          onChange={handleEditInputChange}
-                          className="mt-1 bg-white border-gray-300 text-black"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          Guardian Name
-                        </label>
-                        <Input
-                          type="text"
-                          name="guardianName"
-                          value={editFormData.guardianName || ""}
-                          onChange={handleEditInputChange}
-                          className="mt-1 bg-white border-gray-300 text-black"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          Guardian Mobile
-                        </label>
-                        <Input
-                          type="tel"
-                          name="guardianMobile"
-                          value={editFormData.guardianMobile || ""}
-                          onChange={handleEditInputChange}
-                          className="mt-1 bg-white border-gray-300 text-black"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Address Information Section */}
-                  <div>
-                    <h3 className="text-lg font-semibold text-black mb-4">
-                      Address Information
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="md:col-span-2">
-                        <label className="text-sm font-medium text-gray-700">
-                          Address
-                        </label>
-                        <Input
-                          type="text"
-                          name="address"
-                          value={editFormData.address || ""}
-                          onChange={handleEditInputChange}
-                          className="mt-1 bg-white border-gray-300 text-black"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          Country
-                        </label>
-                        <Input
-                          type="text"
-                          name="country"
-                          value={editFormData.country || ""}
-                          onChange={handleEditInputChange}
-                          className="mt-1 bg-white border-gray-300 text-black"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          State
-                        </label>
-                        <Input
-                          type="text"
-                          name="state"
-                          value={editFormData.state || ""}
-                          onChange={handleEditInputChange}
-                          className="mt-1 bg-white border-gray-300 text-black"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          District
-                        </label>
-                        <Input
-                          type="text"
-                          name="district"
-                          value={editFormData.district || ""}
-                          onChange={handleEditInputChange}
-                          className="mt-1 bg-white border-gray-300 text-black"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          Pincode
-                        </label>
-                        <Input
-                          type="text"
-                          name="pincode"
-                          value={editFormData.pincode || ""}
-                          onChange={handleEditInputChange}
-                          className="mt-1 bg-white border-gray-300 text-black"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Membership Information Section */}
-                  <div>
-                    <h3 className="text-lg font-semibold text-black mb-4">
-                      Membership Information
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          Committee
-                        </label>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Marital Status</label>
                         <Select
-                          value={editFormData.committee || ""}
-                          onValueChange={(value) =>
-                            setEditFormData((prev) => ({
-                              ...prev,
-                              committee: value,
-                            }))
-                          }
+                          value={editFormData.maritalStatus || ""}
+                          onValueChange={(value) => setEditFormData(prev => ({ ...prev, maritalStatus: value }))}
                         >
-                          <SelectTrigger className="mt-1 bg-white border-gray-300 text-black">
-                            <SelectValue placeholder="Select committee" />
+                          <SelectTrigger className="bg-gray-50 border-gray-200">
+                            <SelectValue placeholder="Select Status" />
                           </SelectTrigger>
-                          <SelectContent className="bg-white border-gray-300">
-                            <SelectItem value="Executive Committee">
-                              Executive Committee
-                            </SelectItem>
-                            <SelectItem value="National Committee">
-                              National Committee
-                            </SelectItem>
-                            <SelectItem value="State Committee">
-                              State Committee
-                            </SelectItem>
-                            <SelectItem value="District Committee">
-                              District Committee
-                            </SelectItem>
-                            <SelectItem value="Member">Member</SelectItem>
+                          <SelectContent>
+                            <SelectItem value="single">Single</SelectItem>
+                            <SelectItem value="married">Married</SelectItem>
+                            <SelectItem value="divorced">Divorced</SelectItem>
+                            <SelectItem value="widowed">Widowed</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          Post
-                        </label>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Guardian Name</label>
                         <Input
-                          type="text"
+                          name="guardianName"
+                          value={editFormData.guardianName || ""}
+                          onChange={handleEditInputChange}
+                          className="bg-gray-50 border-gray-200 focus:bg-white transition-colors"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Guardian Mobile</label>
+                        <Input
+                          name="guardianMobile"
+                          value={editFormData.guardianMobile || ""}
+                          onChange={handleEditInputChange}
+                          className="bg-gray-50 border-gray-200 focus:bg-white transition-colors"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Address Information */}
+                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2 border-b border-gray-100 pb-2">
+                      <span className="text-green-500 text-xl">🏠</span> Address Details
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      <div className="md:col-span-2 lg:col-span-3 space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Full Address</label>
+                        <Input
+                          name="address"
+                          value={editFormData.address || ""}
+                          onChange={handleEditInputChange}
+                          className="bg-gray-50 border-gray-200 focus:bg-white transition-colors"
+                        />
+                      </div>
+                       <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">State</label>
+                        <Input
+                          name="state"
+                          value={editFormData.state || ""}
+                          onChange={handleEditInputChange}
+                           className="bg-gray-50 border-gray-200 focus:bg-white transition-colors"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">District</label>
+                        <Input
+                          name="district"
+                          value={editFormData.district || ""}
+                          onChange={handleEditInputChange}
+                           className="bg-gray-50 border-gray-200 focus:bg-white transition-colors"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Pincode</label>
+                        <Input
+                          name="pincode"
+                          value={editFormData.pincode || ""}
+                          onChange={handleEditInputChange}
+                           className="bg-gray-50 border-gray-200 focus:bg-white transition-colors"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Country</label>
+                        <Input
+                          name="country"
+                          value={editFormData.country || "India"}
+                          onChange={handleEditInputChange}
+                           className="bg-gray-50 border-gray-200 focus:bg-white transition-colors"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Identity Information */}
+                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2 border-b border-gray-100 pb-2">
+                      <span className="text-purple-500 text-xl">🆔</span> Identity Details
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                       <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Document Type</label>
+                        <Select
+                          value={editFormData.documentType || ""}
+                          onValueChange={(value) => setEditFormData(prev => ({ ...prev, documentType: value }))}
+                        >
+                          <SelectTrigger className="bg-gray-50 border-gray-200">
+                            <SelectValue placeholder="Select Document Type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Aadhaar Card">Aadhaar Card</SelectItem>
+                            <SelectItem value="PAN Card">PAN Card</SelectItem>
+                            <SelectItem value="Voter ID Card">Voter ID Card</SelectItem>
+                            <SelectItem value="Driving License">Driving License</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Document Number</label>
+                        <Input
+                          name="documentNumber"
+                          value={editFormData.documentNumber || ""}
+                          onChange={handleEditInputChange}
+                           className="bg-gray-50 border-gray-200 focus:bg-white transition-colors font-mono"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Membership Information */}
+                   <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2 border-b border-gray-100 pb-2">
+                      <span className="text-amber-500 text-xl">🎗️</span> Membership Details
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Committee</label>
+                         <Select
+                          value={editFormData.committee || ""}
+                          onValueChange={(value) => setEditFormData(prev => ({ ...prev, committee: value }))}
+                        >
+                          <SelectTrigger className="bg-gray-50 border-gray-200">
+                            <SelectValue placeholder="Select Committee" />
+                          </SelectTrigger>
+                          <SelectContent>
+                             <SelectItem value="Executive Committee">Executive Committee</SelectItem>
+                             <SelectItem value="National Committee">National Committee</SelectItem>
+                             <SelectItem value="State Committee">State Committee</SelectItem>
+                             <SelectItem value="District Committee">District Committee</SelectItem>
+                             <SelectItem value="Mandal Committee">Mandal Committee</SelectItem>
+                             <SelectItem value="Tehsil Committee">Tehsil Committee</SelectItem>
+                             <SelectItem value="Block Committee">Block Committee</SelectItem>
+                             <SelectItem value="Member">Member</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Sub-Committee</label>
+                         <Select
+                          value={editFormData.subCommittee || ""}
+                          onValueChange={(value) => setEditFormData(prev => ({ ...prev, subCommittee: value }))}
+                        >
+                          <SelectTrigger className="bg-gray-50 border-gray-200">
+                            <SelectValue placeholder="Select Sub-Committee" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Main Body">Main Body</SelectItem>
+                            <SelectItem value="National Body">National Body</SelectItem>
+                            <SelectItem value="State Body">State Body</SelectItem>
+                            <SelectItem value="District Body">District Body</SelectItem>
+                             <SelectItem value="Sub Body">Sub Body</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Post</label>
+                        <Input
                           name="post"
                           value={editFormData.post || ""}
                           onChange={handleEditInputChange}
-                          className="mt-1 bg-white border-gray-300 text-black"
+                           className="bg-gray-50 border-gray-200 focus:bg-white transition-colors"
                         />
                       </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          Membership Status
-                        </label>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Joining State</label>
+                         <Input
+                          name="joiningState"
+                          value={editFormData.joiningState || ""}
+                          onChange={handleEditInputChange}
+                           className="bg-gray-50 border-gray-200 focus:bg-white transition-colors"
+                        />
+                      </div>
+                       <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Supporting Amount</label>
+                         <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₹</span>
+                            <Input
+                              type="number"
+                              name="supportingAmount"
+                              value={editFormData.supportingAmount || ""}
+                              onChange={handleEditInputChange}
+                               className="bg-gray-50 border-gray-200 focus:bg-white transition-colors pl-8"
+                            />
+                         </div>
+                      </div>
+                       <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Status</label>
                         <Select
                           value={editFormData.membershipStatus || ""}
-                          onValueChange={(value) =>
-                            setEditFormData((prev) => ({
-                              ...prev,
-                              membershipStatus: value,
-                            }))
-                          }
+                          onValueChange={(value) => setEditFormData(prev => ({ ...prev, membershipStatus: value }))}
                         >
-                          <SelectTrigger className="mt-1 bg-white border-gray-300 text-black">
-                            <SelectValue placeholder="Select status" />
+                          <SelectTrigger className="bg-gray-50 border-gray-200">
+                            <SelectValue placeholder="Select Status" />
                           </SelectTrigger>
-                          <SelectContent className="bg-white border-gray-300">
+                          <SelectContent>
                             <SelectItem value="Pending">Pending</SelectItem>
                             <SelectItem value="Active">Active</SelectItem>
                             <SelectItem value="Suspended">Suspended</SelectItem>
@@ -1425,23 +1508,16 @@ export default function MemberManagement() {
                           </SelectContent>
                         </Select>
                       </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          Payment Status
-                        </label>
+                       <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Payment Status</label>
                         <Select
                           value={editFormData.paymentStatus || ""}
-                          onValueChange={(value) =>
-                            setEditFormData((prev) => ({
-                              ...prev,
-                              paymentStatus: value,
-                            }))
-                          }
+                          onValueChange={(value) => setEditFormData(prev => ({ ...prev, paymentStatus: value }))}
                         >
-                          <SelectTrigger className="mt-1 bg-white border-gray-300 text-black">
-                            <SelectValue placeholder="Select payment status" />
+                          <SelectTrigger className="bg-gray-50 border-gray-200">
+                            <SelectValue placeholder="Select Payment" />
                           </SelectTrigger>
-                          <SelectContent className="bg-white border-gray-300">
+                          <SelectContent>
                             <SelectItem value="Paid">Paid</SelectItem>
                             <SelectItem value="Partial">Partial</SelectItem>
                             <SelectItem value="Pending">Pending</SelectItem>
@@ -1453,27 +1529,27 @@ export default function MemberManagement() {
                   </div>
 
                   {/* Form Actions */}
-                  <div className="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
+                  <div className="flex items-center justify-end gap-4 pt-6 border-t border-gray-100 bg-white sticky bottom-0 p-4 -mx-8 -mb-8 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] rounded-b-2xl">
                     <Button
                       type="button"
                       variant="outline"
                       onClick={() => setEditMember(null)}
-                      className="bg-white border-gray-300 text-gray-700 hover:bg-gray-100"
+                      className="px-6 py-2 h-11 border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all"
                     >
                       Cancel
                     </Button>
                     <Button
                       type="submit"
                       disabled={updateLoading}
-                      className="bg-black text-white hover:bg-gray-800"
+                      className="px-8 py-2 h-11 bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-200 rounded-xl transition-all"
                     >
                       {updateLoading ? (
                         <>
                           <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                          Updating...
+                          Updating Profile...
                         </>
                       ) : (
-                        "Update Member"
+                        "Save Changes"
                       )}
                     </Button>
                   </div>
