@@ -1,34 +1,33 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { 
+  AreaChart, 
+  Area, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  Legend
+} from 'recharts';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp, IndianRupee, Calendar, Target } from 'lucide-react';
+import { Loader2, TrendingUp, Calendar, PieChart as PieChartIcon, BarChart as BarChartIcon } from 'lucide-react';
 import axios from 'axios';
 
-// Registering chart components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-);
-
-const ThirdRow = () => {
+const SecondRow = () => {
   const [donations, setDonations] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Mock data for demonstration
   useEffect(() => {
     const fetchDonations = async () => {
       try {
         const response = await axios.get("/api/donationSuccess");
-        console.log(response);
         setDonations(Array.isArray(response.data.donations) ? response.data.donations : []);
       } catch (error) {
         console.error("Error fetching donations:", error);
@@ -40,239 +39,209 @@ const ThirdRow = () => {
     fetchDonations();
   }, []);
 
-  // Prepare data for the graph
-  const donationData = donations.reduce((acc, donation) => {
-    const date = new Date(donation.createdAt).toLocaleDateString('en-GB', { 
-      day: '2-digit', 
-      month: 'short' 
+  // --- Data Processing Helpers ---
+
+  // 1. Daily Trend Data (Area Chart)
+  const getDailyData = () => {
+    const dailyMap = donations.reduce((acc, donation) => {
+      const date = new Date(donation.createdAt).toLocaleDateString('en-GB', { 
+        day: '2-digit', 
+        month: 'short' 
+      });
+      acc[date] = (acc[date] || 0) + donation.amount;
+      return acc;
+    }, {});
+
+    return Object.entries(dailyMap).map(([date, amount]) => ({
+      name: date,
+      amount: amount
+    })).slice(-7); // Last 7 days for cleanliness, or remove slice for all
+  };
+
+  // 2. Monthly Data (Bar Chart)
+  const getMonthlyData = () => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthlyMap = donations.reduce((acc, donation) => {
+      const d = new Date(donation.createdAt);
+      const monthKey = months[d.getMonth()];
+      acc[monthKey] = (acc[monthKey] || 0) + donation.amount;
+      return acc;
+    }, {});
+
+    // Ensure all recent months are represented or just show active ones
+    // Showing active ones for now
+    return Object.entries(monthlyMap).map(([month, amount]) => ({
+      name: month,
+      amount: amount
+    }));
+  };
+
+  // 3. Distribution by Amount (Pie Chart)
+  const getDistributionData = () => {
+    let small = 0, medium = 0, large = 0;
+    donations.forEach(d => {
+      if (d.amount < 500) small++;
+      else if (d.amount < 2000) medium++;
+      else large++;
     });
-    if (acc[date]) {
-      acc[date] += donation.amount;
-    } else {
-      acc[date] = donation.amount;
+    
+    return [
+      { name: 'Micro (< ₹500)', value: small, color: '#3b82f6' }, // Blue
+      { name: 'Standard (₹500-2k)', value: medium, color: '#10b981' }, // Emerald
+      { name: 'Premium (> ₹2k)', value: large, color: '#8b5cf6' }, // Violet
+    ].filter(item => item.value > 0);
+  };
+
+  const dailyData = getDailyData();
+  const monthlyData = getMonthlyData();
+  const distributionData = getDistributionData();
+
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-3 border border-gray-100 shadow-xl rounded-xl">
+          <p className="text-sm font-semibold text-gray-700">{label}</p>
+          <p className="text-sm font-bold text-green-600">
+            ₹{payload[0].value.toLocaleString()}
+          </p>
+        </div>
+      );
     }
-    return acc;
-  }, {});
-
-  const labels = Object.keys(donationData);
-  const data = Object.values(donationData);
-  const totalDonations = data.reduce((sum, amount) => sum + amount, 0);
-  const averageDonation = totalDonations / data.length || 0;
-
-  const chartData = {
-    labels: labels,
-    datasets: [
-      {
-        label: 'Daily Donations',
-        data: data,
-        borderColor: 'hsl(142, 76%, 36%)',
-        backgroundColor: 'linear-gradient(180deg, rgba(34, 197, 94, 0.2) 0%, rgba(34, 197, 94, 0.05) 100%)',
-        fill: true,
-        tension: 0.4,
-        borderWidth: 3,
-        pointRadius: 6,
-        pointBackgroundColor: 'hsl(142, 76%, 36%)',
-        pointBorderColor: '#ffffff',
-        pointBorderWidth: 3,
-        pointHoverRadius: 8,
-        pointHoverBackgroundColor: 'hsl(142, 76%, 30%)',
-        pointHoverBorderColor: '#ffffff',
-        pointHoverBorderWidth: 3,
-        borderCapStyle: 'round',
-        borderJoinStyle: 'round',
-        shadowColor: 'rgba(34, 197, 94, 0.3)',
-        shadowBlur: 10,
-        shadowOffsetX: 0,
-        shadowOffsetY: 4,
-      },
-    ],
+    return null;
   };
 
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    interaction: {
-      intersect: false,
-      mode: 'index',
-    },
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        backgroundColor: 'hsl(0, 0%, 3%)',
-        titleColor: 'hsl(0, 0%, 98%)',
-        bodyColor: 'hsl(0, 0%, 98%)',
-        borderColor: 'hsl(142, 76%, 36%)',
-        borderWidth: 1,
-        cornerRadius: 8,
-        displayColors: false,
-        padding: 12,
-        titleFont: {
-          size: 14,
-          weight: '600',
-        },
-        bodyFont: {
-          size: 13,
-        },
-        callbacks: {
-          title: function(context) {
-            return `Date: ${context[0].label}`;
-          },
-          label: function(context) {
-            return `Amount: ₹${context.raw.toLocaleString()}`;
-          },
-        },
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          color: 'hsl(0, 0%, 90%)',
-          lineWidth: 1,
-        },
-        border: {
-          color: 'hsl(0, 0%, 85%)',
-        },
-        ticks: {
-          color: 'hsl(0, 0%, 45%)',
-          font: {
-            size: 12,
-            weight: '500',
-          },
-          padding: 10,
-        },
-      },
-      y: {
-        grid: {
-          color: 'hsl(0, 0%, 90%)',
-          lineWidth: 1,
-        },
-        border: {
-          color: 'hsl(0, 0%, 85%)',
-        },
-        ticks: {
-          color: 'hsl(0, 0%, 45%)',
-          font: {
-            size: 12,
-            weight: '500',
-          },
-          padding: 10,
-          callback: function(value) {
-            return '₹' + value.toLocaleString();
-          },
-        },
-      },
-    },
-    elements: {
-      point: {
-        hoverBorderWidth: 3,
-      },
-    },
-    animation: {
-      duration: 2000,
-      easing: 'easeInOutQuart',
-    },
-  };
-
-  const LoadingSpinner = () => (
-    <div className="flex items-center justify-center h-64 ">
-      <div className="relative">
-        <div className="w-12 h-12 rounded-full border-4 border-green-200 border-t-green-600 animate-spin"></div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <IndianRupee className="w-4 h-4 text-green-600" />
-        </div>
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center p-12">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
-    </div>
-  );
-
-  const StatCard = ({ icon: Icon, title, value, subtitle, gradient }) => (
-    <div className={`relative overflow-hidden rounded-xl p-4 ${gradient} text-white transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl `}>
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium opacity-90">{title}</p>
-          <p className="text-2xl font-bold">{value}</p>
-          <p className="text-xs opacity-75">{subtitle}</p>
-        </div>
-        <div className="p-3 bg-white/20 rounded-full backdrop-blur-sm">
-          <Icon className="w-6 h-6" />
-        </div>
-      </div>
-      <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-white/10 rounded-full"></div>
-    </div>
-  );
+    );
+  }
 
   return (
-    <div className="space-y-6 px-5">
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <StatCard
-          icon={IndianRupee}
-          title="Total Donations"
-          value={`₹${totalDonations.toLocaleString()}`}
-          subtitle="All time"
-          gradient="bg-gradient-to-br from-green-500 to-green-600"
-        />
-        <StatCard
-          icon={TrendingUp}
-          title="Average Daily"
-          value={`₹${Math.round(averageDonation).toLocaleString()}`}
-          subtitle="Per day"
-          gradient="bg-gradient-to-br from-blue-500 to-blue-600"
-        />
-        <StatCard
-          icon={Target}
-          title="Total Days"
-          value={donations.length}
-          subtitle="Active days"
-          gradient="bg-gradient-to-br from-purple-500 to-purple-600"
-        />
-      </div>
-
-      {/* Main Chart Card */}
-      <Card className="w-full overflow-hidden shadow-xl border-0 bg-gradient-to-br from-slate-50 to-white">
-        <CardHeader className="pb-4 bg-gradient-to-r from-green-50 to-emerald-50 border-b border-green-100">
+    <div className="space-y-6 p-6 pt-0">
+      
+      {/* Main Area Chart: Daily Trends */}
+      <Card className="border-none shadow-lg bg-white overflow-hidden">
+        <CardHeader className="border-b border-gray-50 bg-gray-50/30 pb-4">
           <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <CardTitle className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <TrendingUp className="w-5 h-5 text-green-600" />
-                </div>
-                Donation Analytics
+            <div>
+              <CardTitle className="flex items-center gap-2 text-xl text-gray-800">
+                <TrendingUp className="w-5 h-5 text-green-600" />
+                Donation Trends
               </CardTitle>
-              <CardDescription className="text-gray-600 flex items-center gap-1">
-                <Calendar className="w-4 h-4" />
-                Daily donation amounts over time
-              </CardDescription>
+              <CardDescription>Daily donation overview for the last period</CardDescription>
             </div>
-            <Badge 
-              variant="secondary" 
-              className="bg-green-100 text-green-800 hover:bg-green-200 border border-green-200 px-3 py-1"
-            >
-              Live Data
+            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+              Growth +12.5%
             </Badge>
           </div>
         </CardHeader>
-        
         <CardContent className="p-6">
-          {loading ? (
-            <LoadingSpinner />
-          ) : (
-            <div 
-              className="relative bg-white rounded-xl p-4 shadow-inner border border-gray-100" 
-              style={{ height: '400px' }}
-            >
-              <Line data={chartData} options={chartOptions} />
-              
-              {/* Decorative elements */}
-              <div className="absolute top-2 right-2 w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <div className="absolute bottom-2 left-2 w-1 h-1 bg-blue-400 rounded-full animate-pulse delay-300"></div>
-            </div>
-          )}
+          <div className="h-[350px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={dailyData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.2}/>
+                    <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                <XAxis 
+                  dataKey="name" 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fill: '#6b7280', fontSize: 12 }}
+                  dy={10}
+                />
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fill: '#6b7280', fontSize: 12 }}
+                  tickFormatter={(value) => `₹${value/1000}k`}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Area 
+                  type="monotone" 
+                  dataKey="amount" 
+                  stroke="#10b981" 
+                  strokeWidth={3}
+                  fillOpacity={1} 
+                  fill="url(#colorAmount)" 
+                  activeDot={{ r: 6, strokeWidth: 0, fill: '#059669' }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        {/* Bar Chart: Monthly Overview */}
+        <Card className="border-none shadow-lg bg-white">
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-lg text-gray-800">
+              <BarChartIcon className="w-5 h-5 text-blue-600" />
+              Monthly Overview
+            </CardTitle>
+            <CardDescription>Total donations aggregated by month</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[300px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={monthlyData} margin={{ top: 20, right: 20, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} dy={10} />
+                  <Tooltip 
+                    cursor={{ fill: '#f3f4f6' }}
+                    contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                  />
+                  <Bar dataKey="amount" fill="#3b82f6" radius={[4, 4, 0, 0]} maxBarSize={50} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Pie Chart: Donation Distribution */}
+        <Card className="border-none shadow-lg bg-white">
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-lg text-gray-800">
+              <PieChartIcon className="w-5 h-5 text-violet-600" />
+              Donation Size
+            </CardTitle>
+            <CardDescription>Distribution by donation amount category</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[300px] w-full flex items-center justify-center">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={distributionData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={80}
+                    paddingAngle={5}
+                    dataKey="value"
+                  >
+                    {distributionData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend verticalAlign="bottom" height={36} iconType="circle" />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+
+      </div>
     </div>
   );
 };
 
-export default ThirdRow;
+export default SecondRow;

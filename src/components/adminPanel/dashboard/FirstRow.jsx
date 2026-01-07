@@ -1,7 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { 
   CalendarDays, 
@@ -9,7 +8,9 @@ import {
   BarChart3, 
   Coins, 
   TrendingUp,
-  IndianRupee
+  IndianRupee,
+  ArrowUpRight,
+  Wallet
 } from 'lucide-react';
 import axios from 'axios';
 
@@ -21,7 +22,6 @@ const FirstRow = () => {
     const fetchDonations = async () => {
       try {
         const response = await axios.get("/api/donationSuccess");
-        console.log(response);
         setDonations(Array.isArray(response.data.donations) ? response.data.donations : []);
       } catch (error) {
         console.error("Error fetching donations:", error);
@@ -32,8 +32,6 @@ const FirstRow = () => {
 
     fetchDonations();
   }, []);
-
-
 
   const getDonationsByTime = (timeframe) => {
     const now = new Date();
@@ -52,7 +50,6 @@ const FirstRow = () => {
         startOfMonth.setHours(0, 0, 0, 0);
         return donationDate >= startOfMonth;
       }
-      
       return true;
     });
   
@@ -70,79 +67,67 @@ const FirstRow = () => {
 
   const cards = [
     {
-      title: "Today's Donations",
+      title: "Today's Revenue",
       value: getDonationsByTime('today'),
       icon: CalendarDays,
-      gradient: "from-blue-500 to-blue-600",
-      bgColor: "bg-blue-50",
-      iconColor: "text-blue-600",
-      change: "+12%",
-      changeType: "positive"
+      description: "Total donations received today",
+      gradient: "from-blue-600 via-blue-500 to-blue-400",
+      shadow: "shadow-blue-200",
+      textColor: "text-blue-600"
     },
     {
-      title: "This Week",
+      title: "Weekly Revenue",
       value: getDonationsByTime('week'),
       icon: Calendar,
-      gradient: "from-emerald-500 to-emerald-600",
-      bgColor: "bg-emerald-50",
-      iconColor: "text-emerald-600",
-      change: "+8%",
-      changeType: "positive"
+      description: "Revenue fetched this week",
+      gradient: "from-emerald-600 via-emerald-500 to-emerald-400",
+      shadow: "shadow-emerald-200",
+      textColor: "text-emerald-600"
     },
     {
-      title: "This Month",
+      title: "Monthly Revenue",
       value: getDonationsByTime('month'),
       icon: BarChart3,
-      gradient: "from-amber-500 to-amber-600",
-      bgColor: "bg-amber-50",
-      iconColor: "text-amber-600",
-      change: "+15%",
-      changeType: "positive"
+      description: "Revenue fetched this month",
+      gradient: "from-violet-600 via-violet-500 to-violet-400",
+      shadow: "shadow-violet-200",
+      textColor: "text-violet-600"
     },
     {
-      title: "All Time",
+      title: "Total Revenue",
       value: getDonationsByTime('all'),
-      icon: Coins,
-      gradient: "from-purple-500 to-purple-600",
-      bgColor: "bg-purple-50",
-      iconColor: "text-purple-600",
-      change: "+23%",
-      changeType: "positive"
+      icon: Wallet,
+      description: "All time total donations",
+      gradient: "from-amber-600 via-amber-500 to-amber-400",
+      shadow: "shadow-amber-200",
+      textColor: "text-amber-600"
     }
   ];
 
-  const LoadingSkeleton = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
-      {[...Array(4)].map((_, i) => (
-        <Card key={i} className="relative overflow-hidden">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <Skeleton className="h-4 w-24" />
-            <Skeleton className="h-8 w-8 rounded-md" />
-          </CardHeader>
-          <CardContent>
-            <Skeleton className="h-8 w-20 mb-2" />
-            <Skeleton className="h-4 w-16" />
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
-
   if (loading) {
-    return <LoadingSkeleton />;
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="h-32 rounded-xl bg-gray-100 animate-pulse" />
+        ))}
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-6 p-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 pt-6 px-1">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">Donation Overview</h2>
-          <p className="text-muted-foreground">Track your donation metrics and performance</p>
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h2>
+          <p className="text-muted-foreground mt-1">Overview of your donation performance.</p>
         </div>
-        <Badge variant="secondary" className="flex items-center gap-1">
-          <TrendingUp className="h-3 w-3" />
-          Live Data
-        </Badge>
+        <div className="flex items-center gap-2 px-3 py-1 bg-green-50 text-green-700 rounded-full border border-green-200 text-sm font-medium">
+          <div className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+          </div>
+          Live Updates
+        </div>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -151,42 +136,33 @@ const FirstRow = () => {
           return (
             <Card 
               key={index} 
-              className="relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border-0 shadow-md"
+              className="relative overflow-hidden border-none shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
             >
-              {/* Gradient background */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-5`} />
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <Icon className={`w-24 h-24 ${card.textColor}`} />
+              </div>
               
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  {card.title}
-                </CardTitle>
-                <div className={`p-2 rounded-lg ${card.bgColor}`}>
-                  <Icon className={`h-5 w-5 ${card.iconColor}`} />
-                </div>
-              </CardHeader>
-              
-              <CardContent className="space-y-3">
-                <div className="flex items-baseline gap-2">
-                  <div className="text-2xl font-bold text-foreground flex items-center gap-1">
-                    <IndianRupee className="h-5 w-5" />
-                    {formatAmount(card.value).replace('₹', '')}
+              <CardContent className="p-6 relative z-10">
+                <div className="flex justify-between items-start mb-4">
+                  <div className={`p-3 rounded-2xl bg-gradient-to-br ${card.gradient} text-white shadow-lg`}>
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <div className="flex items-center gap-1 text-xs font-medium bg-gray-50 px-2 py-1 rounded-full text-gray-600">
+                    <TrendingUp className="w-3 h-3" />
+                    <span>+2.4%</span>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-2">
-                  <Badge 
-                    variant={card.changeType === 'positive' ? 'default' : 'destructive'}
-                    className="text-xs px-2 py-0.5"
-                  >
-                    <TrendingUp className="h-3 w-3 mr-1" />
-                    {card.change}
-                  </Badge>
-                  <span className="text-xs text-muted-foreground">vs last period</span>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-medium text-muted-foreground">{card.title}</h3>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-gray-900">
+                      {formatAmount(card.value)}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">{card.description}</p>
                 </div>
               </CardContent>
-              
-              {/* Subtle glow effect */}
-              <div className={`absolute -top-1 -right-1 w-20 h-20 bg-gradient-to-br ${card.gradient} opacity-10 rounded-full blur-xl`} />
             </Card>
           );
         })}
