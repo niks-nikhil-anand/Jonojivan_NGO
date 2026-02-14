@@ -454,10 +454,10 @@ const DonationForm = () => {
                   <Building className="w-5 h-5 text-blue-200 mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-blue-100">
-                      Bank Details
+                      Bank Details 
                     </p>
                     <p className="text-white font-semibold">
-                      Jio Payment Bank
+                      Punjab National Bank
                     </p>
                   </div>
                 </div>
@@ -469,7 +469,7 @@ const DonationForm = () => {
                       Account Number
                     </p>
                     <p className="text-white font-mono font-semibold">
-                     0004 2041 1036 636
+                     0031 2021 0000 2555
                     </p>
                   </div>
                 </div>
@@ -483,7 +483,7 @@ const DonationForm = () => {
                       IFSC Code
                     </p>
                     <p className="text-white font-mono font-semibold">
-                      JIOP0000001
+                      PUNB0003120
                     </p>
                   </div>
                 </div>
@@ -492,10 +492,10 @@ const DonationForm = () => {
                   <Phone className="w-5 h-5 text-blue-200 mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-blue-100">
-                      Google Pay
+                      BANK VERIFIED NAME
                     </p>
                     <p className="text-white font-mono font-semibold">
-                      9435266783
+                      JONOJIVAN GRAMIN VIKASH FOUNDATION
                     </p>
                   </div>
                 </div>
