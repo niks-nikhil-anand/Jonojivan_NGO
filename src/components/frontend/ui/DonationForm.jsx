@@ -442,70 +442,16 @@ const DonationForm = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 0.8 }}
-            className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mt-8 border border-white/20"
+            className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mt-12 border border-white/20 max-w-sm mx-auto group hover:bg-white/15 transition-all duration-300"
           >
-            <h4 className="text-lg font-semibold mb-4 text-white flex items-center justify-center gap-2">
-              <CreditCard className="w-5 h-5" />
-              Payment Information
+            <h4 className="text-xl font-bold mb-6 text-white flex items-center justify-center gap-2">
+              <Heart className="w-5 h-5 text-pink-400" />
+              Scan to Donate
             </h4>
-            <div className="grid md:grid-cols-2 gap-4 text-left">
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <Building className="w-5 h-5 text-blue-200 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-blue-100">
-                      Bank Details 
-                    </p>
-                    <p className="text-white font-semibold">
-                      Punjab National Bank
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <CreditCard className="w-5 h-5 text-blue-200 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-blue-100">
-                      Account Number
-                    </p>
-                    <p className="text-white font-mono font-semibold">
-                     0031 2021 0000 2555
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <Building2 className="w-5 h-5 text-blue-200 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-blue-100">
-                      IFSC Code
-                    </p>
-                    <p className="text-white font-mono font-semibold">
-                      PUNB0003120
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <Phone className="w-5 h-5 text-blue-200 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-blue-100">
-                      BANK VERIFIED NAME
-                    </p>
-                    <p className="text-white font-mono font-semibold">
-                      JONOJIVAN GRAMIN VIKASH FOUNDATION
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* View QR Code Button */}
-            <div className="flex justify-center mt-3">
+            <div className="flex justify-center">
               <button
                 type="button"
-                className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg shadow hover:from-blue-600 hover:to-blue-800 transition-all font-semibold"
+                className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-xl shadow-lg hover:from-blue-600 hover:to-blue-800 transition-all font-bold group"
                 onClick={() => setShowQR(true)}
               >
                 View QR Code
@@ -514,7 +460,6 @@ const DonationForm = () => {
           </motion.div>
         </div>
       </motion.div>
-
       {/* QR Modal Overlay (fullscreen, blurred/dark background) */}
       {showQR && (
         <motion.div
@@ -533,17 +478,20 @@ const DonationForm = () => {
             <h2 className="text-xl font-bold mb-4 text-blue-700">
               Scan to Donate (QR)
             </h2>
-            <img
-              src={typeof qr === "string" ? qr : qr.src}
-              alt="QR Code"
-              className="max-w-full max-h-[70vh] border-4 border-blue-200 rounded-lg shadow-xl"
-            />
-            <div className="mt-3 text-gray-600 text-sm">
+            <div className="bg-white p-4 rounded-xl border-4 border-blue-50">
+              <img
+                src={typeof qr === "string" ? qr : qr.src}
+                alt="QR Code"
+                className="max-w-full max-h-[70vh] rounded-lg shadow-xl"
+              />
+            </div>
+            <div className="mt-4 text-gray-600 font-medium">
               Scan this code with any UPI app
             </div>
           </div>
         </motion.div>
       )}
+
 
       {/* Donation Modal */}
       {isModalOpen && (
