@@ -49,8 +49,8 @@ export async function generatePdfReceiptClient({
   const fontBytesRegular = await fetchAsset('/font/Roboto-Regular.ttf');
   const fontBytesBold = await fetchAsset('/font/Roboto-Bold.ttf');
   const fontBytesGreatVibes = await fetchAsset('/font/GreatVibes-Regular.ttf');
-  const logoBytes = await fetchAsset('/logo/Smile.png');
-  const NoBgLogoBytes = await fetchAsset('/logo/SmileNoBg.png');
+  const logoBytes = await fetchAsset('/logo/logo.png');
+  const NoBgLogoBytes = await fetchAsset('/logo/logo.png');
 
   const robotoRegularFont = await pdfDoc.embedFont(fontBytesRegular);
   const robotoBoldFont = await pdfDoc.embedFont(fontBytesBold);
@@ -179,15 +179,15 @@ export async function generatePdfReceiptClient({
   // Amount Text - Positioned Lower
   page.drawText(`${amount}/-`, { x: 415, y: 290, size: fontSize, font: robotoRegularFont });
 
-  // Authorised Signature (Amrita Singh) Below the Name
-  page.drawText(' Amrita Singh', {
+  // Authorised Signature (Nazrul Islam) Below the Name
+  page.drawText(' Nazrul Islam', {
     x: 50,
     y: 270,  // Adjusted below the name
     size: 12,
     font: greatVibesFont,  // Use GreatVibes font for signature
   });
 
-  // Amrita Singh (Normal Font - Roboto Regular)
+  // Nazrul Islam (Normal Font - Roboto Regular)
   page.drawText('Authorised Signature', {
     x: 50,
     y: 250,  // Adjusted below the amount box
@@ -196,7 +196,7 @@ export async function generatePdfReceiptClient({
   });
 
   // Footer - Address and Donation Exemption Note
-  page.drawText('Singhi Kalan\nAra, Bhojpur, Pin: 802301\nwww.bringsmile.org\nContact No. 95993 22679', {
+  page.drawText('Uttar Khatowal, PO- Uttar Khatowal\nPS- Rupahihat, Nagaon, Assam\nPin- 782124\nwww.jonojivan.in\nContact No. +91 94352 66783', {
     x: 50,
     y: 150, // Moved to footer
     size: 10,
@@ -206,25 +206,32 @@ export async function generatePdfReceiptClient({
 
  
 
-  // BRING SMILE FOUNDATION - Bottom Right Corner
-  page.drawText('BRING SMILE FOUNDATION', {
-    x: 350,
-    y: 30,
+  // JonoJivan Gramin Vikash Foundation - Bottom Right Corner
+  page.drawText('JonoJivan Gramin Vikash Foundation', {
+    x: 280,
+    y: 40,
     size: 10,
     font: robotoBoldFont,  // Use Roboto Bold here
     color: rgb(0, 0, 0)
   });
+  page.drawText('Empowering Lives • Building Futures', {
+    x: 295,
+    y: 25,
+    size: 9,
+    font: robotoRegularFont,
+    color: rgb(0.3, 0.3, 0.3)
+  });
 
   // Add the No Background Logo below the Amount Box
   page.drawImage(NoBgLogoImage, {
-    x: 380, // Shifted to the right side
-    y: 50, // Way below the amount box
+    x: 350, // Shifted to the right side
+    y: 65, // Way below the amount box
     width: 100, // Adjust width as needed
     height: 100, // Adjust height as needed
   });
   
-  page.drawText('Donations to BRING SMILE FOUNDATION are exempted under 80G of income tax act,\nvalid from 24-05-2022 to AY 2025-2026. PAN NO. AAETB7222R', {
-    x: 50, y: 50, size: 9, lineHeight: 12, font: robotoRegularFont
+  page.drawText('Donations to JonoJivan Gramin Vikash Foundation are exempted\nunder 80G of income tax act, valid from 24-05-2022 to AY 2025-2026.\nPAN NO. AAETB7222R', {
+    x: 50, y: 65, size: 9, lineHeight: 14, font: robotoRegularFont
   });
   
 
