@@ -658,7 +658,7 @@ const DonationForm = () => {
                       <div>
                         <h5 className="text-sm font-bold text-emerald-800">Secure Process</h5>
                         <AlertDescription className="text-emerald-700 text-xs mt-1 leading-relaxed font-medium">
-                          Your donation is processed through Razorpay's 100% secure payment gateway. You will receive an instant 80G receipt on your email.
+                          Your donation is processed through Razorpay&apos;s 100% secure payment gateway. You will receive an instant 80G receipt on your email.
                         </AlertDescription>
                       </div>
                     </div>
