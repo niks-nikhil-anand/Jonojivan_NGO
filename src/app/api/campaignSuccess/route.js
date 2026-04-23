@@ -96,7 +96,7 @@ export async function POST(req) {
     // Send thank-you email with PDF receipt
     console.log('Sending thank-you email...');
     const emailResponse = await resend.emails.send({
-      from: 'no-reply@bringsmile.org',
+      from: 'no-reply@jonojivan.in',
       to: emailaddress,
       subject: 'Your Generosity Has Changed a Life - Thank You',
       react: <ThankYouEmail donorName={fullName} />,
