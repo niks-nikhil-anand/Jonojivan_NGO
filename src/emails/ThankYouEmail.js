@@ -41,7 +41,7 @@ function ThankYouEmail({ donorName }) {
             Dear {donorName},
           </Heading>
           <Text style={{ fontSize: '16px', color: '#555' }}>
-            On behalf of everyone at <strong>Bring Smile Foundation</strong>, I extend our deepest gratitude for your generous contribution. Your support is more than just a donation; it is a beacon of hope for children who dream of a brighter tomorrow but face immense challenges today.
+            On behalf of everyone at <strong>JonoJivan Gramin Vikash Foundation</strong>, I extend our deepest gratitude for your generous contribution. Your support is more than just a donation; it is a beacon of hope for children who dream of a brighter tomorrow but face immense challenges today.
           </Text>
           <Text style={{ fontSize: '16px', color: '#555' }}>
             Every rupee you have shared carries the power to ignite a future of endless possibilities. In a community where education is often a distant dream, your compassion has brought it closer to reality. Your kindness inspires us to strive harder and reach more children waiting for a chance to learn, grow, and succeed.
@@ -55,19 +55,25 @@ function ThankYouEmail({ donorName }) {
           <Text style={{ fontSize: '16px', color: '#555' }}>
             With heartfelt gratitude,
             <br />
-            <strong>Bring Smile Foundation</strong>
+            <strong>JonoJivan Gramin Vikash Foundation</strong>
+            <br />
+            <span style={{ fontSize: '14px', fontStyle: 'italic', color: '#777' }}>Empowering Lives • Building Futures</span>
           </Text>
-          <Text style={{ fontSize: '16px', color: '#555', marginTop: '10px' }}>
-            <Link href="tel:9599322679" style={{ color: '#007BFF', textDecoration: 'none' }}>
-              +91 9599322679
+          <Text style={{ fontSize: '14px', color: '#555', marginTop: '10px', lineHeight: '1.5' }}>
+            <Link href="tel:9435266783" style={{ color: '#007BFF', textDecoration: 'none' }}>
+              +91 94352 66783
+            </Link>
+            <br />
+            Uttar Khatowal, PO- Uttar Khatowal<br />
+            PS- Rupahihat, Nagaon, Assam<br />
+            Pin- 782124
+            <br /><br />
+            <Link href="mailto:support@jonojivan.in" style={{ color: '#007BFF', textDecoration: 'none' }}>
+              support@jonojivan.in
             </Link>{' '}
             |{' '}
-            <Link href="mailto:support@bringsmile.org" style={{ color: '#007BFF', textDecoration: 'none' }}>
-              support@bringsmile.org
-            </Link>{' '}
-            |{' '}
-            <Link href="https://www.bringsmile.org" style={{ color: '#007BFF', textDecoration: 'none' }}>
-              www.bringsmile.org
+            <Link href="https://www.jonojivan.in" style={{ color: '#007BFF', textDecoration: 'none' }}>
+              www.jonojivan.in
             </Link>
           </Text>
           <Row style={{ marginTop: '20px', textAlign: 'center' }}>
