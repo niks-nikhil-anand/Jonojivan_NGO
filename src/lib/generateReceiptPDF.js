@@ -234,8 +234,8 @@ function numberToWords(num) {
     page.drawImage(NoBgLogoImage, {
       x: 350, // Shifted to the right side
       y: 65, // Way below the amount box
-      width: 100, // Adjust width as needed
-      height: 100, // Adjust height as needed
+      width: 60, // Adjust width as needed
+      height: 60, // Adjust height as needed
     });
     
   

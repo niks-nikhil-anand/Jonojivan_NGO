@@ -226,8 +226,8 @@ export async function generatePdfReceiptClient({
   page.drawImage(NoBgLogoImage, {
     x: 350, // Shifted to the right side
     y: 65, // Way below the amount box
-    width: 100, // Adjust width as needed
-    height: 100, // Adjust height as needed
+    width: 60, // Adjust width as needed
+    height: 60, // Adjust height as needed
   });
   
   page.drawText('Donations to JonoJivan Gramin Vikash Foundation are exempted\nunder 80G of income tax act, valid from 24-05-2022 to AY 2025-2026.\nPAN NO. AAETB7222R', {
