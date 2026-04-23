@@ -210,33 +210,30 @@ function numberToWords(num) {
       font: robotoRegularFont,
     });
   
-    page.drawText('Donations to JonoJivan Gramin Vikash Foundation are exempted\nunder 80G of income tax act, valid from 24-05-2022 to AY 2025-2026.\nPAN NO. AAETB7222R', {
-      x: 50, y: 65, size: 9, lineHeight: 14, font: robotoRegularFont
+    // Distinct visually separated section for 80G Information
+    page.drawLine({
+      start: { x: 50, y: 85 },
+      end: { x: 450, y: 85 },
+      thickness: 1,
+      color: rgb(0.8, 0.8, 0.8), // light gray separator
     });
-  
-    // JonoJivan Gramin Vikash Foundation - Bottom Right Corner
-    page.drawText('JonoJivan Gramin Vikash Foundation', {
-      x: 280,
-      y: 40,
-      size: 10,
-      font: robotoBoldFont,  // Use Roboto Bold here
-      color: rgb(0, 0, 0)
+
+    page.drawText('All donations to JonoJivan Gramin Vikash Foundation are eligible for tax deduction', {
+      x: 50, y: 70, size: 9, font: robotoRegularFont, color: rgb(0.3, 0.3, 0.3)
     });
-    page.drawText('Empowering Lives • Building Futures', {
-      x: 295,
-      y: 25,
-      size: 9,
-      font: robotoRegularFont,
-      color: rgb(0.3, 0.3, 0.3)
+    page.drawText('under Section 80G of the Income Tax Act, 1961.', {
+      x: 50, y: 60, size: 9, font: robotoRegularFont, color: rgb(0.3, 0.3, 0.3)
     });
-  
-    // Add the No Background Logo below the Amount Box
-    page.drawImage(NoBgLogoImage, {
-      x: 350, // Shifted to the right side
-      y: 65, // Way below the amount box
-      width: 60, // Adjust width as needed
-      height: 60, // Adjust height as needed
-    });
+
+    // Keys in Bold, Values in Regular
+    page.drawText('PAN:', { x: 50, y: 40, size: 9, font: robotoBoldFont });
+    page.drawText('AAHCJ0084F', { x: 75, y: 40, size: 9, font: robotoRegularFont });
+
+    page.drawText('80G Registration No:', { x: 170, y: 40, size: 9, font: robotoBoldFont });
+    page.drawText('AAHCJ0084FF20251', { x: 265, y: 40, size: 9, font: robotoRegularFont });
+
+    page.drawText('Validity:', { x: 50, y: 25, size: 9, font: robotoBoldFont });
+    page.drawText('2026-27 to 2028-29', { x: 95, y: 25, size: 9, font: robotoRegularFont });
     
   
     return await pdfDoc.save();
