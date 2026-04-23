@@ -25,6 +25,15 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { toast } from "sonner";
 import axios from "axios";
 import { Badge } from "@/components/ui/badge";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import Loader from "@/components/loader/loader";
 import { downloadReceiptAction } from "./actions";
 
@@ -523,44 +532,40 @@ const DonationTable = () => {
               Page {currentPage} of {totalPages}
             </div>
             
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1}
-              >
-                <ChevronLeft className="h-4 w-4" />
-                Previous
-              </Button>
-              
-              {[...Array(Math.min(5, totalPages))].map((_, index) => {
-                const pageNumber = Math.max(1, currentPage - 2) + index;
-                if (pageNumber > totalPages) return null;
+            <Pagination className="justify-end w-auto mx-0">
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious 
+                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                    className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
                 
-                return (
-                  <Button
-                    key={pageNumber}
-                    variant={currentPage === pageNumber ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setCurrentPage(pageNumber)}
-                    className="w-8 h-8 p-0"
-                  >
-                    {pageNumber}
-                  </Button>
-                );
-              })}
-              
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                disabled={currentPage === totalPages}
-              >
-                Next
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </div>
+                {[...Array(Math.min(5, totalPages))].map((_, index) => {
+                  const pageNumber = Math.max(1, currentPage - 2) + index;
+                  if (pageNumber > totalPages) return null;
+                  
+                  return (
+                    <PaginationItem key={pageNumber}>
+                      <PaginationLink
+                        onClick={() => setCurrentPage(pageNumber)}
+                        isActive={currentPage === pageNumber}
+                        className="cursor-pointer"
+                      >
+                        {pageNumber}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                })}
+                
+                <PaginationItem>
+                  <PaginationNext 
+                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
           </div>
         )}
       </CardContent>
