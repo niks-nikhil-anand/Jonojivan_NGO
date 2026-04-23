@@ -26,6 +26,7 @@ import { toast } from "sonner";
 import axios from "axios";
 import { Badge } from "@/components/ui/badge";
 import Loader from "@/components/loader/loader";
+import { downloadReceiptAction } from "./actions";
 
 const DonationTable = () => {
   const [donations, setDonations] = useState([]);
@@ -178,14 +179,40 @@ const DonationTable = () => {
         fullName: donation.fullName || "Unknown",
         panCard: donation.panCardNumber || "N/A",
         amount: donation.amount || 0,
-        bankName: "Unknown Bank",
-        receiptNo: donation.razorpay_payment_id || "000",
+        bankName: donation.paymentMethod || "Online Transfer",
+        receiptNo: donation.razorpay_payment_id ? donation.razorpay_payment_id.substring(0, 8).toUpperCase() : (donation._id || "000").toString().substring(0, 8).toUpperCase(),
         date: new Date(donation.createdAt).toLocaleDateString(),
         transactionId: donation.razorpay_payment_id || "N/A",
       };
 
-      await generatePdfReceiptClient(pdfParams);
-      toast.success("Receipt downloaded successfully!");
+      const loadingId = toast.loading("Generating receipt...");
+      
+      const response = await downloadReceiptAction(pdfParams);
+      
+      if (!response.success) {
+        toast.error("Failed to generate receipt", { id: loadingId });
+        return;
+      }
+
+      // Convert base64 to Blob and Download
+      const binaryString = window.atob(response.pdfBase64);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `Receipt_${pdfParams.fullName.replace(/\s+/g, '_')}_${pdfParams.date.replace(/\//g, '-')}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      toast.success("Receipt downloaded successfully!", { id: loadingId });
     } catch (error) {
       console.error("Error generating receipt:", error);
       toast.error("Failed to generate receipt.");
