@@ -75,7 +75,7 @@ const DonationExport = () => {
     // Create a new jsPDF document in portrait orientation (default)
     const doc = new jsPDF('p');  // 'p' stands for portrait orientation
   
-    doc.text("Donations Report BringSmile.org", 20, 20);
+    doc.text("Donations Report jonojivan.in", 20, 20);
   
     // Function to format the date as "24 Feb 2028"
     const formatDate = (date) => {
