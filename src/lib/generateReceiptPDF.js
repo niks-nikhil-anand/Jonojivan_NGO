@@ -65,175 +65,136 @@ function numberToWords(num) {
     const NoBgLogoImage = await pdfDoc.embedPng(NoBgLogoBytes); // Embed the NoBg logo
   
     const page = pdfDoc.addPage([500, 700]);
-    const fontSize = 12;
   
-    // Logo - Left without scaling
-    page.drawImage(logoImage, {
-      x: 50, // Left-aligned
-      y: 630, // Adjusted for proper alignment
-      width: 80, // Fixed width
-      height: 80, // Fixed height
-    });
-  
-    // Registration Number - Slightly Below
-    page.drawText('Reg. No.- 6273', {
-      x: 400, // Right-aligned
-      y: 680, // Slightly below the previous position
-      size: 12,
-      font: robotoBoldFont,  // Use Roboto Bold
-    });
-  
-    // Title - Centered Below Reg. No.
-    page.drawText('Donation Receipt', {
-      x: 180, // Centered text position
-      y: 640,
-      size: 20,
-      font: robotoBoldFont,  // Use Roboto Bold
-    });
-  
-    // Horizontal Line - Below Title
-    page.drawLine({
-      start: { x: 50, y: 620 },
-      end: { x: 450, y: 620 },
-      thickness: 1,
-      color: rgb(0, 0, 0),
-    });
-  
-    // Receipt Number & Date
-    page.drawText(`Receipt No.: ${receiptNo}`, { x: 50, y: 570, size: fontSize, font: robotoRegularFont });
-    page.drawText(`Date: ${date}`, { x: 370, y: 570, size: fontSize, font: robotoRegularFont });
-  
-    // Full Name
-    page.drawText(`Received with thanks from:- ${fullName}`, { x: 50, y: 510, size: fontSize, font: robotoRegularFont });
-  
-    // Dotted Line Below Full Name
-    page.drawLine({
-      start: { x: 50, y: 500 },
-      end: { x: 450, y: 500 },
-      thickness: 1,
-      color: rgb(0, 0, 0),
-      dashArray: [4, 2], // Creates a dotted line
-    });
-  
-    // PAN Number
-    page.drawText(`PAN No:- ${panCard}`, { x: 50, y: 470, size: fontSize, font: robotoRegularFont });
-  
-    // Dotted Line Below PAN Number
-    page.drawLine({
-      start: { x: 50, y: 460 },
-      end: { x: 450, y: 460 },
-      thickness: 1,
-      color: rgb(0, 0, 0),
-      dashArray: [4, 2], // Creates a dotted line
-    });
-  
-    // Donation Amount
-    page.drawText(`The sum of Rupees ${amountInWords} only`, {
-      x: 50,
-      y: 440,
-      size: fontSize,
-      font: robotoRegularFont,
-    });
-  
-    // Dotted Line Below Donation Amount
-    page.drawLine({
-      start: { x: 50, y: 430 },
-      end: { x: 450, y: 430 },
-      thickness: 1,
-      color: rgb(0, 0, 0),
-      dashArray: [4, 2], // Creates a dotted line
-    });
-  
-    // Payment Details
-    page.drawText(`By cheque / draft / fund transfer / cash / online payment, drawn from:`, { x: 50, y: 400, size: fontSize, font: robotoRegularFont });
-    page.drawText(bankName, { x: 55, y: 380, size: fontSize, font: robotoRegularFont });
-  
-    // Dotted Line Below Payment Details
-    page.drawLine({
-      start: { x: 50, y: 370 },
-      end: { x: 450, y: 370 },
-      thickness: 1,
-      color: rgb(0, 0, 0),
-      dashArray: [4, 2], // Creates a dotted line
-    });
-  
-    // Transaction ID
-    page.drawText(`Transaction ID:- ${transactionId}`, { x: 50, y: 340, size: fontSize, font: robotoRegularFont });
-  
-    // Dotted Line Below Transaction ID
-    page.drawLine({
-      start: { x: 50, y: 330 },
-      end: { x: 450, y: 330 },
-      thickness: 1,
-      color: rgb(0, 0, 0),
-      dashArray: [4, 2], // Creates a dotted line
-    });
-  
-    // Amount Box Label - Positioned Lower
-    page.drawText('Rs.', { x: 390, y: 290, size: fontSize, font: robotoRegularFont });
-  
-    // Rectangle for Amount Box - Positioned Lower
+    // 1. Outer Border
     page.drawRectangle({
-      x: 410,
-      y: 285,
-      width: 80,
-      height: 20,
-      borderColor: rgb(0, 0, 0),
-      borderWidth: 1,
+      x: 15, y: 15, width: 470, height: 670,
+      borderColor: rgb(0.12, 0.22, 0.37), // Dark blueish
+      borderWidth: 2,
     });
-  
-    // Amount Text - Positioned Lower
-    page.drawText(`${amount}/-`, { x: 415, y: 290, size: fontSize, font: robotoRegularFont });
-  
-    // Authorised Signature (Nazrul Islam) Below the Name
-    page.drawText(' Nazrul Islam', {
-      x: 50,
-      y: 270,  // Adjusted below the name
-      size: 12,
-      font: greatVibesFont,  // Use GreatVibes font for signature
-    });
-  
-    // Nazrul Islam (Normal Font - Roboto Regular)
-    page.drawText('Authorised Signature', {
-      x: 50,
-      y: 250,  // Adjusted below the amount box
-      size: 12,
-      font: robotoRegularFont,  // Use Roboto Regular font for name
-    });
-  
-    // Footer - Address and Donation Exemption Note
-    page.drawText('Uttar Khatowal, PO- Uttar Khatowal\nPS- Rupahihat, Nagaon, Assam\nPin- 782124\nwww.jonojivan.in\nContact No. +91 94352 66783', {
-      x: 50,
-      y: 150, // Moved to footer
-      size: 10,
-      lineHeight: 12,
-      font: robotoRegularFont,
-    });
-  
-    // Distinct visually separated section for 80G Information
-    page.drawLine({
-      start: { x: 50, y: 85 },
-      end: { x: 450, y: 85 },
-      thickness: 1,
-      color: rgb(0.8, 0.8, 0.8), // light gray separator
+    // Inner thin border
+    page.drawRectangle({
+      x: 19, y: 19, width: 462, height: 662,
+      borderColor: rgb(0.12, 0.22, 0.37),
+      borderWidth: 0.5,
     });
 
-    page.drawText('All donations to JonoJivan Gramin Vikash Foundation are eligible for tax deduction', {
-      x: 50, y: 70, size: 9, font: robotoRegularFont, color: rgb(0.3, 0.3, 0.3)
+    // 2. Watermark Logo
+    try {
+      page.drawImage(NoBgLogoImage, {
+        x: 125, y: 220, width: 250, height: 250, opacity: 0.06
+      });
+    } catch(e) {
+      // Ignored if older pdf-lib doesn't support opacity
+    }
+
+    // 3. Header Area
+    page.drawImage(logoImage, {
+      x: 35, y: 595, width: 75, height: 75,
     });
-    page.drawText('under Section 80G of the Income Tax Act, 1961.', {
-      x: 50, y: 60, size: 9, font: robotoRegularFont, color: rgb(0.3, 0.3, 0.3)
+
+    page.drawText('JONOJIVAN GRAMIN VIKASH FOUNDATION', {
+      x: 120, y: 645, size: 15, font: robotoBoldFont, color: rgb(0.12, 0.22, 0.37)
+    });
+    page.drawText('Empowering Lives • Building Futures', {
+      x: 120, y: 628, size: 10, font: robotoRegularFont, color: rgb(0.4, 0.4, 0.4)
+    });
+    page.drawText('Reg. No: 6273', {
+      x: 120, y: 610, size: 10, font: robotoBoldFont, color: rgb(0.2, 0.2, 0.2)
     });
 
-    // Keys in Bold, Values in Regular
-    page.drawText('PAN:', { x: 50, y: 40, size: 9, font: robotoBoldFont });
-    page.drawText('AAHCJ0084F', { x: 75, y: 40, size: 9, font: robotoRegularFont });
+    // Header separation line
+    page.drawLine({ start: { x: 19, y: 580 }, end: { x: 481, y: 580 }, thickness: 1, color: rgb(0.12, 0.22, 0.37) });
 
-    page.drawText('80G Registration No:', { x: 170, y: 40, size: 9, font: robotoBoldFont });
-    page.drawText('AAHCJ0084FF20251', { x: 265, y: 40, size: 9, font: robotoRegularFont });
+    // Donation Receipt Badge
+    page.drawRectangle({
+      x: 180, y: 568, width: 140, height: 24, color: rgb(0.12, 0.22, 0.37)
+    });
+    page.drawText('DONATION RECEIPT', {
+      x: 196, y: 576, size: 11, font: robotoBoldFont, color: rgb(1, 1, 1)
+    });
 
-    page.drawText('Validity:', { x: 50, y: 25, size: 9, font: robotoBoldFont });
-    page.drawText('2026-27 to 2028-29', { x: 95, y: 25, size: 9, font: robotoRegularFont });
+    // Receipt No & Date
+    page.drawText(`Receipt No:`, { x: 40, y: 535, size: 11, font: robotoRegularFont });
+    page.drawText(receiptNo, { x: 105, y: 535, size: 11, font: robotoBoldFont });
+    
+    page.drawText(`Date:`, { x: 360, y: 535, size: 11, font: robotoRegularFont });
+    page.drawText(date, { x: 395, y: 535, size: 11, font: robotoBoldFont });
+
+    // ----- Body Details -----
+    const startY = 480;
+    const rowGap = 35;
+
+    // Name
+    page.drawText('Received with Thanks from', { x: 40, y: startY, size: 11, font: robotoRegularFont });
+    page.drawText(':', { x: 190, y: startY, size: 11, font: robotoBoldFont });
+    page.drawText(fullName.toUpperCase(), { x: 205, y: startY, size: 12, font: robotoBoldFont });
+    page.drawLine({ start: { x: 200, y: startY - 2 }, end: { x: 460, y: startY - 2 }, thickness: 0.5, dashArray: [2, 2] });
+
+    // PAN
+    page.drawText('PAN / Aadhaar Number', { x: 40, y: startY - rowGap, size: 11, font: robotoRegularFont });
+    page.drawText(':', { x: 190, y: startY - rowGap, size: 11, font: robotoBoldFont });
+    page.drawText(panCard || 'N/A', { x: 205, y: startY - rowGap, size: 11, font: robotoBoldFont });
+    page.drawLine({ start: { x: 200, y: startY - rowGap - 2 }, end: { x: 460, y: startY - rowGap - 2 }, thickness: 0.5, dashArray: [2, 2] });
+
+    // Amount (Words)
+    page.drawText('The Sum of Rupees', { x: 40, y: startY - rowGap*2, size: 11, font: robotoRegularFont });
+    page.drawText(':', { x: 190, y: startY - rowGap*2, size: 11, font: robotoBoldFont });
+    page.drawText(amountInWords.toUpperCase() + ' ONLY', { x: 205, y: startY - rowGap*2, size: 10, font: robotoBoldFont, maxWidth: 250 });
+    page.drawLine({ start: { x: 200, y: startY - rowGap*2 - 2 }, end: { x: 460, y: startY - rowGap*2 - 2 }, thickness: 0.5, dashArray: [2, 2] });
+
+    // Payment Mode
+    page.drawText('Payment Mode', { x: 40, y: startY - rowGap*3, size: 11, font: robotoRegularFont });
+    page.drawText(':', { x: 190, y: startY - rowGap*3, size: 11, font: robotoBoldFont });
+    page.drawText(bankName, { x: 205, y: startY - rowGap*3, size: 11, font: robotoBoldFont });
+    page.drawLine({ start: { x: 200, y: startY - rowGap*3 - 2 }, end: { x: 460, y: startY - rowGap*3 - 2 }, thickness: 0.5, dashArray: [2, 2] });
+
+    // Transaction ID
+    page.drawText('Transaction ID', { x: 40, y: startY - rowGap*4, size: 11, font: robotoRegularFont });
+    page.drawText(':', { x: 190, y: startY - rowGap*4, size: 11, font: robotoBoldFont });
+    page.drawText(transactionId, { x: 205, y: startY - rowGap*4, size: 11, font: robotoBoldFont });
+    page.drawLine({ start: { x: 200, y: startY - rowGap*4 - 2 }, end: { x: 460, y: startY - rowGap*4 - 2 }, thickness: 0.5, dashArray: [2, 2] });
+
+    // Amount Numeric Box
+    const amountVal = amount ? parseFloat(amount).toLocaleString('en-IN') : '0';
+    page.drawRectangle({
+      x: 40, y: startY - rowGap*6 - 5, width: 140, height: 35,
+      color: rgb(0.92, 0.96, 1),
+      borderColor: rgb(0.12, 0.22, 0.37),
+      borderWidth: 1.5,
+    });
+    page.drawText(`₹ ${amountVal}/-`, {
+      x: 60, y: startY - rowGap*6 + 7, size: 16, font: robotoBoldFont, color: rgb(0.12, 0.22, 0.37)
+    });
+
+    // Signature Area
+    page.drawText('Nazrul Islam', {
+      x: 350, y: startY - rowGap*6 + 25, size: 18, font: greatVibesFont, color: rgb(0, 0, 0)
+    });
+    page.drawLine({ start: { x: 310, y: startY - rowGap*6 + 15 }, end: { x: 460, y: startY - rowGap*6 + 15 }, thickness: 1, color: rgb(0,0,0) });
+    page.drawText('Authorised Signatory', { x: 330, y: startY - rowGap*6, size: 10, font: robotoBoldFont });
+
+    // ----- Footer -----
+    page.drawLine({ start: { x: 19, y: 155 }, end: { x: 481, y: 155 }, thickness: 1, color: rgb(0.12, 0.22, 0.37) });
+
+    page.drawText('Registered Office:', { x: 40, y: 135, size: 10, font: robotoBoldFont });
+    page.drawText('Uttar Khatowal, PO- Uttar Khatowal, PS- Rupahihat, Nagaon, Assam, Pin- 782124', { x: 40, y: 120, size: 9, font: robotoRegularFont });
+    page.drawText('Website: www.jonojivan.in  |  Contact: +91 94352 66783  |  Email: contact@jonojivan.in', { x: 40, y: 105, size: 9, font: robotoRegularFont });
+
+    // 80G Information Block
+    page.drawLine({ start: { x: 19, y: 90 }, end: { x: 481, y: 90 }, thickness: 1, color: rgb(0.8, 0.8, 0.8) });
+
+    page.drawText('All donations to JonoJivan Gramin Vikash Foundation are eligible for tax deduction', { x: 40, y: 73, size: 9, font: robotoRegularFont, color: rgb(0.3, 0.3, 0.3) });
+    page.drawText('under Section 80G of the Income Tax Act, 1961.', { x: 40, y: 60, size: 9, font: robotoRegularFont, color: rgb(0.3, 0.3, 0.3) });
+
+    page.drawText('PAN:', { x: 40, y: 35, size: 9, font: robotoBoldFont });
+    page.drawText('AAHCJ0084F', { x: 65, y: 35, size: 9, font: robotoRegularFont });
+
+    page.drawText('80G Reg No:', { x: 160, y: 35, size: 9, font: robotoBoldFont });
+    page.drawText('AAHCJ0084FF20251', { x: 220, y: 35, size: 9, font: robotoRegularFont });
+
+    page.drawText('Validity:', { x: 340, y: 35, size: 9, font: robotoBoldFont });
+    page.drawText('2026-27 to 2028-29', { x: 380, y: 35, size: 9, font: robotoRegularFont });
     
   
     return await pdfDoc.save();
