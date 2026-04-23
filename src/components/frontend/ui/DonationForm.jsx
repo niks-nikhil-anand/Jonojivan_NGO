@@ -498,163 +498,204 @@ const DonationForm = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4"
         >
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative"
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+            className="bg-white rounded-[2rem] max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative flex flex-col"
           >
-            <div className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 p-6 rounded-t-2xl text-white relative">
+            <div className="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 p-8 rounded-t-[2rem] text-white relative overflow-hidden shrink-0">
+              {/* Decorative elements */}
+              <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl -translate-y-12 translate-x-12 pointer-events-none"></div>
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full blur-2xl translate-y-8 -translate-x-8 pointer-events-none"></div>
+              
               <button
-                className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors"
+                type="button"
+                className="absolute top-5 right-5 bg-white/20 hover:bg-white/40 rounded-full p-2.5 transition-all duration-300 backdrop-blur-sm z-50 cursor-pointer"
                 onClick={closeModal}
               >
                 <X className="w-5 h-5" />
               </button>
-              <h2 className="text-2xl font-bold mb-2">
-                Complete Your Donation
-              </h2>
-              <p className="text-white/90">
-                Help us create positive change in our community
-              </p>
+              
+              <div className="relative z-10 flex flex-col items-center text-center">
+                <div className="bg-white/20 p-3 rounded-full mb-4 backdrop-blur-md shadow-inner">
+                  <Heart className="w-8 h-8 text-pink-300 drop-shadow-md" fill="currentColor" />
+                </div>
+                <h2 className="text-3xl font-extrabold mb-2 tracking-tight">
+                  Complete Your Donation
+                </h2>
+                <p className="text-blue-100 font-medium">
+                  Your generous contribution drives real impact
+                </p>
+              </div>
             </div>
 
-            <div className="p-6">
-              <div className="space-y-4">
-                {[
-                  {
-                    label: "Full Name",
-                    field: "fullName",
-                    type: "text",
-                    required: true,
-                    placeholder: "Enter full name",
-                  },
-                  {
-                    label: "Email Address",
-                    field: "email",
-                    type: "email",
-                    required: true,
-                    placeholder: "Enter email address",
-                  },
-                  {
-                    label: "Phone Number",
-                    field: "phone",
-                    type: "tel",
-                    required: true,
-                    placeholder: "+91 Enter 10-digit phone number",
-                  },
-                  {
-                    label: "PAN Card Number",
-                    field: "panCard",
-                    type: "text",
-                    required: false,
-                    placeholder: "Enter 10-character PAN number",
-                  },
-                  {
-                    label: "Address",
-                    field: "address",
-                    type: "text",
-                    required: false,
-                    placeholder: "Enter address",
-                  },
-                ].map(
-                  ({ label, field, type, required, placeholder }) => (
-                    <div key={field}>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        {label}{" "}
-                        {required && (
-                          <span className="text-red-500">*</span>
-                        )}
-                        {field === "phone" && (
-                          <span className="text-gray-500 text-xs ml-1">
-                            (10 digits only)
-                          </span>
-                        )}
-                        {field === "panCard" && (
-                          <span className="text-gray-500 text-xs ml-1">
-                            (10 characters)
-                          </span>
-                        )}
-                      </label>
-                      <input
-                        type={type}
-                        name={field}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder={placeholder}
-                        value={formData[field] || ""}
-                        onChange={handleInputChange}
-                        required={required}
-                        maxLength={
-                          field === "phone" || field === "panCard"
-                            ? 10
-                            : undefined
-                        }
-                      />
-                      {field === "panCard" && (
-                        <p className="text-xs text-amber-600 mt-1 font-medium">
-                          <strong>Note:</strong> If you do not provide your PAN
-                          Number, you will not be able to claim 50% tax exemption
-                          u/s 80G in India
-                        </p>
-                      )}
-                      {field === "phone" &&
-                        formData.phone &&
-                        formData.phone.length < 10 && (
-                          <p className="text-xs text-red-500 mt-1">
-                            Phone number must be exactly 10 digits (
-                            {formData.phone.length}/10)
-                          </p>
-                        )}
-                      {field === "panCard" &&
-                        formData.panCard &&
-                        formData.panCard.length > 0 &&
-                        formData.panCard.length < 10 && (
-                          <p className="text-xs text-red-500 mt-1">
-                            PAN card must be exactly 10 characters (
-                            {formData.panCard.length}/10)
-                          </p>
-                        )}
-                    </div>
-                  )
-                )}
+            <div className="p-8">
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Full Name */}
+                  <div className="col-span-1 md:col-span-2">
+                    <label className="block text-sm font-bold text-gray-700 mb-2">
+                      Full Name <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="fullName"
+                      className="w-full p-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-all shadow-sm outline-none"
+                      placeholder="e.g. John Doe"
+                      value={formData.fullName}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Donation Amount
-                  </label>
-                  <input
-                    type="text"
-                    value={`₹${amount}`}
-                    readOnly
-                    className="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 font-bold text-lg"
-                  />
+                  {/* Email */}
+                  <div className="col-span-1">
+                    <label className="block text-sm font-bold text-gray-700 mb-2">
+                      Email Address <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      className="w-full p-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-all shadow-sm outline-none"
+                      placeholder="john@example.com"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+
+                  {/* Phone */}
+                  <div className="col-span-1">
+                    <label className="block text-sm font-bold text-gray-700 mb-2">
+                      Phone Number <span className="text-rose-500">*</span>
+                    </label>
+                    <div className="relative flex items-center shadow-sm rounded-xl overflow-hidden bg-gray-50 border border-gray-200 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 focus-within:bg-white transition-all">
+                      <div className="pl-4 pr-3 py-3.5 flex items-center border-r border-gray-200 bg-gray-100/50">
+                        <span className="text-gray-600 font-bold whitespace-nowrap">+91</span>
+                      </div>
+                      <input
+                        type="tel"
+                        name="phone"
+                        className="w-full p-3.5 bg-transparent border-none focus:ring-0 outline-none"
+                        placeholder="10-digit number"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        required
+                        maxLength={10}
+                      />
+                    </div>
+                    {formData.phone && formData.phone.length > 0 && formData.phone.length < 10 && (
+                      <p className="text-xs text-rose-500 mt-1.5 font-medium">
+                        Must be exactly 10 digits ({10 - formData.phone.length} remaining)
+                      </p>
+                    )}
+                  </div>
+
+                  {/* PAN Card */}
+                  <div className="col-span-1 md:col-span-2">
+                    <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center justify-between">
+                      <span>PAN Card Number</span>
+                      <span className="text-xs text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full font-semibold border border-indigo-100">Optional (For 80G)</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="panCard"
+                      className="w-full p-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-all shadow-sm outline-none uppercase"
+                      placeholder="ABCDE1234F"
+                      value={formData.panCard}
+                      onChange={handleInputChange}
+                      maxLength={10}
+                    />
+                    {formData.panCard && formData.panCard.length > 0 && formData.panCard.length < 10 && (
+                      <p className="text-xs text-amber-600 mt-1.5 font-medium">
+                        PAN must be exactly 10 characters
+                      </p>
+                    )}
+                    <p className="text-xs text-gray-500 mt-2 font-medium flex items-center gap-1.5">
+                      <Info className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
+                      Required to claim 50% tax exemption u/s 80G in India.
+                    </p>
+                  </div>
+
+                  {/* Address */}
+                  <div className="col-span-1 md:col-span-2">
+                    <label className="block text-sm font-bold text-gray-700 mb-2">
+                      Address
+                    </label>
+                    <input
+                      type="text"
+                      name="address"
+                      className="w-full p-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-all shadow-sm outline-none"
+                      placeholder="Enter your full address"
+                      value={formData.address}
+                      onChange={handleInputChange}
+                    />
+                  </div>
                 </div>
 
-                <Alert className="border-blue-200 bg-blue-50">
-                  <Info className="h-4 w-4 text-blue-600" />
-                  <AlertDescription className="text-blue-800">
-                    Your donation is secure and will be processed safely.
-                    You&apos;ll receive a confirmation email shortly.
-                  </AlertDescription>
-                </Alert>
+                <div className="mt-8 pt-6 border-t border-gray-100">
+                  <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8 bg-indigo-50/60 p-5 rounded-2xl border border-indigo-100/60">
+                    <div>
+                      <h4 className="text-sm font-bold text-gray-800">Donation Amount</h4>
+                      <p className="text-xs text-gray-500 mt-0.5">One-time secure payment</p>
+                    </div>
+                    <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 bg-white px-6 py-2 rounded-xl shadow-sm border border-indigo-100">
+                      ₹{amount}
+                    </div>
+                  </div>
 
-                <div className="flex gap-3 pt-4">
-                  <button
-                    type="button"
-                    className="flex-1 px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-semibold transition-colors"
-                    onClick={closeModal}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    disabled={isLoading}
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-500 via-blue-500 to-blue-600 hover:from-blue-600 hover:via-blue-600 hover:to-blue-700 text-white rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                    onClick={handleSubmit}
-                  >
-                    {isLoading ? "Processing..." : "Confirm Donation"}
-                  </button>
+                  <Alert className="border-emerald-200 bg-emerald-50 mb-8 rounded-xl flex items-start p-4">
+                    <div className="flex gap-3">
+                      <div className="mt-0.5 flex-shrink-0 bg-emerald-100 p-1 rounded-full">
+                        <svg className="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <div>
+                        <h5 className="text-sm font-bold text-emerald-800">Secure Process</h5>
+                        <AlertDescription className="text-emerald-700 text-xs mt-1 leading-relaxed font-medium">
+                          Your donation is processed through Razorpay's 100% secure payment gateway. You will receive an instant 80G receipt on your email.
+                        </AlertDescription>
+                      </div>
+                    </div>
+                  </Alert>
+
+                  <div className="flex flex-col-reverse sm:flex-row gap-3">
+                    <button
+                      type="button"
+                      className="px-6 py-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-bold transition-colors w-full sm:w-1/3 outline-none focus:ring-2 focus:ring-gray-300"
+                      onClick={closeModal}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      disabled={isLoading}
+                      className="group relative px-6 py-4 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white rounded-xl font-bold transition-all shadow-[0_10px_20px_rgba(79,70,229,0.2)] hover:shadow-[0_15px_30px_rgba(79,70,229,0.3)] w-full sm:w-2/3 flex justify-center items-center gap-2 outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                      onClick={handleSubmit}
+                    >
+                      {isLoading ? (
+                        <>
+                          <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Processing...
+                        </>
+                      ) : (
+                        <>
+                          Proceed to Pay
+                          <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                          </svg>
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
