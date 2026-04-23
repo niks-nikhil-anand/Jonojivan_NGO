@@ -1,133 +1,155 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation"; // Import useRouter from Next.js
+import { useRouter } from "next/navigation";
 
 const Page = () => {
-  const router = useRouter(); // Initialize useRouter hook
-  const [countdown, setCountdown] = useState(8); // State to track the countdown
+  const router = useRouter();
+  const [countdown, setCountdown] = useState(8);
 
   useEffect(() => {
-    // Set up the countdown timer
     const interval = setInterval(() => {
       setCountdown((prev) => {
-        if (prev === 1) {
-          clearInterval(interval); // Clear the interval when countdown reaches 1
-          router.push("/"); // Redirect to homepage
+        if (prev <= 1) {
+          clearInterval(interval);
+          router.push("/");
+          return 0;
         }
-        return prev - 1; // Decrement the countdown
+        return prev - 1;
       });
     }, 1000);
-
-    // Cleanup the interval when the component is unmounted
     return () => clearInterval(interval);
   }, [router]);
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100 p-4">
-      {/* Container for the success message */}
-      <motion.div
-        className="bg-white p-6 md:p-8 rounded-lg shadow-lg flex flex-col items-center justify-center w-full max-w-md md:max-w-lg lg:max-w-7xl text-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-      >
-        {/* Tick Icon with continuous animation */}
-        <motion.div
-          className="bg-green-500 p-4 rounded-full text-white mb-4"
-          initial={{ scale: 0 }}
-          animate={{ scale: [1, 1.2, 1] }} // Pulsating animation
-          transition={{
-            duration: 1.5,
-            repeat: Infinity, // Loop the animation infinitely
-            repeatType: "loop",
-          }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            className="w-10 h-10 md:w-12 md:h-12"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
-        </motion.div>
+    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-p4/50 to-white p-4 font-inter relative overflow-hidden">
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <motion.div 
+          className="absolute -top-[20%] -left-[10%] w-[500px] h-[500px] rounded-full bg-p1/20 blur-[100px]"
+          animate={{ scale: [1, 1.2, 1], x: [0, 50, 0] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div 
+          className="absolute top-[60%] -right-[10%] w-[400px] h-[400px] rounded-full bg-p2/10 blur-[120px]"
+          animate={{ scale: [1, 1.3, 1], y: [0, -50, 0] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        />
+      </div>
 
-        {/* Success message */}
+      {/* Main Card */}
+      <motion.div
+        className="relative z-10 w-full max-w-2xl bg-white/90 backdrop-blur-2xl rounded-[2rem] p-8 md:p-12 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] border border-white/60 text-center"
+        initial={{ opacity: 0, y: 40, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {/* Animated Checkmark */}
+        <div className="flex justify-center mb-8">
+          <div className="relative flex items-center justify-center w-24 h-24 rounded-full bg-green-50 shadow-[0_0_40px_rgba(34,197,94,0.15)]">
+            <motion.svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-12 h-12 text-green-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2.5"
+            >
+              <motion.path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M5 13l4 4L19 7"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: 1 }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+              />
+            </motion.svg>
+            <motion.div
+              className="absolute inset-0 rounded-full border-[3px] border-green-400"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1.15, opacity: 0 }}
+              transition={{ duration: 1.5, delay: 0.6, repeat: Infinity, ease: "easeOut" }}
+            />
+          </div>
+        </div>
+
         <motion.h2
-          className="text-xl md:text-2xl lg:text-3xl font-semibold text-green-600 mb-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
+          className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900 mb-4"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
         >
-          Payment Completed
+          Payment Successful
         </motion.h2>
 
-        {/* Payment Description */}
         <motion.p
-          className="text-sm md:text-base lg:text-lg text-gray-600 mb-6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.7, delay: 0.5 }}
+          className="text-lg text-gray-500 mb-10 max-w-lg mx-auto"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
         >
-          Your payment has been successfully processed. Thank you for your
-          donation!
+          A heartfelt thank you for your generous contribution. 
+          Your receipt will be emailed to you momentarily.
         </motion.p>
 
-        {/* Countdown Timer */}
+        {/* Beautiful Thank You Note Section */}
         <motion.div
-          className="text-sm md:text-base lg:text-lg text-gray-700 mt-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.7, delay: 0.7 }}
+          className="text-left bg-gradient-to-br from-gray-50 to-white px-6 py-8 md:p-8 rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.7 }}
         >
-          Redirecting to the homepage in{" "}
-          <span className="font-semibold text-green-600">{countdown}</span>{" "}
-          seconds...
+          {/* Decorative Left Border */}
+          <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-[#2EF2FF] to-[#3C52D9] rounded-l-2xl opacity-80" />
+          
+          <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+            <span className="text-2xl" role="img" aria-label="sparkles">✨</span> Making a Difference
+          </h3>
+          
+          <div className="space-y-4 text-gray-600 leading-relaxed text-sm md:text-base">
+            <p>
+              Your support means the world to us. You’ve just made a life-changing difference 
+              for someone eager to learn, grow, and achieve their dreams.
+            </p>
+            <p>
+              In a world where opportunities are scarce, you’ve just opened a door to a brighter future. 
+              Your donation is more than just a contribution—it’s a beacon of hope.
+            </p>
+            <p className="font-medium text-gray-900 mt-2 pt-2">
+              With all our hearts, thank you. ❤️
+            </p>
+          </div>
         </motion.div>
 
-        {/* Thank You Section */}
+        {/* Circular Countdown Timer */}
         <motion.div
-          className="bg-gray-100 p-4 md:p-6 lg:p-8 rounded-lg shadow-sm w-full mt-6"
+          className="mt-12 flex flex-col items-center justify-center gap-3"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.7, delay: 0.9 }}
+          transition={{ duration: 0.5, delay: 0.9 }}
         >
-          <h3 className="text-lg md:text-xl lg:text-2xl font-semibold text-gray-800 mb-4">
-            Thank You for Your Generosity!
-          </h3>
-          <p className="text-sm md:text-base lg:text-lg text-gray-700 mb-4">
-            Your support means the world to us. You’ve just made a life-changing
-            difference in the life of a girl, a woman, or a child who will now
-            have the chance to learn, grow, and achieve their dreams.
-          </p>
-          <p className="text-sm md:text-base lg:text-lg text-gray-700 mb-4">
-            In a world where opportunities are scarce, you’ve just opened a door
-            to a brighter future for someone in need. Your donation is more than
-            just a contribution—it’s a beacon of hope, a spark that will ignite
-            the potential of those who were once held back by circumstances
-            beyond their control.
-          </p>
-          <p className="text-sm md:text-base lg:text-lg text-gray-700 mb-4">
-            Every book, every lesson, every opportunity they now have is because
-            of YOU. Because of your heart, your compassion, and your belief in
-            their potential. You’ve made it possible for them to dream, to learn,
-            and to rise.
-          </p>
-          <p className="text-sm md:text-base lg:text-lg text-gray-800 font-semibold mt-6">
-            Together, we are changing lives. Together, we are building a better
-            tomorrow.
-          </p>
-          <p className="text-sm md:text-base lg:text-lg text-gray-800 font-semibold mt-6">
-            With all our hearts, thank you. ❤️
-          </p>
+          <div className="relative w-12 h-12 flex items-center justify-center">
+            <svg className="absolute top-0 left-0 w-12 h-12 transform -rotate-90">
+              <circle
+                cx="24" cy="24" r="22"
+                stroke="currentColor" strokeWidth="3" fill="transparent"
+                className="text-gray-100"
+              />
+              <motion.circle
+                cx="24" cy="24" r="22"
+                stroke="currentColor" strokeWidth="3" fill="transparent"
+                className="text-s4"
+                strokeDasharray={22 * 2 * Math.PI}
+                initial={{ strokeDashoffset: 0 }}
+                animate={{ strokeDashoffset: 22 * 2 * Math.PI }}
+                transition={{ duration: 8, ease: "linear" }}
+              />
+            </svg>
+            <span className="text-sm font-semibold text-gray-700 absolute">{countdown}</span>
+          </div>
+          <p className="text-sm text-gray-400 font-medium">Taking you back home</p>
         </motion.div>
+
       </motion.div>
     </div>
   );
